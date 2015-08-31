@@ -1,5 +1,6 @@
 ---
 title: About
+comments: Yes
 ---
 
 # What is this about?

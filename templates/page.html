@@ -1,0 +1,12 @@
+<div id="breadcrumbs">
+  <a href="/">Home</a> &gt; $title$
+</div>
+
+<section class="page">
+  $body$
+  <br />
+  <div class="clear"></div>
+  $if(comments)$
+    $partial("templates/disqus.html")$
+  $endif$
+</section>

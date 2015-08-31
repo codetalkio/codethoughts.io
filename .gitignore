@@ -23,6 +23,7 @@ tests/Main
 _cache
 _store
 _site
+.sass-cache
 
 .
 

@@ -1,0 +1,98 @@
+---
+title: Local notifications from irssi on a remote server
+---
+
+<p><em>As of writing, the versions used are</em></p>
+<ul>
+<li><em>OS X 10.9 Mavericks (should work on all, unless they change launchtl plists)</em></li>
+<li><em>irssi v0.8.15</em></li>
+<li><em>autossh v1.4c</em></li>
+<li><em>terminal-notifier v1.6.1</em></li>
+</ul>
+<p><em>Update: Added checks for existing processes in the script.</em></p>
+<p>So, if you're like me and like to have your IRC client (in this instance <a href="http://www.irssi.org">irssi</a>) running on a server in a tmux or screen session to never miss out on the conversation, you might feel like you're missing some of the benefits of running a local IRC client.</p>
+<p>In particular, I was missing local notifications when someone would highlight my nickname. I could of course use a bouncer, but hey! it's no fun running irssi locally and having to close it for a reboot just as you've gotten it precisely the way you like it :)...</p>
+<p>So, how does one solve this problem?</p>
+<h2 id="thesetup">The setup</h2>
+<p>The final setup will look something like this,</p>
+<pre>autossh -&gt; irssi + fnotify -&gt; terminal-notifier
+</pre>
+<p>You can replace terminal-notifier with whatever notification program will work on your system. The rest is pretty much OS agnostic, except for the automatic startup of the script.</p>
+<h2 id="whatyouneed">What you need</h2>
+<p>First off, I'm assuming you're running the <a href="http://www.leemhuis.info/files/fnotify/fnotify">fnotify</a> plugin in irssi, and that you have setup private keys between you and the server. These are the only things you need to do server-side.</p>
+<p>On your local setup you'll need,</p>
+<ul>
+<li><a href="http://www.harding.motd.ca/autossh/">autossh</a>
+<ul><li><code>sudo port install autossh</code></li></ul></li>
+<li><a href="https://github.com/alloy/terminal-notifier">terminal-notifier</a>
+<ul><li><code>sudo port install terminal-notifier</code> or </li>
+<li><code>sudo gem install terminal-notifier</code></li></ul></li>
+</ul>
+<p>We use <code>autossh</code> to keep our ssh connection from dropping, and killing the script (so you don't have to constantly restart it whenever you close the lid on your laptop).</p>
+<p>To display the notifications, we use <code>terminal-notifier</code>, which creates native notifications on OS X. You can change this out with whatever program your OS needs.</p>
+<h2 id="getitgoing">Get it going</h2>
+<p>So, to the fun part. First off, create a file called something like <code>irssi_notifier.sh</code> in a location you don't mind it being in forever, but can still remember (at least until the end of this article).</p>
+<p>In this script, you'll need the following code. I'll explain what it does below,</p>
+<p><strong>Replace the two user@server instances with your details!</strong></p>
+<pre>#!/bin/bash
+irssi_notifier() {
+  (ssh user@server -o PermitLocalCommand=no \
+    ": &gt; .irssi/fnotify ; tail -f .irssi/fnotify " |  \
+  while read heading message; do                      \
+    url=`echo "${message}" | grep -Eo 'https?://[^ &gt;]+' | head -1`; \
+    if [ ! "$url" ]; then terminal-notifier -sender com.apple.Terminal -message "${message}" -title "${heading}" -activate com.apple.Terminal; \
+    else terminal-notifier -sender com.apple.Terminal -message "${message}" -title "${heading}" -open "${url}"; \
+    fi; \
+  done)
+}
+# Make sure we don't make a new autossh connection
+if ! ps aux | grep -q 'autoss[h]'; then
+     /opt/local/bin/autossh -M 0 -f -N -p 22 -g -c 3des -D 1080 user@server;
+fi;
+# Avoid relaunching the notifier function if it's already running
+if ! ps aux | grep -q 'tail -f .irssi/fnotif[y]'; then
+     irssi_notifier
+fi;
+</pre>
+<h3 id="sowhathappenshere">So, what happens here?</h3>
+<ul>
+<li>Our she-bang line (the line with #) makes sure the script gets run as a bash script without the need to specify bash on launch.</li>
+<li>We create a function for the notification part of the script
+<ul><li>Inside the <code>irssi_notifier</code> function, we connect to the server with irssi on, and read via tail from the fnotify file.</li>
+<li>When somethings comes in, we divide it into a heading and a message, and check for an URL in the message part.</li>
+<li>If no URL is found, we make construct the notification via <code>terminal-notifier</code> to just activate our terminal upon click on the notification.</li>
+<li>If there is a URL, we open the URL in a browser upon click.</li></ul></li>
+<li>Just after the function definition, we create a connection to the server via and monitor it with <code>autossh</code>.</li>
+<li>We call the previously defined <code>irssi_notifier</code> function, and start the notification service.</li>
+</ul>
+<p>In the last two calls, we check if the processes exist, and only call them if they don't. This avoids spamming a zillion autossh connections etc.</p>
+<h3 id="testing">Testing</h3>
+<p>If you just want to test it, you can just run the script (remember to chmod +x it) without the autossh part (just comment it out). If you use autossh, you'll need to kill the process if you relaunch the script, else it'll keep spawning more and more autossh processes.</p>
+<h2 id="launchonstartup">Launch on startup</h2>
+<p><em>NOTE: This is specific for OS X, but I'm sure there are ways for other OSs</em></p>
+<p>If you're lazy like me, you probably aren't satisfied quite yet. There is still the part about starting the script yourself whenever you boot up your system.</p>
+<p>On OS X, this is quite simple (once you know how to do it, that is). We will use <a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/launchctl.1.html">launchctl</a>, which manages programs that launch upon startup.</p>
+<p>To launch the script, you need to create a file called <code>com.irssi.notifier.plist</code> in <code>~/Library/LaunchAgents/</code>. The contents will be,</p>
+<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+  &lt;key&gt;Label&lt;/key&gt;
+  &lt;string&gt;com.irssi.notifier&lt;/string&gt;
+  &lt;key&gt;ProgramArguments&lt;/key&gt;
+  &lt;array&gt;
+    &lt;string&gt;/absolute/path/to/irssi_notifier.sh&lt;/string&gt;
+  &lt;/array&gt;
+  &lt;key&gt;KeepAlive&lt;/key&gt;
+  &lt;true/&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</pre>
+<p>The only thing you need to change is under <code>ProgramArguments</code>, where you substitute <code>/absolute/path/to/irssi_notifier.sh</code> with the actual path to the script file.</p>
+<p>Finally, you need to do <code>launchctl load ~/Library/LaunchAgents/com.irssi.notifier.plist</code>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>After this, you should be good to go! Now you can enjoy getting IRC highlights whenever you have a working connection.</p>
+<p>Try and reboot, and check if it works :)</p>
+<h3 id="whynotusemoshinsteadofautossh">Why not use mosh instead of autossh?</h3>
+<p>The reason I didn't use mosh to do what I accomplished with autossh, is because of running into trouble executing commands directly after a connection initiation (<code>mosh user@server 'echo 1'</code> fails instantly, to give an example).</p>
+<p>That said, I do recommend using mosh instead of ssh normally, since it works excellent :)</p>

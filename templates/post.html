@@ -1,8 +1,24 @@
-<div class="info">
-    Posted on $date$
-    $if(author)$
-        by $author$
-    $endif$
-</div>
+$if(frontpage)$
+  $body$
+$else$
+  <div id="breadcrumbs">
+    <a href="/">Home</a> &gt; $title$
+  </div>
 
-$body$
+  <section class="article">
+    <header class="article-header">
+      <h1>$title$</h1>
+      <p class="article-information">
+        Published on $date$
+        $if(author)$
+            by $author$
+        $endif$
+      </p>
+    </header>
+    <article class="article-body">
+      $body$
+    </article>
+    <div class="clear"></div>
+    $partial("templates/disqus.html")$
+  </section>
+$endif$

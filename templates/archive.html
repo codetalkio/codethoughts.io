@@ -1,2 +1,24 @@
-Here you can find all my previous posts:
-$partial("templates/post-list.html")$
+<div id="breadcrumbs">
+  <a href="/">Home</a> &gt; $title$
+</div>
+
+<div id="archives">
+  <table id="archives-table" class="table table-bordered table-condensed table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="title">Title</th>
+        <th class="published">Published</th>
+      </tr>
+    </thead>
+    <tbody>
+      $for(posts)$
+        <tr>
+          <td class="title"><a href="$url$">$title$</a></td>
+          <td class="published">$date$</td>
+        </tr>
+      $endfor$
+    </tbody>
+  </table>
+</div>
+
+<script src="/js/archive.js"></script>

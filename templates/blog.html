@@ -1,0 +1,24 @@
+<div id="breadcrumbs">
+  Home
+</div>
+
+$for(posts)$
+  <section class="article">
+    <header class="article-header">
+      <a href="$url$">
+        <h1>$title$</h1>
+      </a>
+      <p class="article-information">
+        Published on $date$
+        $if(author)$
+            by $author$
+        $endif$
+      </p>
+    </header>
+    <article class="article-body">
+      $body$
+    </article>
+  </section>
+$endfor$
+
+<script src="/js/articles.js"></script>
