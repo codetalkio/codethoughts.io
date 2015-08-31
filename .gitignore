@@ -14,3 +14,15 @@ cabal.sandbox.config
 *.prof
 *.aux
 *.hp
+
+# OS files
+.DS_Store
+
+# Ignore test builds
+tests/Main
+_cache
+_store
+_site
+
+.
+
