@@ -5,25 +5,25 @@ Hakyll website for the codetalk.io blog.
 If you change something in `site.hs`, then it needs to be recompiled, using GHC. Everything else, should just need a rebuild via Hakyll.
 
 ```
-$ ghc --make -threaded site.hs
+$ ghc --make -threaded hakyll.hs
 ```
 
 After this, rebuilding the site is as simple as,
 
 ```
-$ ./site rebuild
+$ ./hakyll rebuild
 ```
 
 or, alternatively use `watch` to launch a preview server while developing,
 
 ```
-$ ./site watch
+$ ./hakyll watch
 ```
 
 Or all in one line,
 
 ```
-$ ghc --make -threaded site.hs && ./site rebuild && ./site watch
+$ ghc --make -threaded site.hs && ./hakyll rebuild && ./hakyll watch
 ```
 
 # Compiling .scss

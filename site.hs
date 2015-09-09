@@ -2,6 +2,7 @@
 import Data.Monoid (mappend)
 import Hakyll
 -- For compressJsCompiler
+import Control.Monad (liftM)
 import Control.Applicative ((<$>))
 import qualified Data.ByteString.Lazy.Char8 as LB
 import qualified Data.Text as T
@@ -13,7 +14,7 @@ compressJsCompiler :: Compiler (Item String)
 compressJsCompiler = fmap jasmin <$> getResourceString
 
 jasmin :: String -> String
-jasmin src = LB.unpack $ minify $ LB.fromChunks [(E.encodeUtf8 $ T.pack src)]
+jasmin src = LB.unpack $ minify $ LB.fromChunks [E.encodeUtf8 $ T.pack src]
 
 -- | Context for posts
 postCtx :: Context String
@@ -36,10 +37,17 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
-    -- | Route for all stylesheets
-    match "css/*" $ do
-        route   idRoute
-        compile compressCssCompiler
+    -- | Compile SCSS to CSS and serve it
+    match "scss/main.scss" $ do
+        route   $ constRoute "main.css"
+        compile $ liftM (fmap compressCss) $
+            getResourceString
+            >>= withItemBody (unixFilter "sass" [ "-s"
+                                                , "--scss"
+                                                , "--compass"
+                                                , "--style", "compressed"
+                                                , "--load-path", "scss"
+                                                ])
 
     -- | Route for all javascript files
     match "js/*" $ do
