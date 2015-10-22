@@ -22,12 +22,6 @@ or, alternatively use `watch` to launch a preview server while developing,
 $ ./hakyll watch
 ```
 
-Or all in one line,
-
-```
-$ ghc --make -threaded site.hs && ./hakyll rebuild && ./hakyll watch
-```
-
 # Compiling .scss
 For the initial compile, use,
 
@@ -58,6 +52,6 @@ $rootDir/hakyll clean
 $rootDir/hakyll build
 
 # Upload (rsync) the site to the remote server
-rsync -rae "ssh -i codetalk-io.pem" $rootDir/_site/*
-ec2-user@codetalk:/usr/share/nginx/codetalk.io --delete-after
+rsync -rave ssh $rootDir/_site/* ec2-user@codetalk:/usr/share/nginx/codetalk.io
+--delete-after
 ```
