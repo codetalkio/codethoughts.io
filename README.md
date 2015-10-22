@@ -55,3 +55,8 @@ $rootDir/hakyll build
 rsync -rave ssh $rootDir/_site/* ec2-user@codetalk:/usr/share/nginx/codetalk.io
 --delete-after
 ```
+
+# 403 on images
+This is caused by missing permissions, and can be fixed by running `chmod -R
++rx images` on the folder on the server.
+
