@@ -38,8 +38,8 @@ main = hakyll $ do
         compile copyFileCompiler
 
     -- | Compile SCSS to CSS and serve it
-    match "scss/main.scss" $ do
-        route   $ constRoute "main.css"
+    match "scss/app.scss" $ do
+        route   $ constRoute "app.css"
         compile $ liftM (fmap compressCss) $
             getResourceString
             >>= withItemBody (unixFilter "sass" [ "-s"
@@ -66,25 +66,25 @@ main = hakyll $ do
             >>= relativizeUrls
 
     -- | Posts: All posts use the post template
-    match "posts/*" $ do
+    match "posts/*" $ version "source" $ do
+        route $ setExtension ""
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/post.html" frontpagePostCtx
+            >>= relativizeUrls
+
+    -- | Posts: All posts use the post template
+    match "posts/*" $ version "markdown" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
 
-    -- | Posts: All posts use the post template
-    match "posts/*" $ version "source" $ do
-        route $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html" frontpagePostCtx
-            >>= relativizeUrls
-
     -- | Archive: Create the archive page but using a list of the posts
     create ["archive.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
+            posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "markdown")
             let archiveCtx =
                     listField "posts" postCtx (return posts) `mappend`
                     constField "title" "Archive"             `mappend`

@@ -22,6 +22,7 @@ a { color: #08c; text-decoration: none; }
 a:hover { outline: 0; color: #005580; text-decoration: underline; }
 a:active { outline: 0; color: #C58; }
 a:visited { color: #08c; }
+.hidden { display: none; }
 pre {
   background: #F4F4F4;
   font: 13px "Courier 10 Pitch", Courier, monospace;

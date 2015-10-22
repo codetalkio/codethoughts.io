@@ -110,5 +110,6 @@ $(function(){
     if (Articles.length > 0) {
         pagination(Articles, ArticlesPerPage);
     }
-    $("#articles-sidebar").removeClass("hide");
+    $("#articles-sidebar").removeClass("hidden");
+
 });

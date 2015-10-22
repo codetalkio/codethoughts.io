@@ -9,8 +9,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>$title$</title>
-    <link rel="stylesheet" type="text/css" href="/main.css" />
-    <link rel="stylesheet" type="text/css" href="https://google-code-prettify.googlecode.com/svn/loader/prettify.css">
+    <link rel="stylesheet" type="text/css" href="/app.css" />
+    <link rel="stylesheet" type="text/css" href="//google-code-prettify.googlecode.com/svn/loader/prettify.css">
     <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <script>
       document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
@@ -18,7 +18,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
       if (!window.jQuery) {
-        document.write('<script src="/path/to/your/jquery"><\/script>');
+        document.write('<script src="/js/jquery.js"><\/script>');
       }
     </script>
   </head>
@@ -27,7 +27,7 @@
       <div class="right" id="main" role="main">
         <div id="content">
           <!-- Sidebar listing the currently displayed articles -->
-          <div id="articles-sidebar" class="hide">
+          <div id="articles-sidebar" class="hidden">
             <div id="articles-sidebar-item-bottom">
               <div class="arrow-down"></div>
             </div>
@@ -60,14 +60,12 @@
     <!--[if lt IE 7 ]><script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script><script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script><![endif]-->
     <script src="/js/resize.js"></script>
     <script>
-      if(!window.location.href.match(/localhost/)){
-        window._gaq = [['_setAccount','UA-19146082-5'],['_trackPageview'],['_trackPageLoadTime']];
-        (function() {
-          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-      }
-    </script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-67413666-1', 'auto');
+      ga('send', 'pageview');
+  </script>
   </body>
 </html>
