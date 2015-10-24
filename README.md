@@ -54,9 +54,10 @@ $rootDir/hakyll build
 # Upload (rsync) the site to the remote server
 rsync -rave ssh $rootDir/_site/* ec2-user@codetalk:/usr/share/nginx/codetalk.io
 --delete-after
+
+# Set the right permissions on the images folder
+ssh ec2-user@codetalk "chmod -R +rx /usr/share/nginx/codetalk.io/images"
 ```
 
 # 403 on images
-This is caused by missing permissions, and can be fixed by running `chmod -R
-+rx images` on the folder on the server.
-
+This is caused by missing permissions, and can be fixed by running `chmod -R +rx /usr/share/nginx/codetalk.io/images` on the folder on the server.
