@@ -94,8 +94,8 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" archiveCtx
                 >>= relativizeUrls
 
-    -- | Index/Blog: Create the index page but using a list of the posts
-    create ["index.html"] $ do
+    -- | Blog: Create the blog page using a list of the posts
+    create ["posts.html"] $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "source")
@@ -107,3 +107,22 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/blog.html" blogCtx
                 >>= loadAndApplyTemplate "templates/default.html" blogCtx
                 >>= relativizeUrls
+
+    -- | index: Create the index page but using a list of posts
+    create ["index.html"] $ do
+        route idRoute
+        compile $ do
+            posts <- do
+                ps <- loadAll ("posts/*" .&&. hasVersion "source")
+                rps <- recentFirst ps
+                -- Only take the two latest post
+                return $ take 2 rps
+            let blogCtx =
+                    listField "posts" frontpagePostCtx (return posts) `mappend`
+                    constField "title" "codetalk"                     `mappend`
+                    defaultContext
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/home.html" blogCtx
+                >>= loadAndApplyTemplate "templates/default.html" blogCtx
+                >>= relativizeUrls
+

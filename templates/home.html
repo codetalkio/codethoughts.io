@@ -1,0 +1,29 @@
+<style>
+#pagination {
+  display: none;
+}
+</style>
+
+<div id="logo-container">
+  <img src="/images/codetalk-logo.png" alt="codetalk logo" title="codetalk logo" />
+  Christian Kjær Laustsen
+  - <a href="https://dk.linkedin.com/in/christian-kjær-laustsen-08635942"
+       target="_blank">LinkedIn</a>
+  - <a href="https://github.com/Tehnix" target="_blank">Github</a>
+</div>
+
+
+<br /><br />
+<hr>
+<br />
+
+<h1>Recent Posts on the <a href="/posts.html">blog</a></h1>
+
+<ul style="margin-top: 20px;">
+$for(posts)$
+  <li><a class="blacklink" href="$url$.html">$title$</a></li>
+$endfor$
+</ul>
+
+<br />
+<br />
