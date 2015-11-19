@@ -1,12 +1,18 @@
+$maxContentWidth: 750px;
+$fontColor: rgb(51, 51, 51);
+
 html, body {
   position: relative;
   height: 100%;
   width: 100%;
   margin:0;
   padding:0;
-  font-size: 1.06em;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  font-family: Helvetica, Arial, sans-serif;
   font-weight: 200;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 h1 { font-size: 3em; font-weight: 100; line-height: 1em; }
 h2 { font-size: 2.3em; font-weight: 100; }
@@ -18,7 +24,7 @@ h2, h3, h4 {
   margin-top: 30px;
 }
 a h2, a h3, a h4 {
-  color: rgb(51, 51, 51);
+  color: $fontColor;
   &:hover {
     text-decoration: none;
   }
@@ -92,7 +98,7 @@ li {
   position: relative;
   line-height: 1.5em;
   padding: 0px 30px 15px 30px;
-  max-width: 650px;
+  max-width: $maxContentWidth;
   margin: 0 auto;
 }
 
@@ -120,7 +126,7 @@ li {
   margin: 0px 30px 5px 30px;
   padding: 5px 30px 5px 30px;
   border-top: 1px solid #D2D2D2;
-  max-width: 650px;
+  max-width: $maxContentWidth;
   margin: 0 auto;
   .left-half {
     float:left;
@@ -138,12 +144,3 @@ li {
   text-align: center;
 }
 
-/* iPhone [portrait + landscape] */
-@media only screen and (max-device-width: 480px) {
-  #content {
-    padding: 0px 0px 15px 0px;
-  }
-  #footer {
-    padding: 0px 15px 15px 15px;
-  }
-}

@@ -1,0 +1,60 @@
+@mixin iPhone-styling() {
+  
+  #breadcrumbs, #archives, .article, .page  {
+    padding: 15px 0px 15px 0px;
+  }
+  #logo-container {
+    margin-top: 30px;
+  }
+  #content {
+    padding: 0px 15px 15px 15px;
+  }
+  #footer {
+    padding: 0px 15px 15px 15px;
+  }
+  h1 {
+    font-size: 1.8em;
+  }
+}
+
+/* ----------- iPhone 4 and 4S ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  @include iPhone-styling();
+}
+
+/* ----------- iPhone 5 and 5S ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+  @include iPhone-styling();
+}
+
+/* ----------- iPhone 6 ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+  @include iPhone-styling();
+}
+
+/* ----------- iPhone 6+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
+  @include iPhone-styling();
+}
+
+
