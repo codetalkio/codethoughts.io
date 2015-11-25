@@ -6,10 +6,8 @@ Hakyll website for the codetalk.io blog.
 If you change something in `site.hs`, then it needs to be recompiled, using GHC. Everything else, should just need a rebuild via Hakyll.
 
 ```
-$ stack build
+$ stack install
 ```
-
-and then copy the binary file to the root, if you want to.
 
 After this, rebuilding the site is as simple as,
 

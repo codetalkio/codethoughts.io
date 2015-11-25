@@ -3,4 +3,4 @@ packages:
 - '.'
 extra-deps: []
 resolver: lts-3.8
-local-bin-path: /Users/tehnix/Dropbox/github/codetalkio/codetalk.io
+local-bin-path: ./
