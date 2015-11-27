@@ -43,9 +43,10 @@ default).
 The configuration for SASL is two part, a simple block for UnrealIRCd and
 a block for Anope.
 
-`UnrealIRCd`: The following links the Anope services to the IRC server and sets the 
+__UnrealIRCd__: The following links the Anope services to the IRC server and sets the 
 SASL server to the services server.
 
+<?prettify?>
 ```
 link services.myircserver.org {
     incoming {
@@ -71,9 +72,10 @@ set {
 ```
 
 
-`Anope`: Enabling SASL is fairly simple, and just requires that the module is
+__Anope__: Enabling SASL is fairly simple, and just requires that the module is
 loaded. The rest is handled by Anope.
 
+<?prettify?>
 ```
 /* Load the SASL module m_sasl */
 module { name = "m_sasl" }
@@ -91,6 +93,7 @@ Since we are building UnrealIRCd from source, we will need some build tools.
 These can be found in the `Development Tools` group. Other than that, there are
 some curl, ssl and other libraries that needs to be installed.
 
+<?prettify?>
 ```
 yum -yq groupinstall "Development Tools" \
 && yum -yq install \
@@ -106,6 +109,7 @@ yum -yq groupinstall "Development Tools" \
 Now we are able to compile UnrealIRCd from source. We will do all of this in
 one giant step:
 
+<?prettify?>
 ```
 # UnrealIRCd version
 UNREAL_VERSION="unrealircd-4.0.0-rc3"
@@ -137,6 +141,7 @@ have SSL enabled, we will also need an SSL certificate! Luckily, this can also
 be done through without any user input. It does require some information
 though, so you should substitute the variables with your information.
 
+<?prettify?>
 ```
 # SSL certificate information
 # The two-letter ISO abbreviation for your country
@@ -179,6 +184,7 @@ the tools (namely the `Development Tools` packages).
 Anope uses (or at least we use it here) cmake to build. This means we have to
 install cmake before doing anything else.
 
+<?prettify?>
 ```
 yum -y install cmake
 ```
@@ -186,6 +192,7 @@ yum -y install cmake
 Now we can compile Anope IRC services from source. We will fetch it and compile
 it in one step:
 
+<?prettify?>
 ```
 # Anope version
 ANOPE_VERSION="2.0.2"
@@ -217,15 +224,15 @@ enables AES on SASL. You can take a look at the extra modules in the
 
 ## Automating launch of EC2 and install
 There are a couple of things that need to be set up first. For starters, we
-need to create a security group for the EC2 instance. You can do this in `AWS
-Console -> EC2 -> Security Groups -> Create Security Group`. If you don't know
+need to create a security group for the EC2 instance. You can do this in _AWS
+Console -> EC2 -> Security Groups -> Create Security Group_. If you don't know
 what you want to open here, open the two TCP ports `6667` and `6697` to
 anywhere, and the SSH port `22` to anywhere also. The last one is optional, but
 it is quite nice to be able to check out the logs if anything goes wrong.
 
 After this we need to create an IAM role for the instance, so that it can fetch
-configuration files and install scripts from S3. You can do this in `AWS Console
--> Identify & Access Management -> Roles -> Create New Role` and then name the
+configuration files and install scripts from S3. You can do this in _AWS Console
+-> Identify & Access Management -> Roles -> Create New Role_ and then name the
 role. You then need to attach a policy to it. This can either be full S3
 access, or a more limited policy. For more on the latter see the post about
 generating [S3 bucket specific policies](/posts/2015-11-18-s3-bucket-specific-policy.html).
@@ -244,6 +251,7 @@ into place, using the install scripts mentioned earlier. By having a IAM role
 with S3 read access attached to it, we can download objects from the S3 bucket
 directly.
 
+<?prettify?>
 ```
 #!/bin/bash
 # Bucket location
@@ -278,6 +286,7 @@ While launching stuff from the console is indeed very fun...the first couple of
 times, it quickly gets tedious. Therefore we will utilize the AWS API, to
 create an EC2 instance, tag it and associate an elastic IP to it.
 
+<?prettify?>
 ```
 #!/bin/bash
 

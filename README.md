@@ -6,19 +6,19 @@ Hakyll website for the codetalk.io blog.
 If you change something in `site.hs`, then it needs to be recompiled, using GHC. Everything else, should just need a rebuild via Hakyll.
 
 ```
-$ stack install
+$ stack build
 ```
 
 After this, rebuilding the site is as simple as,
 
 ```
-$ ./hakyll rebuild
+$ stack exec hakyll rebuild
 ```
 
 or, alternatively use `watch` to launch a preview server while developing,
 
 ```
-$ ./hakyll watch
+$ stack exec hakyll watch
 ```
 
 
@@ -46,12 +46,16 @@ Copy the following into `.git/hooks/pre-push` and `chmod +x pre-push` to make
 it executable.
 
 ```bash
+# Get the current dir
+startDir=$(pwd)
 # Get the project root
 rootDir=$(git rev-parse --show-toplevel)
 
+cd $rootDir
+
 # Clean and build the site
-$rootDir/hakyll clean
-$rootDir/hakyll build
+stack exec hakyll clean
+stack exec hakyll build
 
 # Upload (rsync) the site to the remote server
 rsync -rave ssh $rootDir/_site/* ec2-user@codetalk:/usr/share/nginx/codetalk.io
@@ -59,6 +63,9 @@ rsync -rave ssh $rootDir/_site/* ec2-user@codetalk:/usr/share/nginx/codetalk.io
 
 # Set the right permissions on the images folder
 ssh ec2-user@codetalk "chmod -R +rx /usr/share/nginx/codetalk.io/images"
+
+# Go back to original dir
+cd $startDir
 ```
 
 # 403 on images

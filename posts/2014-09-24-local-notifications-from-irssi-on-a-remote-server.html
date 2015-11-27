@@ -15,7 +15,7 @@ title: Local notifications from irssi on a remote server
 <p>So, how does one solve this problem?</p>
 <h2 id="thesetup">The setup</h2>
 <p>The final setup will look something like this,</p>
-<pre>autossh -&gt; irssi + fnotify -&gt; terminal-notifier
+<pre class="prettyprint">autossh -&gt; irssi + fnotify -&gt; terminal-notifier
 </pre>
 <p>You can replace terminal-notifier with whatever notification program will work on your system. The rest is pretty much OS agnostic, except for the automatic startup of the script.</p>
 <h2 id="whatyouneed">What you need</h2>
@@ -34,7 +34,8 @@ title: Local notifications from irssi on a remote server
 <p>So, to the fun part. First off, create a file called something like <code>irssi_notifier.sh</code> in a location you don't mind it being in forever, but can still remember (at least until the end of this article).</p>
 <p>In this script, you'll need the following code. I'll explain what it does below,</p>
 <p><strong>Replace the two user@server instances with your details!</strong></p>
-<pre>#!/bin/bash
+<pre class="prettyprint">
+#!/bin/bash
 irssi_notifier() {
   (ssh user@server -o PermitLocalCommand=no \
     ": &gt; .irssi/fnotify ; tail -f .irssi/fnotify " |  \
@@ -73,7 +74,7 @@ fi;
 <p>If you're lazy like me, you probably aren't satisfied quite yet. There is still the part about starting the script yourself whenever you boot up your system.</p>
 <p>On OS X, this is quite simple (once you know how to do it, that is). We will use <a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/launchctl.1.html">launchctl</a>, which manages programs that launch upon startup.</p>
 <p>To launch the script, you need to create a file called <code>com.irssi.notifier.plist</code> in <code>~/Library/LaunchAgents/</code>. The contents will be,</p>
-<pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+<pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
 &lt;plist version="1.0"&gt;
 &lt;dict&gt;

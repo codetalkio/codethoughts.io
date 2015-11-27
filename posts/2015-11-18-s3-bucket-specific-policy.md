@@ -56,6 +56,7 @@ You can either use the generator as a basis for this document or craft your
 own. The following is the one generated from the policy generator which can be
 directly used here.
 
+<?prettify?>
 ```
 {
     "Version": "2012-10-17",
