@@ -65,14 +65,14 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
 
-    -- | Posts: All posts use the post template
+    -- | Posts: Only the content of the post itself
     match "posts/*" $ version "source" $ do
         route $ setExtension ""
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/post.html" frontpagePostCtx
             >>= relativizeUrls
 
-    -- | Posts: All posts use the post template
+    -- | Posts: The post as a page
     match "posts/*" $ version "markdown" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
