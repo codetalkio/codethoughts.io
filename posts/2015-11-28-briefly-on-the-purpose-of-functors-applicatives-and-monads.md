@@ -149,6 +149,8 @@ or perhaps inside contexts, such as `Maybe`,
 Just 15
 ```
 
+but I won't go into more detail about that, since that isn't the purpose of this post.
+
 __`Monad` is the last__, but perhaps most tricky. I'll try to be as brief as
 possible though. Too see the _"what happens next, based on what happened before"_ 
 part, we will look into the `Maybe` monad used with `do` notation. It will not
