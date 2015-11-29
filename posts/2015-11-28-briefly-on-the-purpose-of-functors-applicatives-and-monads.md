@@ -139,6 +139,14 @@ functions to multiple arguments, as such,
 ```prettyprint
 > (*) <$> [1,5,10] <*> [11..13]
 [11,12,13,55,60,65,110,120,130]
+> (*) <$> Just 3 <*> Just 5
+```
+
+or perhaps inside contexts, such as `Maybe`,
+
+```prettyprint
+> (*) <$> Just 3 <*> Just 5
+Just 15
 ```
 
 __`Monad` is the last__, but perhaps most tricky. I'll try to be as brief as
