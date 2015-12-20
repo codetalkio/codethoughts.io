@@ -66,6 +66,20 @@ ssh ec2-user@codetalk "chmod -R +rx /usr/share/nginx/codetalk.io/images"
 
 # Go back to original dir
 cd $startDir
+
+# Purge CloudFlare cache for the app.css file
+curl https://www.cloudflare.com/api_json.html \
+     -d 'a=zone_file_purge' \
+     -d "tkn=${CF_API_TOKEN}" \
+     -d "email=${CF_EMAIL}" \
+     -d 'z=codetalk.io' \
+     -d 'url=https://codetalk.io/app.css'
+curl https://www.cloudflare.com/api_json.html \
+     -d 'a=zone_file_purge' \
+     -d "tkn=${CF_API_TOKEN}" \
+     -d "email=${CF_EMAIL}" \
+     -d 'z=codetalk.io' \
+     -d 'url=http://codetalk.io/app.css'
 ```
 
 # 403 on images
