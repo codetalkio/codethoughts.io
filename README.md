@@ -56,13 +56,14 @@ cd $rootDir
 # Clean and build the site
 stack exec hakyll clean
 stack exec hakyll build
+# Build the CSS
+sass scss/app.scss:_site/app.css --style compressed
 
 # Upload (rsync) the site to the remote server
-rsync -rave ssh $rootDir/_site/* ec2-user@codetalk:/usr/share/nginx/codetalk.io
---delete-after
+rsync -rave ssh $rootDir/_site/* ec2-user@codetalk.io:/usr/share/nginx/codetalk.io --delete-after
 
 # Set the right permissions on the images folder
-ssh ec2-user@codetalk "chmod -R +rx /usr/share/nginx/codetalk.io/images"
+ssh ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/images"
 
 # Go back to original dir
 cd $startDir
@@ -80,6 +81,8 @@ curl https://www.cloudflare.com/api_json.html \
      -d "email=${CF_EMAIL}" \
      -d 'z=codetalk.io' \
      -d 'url=http://codetalk.io/app.css'
+
+echo "Done running pre-hook!"
 ```
 
 # 403 on images
