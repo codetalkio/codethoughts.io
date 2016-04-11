@@ -1,20 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
-import Data.Monoid (mappend)
-import Hakyll
+import           Data.Monoid (mappend)
+import           Hakyll
 -- For compressJsCompiler
-import Control.Monad (liftM)
-import Control.Applicative ((<$>))
-import qualified Data.ByteString.Lazy.Char8 as LB
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as E
-import Text.Jasmine
+import qualified Data.ByteString.Lazy.Char8 as C
+import           Text.Jasmine
 
 
-compressJsCompiler :: Compiler (Item String)
-compressJsCompiler = fmap jasmin <$> getResourceString
+minifyJSCompiler = do
+  s <- getResourceString
+  return $ itemSetBody (minifyJS s) s
 
-jasmin :: String -> String
-jasmin src = LB.unpack $ minify $ LB.fromChunks [E.encodeUtf8 $ T.pack src]
+minifyJS = C.unpack . minify . C.pack . itemBody
 
 -- | Context for posts
 postCtx :: Context String
@@ -29,7 +25,6 @@ frontpagePostCtx =
     constField "frontpage" "yes" `mappend`
     defaultContext
 
--- | Main defines all the route handling
 main :: IO ()
 main = hakyll $ do
     -- | Route for all images
@@ -37,22 +32,15 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
-    -- | Compile SCSS to CSS and serve it
-    match "scss/app.scss" $ do
-        route   $ constRoute "app.css"
-        compile $ liftM (fmap compressCss) $
-            getResourceString
-            >>= withItemBody (unixFilter "sass" [ "-s"
-                                                , "--scss"
-                                                , "--compass"
-                                                , "--style", "compressed"
-                                                , "--load-path", "scss"
-                                                ])
-
-    -- | Route for all javascript files
-    match "js/*" $ do
+    -- | Route for all CSS
+    match "css/*" $ do
         route   idRoute
-        compile compressJsCompiler
+        compile compressCssCompiler
+
+    -- | Route for all JavaScript files
+    -- match "js/*" $ do
+    --     route idRoute
+    --     compile minifyJSCompiler
 
     -- | Load all partial templates
     match "templates/*" $ compile templateCompiler
@@ -125,4 +113,3 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/home.html" blogCtx
                 >>= loadAndApplyTemplate "templates/default.html" blogCtx
                 >>= relativizeUrls
-

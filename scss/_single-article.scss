@@ -9,10 +9,13 @@
   .article-header {
     color: #222;
 
+    h1 {
+      margin-bottom: 10px;
+    }
     a {
+      text-decoration: none;
       color: #222 !important;
     }
-
     a:visited {
       color: #222 !important;
     }
@@ -21,6 +24,7 @@
   .article-information {
     margin-bottom: 30px;
     margin-top: 5px;
+    color: gray;
   }
 
   .article-body {

@@ -13,7 +13,7 @@ There really isn't much to do here. First, go create an account and download the
 Then, register a pushover application. You can do this from the dashboard, or
 directly from [https://pushover.net/apps/build](https://pushover.net/apps/build). It will look something like this,
 
-<img src="/images/pushover-config.png" alt="Pushover Application Registration" title="Pushover Application Registration">
+<img src="/images/pushover-config.png" alt="Pushover Application Registration" title="Pushover Application Registration" width="100%">
 
 
 ## Setting up the script
