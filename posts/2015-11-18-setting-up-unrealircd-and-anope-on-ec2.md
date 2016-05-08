@@ -7,18 +7,18 @@ _Versions used:_
 * _UnrealIRCd 4.0.0-rc3_
 * _Anope 2.0.2_
 
-Having recently discovered <a href="http://sameroom.io" target="_blank">sameroom.io</a> I wanted to update the codetalk IRC server to be compliant with their 
-authentication method. This basically just meant enabling `SASL` support, but 
-while I was tinkering with stuff anyways, I thought I might as well streamline 
-the setup process for the IRC server. In short, everything is fully automated and 
+Having recently discovered <a href="http://sameroom.io" target="_blank">sameroom.io</a> I wanted to update the codetalk IRC server to be compliant with their
+authentication method. This basically just meant enabling `SASL` support, but
+while I was tinkering with stuff anyways, I thought I might as well streamline
+the setup process for the IRC server. In short, everything is fully automated and
 set up on AWS using `EC2` and `S3`.
 
-This will go through the process of doing exactly that, by talking about: 
+This will go through the process of doing exactly that, by talking about:
 
 * <a href="#sasl-support">enabling SASL support</a>
 * <a href="#installing-unrealircd">installing `UnrealIRCd`</a>
 * <a href="#installing-anope-irc-services">installing `Anope`</a>
-* <a href="#automating-launch-of-ec2-and-install">a little about automating the launch of the `EC2`</a> instance that the IRC server will run on, using the `user-data` field as input for a setup 
+* <a href="#automating-launch-of-ec2-and-install">a little about automating the launch of the `EC2`</a> instance that the IRC server will run on, using the `user-data` field as input for a setup
 script.
 * <a href="#github-repo-ready-to-fork">all the important files gathered in a github repo</a>
 
@@ -30,20 +30,20 @@ get an overview of what is happening.
 
 ## SASL support
 SASL (Simple Authentication and Security Layer) is a framework for
-authentication and data security. For all intents and purposes we won't bother 
-with how it works specifically, since we are only interested in getting it 
+authentication and data security. For all intents and purposes we won't bother
+with how it works specifically, since we are only interested in getting it
 running.
 
 UnrealIRCd supports authenticating with SASL using a remote service that
-supports SASL. Here comes in Anope which is commonly used for handling nickname 
-registration and other IRC services. Since `1.9.x` Anope has supported SASL. To 
-enable it, it needs to be compiled with the sasl modules (which it should be by 
+supports SASL. Here enters Anope which is commonly used for handling nickname
+registration and other IRC services. Since `1.9.x` Anope has supported SASL. To
+enable it, it needs to be compiled with the sasl modules (which it should be by
 default).
 
 The configuration for SASL is two part, a simple block for UnrealIRCd and
 a block for Anope.
 
-__UnrealIRCd__: The following links the Anope services to the IRC server and sets the 
+__UnrealIRCd__: The following links the Anope services to the IRC server and sets the
 SASL server to the services server.
 
 <?prettify?>
@@ -147,7 +147,7 @@ though, so you should substitute the variables with your information.
 # The two-letter ISO abbreviation for your country
 SSL_CERTIFICATE_COUNTRY="DK"
 # The state or province where your organization is legally located
-SSL_CERTIFICATE_STATE="Copenhagen" 
+SSL_CERTIFICATE_STATE="Copenhagen"
 # The city where your organization is legally located
 SSL_CERTIFICATE_LOCATION="Copenhagen"
 # The exact legal name of your organization
@@ -353,4 +353,3 @@ Furthermore you need to fit the credentials and server details to your own, in
 the `initec2.sh`, `launch-ec2-instance.sh` and `upload-to-s3.sh` scripts.
 Hopefully it should be evident from the naming of the variables, what it is
 they expect.
-

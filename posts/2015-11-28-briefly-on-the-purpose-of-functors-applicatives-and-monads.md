@@ -11,7 +11,7 @@ to [motivate the AMP proposal in teaching](https://www.reddit.com/r/haskell/comm
 For the reader that hasn't followed this debacle, the AMP proposal is basically
 about making `Applicative` a superclass of `Monad`. That this hasn't been so
 is often considered one of the historical errors Haskell carries around, since
-a `Monad` is always an `Applicative`. 
+a `Monad` is always an `Applicative`.
 
 The hierachy of `Functor`, `Applicative` and `Monad` is thus changed to,
 
@@ -42,27 +42,29 @@ more about on the [GHC 7.10 migration page](https://ghc.haskell.org/trac/ghc/wik
 I'm mostly going to paraphrase [/u/ForTheFunctionGod's](https://www.reddit.com/user/ForTheFunctionGod) comment (which you can find [here](https://www.reddit.com/r/haskell/comments/3tpom7/amp_how_do_you_motivate_this_in_teaching/cx8an8b)), while trying to expand a bit on it with my own understanding.
 
 One can naturally extend the intuition of a `Functor` to an `Applicative` and
-from there to a `Monad`. 
+from there to a `Monad`.
 
 __An explanation of the first two might go as follows:__
 
-_Let's say I have a list of numbers and want to add `2` to each of these
-numbers. You can write `fmap (+2) [1..10]` (using `Functor`)._
+<blockquote cite="https://www.reddit.com/r/haskell/comments/3tpom7/amp_how_do_you_motivate_this_in_teaching/cx8an8b">
+Let's say I have a list of numbers and want to add `2` to each of these
+numbers. You can write `fmap (+2) [1..10]` (using `Functor`).
 
-_But what if I had two lists of numbers and wanted to add each number from the
+But what if I had two lists of numbers and wanted to add each number from the
 first list to each number from the second list? With `Applicative` you can do
 just that - it's like `fmap` only it can take multiple arguments. You can write
-`(+) <$> [1,5,10] <*> [11..13]`._
+`(+) <$> [1,5,10] <*> [11..13]`.
+</blockquote>
 
 __From here, one can motivate `Monad` by asking:__
 
-_What if I wanted to abort midway through - say, if I encountered a problem?_
-
-_You can then write_
+<blockquote cite="https://www.reddit.com/r/haskell/comments/3tpom7/amp_how_do_you_motivate_this_in_teaching/cx8an8b">
+What if I wanted to abort midway through - say, if I encountered a problem? You can then write:
+</blockquote>
 
 ```prettyprint
 add xs ys = do
-    x <- xs 
+    x <- xs
     if x < 0 then []
     else do
         y <- ys
@@ -111,9 +113,9 @@ partially applied functions, which would look something like this using `fmap`,
 ```
 
 which can be seen as applying a function that takes a function as argument an
-applies `9` to that function, to every function in the list `a`. The real problem 
-comes when we want to apply a `Functor` function to `Functor` values, but I won't 
-get into much detail on that (you can read more [here](http://learnyouahaskell.com/functors-applicative-functors-and-monoids#applicative-functors)). 
+applies `9` to that function, to every function in the list `a`. The real problem
+comes when we want to apply a `Functor` function to `Functor` values, but I won't
+get into much detail on that (you can read more [here](http://learnyouahaskell.com/functors-applicative-functors-and-monoids#applicative-functors)).
 
 Luckily, instead of writing the above, we can use `<*>` which is a part of
 `Applicative`. We can instead write,
@@ -152,7 +154,7 @@ Just 15
 but I won't go into more detail about that, since that isn't the purpose of this post.
 
 __`Monad` is the last__, but perhaps most tricky. I'll try to be as brief as
-possible though. Too see the _"what happens next, based on what happened before"_ 
+possible though. Too see the _"what happens next, based on what happened before"_
 part, we will look into the `Maybe` monad used with `do` notation. It will not
 explain `Monad` usage in general, but should be enough to get the gist that
 _"something"_ happens between the steps.
@@ -182,7 +184,7 @@ instance Monad Maybe where
 Notably here is the line that says `Nothing >>= f = Nothing`. It throws away
 whatever future action it gets and just returns `Nothing`. This is in
 contrast to `Just x >>= f = f x` which can be seen as unpacking `x` from `Just
-x` and then applying the future action, `f`, to that `x`. 
+x` and then applying the future action, `f`, to that `x`.
 
 
 ## Wrap up

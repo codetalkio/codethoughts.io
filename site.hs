@@ -1,6 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Monoid (mappend)
 import           Hakyll
+-- For SASS/SCSS compression
+import Control.Monad (liftM)
 -- For compressJsCompiler
 import qualified Data.ByteString.Lazy.Char8 as C
 import           Text.Jasmine
@@ -15,15 +17,16 @@ minifyJS = C.unpack . minify . C.pack . itemBody
 -- | Context for posts
 postCtx :: Context String
 postCtx =
-    dateField "date" "%B %e, %Y" `mappend`
+    dateField "date" "%e. %B %Y" `mappend`
+    dateField "prettydate" "%B %e, %Y" `mappend`
+    dateField "datetime" "%Y-%e-%b" `mappend`
     defaultContext
 
--- | Context for posts
-frontpagePostCtx :: Context String
-frontpagePostCtx =
-    dateField "date" "%B %e, %Y" `mappend`
-    constField "frontpage" "yes" `mappend`
-    defaultContext
+-- | Context for raw posts (i.e. only the post body)
+rawPostCtx :: Context String
+rawPostCtx =
+    constField "rawPost" "yes" `mappend`
+    postCtx
 
 main :: IO ()
 main = hakyll $ do
@@ -38,15 +41,27 @@ main = hakyll $ do
         compile compressCssCompiler
 
     -- | Route for all JavaScript files
-    -- match "js/*" $ do
-    --     route idRoute
-    --     compile minifyJSCompiler
+    match "js/*" $ do
+        route idRoute
+        compile minifyJSCompiler
+
+    -- | Compile SCSS to CSS and serve it
+    match "scss/app.scss" $ do
+       route   $ constRoute "app.css"
+       compile $ fmap (fmap compressCss) $
+           getResourceString
+           >>= withItemBody (unixFilter "sass" [ "-s"
+                                               , "--scss"
+                                               , "--compass"
+                                               , "--style", "compressed"
+                                               , "--load-path", "scss"
+                                               ])
 
     -- | Load all partial templates
     match "templates/*" $ compile templateCompiler
 
     -- | Pages: Load all standard pages using the page template
-    match (fromList ["about.markdown", "contact.markdown"]) $ do
+    match "pages/*" $ version "markdown" $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/page.html" defaultContext
@@ -57,10 +72,10 @@ main = hakyll $ do
     match "posts/*" $ version "source" $ do
         route $ setExtension ""
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html" frontpagePostCtx
+            >>= loadAndApplyTemplate "templates/post.html" rawPostCtx
             >>= relativizeUrls
 
-    -- | Posts: The post as a page
+    -- | Posts: The post as an HTML page
     match "posts/*" $ version "markdown" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
@@ -74,7 +89,7 @@ main = hakyll $ do
         compile $ do
             posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "markdown")
             let archiveCtx =
-                    listField "posts" postCtx (return posts) `mappend`
+                    listField "posts" rawPostCtx (return posts) `mappend`
                     constField "title" "Archive"             `mappend`
                     defaultContext
             makeItem ""
@@ -88,7 +103,7 @@ main = hakyll $ do
         compile $ do
             posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "source")
             let blogCtx =
-                    listField "posts" frontpagePostCtx (return posts) `mappend`
+                    listField "posts" rawPostCtx (return posts) `mappend`
                     constField "title" "Blog"                         `mappend`
                     defaultContext
             makeItem ""
@@ -101,13 +116,13 @@ main = hakyll $ do
         route idRoute
         compile $ do
             posts <- do
-                ps <- loadAll ("posts/*" .&&. hasVersion "source")
+                ps  <- loadAll ("posts/*" .&&. hasVersion "source")
                 rps <- recentFirst ps
                 -- Only take the two latest post
                 return $ take 2 rps
             let blogCtx =
-                    listField "posts" frontpagePostCtx (return posts) `mappend`
-                    constField "title" "codetalk"                     `mappend`
+                    listField "posts" rawPostCtx (return posts) `mappend`
+                    constField "title" "codetalk"               `mappend`
                     defaultContext
             makeItem ""
                 >>= loadAndApplyTemplate "templates/home.html" blogCtx

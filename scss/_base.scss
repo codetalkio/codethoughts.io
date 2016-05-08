@@ -1,4 +1,4 @@
-$maxContentWidth: 750px;
+$maxContentWidth: 780px;
 $fontColor: rgb(51, 51, 51);
 
 html, body {
@@ -36,15 +36,23 @@ a h2, a h3, a h4 {
 label { width: 8em; display: inline-block; }
 input, textarea { background: #FAFAFA}
 textarea { width: 27em; height: 9em; }
-ul { list-style: square; }
+ul {
+  list-style: square;
+  margin-top: 0px;
+  li {
+    line-height: 30px;
+  }
+}
+p {
+  margin-bottom: 0px;
+}
 a { color: #08c; text-decoration: none; }
 a:hover { outline: 0; color: #005580; text-decoration: underline; }
 a:active { outline: 0; color: #C58; }
 a:visited { color: #08c; }
 .hidden { display: none; }
 pre, code, kbd, samp {
-    font-family: monospace, serif;
-    _font-family: 'courier new', monospace;
+    font-family: monospace, sans-serif;
     font-size: 1em;
 }
 pre {
@@ -70,9 +78,6 @@ pre {
 }
 .blacklink, .blacklink:visited {
   color: rgb(51, 51, 51);
-}
-li {
-  line-height: 30px;
 }
 
 .clear { clear: both }
@@ -159,4 +164,12 @@ hr {
   border: 0;
   border-top: 1px solid #eeeeee;
   border-bottom: 1px solid #ffffff;
+}
+blockquote {
+  font-style: italic;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 1.75em 0 1.75em -2.2em;
+  padding: 0 0 0 1.75em;
+  border-left: #4A4A4A 0.4em solid;
 }

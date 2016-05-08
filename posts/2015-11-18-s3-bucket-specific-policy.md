@@ -12,7 +12,7 @@ bucket, and for this an IAM role was created.
 
 There are two ways to generate policies:
 
-* <a href="#using-the-policy-generator">Using the policiy generator</a>
+* <a href="#using-the-policy-generator">Using the policy generator</a>
 * <a href="#manually-creating-a-policy">Manually creating a policy</a>
 
 I will generally advise to either use the generator completely or at least use
@@ -20,7 +20,7 @@ it for the basis of the policy you want to create.
 
 
 ## Using the policy generator
-To access the generator go into IAM -> Policies -> Create Policy -> Policy Generator. 
+To access the generator go into IAM -> Policies -> Create Policy -> Policy Generator.
 
 <div class="clear two-images">
   <a href="/images/S3-create-policy.png" target="_blank"><img src="/images/S3-create-policy.png" alt="S3 Create Policy" title="S3 Create Policy" /></a>
@@ -29,7 +29,7 @@ To access the generator go into IAM -> Policies -> Create Policy -> Policy Gener
 
 You will then be able to create the policy. To do this, first set the AWS
 service to `Amazon S3` and then choose the actions that you want to support.
-Here I've choosen `GetObject` as I just want to allow the read of an object in
+Here I've chosen `GetObject` as I just want to allow the read of an object in
 the bucket, and nothing more.
 
 Finally, you need to set the `ARN` of your bucket. This will be something like
@@ -76,4 +76,3 @@ directly used here.
 ```
 
 Hopefully this will get you going and buff up your security on your AWS setup.
-

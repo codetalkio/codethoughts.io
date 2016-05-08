@@ -1,4 +1,4 @@
-$if(frontpage)$
+$if(rawPost)$
   $body$
 $else$
   <div id="breadcrumbs">
@@ -9,7 +9,7 @@ $else$
     <header class="article-header">
       <h1>$title$</h1>
       <p class="article-information">
-        Published on $date$
+        <time datetime="$datetime$">$date$</time>
         $if(author)$
             by $author$
         $endif$
@@ -22,3 +22,5 @@ $else$
     $partial("templates/disqus.html")$
   </section>
 $endif$
+
+<script data-cfasync="true" src="/js/run_prettify.js"></script>

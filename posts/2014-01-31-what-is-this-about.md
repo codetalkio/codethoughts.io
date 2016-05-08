@@ -4,7 +4,7 @@ title: What is this about?
 
 This blog will mostly serve as a personal memory pad. I often discover a process, learn something new or just am plain forgetful. Therefore I'll try to write down various things that I learn during my journey as a programmer and enthusiast on all things technical.
 
-With that in mind, the ide is to make the content posted here general enough so that any random Google'er would also be able to understand it.
+With that in mind, the idea is to make the content posted here general enough so that any random Google'er would also be able to understand it.
 
 What will be on here? Mostly things related to programming and technology. What I learn is almost always related to some hobby project I got going on.
 

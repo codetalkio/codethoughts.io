@@ -9,7 +9,7 @@ $for(posts)$
         <h1>$title$</h1>
       </a>
       <p class="article-information">
-        Published on $date$
+        <time datetime="$datetime$">$date$</time>
         $if(author)$
             by $author$
         $endif$
@@ -22,7 +22,8 @@ $for(posts)$
 $endfor$
 
 
-<script data-cfasync="true" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script data-cfasync="true" src="/js/run_prettify.js"></script>
+<script data-cfasync="true" src="/js/jquery.js"></script>
 <script> // Articles.js
 // Pagination and the article scroller in the side
 jQuery(function(){
