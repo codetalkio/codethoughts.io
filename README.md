@@ -68,19 +68,12 @@ ssh ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/images"
 # Go back to original dir
 cd $startDir
 
-# Purge CloudFlare cache for the app.css file
-curl https://www.cloudflare.com/api_json.html \
-     -d 'a=zone_file_purge' \
-     -d "tkn=${CF_API_TOKEN}" \
-     -d "email=${CF_EMAIL}" \
-     -d 'z=codetalk.io' \
-     -d 'url=https://codetalk.io/app.css'
-curl https://www.cloudflare.com/api_json.html \
-     -d 'a=zone_file_purge' \
-     -d "tkn=${CF_API_TOKEN}" \
-     -d "email=${CF_EMAIL}" \
-     -d 'z=codetalk.io' \
-     -d 'url=http://codetalk.io/app.css'
+# Purge the CloudFlare cache
+curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" \
+    -H "X-Auth-Email: ${CF_EMAIL}" \
+    -H "X-Auth-Key: ${CF_API_TOKEN}" \
+    -H "Content-Type: application/json" \
+    --data '{"purge_everything":true}'
 
 echo "Done running pre-hook!"
 ```
