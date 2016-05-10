@@ -23,8 +23,8 @@ So, like the article mentioned before, I'm assuming you're using [irssi](http://
 
 Create a file called something like `irssi_pushover.sh` with the contents below,
 
-<?prettify?>
-```
+<div class="snippet-title">irssi_pushover.sh</div>
+```prettyprint
 #!/bin/bash
 
 # Replace `YOUR_APP_TOKEN` and `YOUR_USER_TOKEN` with your values from pushover

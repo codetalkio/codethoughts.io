@@ -47,8 +47,8 @@ a block for Anope.
 __UnrealIRCd__: The following links the Anope services to the IRC server and sets the
 SASL server to the services server.
 
-<?prettify?>
-```
+<div class="snippet-title">services.conf</div>
+```prettyprint
 link services.myircserver.org {
     incoming {
         mask *;
@@ -76,8 +76,8 @@ set {
 __Anope__: Enabling SASL is fairly simple, and just requires that the module is
 loaded. The rest is handled by Anope.
 
-<?prettify?>
-```
+<div class="snippet-title">modules.conf</div>
+```prettyprint
 /* Load the SASL module m_sasl */
 module { name = "m_sasl" }
 ```
@@ -94,8 +94,8 @@ Since we are building UnrealIRCd from source, we will need some build tools.
 These can be found in the `Development Tools` group. Other than that, there are
 some curl, ssl and other libraries that needs to be installed.
 
-<?prettify?>
-```
+<div class="snippet-title">install-unrealircd.sh</div>
+```prettyprint
 yum -yq groupinstall "Development Tools" \
 && yum -yq install \
         curl \
@@ -110,8 +110,8 @@ yum -yq groupinstall "Development Tools" \
 Now we are able to compile UnrealIRCd from source. We will do all of this in
 one giant step:
 
-<?prettify?>
-```
+<div class="snippet-title">install-unrealircd.sh</div>
+```prettyprint
 # UnrealIRCd version
 UNREAL_VERSION="unrealircd-4.0.0-rc3"
 
@@ -142,8 +142,8 @@ have SSL enabled, we will also need an SSL certificate! Luckily, this can also
 be done through without any user input. It does require some information
 though, so you should substitute the variables with your information.
 
-<?prettify?>
-```
+<div class="snippet-title">install-unrealircd.sh</div>
+```prettyprint
 # SSL certificate information
 # The two-letter ISO abbreviation for your country
 SSL_CERTIFICATE_COUNTRY="DK"
@@ -185,16 +185,16 @@ the tools (namely the `Development Tools` packages).
 Anope uses (or at least we use it here) cmake to build. This means we have to
 install cmake before doing anything else.
 
-<?prettify?>
-```
+<div class="snippet-title">install-anope.sh</div>
+```prettyprint
 yum -y install cmake
 ```
 
 Now we can compile Anope IRC services from source. We will fetch it and compile
 it in one step:
 
-<?prettify?>
-```
+<div class="snippet-title">install-anope.sh</div>
+```prettyprint
 # Anope version
 ANOPE_VERSION="2.0.2"
 
@@ -252,8 +252,8 @@ into place, using the install scripts mentioned earlier. By having a IAM role
 with S3 read access attached to it, we can download objects from the S3 bucket
 directly.
 
-<?prettify?>
-```
+<div class="snippet-title">init-ec2.sh</div>
+```prettyprint
 #!/bin/bash
 # Bucket location
 export AWS_S3_BUCKET="YourBucket/install"
@@ -287,8 +287,8 @@ While launching stuff from the console is indeed very fun...the first couple of
 times, it quickly gets tedious. Therefore we will utilize the AWS API, to
 create an EC2 instance, tag it and associate an elastic IP to it.
 
-<?prettify?>
-```
+<div class="snippet-title">launch-ec2-instance.sh</div>
+```prettyprint
 #!/bin/bash
 
 # AWS user credentials
@@ -351,6 +351,6 @@ change the configuration files in the `config` folder to fit your server
 details.
 
 Furthermore you need to fit the credentials and server details to your own, in
-the `initec2.sh`, `launch-ec2-instance.sh` and `upload-to-s3.sh` scripts.
+the `init-ec2.sh`, `launch-ec2-instance.sh` and `upload-to-s3.sh` scripts.
 Hopefully it should be evident from the naming of the variables, what it is
 they expect.

@@ -16,6 +16,7 @@ a `Monad` is always an `Applicative`.
 
 The hierachy of `Functor`, `Applicative` and `Monad` is thus changed to,
 
+<div class="snippet-title">Typeclass hierachy</div>
 ```prettyprint
 class Functor f where
     -- ...
@@ -62,6 +63,7 @@ __From here, one can motivate `Monad` by asking:__
 <blockquote cite="https://www.reddit.com/r/haskell/comments/3tpom7/amp_how_do_you_motivate_this_in_teaching/cx8an8b">
 What if I wanted to abort midway through - say, if I encountered a problem? You can then write:
 </blockquote>
+
 
 ```prettyprint
 add xs ys = do
@@ -174,6 +176,7 @@ because on each step the bind function `>>=` (or `=<<` for the other direction) 
 
 To understand this better, let's take a look at the `Maybe` instance,
 
+<div class="snippet-title">Maybe Monad typeclass instance</div>
 ```prettyprint
 instance Monad Maybe where  
     return x = Just x  

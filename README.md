@@ -19,7 +19,7 @@ $ stack exec hakyll watch
 
 
 # Compiling .scss
-The hakyll setup features a compressScssCompiler, which relies on the `sass` tool being installed (e.g. `brew install sass`). It automatically compiles the SCSS from `scss/app.scss`, and puts it in `_site/app.css`.
+The hakyll setup features a compressScssCompiler, which relies on the `sass` tool being installed (e.g. `gem install sass`). It automatically compiles the SCSS from `scss/app.scss`, and puts it in `_site/app.css`.
 
 Alternatively it is possible to just use the `sass` tool directly. For the initial compile, use,
 

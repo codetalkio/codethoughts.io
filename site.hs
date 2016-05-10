@@ -99,7 +99,7 @@ main = hakyll $ do
     route   idRoute
     compile $ do
       -- Get the two latest posts
-      posts <- return . take 2 =<< recentFirst =<< loadAllSnapshots "posts/*" "content"
+      posts <- return . take 2 =<< recentFirst =<< loadAllSnapshots ("posts/*.md" .||. "posts/*.html") "content"
       let ctx = listField "posts" rawPostCtx (return posts) <>
                 constField "title" "codetalk"               <>
                 baseCtx
@@ -112,7 +112,7 @@ main = hakyll $ do
   create ["archive.html"] $ do
     route   idRoute
     compile $ do
-      posts <- recentFirst =<< loadAllSnapshots "posts/*" "content"
+      posts <- recentFirst =<< loadAllSnapshots ("posts/*.md" .||. "posts/*.html") "content"
       let ctx = listField "posts" rawPostCtx (return posts) <>
                 constField "title" "Archive"                <>
                 baseCtx
@@ -125,7 +125,7 @@ main = hakyll $ do
   tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
   -- | Posts: The post as an HTML page
-  match "posts/*" $ do
+  match ("posts/*.md" .||. "posts/*.html") $ do
     route   $ setExtension "html"
     compile $ pandocCompiler
       -- Create snapshots for later, when using the "raw" blog post
@@ -154,7 +154,7 @@ main = hakyll $ do
   -- 'posts/page/1/index.html' and so on
   let makeIdentifier n = fromFilePath $ "posts/page/" ++ (show n) ++ "/index.html"
   -- | Blog pagination: Create the pagination rules for the blog
-  blog <- buildPaginateWith grouping "posts/*" makeIdentifier
+  blog <- buildPaginateWith grouping ("posts/*.md" .||. "posts/*.html") makeIdentifier
 
   -- | Blog: Create the paginated blog page
   paginateRules blog $ \pageNum pattern -> do

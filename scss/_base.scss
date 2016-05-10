@@ -99,7 +99,7 @@ ul {
   margin-top: 0;
 
   li {
-    line-height: 30px;
+    line-height: 25px;
   }
 }
 
@@ -152,12 +152,25 @@ pre {
     // scss-lint:disable ImportantRule
     border: 1px solid $code-color-border !important;
     color: $color-black;
+    padding-left: 8px !important;
 
     .pln {
       color: inherit;
       font-family: inherit;
     }
   }
+}
+
+.snippet-title {
+  background: $color-lightdrakgray;
+  border: 1px solid $code-color-border;
+  font: 13px "Courier 10 Pitch", Courier, monospace;
+  font-weight: bold;
+  margin-bottom: -15px;
+  margin-top: 8px;
+  padding-bottom: 5px;
+  padding-left: 8px;
+  padding-top: 5px;
 }
 
 .hidden {
