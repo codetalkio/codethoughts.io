@@ -1,5 +1,6 @@
 ---
 title: Deploying with Vagrant
+tags: vagrant
 ---
 
 _As of writing, the newest version of Vagrant is 1.4.3._
@@ -26,15 +27,15 @@ A quick overview of the article:
 * [But how do we use it?](#buthowdoweuseit)
 * [Concluding thoughts](#concludingthoughts)
 
-# What is Vagrant?
-Vagrant basically manages your VMs in a manner that is local to each project you use it in (although you can use it in a more general way). As standard it uses <a href="https://www.virtualbox.org" target="_blank" title="VirtualBox" alt="VirtualBox">VirtualBox</a>, but you can also use it with other providers, such as <a href="http://www.vmware.com" target="_blank" title="VMWare" alt="VMWare">VMWare</a>. 
+## What is Vagrant?
+Vagrant basically manages your VMs in a manner that is local to each project you use it in (although you can use it in a more general way). As standard it uses <a href="https://www.virtualbox.org" target="_blank" title="VirtualBox" alt="VirtualBox">VirtualBox</a>, but you can also use it with other providers, such as <a href="http://www.vmware.com" target="_blank" title="VMWare" alt="VMWare">VMWare</a>.
 
 That said, for the purpose of being convenient to most people, I'm going to assume VirtualBox throughout this article, since that is the free alternative of the two I mentioned.
 
-# Getting started with Vagrant
+## Getting started with Vagrant
 Vagrant has a nice <a href="http://docs.vagrantup.com/v2/getting-started/index.html" target="_blank" title="Getting started with Vagrant" alt="Getting started with Vagrant">getting started</a> series that you should follow if you want to understand Vagrant better (I highly recommend it, it's not that long). I'm going to try and give a quick explanation of how it works though.
 
-Vagrant uses something called a `box`. These serve as the basis for the Vagrant setups you create, and are in essence just VMs with the bare minimum installed. To add a box you do, 
+Vagrant uses something called a `box`. These serve as the basis for the Vagrant setups you create, and are in essence just VMs with the bare minimum installed. To add a box you do,
 
 <pre class="prettyprint lang-sh">
 vagrant box add precise64 http://files.vagrantup.com/precise64.box
@@ -44,10 +45,10 @@ which will add a VM with a 64-bit version of Ubuntu 12.04 (Precise Pangolin). It
 
 You can try and search around if you can find a box that matches your needs, but if you want to customize it completely, I recommend creating your own.
 
-# Replicating your server
+## Replicating your server
 Before we start creating our Vagrant box, we need to know what our server looks like, so we can get the correct distro image.
 
-On Debian, and most likely others, you can check out what version you're using with, <kbd>cat /etc/*-release</kbd>. This will output something like, 
+On Debian, and most likely others, you can check out what version you're using with, <kbd>cat /etc/*-release</kbd>. This will output something like,
 
 <pre class="prettyprint lang-sh">
 PRETTY_NAME="Debian GNU/Linux jessie/sid"
@@ -69,7 +70,7 @@ Next up, is the architecture, and we get that by running, <kbd>uname -r</kbd>, w
 
 with `amd64` telling us it's 64 bit and built for amd. You should also try and match the kernel version as best you can though (the `3.2.0`).
 
-# Rolling your own Vagrant box
+## Rolling your own Vagrant box
 First off, you need to install <a href="https://www.virtualbox.org" target="_blank" title="VirtualBox" alt="VirtualBox">VirtualBox</a>, and then go and download the installer image for the distro you want. Since my server uses the amd64 version of Debian Jessie, I'm going to go ahead and download the <a href="http://www.debian.org/devel/debian-installer/" target="_blank" title="Debian amd64 netinst CD image" alt="Debian amd64 netinst CD image">amd64 netinst CD image</a>.
 
 After downloading it you launch it in VirtualBox and install it as you normally would a Virtual Machine. Following Vagrant's <a href="http://docs.vagrantup.com/v2/virtualbox/boxes.html" target="_blank" title="Guidelines for creating a base box" alt="guidelines for creating a base box">guidelines for creating a base box</a>, I set the following properties (with some altercations of my own):
@@ -82,7 +83,7 @@ After downloading it you launch it in VirtualBox and install it as you normally 
 
 And as recommended, I set the following values:
 
-* hostname: `vagrant-debian-jessie` 
+* hostname: `vagrant-debian-jessie`
 * domain: `vagrantup.com`
 * Root password: `vagrant`
 * Main account login: `vagrant`
@@ -91,10 +92,10 @@ And as recommended, I set the following values:
 
 Now that you have the VM up and running, it's time to set it up as a Vagrant box.
 
-# Setting up the VM
-Vagrant assumes sudo access without password, since that allows Vagrant to do a lot of neat thigns without our intervention (installing packages, setting up network folders etc). 
+## Setting up the VM
+Vagrant assumes sudo access without password, since that allows Vagrant to do a lot of neat thigns without our intervention (installing packages, setting up network folders etc).
 
-### Sudo access
+#### Sudo access
 First we change to root, and then,
 
 <pre class="prettyprint lang-sh">
@@ -104,7 +105,7 @@ apt-get install sudo
 followed by editing the sudoers file with <kbd>visudo</kbd>. Here we add,
 
 <pre class="prettyprint lang-sh">
-# /etc/sudoers
+## /etc/sudoers
 Defaults    env_keep="SSH_AUTH_SOCK"
 %admin ALL=(ALL:ALL) ALL
 %admin ALL=NOPASSWD: ALL
@@ -119,7 +120,7 @@ groupadd admin
 usermod -a -G admin vagrant
 </pre>
 
-### Installing VirtualBox's Guest Additions
+#### Installing VirtualBox's Guest Additions
 While still logged in as root, we need to uninstall VirtualBox packages and install linux headers so we can install the tools VirtualBox uses,
 
 <pre class="prettyprint lang-sh">
@@ -135,7 +136,7 @@ mount /dev/cdrom /media/cdrom
 sh /media/cdrom/VBoxLinuxAdditions.run
 </pre>
 
-### Installing packages
+#### Installing packages
 The last thing we need to do as root is installing the packages that we need,
 
 <pre class="prettyprint lang-sh">
@@ -150,7 +151,7 @@ echo 'UseDNS no' >> /etc/ssh/sshd_config
 
 I intentionally didn't include `chef` here, since I don't personally need it, and the install process is also a tad more bothersome than puppet's. You would just add it here if you need it though.
 
-### Custom packages
+#### Custom packages
 This step is a bit more personalized, whereas the rest is for creating a general Vagrant box. Since I intend to use this box for deploying and testing my Haskell packages, it's relevant for me to install the `haskell-platform` and an updated version of `cabal` to save some time when I create the VM with <kbd>vagrant up</kbd> later on.
 
 You can also do these steps automatically on the creation of a box, by adding a shell script with the comamnds inside the `VagrantFile` in your project, sorta like the <a href="http://docs.vagrantup.com/v2/getting-started/provisioning.html" target="_blank" title="Automatically setting up Apache" alt="Automatically setting up Apache">example with automatically setting up Apache</a>.
@@ -166,7 +167,7 @@ cabal install cabal-install
 This will save me a bit of time compiling things (especially `cabal-install`) over and over again.
 
 
-### SSH keys
+#### SSH keys
 Finally, you can now jump back to the vagrant user with `exit`, since the last bit needs to be done in the home folder of the vagrant user. We need to setup the authorized SSH keys for the vagrant user so <kbd>vagrant ssh</kbd> works easily using their <a href="https://github.com/mitchellh/vagrant/tree/master/keys/" target="_blank" title="Vagrant standard insecure key pair" alt="Vagrant standard insecure key pair">standard insecure key pair</a>,
 
 <pre class="prettyprint lang-sh">
@@ -183,7 +184,7 @@ sudo apt-get clean
 sudo shutdown -h now
 </pre>
 
-# Exporting the VM box
+## Exporting the VM box
 The final step is to export the VM as a vagrant box and add it. Vagrant neatly picks up the VMs that VirtualBox manages (assuming you use the default location), so you can simply do,
 
 <pre class="prettyprint lang-sh">
@@ -194,12 +195,12 @@ where `Jessie64` is the name I gave the VM inside VirtualBox. It will create a f
 
 Now you can add the box to Vagrant just like any other box,
 
-<pre class="prettyprint lang-sh"> 
+<pre class="prettyprint lang-sh">
 vagrant box add jessie64 ~/package.box
 </pre>
 
-# But how do we use it?
-I'm going to give a little example of how I would set up and use Vagrant in one of my projects. 
+## But how do we use it?
+I'm going to give a little example of how I would set up and use Vagrant in one of my projects.
 
 First I create the VagrantFile inside my project, using the box I just created,
 
@@ -252,7 +253,7 @@ vagrant destroy
 
 This will destroy the VM in my project (it still keeps the box we created before, don't worry). You can change <kbd>destroy</kbd> with <kbd>halt</kbd> to shut down the VM or <kbd>suspend</kbd> to simply suspend it. There is some information about the pros and cons to the three options <a href="http://docs.vagrantup.com/v2/getting-started/teardown.html" target="_blank" title="Vagrant documentation on teardown" alt="Vagrant documentation on teardown">in the Vagrant documentation</a>.
 
-# Concluding thoughts
+## Concluding thoughts
 Vagrant has greatly made me more comfortable messing around with my local VMs, since it's so easy to just destroy one and spin up an exact replica.
 
 It also allows me to easily sandbox my projects completely by having VagrantFile's in each of them, with exactly what they need. Since Vagrant syncs the project folder, I can make changes using my preferred tools and the VM keeps the folders in sync.

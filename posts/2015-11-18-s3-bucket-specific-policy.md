@@ -1,5 +1,6 @@
 ---
 title: S3 bucket specific policy
+tags: aws
 ---
 
 I have recently started caring a bit more about security on my AWS

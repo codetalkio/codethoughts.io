@@ -17,8 +17,8 @@ executable hakyll
   default-language:    Haskell2010
   ghc-options:         -threaded
   build-depends:       base == 4.*
-                     , hakyll == 4.7.*
-                     , hjsmin == 0.2.0.1
+                     , hakyll == 4.8.*
+                     , hjsmin == 0.2.*
                      , text == 1.2.*
                      , bytestring == 0.10.*
   ghc-options:      -threaded

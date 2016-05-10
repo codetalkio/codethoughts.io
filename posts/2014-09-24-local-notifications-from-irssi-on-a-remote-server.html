@@ -1,5 +1,6 @@
 ---
 title: Local notifications from irssi on a remote server
+tags: irssi
 ---
 
 <p><em>As of writing, the versions used are</em></p>
@@ -94,6 +95,6 @@ fi;
 <h2 id="conclusion">Conclusion</h2>
 <p>After this, you should be good to go! Now you can enjoy getting IRC highlights whenever you have a working connection.</p>
 <p>Try and reboot, and check if it works :)</p>
-<h3 id="whynotusemoshinsteadofautossh">Why not use mosh instead of autossh?</h3>
+<strong id="whynotusemoshinsteadofautossh">Q: Why not use mosh instead of autossh?</strong>
 <p>The reason I didn't use mosh to do what I accomplished with autossh, is because of running into trouble executing commands directly after a connection initiation (<code>mosh user@server 'echo 1'</code> fails instantly, to give an example).</p>
 <p>That said, I do recommend using mosh instead of ssh normally, since it works excellent :)</p>

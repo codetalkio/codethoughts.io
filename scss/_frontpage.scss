@@ -1,0 +1,14 @@
+// scss-lint:disable IdSelector
+
+#logo-container {
+  margin-top: 80px;
+  text-align: center;
+
+  img {
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    max-width: 100%;
+  }
+}

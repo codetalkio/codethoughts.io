@@ -1,12 +1,13 @@
 .page {
   margin-bottom: 10px;
-  padding: 15px 30px 15px 30px;
-  
+  padding: 15px 30px;
+
   h1 {
-    margin-top: 40px;
     margin-bottom: 20px;
+    margin-top: 40px;
+
     &:first-child {
-      margin-top: 0px;
+      margin-top: 0;
     }
   }
 }

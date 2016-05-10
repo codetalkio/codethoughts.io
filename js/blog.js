@@ -1,30 +1,6 @@
-<div id="breadcrumbs">
-  <a href="/">Home</a> &gt; Posts
-</div>
-
-$for(posts)$
-  <section class="article">
-    <header class="article-header">
-      <a href="$url$.html">
-        <h1>$title$</h1>
-      </a>
-      <p class="article-information">
-        <time datetime="$datetime$">$date$</time>
-        $if(author)$
-            by $author$
-        $endif$
-      </p>
-    </header>
-    <article class="article-body">
-      $body$
-    </article>
-  </section>
-$endfor$
-
-
-<script data-cfasync="true" src="/js/run_prettify.js"></script>
-<script data-cfasync="true" src="/js/jquery.js"></script>
-<script> // Articles.js
+// <script data-cfasync="true" src="/js/run_prettify.js"></script>
+// <script data-cfasync="true" src="/js/jquery.js"></script>
+// <script> // Articles.js
 // Pagination and the article scroller in the side
 jQuery(function(){
     var pagination = function(articles, perPage) {
@@ -141,4 +117,4 @@ jQuery(function(){
     jQuery("#articles-sidebar").removeClass("hidden");
 
 });
-</script>
+// </script>

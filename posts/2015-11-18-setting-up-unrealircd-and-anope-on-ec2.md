@@ -1,5 +1,6 @@
 ---
 title: Setting up UnrealIRCd and Anope IRC Services on EC2
+tags: irc, aws, unrealircd, anope
 ---
 
 _Versions used:_

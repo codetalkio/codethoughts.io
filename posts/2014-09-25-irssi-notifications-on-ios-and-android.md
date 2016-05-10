@@ -1,5 +1,6 @@
 ---
 title: Irssi notifications on iOS and Android
+tags: irssi
 ---
 
 Or really anywhere that [https://pushover.net](https://pushover.net) supports.

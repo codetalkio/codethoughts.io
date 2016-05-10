@@ -1,0 +1,38 @@
+<div id="breadcrumbs">
+  <a href="/">Home</a>
+  $if(currenttag)$
+    &gt; <a href="$blogurl$">Posts</a>
+    &gt; $currenttag$
+  $else$
+    &gt; Posts
+  $endif$
+</div>
+
+<!-- Sidebar listing the currently displayed articles -->
+<div id="articles-sidebar">
+  $for(posts)$
+    <div class="articles-sidebar-item">
+      <a href="#$urlencodedtitle$">$title$</a>
+    </div>
+  $endfor$
+  <div id="articles-sidebar-item-bottom">
+    <a href="#footer"><div class="arrow-down"></div></a>
+  </div>
+</div>
+
+$for(posts)$
+  $partial("templates/post.html")$
+$endfor$
+
+<div id="pagination">
+  $if(previousPageNum)$
+    <div class="left-half">
+      <a class="pagination-page" href="$previousPageUrl$">&lt; newer entries</a>
+    </div>
+  $endif$
+  $if(nextPageNum)$
+    <div class="right-half">
+      <a class="pagination-page" href="$nextPageUrl$">older entries &gt;</a>
+    </div>
+  $endif$
+</div>

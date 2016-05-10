@@ -1,26 +1,39 @@
-$if(rawPost)$
-  $body$
-$else$
+$if(isNormalPost)$
   <div id="breadcrumbs">
-      <a href="/">Home</a> &gt; <a href="/posts.html">Posts</a> &gt; $title$
+      <a href="/">Home</a>
+      &gt; <a href="$blogurl$">Posts</a>
+      &gt; $title$
   </div>
-
-  <section class="article">
-    <header class="article-header">
-      <h1>$title$</h1>
-      <p class="article-information">
-        <time datetime="$datetime$">$date$</time>
-        $if(author)$
-            by $author$
-        $endif$
-      </p>
-    </header>
-    <article class="article-body">
-      $body$
-    </article>
-    <div class="clear"></div>
-    $partial("templates/disqus.html")$
-  </section>
 $endif$
 
-<script data-cfasync="true" src="/js/run_prettify.js"></script>
+<section class="article">
+  <header class="article-header">
+    $if(isRawPost)$
+      <a href="$url$">
+        <h1 id="$urlencodedtitle$">$title$</h1>
+      </a>
+    $else$
+      <h1>$title$</h1>
+    $endif$
+    <p class="article-information">
+      <time datetime="$datetime$">$date$</time>
+      $if(tags)$
+        in $tags$
+      $endif$
+      $if(author)$
+        by $author$
+      $endif$
+    </p>
+  </header>
+  <article class="article-body">
+    $body$
+  </article>
+  $if(isNormalPost)$
+    <div class="clear"></div>
+    $partial("templates/disqus.html")$
+  $endif$
+</section>
+
+$if(isNormalPost)$
+  <script data-cfasync="true" src="/js/run_prettify.js"></script>
+$endif$
