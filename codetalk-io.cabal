@@ -1,8 +1,8 @@
 name:                codetalk-io
-version:             0.1.0.0
+version:             1.0.0
 synopsis:            Hakyll website for the codetalk.io blog
 description:         Please see README.md
-homepage:            https://github.com/Tehnix/codetalk.io#readme
+homepage:            https://github.com/codetalkio/codetalk.io#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Christian Kjær Laustsen
