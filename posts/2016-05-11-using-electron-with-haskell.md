@@ -5,7 +5,7 @@ tags: haskell, electron
 
 _Versions used:_
 
-* _Electron 0.37.8_
+* _Electron 1.0.1_
 * _Stackage LTS 5.15_
 * _servant 0.4.4.7_
 
@@ -134,42 +134,49 @@ And finally we'll implement the logic in `renderer.js`.
 <div class="snippet-title">Haskell-Electron-app/haskell-app/renderer.js</div>
 ```prettyprint
 // Backend and endpoint details
-var host     = "http://127.0.0.1:8080",
-    endpoint = "/users";
+const host     = 'http://127.0.0.1:8080'
+const endpoint = '/users'
 // Retry configuration
-var tryNo    = 0,
-    maxTries = 50,
-    waitTime = 250;
+let maxNoOfAttempts        = 50,
+    waitTimeBetweenAttempt = 250
 
-var fetchUserList = function() {
+let _fetchUserList = function(waitTime, maxAttempts, currentAttemptNo) {
   $.getJSON(host + endpoint, function(users) {
-    $("#status").html("Fetched the content after try #" + (tryNo + 1) + "!");
+    $('#status').html(`Fetched the content after attemt no.
+                       ${currentAttemptNo}!`)
     // Construct the user list HTML output
-    var output = "";
-    for (var i in users) {
-      var user = users[i];
-      output += "ID: " + user.userId;
-      output += ", Firstname: " + user.userFirstName;
-      output += ", Lastname: " + user.userLastName;
-      output += "<br>";
+    let output = "";
+    for (let i in users) {
+      let user = users[i]
+      output += `ID: ${user.userId},
+                 Firstname: ${user.userFirstName},
+                 Lastname: ${user.userLastName}
+                 <br>`
     }
-    $("#userList").html(output);
+    $('#userList').html(output)
   }).fail(function() {
-    $("#status").html("Try #" + (tryNo + 1) + ". " +
-                   "Are you sure the server is running on " + host + "?");
-    tryNo += 1;
-    // Keep trying until we get an answer or reach the maximum number of tries
-    if (tryNo < maxTries) {
-      setTimeout(fetchUserList, waitTime);
+    $('#status').html(`Attempt no. <b>${currentAttemptNo}</b>. Are you sure the
+                       server is running on <b>${host}</b>, and the endpoint
+                       <b>${endpoint}</b> is correct?`)
+    // Keep trying until we get an answer or reach the maximum number of retries
+    if (currentAttemptNo < maxAttempts) {
+      setTimeout(function() {
+        _fetchUserList(waitTime, maxAttempts, currentAttemptNo+1)
+      }, waitTime)
     }
-  });
+  })
+}
+
+// Convenience function for _fetchUserList
+let fetchUserList = function(waitTimeBetweenAttempt, maxNoOfAttempts) {
+  _fetchUserList(waitTimeBetweenAttempt, maxNoOfAttempts, 1)
 }
 
 // Start trying to fetch the user list
-fetchUserList();
+fetchUserList(waitTimeBetweenAttempt, maxNoOfAttempts)
 ```
 
-We simply request the `JSON` data at `http://127.0.0.1:8080/users`, with `$.getJSON(...)`, and display it if we received the data. If the request failed, we keep retrying until we either get a response or reach the maximum number of retries (here set to 50 via `maxTries`).
+We simply request the `JSON` data at `http://127.0.0.1:8080/users`, with `$.getJSON(...)`, and display it if we received the data. If the request failed, we keep retrying until we either get a response or reach the maximum number of attempts (here set to 50 via `maxNoOfAttempts`).
 
 The real purpose behind the retry will become apparent later on, when we might need to wait for the server to become available. Normally you will use a status endpoint that you are 100% sure is correct and not failing to check for the availability (inspired by the answer [Mike from Wagon HQ gave here](https://www.reddit.com/r/haskell/comments/4ipah2/resources_for_electron_haskell/d30mupm)).
 
@@ -214,24 +221,26 @@ let backendServer
 
 function createWindow () {
   mainWindow = new BrowserWindow({width: 800, height: 600})
-
   mainWindow.loadURL('file://' + __dirname + '/index.html')
-
   mainWindow.webContents.openDevTools()
-
   mainWindow.on('closed', function () {
     mainWindow = null
   })
 }
 
 function createBackendServer () {
-  child_process.spawn('./resources/backend-exe')
+  backendServer = child_process.spawn('./resources/backend-exe')
 }
 
 app.on('ready', createWindow)
 
 // Start the backend web server when Electron has finished initializing
 app.on('ready', createBackendServer)
+
+// Close the server when the application is shut down
+app.on('will-quit', function() {
+  backendServer.kill()
+})
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
@@ -252,6 +261,7 @@ We are using the [child_process.spawn](https://nodejs.org/api/child_process.html
 * Defined a variable `let backendServer` that'll let us keep the backend server from being garbage collected
 * Added a function `createBackendServer` that runs `child_process.spawn('./resources/backend-exe')` to spawn the process
 * Added the `createBackendServer` function to the `ready` hook with `app.on('ready', createBackendServer)`
+* * Close the `backendServer` when the event `will-quit` occurs
 
 __And voila!__ We now have Electron spawning a process that runs a Haskell web server! :)
 
