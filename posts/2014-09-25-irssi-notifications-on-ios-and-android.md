@@ -14,7 +14,7 @@ There really isn't much to do here. First, go create an account and download the
 Then, register a pushover application. You can do this from the dashboard, or
 directly from [https://pushover.net/apps/build](https://pushover.net/apps/build). It will look something like this,
 
-<img src="/images/pushover-config.png" alt="Pushover Application Registration" title="Pushover Application Registration" width="100%">
+<img src="/resources/images/pushover-config.thumbnail.png" alt="Pushover Application Registration" title="Pushover Application Registration" width="100%">
 
 
 ## Setting up the script
@@ -24,7 +24,7 @@ So, like the article mentioned before, I'm assuming you're using [irssi](http://
 Create a file called something like `irssi_pushover.sh` with the contents below,
 
 <div class="snippet-title">irssi_pushover.sh</div>
-```prettyprint
+```bash
 #!/bin/bash
 
 # Replace `YOUR_APP_TOKEN` and `YOUR_USER_TOKEN` with your values from pushover

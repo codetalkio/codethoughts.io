@@ -48,7 +48,7 @@ __UnrealIRCd__: The following links the Anope services to the IRC server and set
 SASL server to the services server.
 
 <div class="snippet-title">services.conf</div>
-```prettyprint
+```bash
 link services.myircserver.org {
     incoming {
         mask *;
@@ -77,7 +77,7 @@ __Anope__: Enabling SASL is fairly simple, and just requires that the module is
 loaded. The rest is handled by Anope.
 
 <div class="snippet-title">modules.conf</div>
-```prettyprint
+```bash
 /* Load the SASL module m_sasl */
 module { name = "m_sasl" }
 ```
@@ -95,7 +95,7 @@ These can be found in the `Development Tools` group. Other than that, there are
 some curl, ssl and other libraries that needs to be installed.
 
 <div class="snippet-title">install-unrealircd.sh</div>
-```prettyprint
+```bash
 yum -yq groupinstall "Development Tools" \
 && yum -yq install \
         curl \
@@ -111,7 +111,7 @@ Now we are able to compile UnrealIRCd from source. We will do all of this in
 one giant step:
 
 <div class="snippet-title">install-unrealircd.sh</div>
-```prettyprint
+```bash
 # UnrealIRCd version
 UNREAL_VERSION="unrealircd-4.0.0-rc3"
 
@@ -143,7 +143,7 @@ be done through without any user input. It does require some information
 though, so you should substitute the variables with your information.
 
 <div class="snippet-title">install-unrealircd.sh</div>
-```prettyprint
+```bash
 # SSL certificate information
 # The two-letter ISO abbreviation for your country
 SSL_CERTIFICATE_COUNTRY="DK"
@@ -186,7 +186,7 @@ Anope uses (or at least we use it here) cmake to build. This means we have to
 install cmake before doing anything else.
 
 <div class="snippet-title">install-anope.sh</div>
-```prettyprint
+```bash
 yum -y install cmake
 ```
 
@@ -194,7 +194,7 @@ Now we can compile Anope IRC services from source. We will fetch it and compile
 it in one step:
 
 <div class="snippet-title">install-anope.sh</div>
-```prettyprint
+```bash
 # Anope version
 ANOPE_VERSION="2.0.2"
 
@@ -253,7 +253,7 @@ with S3 read access attached to it, we can download objects from the S3 bucket
 directly.
 
 <div class="snippet-title">init-ec2.sh</div>
-```prettyprint
+```bash
 #!/bin/bash
 # Bucket location
 export AWS_S3_BUCKET="YourBucket/install"
@@ -288,7 +288,7 @@ times, it quickly gets tedious. Therefore we will utilize the AWS API, to
 create an EC2 instance, tag it and associate an elastic IP to it.
 
 <div class="snippet-title">launch-ec2-instance.sh</div>
-```prettyprint
+```bash
 #!/bin/bash
 
 # AWS user credentials

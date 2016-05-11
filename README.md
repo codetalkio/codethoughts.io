@@ -59,7 +59,7 @@ sass scss/app.scss:_site/app.css --style compressed
 rsync -rave ssh $rootDir/_site/* ec2-user@codetalk.io:/usr/share/nginx/codetalk.io --delete-after
 
 # Set the right permissions on the images folder
-ssh ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/images"
+ssh ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
 
 # Go back to original dir
 cd $startDir

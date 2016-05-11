@@ -17,7 +17,7 @@ a `Monad` is always an `Applicative`.
 The hierachy of `Functor`, `Applicative` and `Monad` is thus changed to,
 
 <div class="snippet-title">Typeclass hierachy</div>
-```prettyprint
+```haskell
 class Functor f where
     -- ...
 
@@ -65,7 +65,7 @@ What if I wanted to abort midway through - say, if I encountered a problem? You 
 </blockquote>
 
 
-```prettyprint
+```haskell
 add xs ys = do
     x <- xs
     if x < 0 then []
@@ -92,7 +92,7 @@ some brief examples of what happens when using them.
 
 __`Functor` is the simplest__, and can be thought of as a much more general `map`. Wherever you use `map` you can always replace it with `fmap`, but not the other way around.
 
-```prettyprint
+```haskell
 > fmap (*2) [1..10]
 [2,4,6,8,10,12,14,16,18,20]
 ```
@@ -109,7 +109,7 @@ functions back, like `[(*1), (*2), (*3)]`.
 Now, what can we do with this? We can for example map a value onto the list of
 partially applied functions, which would look something like this using `fmap`,
 
-```prettyprint
+```haskell
 > let a = fmap (*) [1..3]
 > fmap (\f -> f 9) a
 [9,18,27]
@@ -123,7 +123,7 @@ get into much detail on that (you can read more [here](http://learnyouahaskell.c
 Luckily, instead of writing the above, we can use `<*>` which is a part of
 `Applicative`. We can instead write,
 
-```prettyprint
+```haskell
 > fmap (*) [1..3] <*> [9]
 [9,18,27]
 ```
@@ -133,7 +133,7 @@ Note that the reason we put `9` inside a context (here a list), is because
 common, `Control.Applicative` actually exports `<$>`, so we can do the
 following instead, replacing `fmap`,
 
-```prettyprint
+```haskell
 > (*) <$> [1..3] <*> [9]
 [9,18,27]
 ```
@@ -141,7 +141,7 @@ following instead, replacing `fmap`,
 Admittedly, it's a bit more interesting when we want to apply the multiple
 functions to multiple arguments, as such,
 
-```prettyprint
+```haskell
 > (*) <$> [1,5,10] <*> [11..13]
 [11,12,13,55,60,65,110,120,130]
 > (*) <$> Just 3 <*> Just 5
@@ -149,7 +149,7 @@ functions to multiple arguments, as such,
 
 or perhaps inside contexts, such as `Maybe`,
 
-```prettyprint
+```haskell
 > (*) <$> Just 3 <*> Just 5
 Just 15
 ```
@@ -165,7 +165,7 @@ _"something"_ happens between the steps.
 For example (note that I use ; instead of linebreaks because we are executing
 in the GHCi REPL),
 
-```prettyprint
+```haskell
 > do Just 6; Nothing; Just 9
 Nothing
 ```
@@ -177,7 +177,7 @@ because on each step the bind function `>>=` (or `=<<` for the other direction) 
 To understand this better, let's take a look at the `Maybe` instance,
 
 <div class="snippet-title">Maybe Monad typeclass instance</div>
-```prettyprint
+```haskell
 instance Monad Maybe where  
     return x = Just x  
     Nothing >>= f = Nothing  

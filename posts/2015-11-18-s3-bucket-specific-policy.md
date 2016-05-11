@@ -24,8 +24,8 @@ it for the basis of the policy you want to create.
 To access the generator go into IAM -> Policies -> Create Policy -> Policy Generator.
 
 <div class="clear two-images">
-  <a href="/images/S3-create-policy.png" target="_blank"><img src="/images/S3-create-policy.png" alt="S3 Create Policy" title="S3 Create Policy" /></a>
-  <a href="/images/S3-policy-generator.png" target="_blank"><img src="/images/S3-policy-generator.png" alt="S3 Select Policy Generator" title="S3 Select Policy Generator" /></a>
+  <a href="/resources/images/S3-create-policy.png" target="_blank"><img src="/resources/images/S3-create-policy.thumbnail.png" alt="S3 Create Policy" title="S3 Create Policy" /></a>
+  <a href="/resources/images/S3-policy-generator.png" target="_blank"><img src="/resources/images/S3-policy-generator.thumbnail.png" alt="S3 Select Policy Generator" title="S3 Select Policy Generator" /></a>
 </div>
 
 You will then be able to create the policy. To do this, first set the AWS
@@ -38,8 +38,8 @@ Finally, you need to set the `ARN` of your bucket. This will be something like
 bucket named `YourBucketName`. It'll look a little something like in the left figure below.
 
 <div class="clear two-images">
-  <a href="/images/S3-edit-permissions.png" target="_blank"><img src="/images/S3-edit-permissions.png" alt="S3 Edit Permissions" title="S3 Edit Permissions" /></a>
-  <a href="/images/S3-review-policy.png" target="_blank"><img src="/images/S3-review-policy.png" alt="S3 Review Policy" title="S3
+  <a href="/resources/images/S3-edit-permissions.png" target="_blank"><img src="/resources/images/S3-edit-permissions.thumbnail.png" alt="S3 Edit Permissions" title="S3 Edit Permissions" /></a>
+  <a href="/resources/images/S3-review-policy.png" target="_blank"><img src="/resources/images/S3-review-policy.thumbnail.png" alt="S3 Review Policy" title="S3
 Review Policy" /></a>
 </div>
 
@@ -58,7 +58,7 @@ own. The following is the one generated from the policy generator which can be
 directly used here.
 
 <div class="snippet-title">S3 bucket policy</div>
-```prettyprint
+```javascript
 {
     "Version": "2012-10-17",
     "Statement": [

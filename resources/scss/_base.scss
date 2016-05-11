@@ -148,11 +148,11 @@ pre {
   overflow: auto;
   padding: .75em 1.625em;
 
-  &.prettyprint {
-    // scss-lint:disable ImportantRule
-    border: 1px solid $code-color-border !important;
+  // scss-lint:disable SelectorFormat
+  &.sourceCode {
+    border: 1px solid $code-color-border;
     color: $color-black;
-    padding-left: 8px !important;
+    padding-left: 8px;
 
     .pln {
       color: inherit;

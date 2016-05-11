@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+module Main (main) where
 import           Data.Monoid                ((<>))
 import           Hakyll
 -- For compressJsCompiler
@@ -23,7 +24,7 @@ compressScssCompiler = do
                                         , "--scss"
                                         , "--compass"
                                         , "--style", "compressed"
-                                        , "--load-path", "scss"
+                                        , "--load-path", "resources/scss"
                                         ])
 
 -- | Base context, making common items available
@@ -52,34 +53,34 @@ rawPostCtx =
 -- | Context for raw posts with tags
 rawPostWithTagsCtx :: Tags -> Context String
 rawPostWithTagsCtx tags =
-  tagsField "tags" tags           <>
+  tagsField "tags" tags <>
   rawPostCtx
 
 -- | Define the rules for the site/hakyll compiler
 main :: IO ()
 main = hakyll $ do
   -- | Route for all images
-  match "images/*" $ do
+  match "resources/images/*" $ do
     route   idRoute
     compile copyFileCompiler
 
   -- | Route for the favicon
-  match "favicon.ico" $ do
-      route   idRoute
+  match "resources/favicon.ico" $ do
+      route   $ constRoute "favicon.ico"
       compile copyFileCompiler
 
   -- | Route for all JavaScript files
-  match "js/*" $ do
+  match "resources/js/*" $ do
     route   idRoute
     compile compressJsCompiler
 
   -- | Route for all CSS
-  match "css/*" $ do
+  match "resources/css/*" $ do
     route   idRoute
     compile compressCssCompiler
 
   -- | Compile SCSS to CSS and serve it
-  match "scss/app.scss" $ do
+  match "resources/scss/app.scss" $ do
    route   $ constRoute "app.css"
    compile compressScssCompiler
 
@@ -104,8 +105,8 @@ main = hakyll $ do
                 constField "title" "codetalk"               <>
                 baseCtx
       makeItem ""
-        >>= loadAndApplyTemplate "templates/frontpage.html"    ctx
-        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= loadAndApplyTemplate "templates/frontpage.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html"   ctx
         >>= relativizeUrls
 
   -- | Archive: Create the archive page but using a list of the posts
@@ -144,15 +145,16 @@ main = hakyll $ do
                 listField "posts" (rawPostWithTagsCtx tags) (return posts) <>
                 baseCtx
       makeItem ""
-        >>= loadAndApplyTemplate "templates/post-listing.html"    ctx
-        >>= loadAndApplyTemplate "templates/default.html"         ctx
+        >>= loadAndApplyTemplate "templates/post-listing.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html"      ctx
         >>= relativizeUrls
 
   -- | Set the pagination grouping to be 3 items, sorted by recent first
   let grouping = fmap (paginateEvery 3) . sortRecentFirst
   -- | Create the identifier for the paginated pages in the format of
   -- 'posts/page/1/index.html' and so on
-  let makeIdentifier n = fromFilePath $ "posts/page/" ++ (show n) ++ "/index.html"
+  let makeIdentifier n = fromFilePath $ "posts/page/" ++ (show n)
+                                        ++ "/index.html"
   -- | Blog pagination: Create the pagination rules for the blog
   blog <- buildPaginateWith grouping ("posts/*.md" .||. "posts/*.html") makeIdentifier
 
@@ -163,11 +165,11 @@ main = hakyll $ do
       -- Load all the pages from snapshot, to avoid pulling in all the HTML
       posts <- recentFirst =<< loadAllSnapshots pattern "content"
       let paginateCtx = paginateContext blog pageNum
-          ctx = constField "title" "codetalk blog"                          <>
+          ctx = constField "title" "codetalk blog"                         <>
                 listField "posts" (rawPostWithTagsCtx tags) (return posts) <>
                 paginateCtx                                                <>
                 baseCtx
       makeItem ""
-        >>= loadAndApplyTemplate "templates/post-listing.html"    ctx
-        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= loadAndApplyTemplate "templates/post-listing.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html"      ctx
         >>= relativizeUrls

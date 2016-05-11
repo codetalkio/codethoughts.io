@@ -22,7 +22,7 @@ To get `hjsmin` 0.2.0.1 working with `stack`, you can add the following to the `
 
 
 <div class="snippet-title">stack.yaml</div>
-```prettyprint
+```yaml
 ...
 extra-deps: [ hjsmin-0.2.0.1
             , language-javascript-0.6.0.4
@@ -34,7 +34,7 @@ and `hjsmin == 0.2.*` as a dependency in the projects cabal file.
 Now we are ready to construct the compiler itself.
 
 <div class="snippet-title">site.hs</div>
-```prettyprint
+```haskell
 import qualified Data.ByteString.Lazy.Char8 as C
 import           Text.Jasmine
 
@@ -51,7 +51,7 @@ The code is fairly straightforward. We use the `Text.Jasmine` provided function 
 Later on inside the main `Hakyll` function, we use it simply as we would the other compilers.
 
 <div class="snippet-title">site.hs</div>
-```prettyprint
+```haskell
 -- | Define the rules for the site/hakyll compiler
 main :: IO ()
 main = hakyll $ do
@@ -73,7 +73,7 @@ _NOTE:_ There is a library called [`hsass`](https://hackage.haskell.org/package/
 </blockquote>
 
 <div class="snippet-title">site.hs</div>
-```prettyprint
+```haskell
 -- | Create a SCSS compiler that transpiles the SCSS to CSS and
 -- minifies it (relying on the external 'sass' tool)
 compressScssCompiler :: Compiler (Item String)
@@ -99,7 +99,7 @@ This time we have no library dependencies, and use the `Hakyll` provided functio
 Much like with the JavaScript compiler, we use it in the main `Hakyll` function as such:
 
 <div class="snippet-title">site.hs</div>
-```prettyprint
+```haskell
 -- | Define the rules for the site/hakyll compiler
 main :: IO ()
 main = hakyll $ do

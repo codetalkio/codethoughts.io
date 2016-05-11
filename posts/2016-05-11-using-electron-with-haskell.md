@@ -41,7 +41,7 @@ Haskell-Electron-app/
 `Electron` has a nice [quick start guide](http://electron.atom.io/docs/latest/tutorial/quick-start/), which helps you get going fairly, well, quick. For our purposes, the following will set up the initial app we will use throughout.
 
 <div class="snippet-title">In your shell/terminal</div>
-```prettyprint
+```bash
 $ cd Haskell-Electron-app
 $ git clone https://github.com/electron/electron-quick-start haskell-app
 $ cd haskell-app
@@ -57,7 +57,7 @@ We'll be using [servant](http://haskell-servant.readthedocs.io/en/stable/) for a
 Assuming that `stack` is installed, you can set up a new `servant` project with
 
 <div class="snippet-title">In your shell/terminal</div>
-```prettyprint
+```bash
 $ cd Haskell-Electron-app
 $ stack new backend servant
 $ cd backend
@@ -79,7 +79,7 @@ Since the `servant` template project has given us the endpoint `127.0.0.1:8080/u
 By default the chromium developer tools are enabled in `Electron`. I suggest you keep them enabled while debugging, since that makes it a lot easier to see if anything went wrong. If you want to disable it, you just need to comment/remove a line in `Haskell-Electron-app/haskell-app/main.js`:
 
 <div class="snippet-title">Haskell-Electron-app/haskell-app/main.js</div>
-```prettyprint
+```javascript
 ...
 function createWindow () {
   // Create the browser window.
@@ -100,7 +100,7 @@ Short interlude: since I'm a bit lazy let's go ahead and download [jQuery 2.2.3 
 Back to work, lets change the `index.html` page and prepare it for our list of users.
 
 <div class="snippet-title">Haskell-Electron-app/haskell-app/index.html</div>
-```prettyprint
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -132,7 +132,7 @@ Back to work, lets change the `index.html` page and prepare it for our list of u
 And finally we'll implement the logic in `renderer.js`.
 
 <div class="snippet-title">Haskell-Electron-app/haskell-app/renderer.js</div>
-```prettyprint
+```javascript
 // Backend and endpoint details
 const host     = 'http://127.0.0.1:8080'
 const endpoint = '/users'
@@ -187,7 +187,7 @@ Now to the interesting part, let's try to launch the Haskell web server from ins
 First though, let us set the `haskell-app/resources` folder as the target for our binary, in the `stack.yaml` file, with the `local-bin-path` configuration value.
 
 <div class="snippet-title">Haskell-Electron-app/backend/stack.yaml</div>
-```prettyprint
+```yaml
 resolver: lts-5.15
 local-bin-path: ../haskell-app/resources
 ...
@@ -196,7 +196,7 @@ local-bin-path: ../haskell-app/resources
 Now let's compile the executable.
 
 <div class="snippet-title">In your shell/terminal</div>
-```prettyprint
+```bash
 $ cd Haskell-Electron-app/backend
 $ stack build --copy-bins
 ```
@@ -206,7 +206,7 @@ The `--copy-bins` (or alternatively you can just do `stack install`) will copy o
 After that, it is surprisingly easy to launch the executable from within `Electron` (well, easy once you already know how). We will change `main.js` to spawn a process for the web server upon app initialization (i.e. the `ready` state). Since there are bits and pieces that are added I'll include the whole file, with most of the comments removed.
 
 <div class="snippet-title">Haskell-Electron-app/haskell-app/main.js</div>
-```prettyprint
+```javascript
 const electron = require('electron')
 // Used to spawn processes
 const child_process = require('child_process')
