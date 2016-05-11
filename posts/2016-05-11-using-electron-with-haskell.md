@@ -9,6 +9,8 @@ _Versions used:_
 * _Stackage LTS 5.15_
 * _servant 0.4.4.7_
 
+_If you want to grab the whole code from this post, it can be found at [codetalkio/Haskell-Electron-app](https://github.com/codetalkio/Haskell-Electron-app)._
+
 Not much literature exist on using `Electron` as a GUI tool for Haskell development, so I thought I'd explore the space a little. Being initially a bit clueless on how `Electron` would launch the Haskell web server, I was watching [the Electron meetup talk by Mike Craig from Wagon HG](https://youtu.be/mUAu7lcgYWE?t=6m54s) (they use `Electron` with Haskell) and noticed they actually mention it on the slides:
 
 <blockquote>
