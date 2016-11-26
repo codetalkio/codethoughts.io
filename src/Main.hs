@@ -19,13 +19,14 @@ compressJsCompiler = do
 compressScssCompiler :: Compiler (Item String)
 compressScssCompiler = do
   fmap (fmap compressCss) $
-    getResourceString
-    >>= withItemBody (unixFilter "sass" [ "-s"
-                                        , "--scss"
-                                        , "--compass"
-                                        , "--style", "compressed"
-                                        , "--load-path", "resources/scss"
-                                        ])
+    getResourceFilePath
+    >>= \fp -> unixFilter "sass"
+                [ "--scss"
+                , "--compass"
+                , "--style", "compressed"
+                , fp
+                ] ""
+    >>= makeItem
 
 -- | Base context, making common items available
 baseCtx :: Context String

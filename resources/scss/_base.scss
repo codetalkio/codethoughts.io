@@ -2,7 +2,7 @@
 
 html,
 body {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: $normal-font-familiy;
   font-size: 1em;
   font-weight: 200;
   height: 100%;
@@ -18,7 +18,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: $title-font-familiy;
   font-weight: normal;
   line-height: 1em;
   margin-bottom: 16px;
@@ -53,6 +53,10 @@ h5 {
 
 h6 {
   font-size: 1.06em;
+}
+
+a, li, p {
+  font-family: $normal-font-familiy;
 }
 
 a {
@@ -94,9 +98,10 @@ p {
   margin-bottom: 0;
 }
 
-ul {
-  list-style: square;
-  margin-top: 0;
+ul, ol {
+  // list-style: square;
+  margin-top: 10px;
+  padding-left: 80px;
 
   li {
     line-height: 25px;
@@ -136,23 +141,31 @@ pre,
 code,
 kbd,
 samp {
-  font-family: monospace, sans-serif;
+  font-family: $code-font-family;
   font-size: 1em;
 }
 
-pre {
+div.sourceCode {
   background: $code-color-background;
-  font: 13px "Courier 10 Pitch", Courier, monospace;
+  border-top: 1px solid $code-color-border;
+  margin-top: 8px;
+}
+
+pre {
+  background: transparent;
+  font-size: $code-font-size;
+  font-family: $code-font-family;
   line-height: 1.5;
   margin-bottom: 1.625em;
+  margin-top: 0px;
   overflow: auto;
   padding: .75em 1.625em;
 
   // scss-lint:disable SelectorFormat
   &.sourceCode {
-    border: 1px solid $code-color-border;
     color: $color-black;
     padding-left: 8px;
+    padding-top: 8px;
 
     .pln {
       color: inherit;
@@ -162,15 +175,28 @@ pre {
 }
 
 .snippet-title {
-  background: $color-lightdrakgray;
-  border: 1px solid $code-color-border;
-  font: 13px "Courier 10 Pitch", Courier, monospace;
-  font-weight: bold;
-  margin-bottom: -15px;
+  @include center-content();
+  font-size: $code-font-size;
+  font-family: $code-font-family;
+  color: $color-darkgray;
+  font-weight: lighter;
+  margin-bottom: -32px;
   margin-top: 8px;
   padding-bottom: 5px;
   padding-left: 8px;
-  padding-top: 5px;
+  padding-right: 22px;
+  padding-top: 8px;
+  &:before {
+    content: "snippet-title: ";
+  }
+  // Target the sourceCode div that usually comes after
+  & + div.sourceCode {
+    margin-top: 0px;
+    padding-top: 30px;
+    pre {
+
+    }
+  }
 }
 
 .hidden {
@@ -205,9 +231,7 @@ pre {
 
 #content {
   line-height: 1.5em;
-  margin: 0 auto;
-  max-width: $max-content-width;
-  padding: 0 30px 15px;
+  padding-bottom: 15px;
   position: relative;
 }
 
@@ -237,6 +261,7 @@ pre {
 }
 
 #breadcrumbs {
+  @include center-content();
   color: $color-black;
   font-size: .9em;
   font-weight: 200;

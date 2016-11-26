@@ -24,13 +24,13 @@ The hakyll setup features a compressScssCompiler, which relies on the `sass` too
 Alternatively it is possible to just use the `sass` tool directly. For the initial compile, use,
 
 ```
-$ sass scss/app.scss:_site/app.css
+$ sass resources/scss/app.scss:_site/app.css
 ```
 
 and while developing, you can automatically compile it using,
 
 ```
-$ sass --watch scss/app.scss:_site/app.css
+$ sass --watch resources/scss/app.scss:_site/app.css
 ```
 
 
@@ -38,8 +38,8 @@ $ sass --watch scss/app.scss:_site/app.css
 To remove some of the hassle associated with updating the site, a git pre-push
 hook can be created.
 
-Copy the following into `.git/hooks/pre-push` and `chmod +x pre-push` to make
-it executable.
+Copy the following into `.git/hooks/pre-push` and `chmod +x .git/hooks/pre-push`
+to make it executable.
 
 ```bash
 # Get the current dir

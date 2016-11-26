@@ -12,3 +12,17 @@
     max-width: 100%;
   }
 }
+
+#frontpage-content {
+  @include center-content();
+  margin-bottom: 60px;
+
+  hr {
+    margin-top: 60px;
+    margin-bottom: 60px;
+
+    &.logo-separator {
+      margin-top: 60px;
+    }
+  }
+}

@@ -1,10 +1,12 @@
 #no-articles {
   margin: 80px 0 80px 30px;
   font-size: 30px;
+  @include center-content();
 }
 
 #archives {
   padding: 30px 30px 15px 30px;
+  @include center-content();
 
   table {
     width: $max-content-width - 60;
