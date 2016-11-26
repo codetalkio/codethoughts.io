@@ -1,0 +1,29 @@
+// pre {
+//     background-color: #FDF6E3
+// }
+
+.sourceCode {
+  // KeyWordTok
+  .kw { color: #268BD2; }
+  // DataTypeTok
+  .dt { color: #268BD2; }
+
+  // DecValTok (decimal value), BaseNTok, FloatTok
+  .dv, .bn, .fl { color: #D33682; }
+  // CharTok
+  .ch { color: #DC322F; }
+  // StringTok
+  .st { color: #2AA198; }
+  // CommentTok
+  .co { color: #93A1A1; }
+  // OtherTok
+  .ot { color: #A57800; }
+  // AlertTok
+  .al { color: #CB4B16; font-weight: bold; }
+  // FunctionTok
+  .fu { color: #268BD2; }
+  // RegionMarkerTok
+  .re { }
+  // ErrorTok
+  .er { color: #D30102; font-weight: bold; }
+}
