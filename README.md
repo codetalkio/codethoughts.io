@@ -53,7 +53,7 @@ cd $rootDir
 stack exec hakyll clean
 stack exec hakyll build
 # Build the CSS
-sass scss/app.scss:_site/app.css --style compressed
+sass resources/scss/app.scss:_site/app.css --style compressed
 
 # Upload (rsync) the site to the remote server
 rsync -rave ssh $rootDir/_site/* ec2-user@codetalk.io:/usr/share/nginx/codetalk.io --delete-after
