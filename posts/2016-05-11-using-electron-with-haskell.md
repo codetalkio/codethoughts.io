@@ -82,12 +82,10 @@ By default the chromium developer tools are enabled in `Electron`. I suggest you
 ```javascript
 ...
 function createWindow () {
-  // Create the browser window.
+  // Create the browser window,
   mainWindow = new BrowserWindow({width: 800, height: 600})
-
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html')
-
   // Open the DevTools.
   // mainWindow.webContents.openDevTools() <-- this one here
   ...
@@ -116,14 +114,14 @@ Back to work, lets change the `index.html` page and prepare it for our list of u
   </body>
   <script>
     // Avoid clashing Node.js/Electron with jQuery as per
-    // http://electron.atom.io/docs/v0.37.8/faq/electron-faq/
+    // http://electron.atom.io/docs/v0.37.8/faq/electron-faq/.
     window.nodeRequire = require;
     delete window.require;
     delete window.exports;
     delete window.module;
-    // Fetch jQuery
+    // Fetch jQuery.
     window.$ = window.jQuery = nodeRequire('./resources/jQuery-2.2.3.min.js')
-    // The JS file that will do the heavy lifting
+    // The JS file that will do the heavy lifting.
     nodeRequire('./renderer.js')
   </script>
 </html>
@@ -133,10 +131,10 @@ And finally we'll implement the logic in `renderer.js`.
 
 <div class="snippet-title">Haskell-Electron-app/haskell-app/renderer.js</div>
 ```javascript
-// Backend and endpoint details
+// Backend and endpoint details.
 const host     = 'http://127.0.0.1:8080'
 const endpoint = '/users'
-// Retry configuration
+// Retry configuration.
 let maxNoOfAttempts        = 50,
     waitTimeBetweenAttempt = 250
 
@@ -158,7 +156,7 @@ let _fetchUserList = function(waitTime, maxAttempts, currentAttemptNo) {
     $('#status').html(`Attempt no. <b>${currentAttemptNo}</b>. Are you sure the
                        server is running on <b>${host}</b>, and the endpoint
                        <b>${endpoint}</b> is correct?`)
-    // Keep trying until we get an answer or reach the maximum number of retries
+    // Keep trying until we get an answer or reach the maximum number of retries.
     if (currentAttemptNo < maxAttempts) {
       setTimeout(function() {
         _fetchUserList(waitTime, maxAttempts, currentAttemptNo+1)
@@ -167,12 +165,12 @@ let _fetchUserList = function(waitTime, maxAttempts, currentAttemptNo) {
   })
 }
 
-// Convenience function for _fetchUserList
+// Convenience function for `_fetchUserList`.
 let fetchUserList = function(waitTimeBetweenAttempt, maxNoOfAttempts) {
   _fetchUserList(waitTimeBetweenAttempt, maxNoOfAttempts, 1)
 }
 
-// Start trying to fetch the user list
+// Start trying to fetch the user list.
 fetchUserList(waitTimeBetweenAttempt, maxNoOfAttempts)
 ```
 
@@ -208,7 +206,7 @@ After that, it is surprisingly easy to launch the executable from within `Electr
 <div class="snippet-title">Haskell-Electron-app/haskell-app/main.js</div>
 ```javascript
 const electron = require('electron')
-// Used to spawn processes
+// Used to spawn processes.
 const child_process = require('child_process')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
@@ -216,7 +214,7 @@ const BrowserWindow = electron.BrowserWindow
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
-// Do the same for the backend web server
+// Do the same for the backend web server.
 let backendServer
 
 function createWindow () {
@@ -233,21 +231,17 @@ function createBackendServer () {
 }
 
 app.on('ready', createWindow)
-
-// Start the backend web server when Electron has finished initializing
+// Start the backend web server when Electron has finished initializing.
 app.on('ready', createBackendServer)
-
-// Close the server when the application is shut down
+// Close the server when the application is shut down.
 app.on('will-quit', function() {
   backendServer.kill()
 })
-
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
-
 app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
@@ -261,7 +255,7 @@ We are using the [child_process.spawn](https://nodejs.org/api/child_process.html
 * Defined a variable `let backendServer` that'll let us keep the backend server from being garbage collected
 * Added a function `createBackendServer` that runs `child_process.spawn('./resources/backend-exe')` to spawn the process
 * Added the `createBackendServer` function to the `ready` hook with `app.on('ready', createBackendServer)`
-* * Close the `backendServer` when the event `will-quit` occurs
+* Close the `backendServer` when the event `will-quit` occurs
 
 __And voila!__ We now have Electron spawning a process that runs a Haskell web server! :)
 

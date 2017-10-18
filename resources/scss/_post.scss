@@ -49,6 +49,46 @@
     h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre {
       @include center-content();
     }
+    h1, h2, h3, h4, h5, h6 {
+      &::before {
+          color: $color-bright-red;
+      }
+    }
+    h2 {
+        &::before {
+            content: "# ";
+            /* margin-left: -31px; */
+            margin-left: -31px;
+        }
+    }
+    h3 {
+        &::before {
+            content: "## ";
+            /* margin-left: -27px; */
+            margin-left: -44px;
+        }
+    }
+    h4 {
+        &::before {
+            content: "### ";
+            /* margin-left: -24px; */
+            margin-left: -56px;
+        }
+    }
+    h5 {
+        &::before {
+            content: "#### ";
+            /* margin-left: -19px; */
+            margin-left: -56px;
+        }
+    }
+    h6 {
+        &::before {
+            content: "##### ";
+            /* margin-left: -14px; */
+            margin-left: -52px;
+        }
+    }
   }
 
   #disqus_thread {
