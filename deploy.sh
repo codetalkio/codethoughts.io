@@ -12,10 +12,10 @@ stack exec hakyll build
 sass resources/scss/app.scss:_site/app.css --style compressed
 
 # Upload (rsync) the site to the remote server
-rsync -rave ssh $rootDir/_site/* ec2-user@codetalk.io:/usr/share/nginx/codetalk.io --delete-after
+rsync -rav -e "echo $TRAVIS_CODETALK_IO_SSH_KEY | ssh -i /dev/stdin $rootDir/_site/* ec2-user@codetalk.io:/usr/share/nginx/codetalk.io" --delete-after
 
 # Set the right permissions on the images folder
-ssh ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
+echo "$TRAVIS_CODETALK_IO_SSH_KEY" | ssh -i /dev/stdin ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
 
 # Go back to original dir
 cd $startDir

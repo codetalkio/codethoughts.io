@@ -10,6 +10,7 @@ before_install:
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
   - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+  - gem install compass
 
 install:
   - travis_wait stack --no-terminal --skip-ghc-check setup
@@ -18,3 +19,6 @@ install:
 script:
   - stack build --no-terminal
   - stack exec -- hakyll build
+
+after_success:
+  - ./deploy.sh
