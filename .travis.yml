@@ -23,8 +23,16 @@ install:
   - travis_wait stack --no-terminal --skip-ghc-check build --only-snapshot
 
 script:
-  - stack build --no-terminal
-  - stack exec -- hakyll build
+  - travis_wait stack build --no-terminal
+  - travis_wait stack exec -- hakyll clean
+  - travis_wait stack exec -- hakyll build
 
 after_success:
-  - ./deploy.sh
+  # Build the scss.
+  - sass resources/scss/app.scss:_site/app.css --style compressed
+  # Upload the site via rsync.
+  - rsync -rav -e "echo $TRAVIS_CODETALK_IO_SSH_KEY | ssh -i /dev/stdin $rootDir/_site/* ec2-user@codetalk.io:/usr/share/nginx/codetalk.io" --delete-after
+  # Make sure the images directory has the right permissions.
+  - echo "$TRAVIS_CODETALK_IO_SSH_KEY" | ssh -i /dev/stdin ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
+  # Clear CloudFlare cache.
+  - curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" -H "X-Auth-Email: ${CF_EMAIL}" -H "X-Auth-Key: ${CF_API_TOKEN}" -H "Content-Type: application/json" --data '{"purge_everything":true}'
