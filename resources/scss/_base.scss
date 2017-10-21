@@ -10,6 +10,7 @@ body {
   padding: 0;
   position: relative;
   width: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -19,9 +20,10 @@ h4,
 h5,
 h6 {
   font-family: $title-font-familiy;
-  font-weight: normal;
-  line-height: 1em;
+  font-weight: 500;
+  line-height: 1.3em;
   margin-bottom: 16px;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1 {
@@ -36,19 +38,19 @@ h4 {
 }
 
 h2 {
-  font-size: 2.3em;
-}
-
-h3 {
   font-size: 2em;
 }
 
-h4 {
+h3 {
   font-size: 1.8em;
 }
 
+h4 {
+  font-size: 1.6em;
+}
+
 h5 {
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 
 h6 {
@@ -57,6 +59,8 @@ h6 {
 
 a, li, p {
   font-family: $normal-font-familiy;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -96,6 +100,7 @@ a {
 
 p {
   margin-bottom: 0;
+  color: $paragraph-color;
 }
 
 ul, ol {
