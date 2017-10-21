@@ -35,4 +35,9 @@ after_success:
   # Make sure the images directory has the right permissions.
   - echo "$TRAVIS_CODETALK_IO_SSH_KEY" | ssh -i /dev/stdin ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
   # Clear CloudFlare cache.
-  - curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" -H "X-Auth-Email: ${CF_EMAIL}" -H "X-Auth-Key: ${CF_API_TOKEN}" -H "Content-Type: application/json" --data '{"purge_everything":true}'
+  - |
+      curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" \
+        -H "X-Auth-Email: ${CF_EMAIL}" \
+        -H "X-Auth-Key: ${CF_API_TOKEN}" \
+        -H "Content-Type: application/json" \
+        --data '{"purge_everything":true}'
