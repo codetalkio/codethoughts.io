@@ -27,9 +27,9 @@ install:
   - travis_wait stack -j 2 setup --no-terminal --skip-ghc-check
   - stack exec -- ghc --version
   # Build some of the dependencies separately, so we don't run out of memory.
-  - travis_wait stack -j 2 build aeson --no-terminal
-  - travis_wait stack -j 2 build HandsomeSoup--no-terminal
-  - travis_wait stack -j 2 build hakyll --no-terminal
+  - travis_wait stack -j 2 install aeson --no-terminal
+  - travis_wait stack -j 2 install HandsomeSoup--no-terminal
+  - travis_wait stack -j 2 install hakyll --no-terminal
   # Build the rest of the dependencies.
   - travis_wait stack -j 2 build --no-terminal --skip-ghc-check --only-dependencies
 
