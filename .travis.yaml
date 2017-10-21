@@ -1,9 +1,15 @@
+language: generic
+
 sudo: false
 
 # Caching so the next build will be fast too.
 cache:
   directories:
-  - $HOME/.stack
+    - $HOME/.stack
+
+branches:
+  only:
+    - master
 
 before_install:
   # Download and unpack the stack executable
