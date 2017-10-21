@@ -27,8 +27,19 @@ install:
   - travis_wait stack -j 2 setup --no-terminal --skip-ghc-check
   - stack exec -- ghc --version
   # Build some of the dependencies separately, so we don't run out of memory.
-  - travis_wait stack -j 2 install aeson --no-terminal
-  - travis_wait stack -j 2 install hakyll --no-terminal
+  - travis_wait stack -j 2 install aeson --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install happy --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install cryptonite --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install cryptohash --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install mtl --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install pandoc --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install blaze-html --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install tagsoup --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install wai --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install warp --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install yaml --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install text --no-terminal --skip-ghc-check
+  - travis_wait stack -j 2 install lrucache --no-terminal --skip-ghc-check
   # Build the rest of the dependencies.
   - travis_wait stack -j 2 build --no-terminal --skip-ghc-check --only-dependencies
 
