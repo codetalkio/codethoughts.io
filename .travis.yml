@@ -53,10 +53,14 @@ script:
 after_success:
   # Generate the CSS from the SCSS files.
   - sass resources/scss/app.scss:_site/app.css --style compressed
+  # Create a temporary SSH key.
+  - echo '$TRAVIS_CODETALK_IO_SSH_KEY' > temp_ssh_key.pem
   # Upload the site via rsync.
-  - rsync -rav -e "echo '$TRAVIS_CODETALK_IO_SSH_KEY' | ssh -i /dev/stdin _site/* ec2-user@codetalk.io:/usr/share/nginx/codetalk.io" --delete-after
+  - rsync -rav -e "ssh -i $TRAVIS_BUILD_DIR/temp_ssh_key.pem -l ec2-user" $TRAVIS_BUILD_DIR/_site/* codetalk.io:/usr/share/nginx/codetalk.io
   # Make sure the images have the right permission.
-  - echo "$TRAVIS_CODETALK_IO_SSH_KEY" | ssh -i /dev/stdin ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
+  - ssh -i $TRAVIS_BUILD_DIR/temp_ssh_key.pem ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
+  # Delete the temporary SSH key.
+  - rm -f temp_ssh_key.pem
   # Clear the CloudFlare cache.
   - |
     curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" \
