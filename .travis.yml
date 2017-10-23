@@ -2,6 +2,9 @@ language: generic
 
 sudo: false
 
+addons:
+  ssh_known_hosts: codetalk.io
+
 cache:
   directories:
   - $HOME/.stack
@@ -15,6 +18,12 @@ branches:
   - master
 
 before_install:
+  # Decrypt the encrypted key.
+  - openssl aes-256-cbc -K $encrypted_184c99a00c47_key -iv $encrypted_184c99a00c47_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+  # Add it to SSH.
+  - eval "$(ssh-agent -s)"
+  - chmod 600 /tmp/deploy_rsa
+  - ssh-add /tmp/deploy_rsa
   # Setup stack.
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
@@ -53,14 +62,10 @@ script:
 after_success:
   # Generate the CSS from the SCSS files.
   - sass resources/scss/app.scss:_site/app.css --style compressed
-  # Create a temporary SSH key.
-  - echo '$TRAVIS_CODETALK_IO_SSH_KEY' > temp_ssh_key.pem
   # Upload the site via rsync.
-  - rsync -rav -e "ssh -i $TRAVIS_BUILD_DIR/temp_ssh_key.pem -l ec2-user" $TRAVIS_BUILD_DIR/_site/* codetalk.io:/usr/share/nginx/codetalk.io
+  - rsync -rav -e "ssh -l ec2-user" $TRAVIS_BUILD_DIR/_site/* codetalk.io:/usr/share/nginx/codetalk.io
   # Make sure the images have the right permission.
-  - ssh -i $TRAVIS_BUILD_DIR/temp_ssh_key.pem ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
-  # Delete the temporary SSH key.
-  - rm -f temp_ssh_key.pem
+  - ssh ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
   # Clear the CloudFlare cache.
   - |
     curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" \
