@@ -54,7 +54,7 @@ after_success:
   # Generate the CSS from the SCSS files.
   - sass resources/scss/app.scss:_site/app.css --style compressed
   # Upload the site via rsync.
-  - rsync -rav -e "echo '$TRAVIS_CODETALK_IO_SSH_KEY' | ssh -i /dev/stdin /$TRAVIS_BUILD_DIR/_site/* ec2-user@codetalk.io:/usr/share/nginx/codetalk.io" --delete-after
+  - rsync -rav -e "echo '$TRAVIS_CODETALK_IO_SSH_KEY' | ssh -i /dev/stdin _site/* ec2-user@codetalk.io:/usr/share/nginx/codetalk.io" --delete-after
   # Make sure the images have the right permission.
   - echo "$TRAVIS_CODETALK_IO_SSH_KEY" | ssh -i /dev/stdin ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
   # Clear the CloudFlare cache.
