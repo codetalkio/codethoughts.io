@@ -1,61 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main (main) where
-import           Data.Monoid                ((<>))
-import           Hakyll
--- For compressJsCompiler
-import qualified Data.ByteString.Lazy.Char8 as C
-import           Text.Jasmine
+import Data.Monoid ((<>))
+import Hakyll
 
+import Site.Compiler (sassCompiler)
+import Site.Context (baseCtx, postCtx, rawPostCtx, rawPostWithTagsCtx)
 
--- | Create a JavaScript compiler that minifies the content
-compressJsCompiler :: Compiler (Item String)
-compressJsCompiler = do
-  let minifyJS = C.unpack . minify . C.pack . itemBody
-  s <- getResourceString
-  return $ itemSetBody (minifyJS s) s
-
--- | Create a SCSS compiler that transpiles the SCSS and minifies it
--- relying on the external 'sass' tool
-compressScssCompiler :: Compiler (Item String)
-compressScssCompiler = do
-  fmap (fmap compressCss) $
-    getResourceFilePath
-    >>= \fp -> unixFilter "sass"
-                [ "--scss"
-                , "--compass"
-                , "--style", "compressed"
-                , fp
-                ] ""
-    >>= makeItem
-
--- | Base context, making common items available
-baseCtx :: Context String
-baseCtx =
-  dateField "date" "%e. %B %Y"                    <>
-  dateField "prettydate" "%B %e, %Y"              <>
-  dateField "datetime" "%Y-%e-%b"                 <>
-  constField "blogurl" "/posts/page/1/index.html" <>
-  pathField "urlencodedtitle"                     <>
-  defaultContext
-
--- | Context for normal standalone posts
-postCtx :: Tags -> Context String
-postCtx tags =
-  constField "isNormalPost" "yes" <>
-  tagsField "tags" tags           <>
-  baseCtx
-
--- | Context for raw posts (i.e. only the post body)
-rawPostCtx :: Context String
-rawPostCtx =
-  constField "isRawPost" "yes" <>
-  baseCtx
-
--- | Context for raw posts with tags
-rawPostWithTagsCtx :: Tags -> Context String
-rawPostWithTagsCtx tags =
-  tagsField "tags" tags <>
-  rawPostCtx
 
 -- | Define the rules for the site/hakyll compiler
 main :: IO ()
@@ -67,23 +17,16 @@ main = hakyll $ do
 
   -- | Route for the favicon
   match "resources/favicon.ico" $ do
-      route   $ constRoute "favicon.ico"
-      compile copyFileCompiler
-
-  -- | Route for all JavaScript files
-  match "resources/js/*" $ do
-    route   idRoute
-    compile compressJsCompiler
-
-  -- | Route for all CSS
-  match "resources/css/*" $ do
-    route   idRoute
-    compile compressCssCompiler
+    route   $ constRoute "favicon.ico"
+    compile copyFileCompiler
 
   -- | Compile SCSS to CSS and serve it
-  match "resources/scss/app.scss" $ do
-   route   $ constRoute "app.css"
-   compile compressScssCompiler
+  match "resources/scss/**.scss" $ compile getResourceBody
+  scssDependencies <- makePatternDependency "resources/scss/**.scss"
+  rulesExtraDependencies [scssDependencies] $
+    create ["app.css"] $ do
+      route idRoute
+      compile sassCompiler
 
   -- | Load all partial templates
   match "templates/*" $ compile templateCompiler
@@ -101,7 +44,7 @@ main = hakyll $ do
     route   idRoute
     compile $ do
       -- Get the two latest posts
-      posts <- return . take 2 =<< recentFirst =<< loadAllSnapshots ("posts/*.md" .||. "posts/*.html") "content"
+      posts <- fmap (take 4) $ recentFirst =<< loadAllSnapshots ("posts/*.md" .||. "posts/*.html") "content"
       let ctx = listField "posts" rawPostCtx (return posts) <>
                 constField "title" "codetalk"               <>
                 baseCtx
@@ -136,12 +79,11 @@ main = hakyll $ do
       >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
       >>= relativizeUrls
 
-  -- | Tag rules.
-  tagsRules tags $ \tag pattern -> do
+  tagsRules tags $ \tag pattern' -> do
     let title = "Posts tagged " ++ tag
     route idRoute
     compile $ do
-      posts <- recentFirst =<< loadAllSnapshots pattern "content"
+      posts <- recentFirst =<< loadAllSnapshots pattern' "content"
       let ctx = constField "title" title                                   <>
                 constField "currenttag" tag                                <>
                 listField "posts" (rawPostWithTagsCtx tags) (return posts) <>
@@ -155,17 +97,17 @@ main = hakyll $ do
   let grouping = fmap (paginateEvery 3) . sortRecentFirst
   -- | Create the identifier for the paginated pages in the format of
   -- 'posts/page/1/index.html' and so on
-  let makeIdentifier n = fromFilePath $ "posts/page/" ++ (show n)
+  let makeIdentifier n = fromFilePath $ "posts/page/" ++ show n
                                         ++ "/index.html"
   -- | Blog pagination: Create the pagination rules for the blog
   blog <- buildPaginateWith grouping ("posts/*.md" .||. "posts/*.html") makeIdentifier
 
   -- | Blog: Create the paginated blog page
-  paginateRules blog $ \pageNum pattern -> do
+  paginateRules blog $ \pageNum pattern' -> do
     route   idRoute
     compile $ do
       -- Load all the pages from snapshot, to avoid pulling in all the HTML
-      posts <- recentFirst =<< loadAllSnapshots pattern "content"
+      posts <- recentFirst =<< loadAllSnapshots pattern' "content"
       let paginateCtx = paginateContext blog pageNum
           ctx = constField "title" "codetalk blog"                         <>
                 listField "posts" (rawPostWithTagsCtx tags) (return posts) <>

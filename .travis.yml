@@ -56,14 +56,12 @@ install:
 
 before_script:
   # Build the site itself.
-  - travis_wait stack -j 2 build --no-terminal
+  - travis_wait stack -j 2 build --no-terminal --skip-ghc-check
   # First clean up and then build the site.
-  - travis_wait stack exec -- hakyll clean
-  - travis_wait stack exec -- hakyll build
+  - travis_wait stack exec -- hakyll-site clean
+  - travis_wait stack exec -- hakyll-site build
 
 script:
-  # Make the script fail immediately upon first failure.
-  - set -e
   # Generate the CSS from the SCSS files.
   - sass resources/scss/app.scss:_site/app.css --style compressed
   # Upload the site via rsync.

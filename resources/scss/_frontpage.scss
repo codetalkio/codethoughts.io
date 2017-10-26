@@ -17,12 +17,61 @@
   @include center-content();
   margin-bottom: 60px;
 
+  .post-overview {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
   hr {
     margin-top: 60px;
     margin-bottom: 60px;
 
     &.logo-separator {
       margin-top: 60px;
+      border-top-color: $color-red;
     }
+  }
+
+  h3 {
+    color: $footer-color;
+    font-size: 1em;
+    font-weight: normal;
+    margin-top: 0px;
+  }
+  .overview-keyword {
+    color: $paragraph-color;
+  }
+
+  #overview-table {
+    width: 100%;
+    td {
+      vertical-align: top;
+      width: 50%;
+      &.overview-right-side {
+        h3 {
+          text-align: right;
+        }
+        ul {
+          float: right;
+          min-width: 200px;
+        }
+      }
+    }
+    ul {
+      padding-left: 20px;
+      margin-top: 0px;
+      float: left;
+      li {
+        list-style: none;
+      }
+    }
+  }
+
+  #bottom-information {
+    margin-top: 70px;
   }
 }
