@@ -3,7 +3,9 @@ language: generic
 sudo: false
 
 addons:
-  ssh_known_hosts: codetalk.io
+  ssh_known_hosts:
+    - codetalk.io
+    - direct.codetalk.io
 
 cache:
   directories:
@@ -65,9 +67,9 @@ script:
   # Generate the CSS from the SCSS files.
   - sass resources/scss/app.scss:_site/app.css --style compressed
   # Upload the site via rsync.
-  - rsync -rav -e "ssh -l ec2-user" $TRAVIS_BUILD_DIR/_site/* codetalk.io:/usr/share/nginx/codetalk.io
+  - rsync -rav -e "ssh -l ec2-user" _site/* direct.codetalk.io:/usr/share/nginx/codetalk.io
   # Make sure the images have the right permission.
-  - ssh ec2-user@codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
+  - ssh ec2-user@direct.codetalk.io "chmod -R +rx /usr/share/nginx/codetalk.io/resources/images"
   # Clear the CloudFlare cache.
   - |
     curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CF_ZONE}/purge_cache" \
