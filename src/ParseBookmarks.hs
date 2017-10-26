@@ -1,21 +1,22 @@
 {-# LANGUAGE DeriveGeneric     #-}
+{-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE FlexibleContexts #-}
-import           Prelude hiding (drop)
 import           Data.Aeson
 import           Data.Aeson.Types
-import           Data.Text (Text, pack, unpack, isPrefixOf, append, toLower, drop)
+import           Data.Text         (Text, append, drop, isPrefixOf, pack,
+                                    toLower, unpack)
 import           GHC.Generics
+import           Prelude           hiding (drop)
 import           Text.HandsomeSoup
 import           Text.XML.HXT.Core
 
-data HaveRead = HaveRead { hrTotal :: Int
-                         , hrHaskell :: Int
+data HaveRead = HaveRead { hrTotal      :: Int
+                         , hrHaskell    :: Int
                          , hrHackerNews :: Int
-                         , hrOther :: Int
-                         , hrLinks :: [Link]
-                         , hrMonth :: String
-                         , hrYear :: String
+                         , hrOther      :: Int
+                         , hrLinks      :: [Link]
+                         , hrMonth      :: String
+                         , hrYear       :: String
                          } deriving (Show, Generic)
 
 data Link = Link { bmTitle :: Text

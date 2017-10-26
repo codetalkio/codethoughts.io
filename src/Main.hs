@@ -136,6 +136,7 @@ main = hakyll $ do
       >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
       >>= relativizeUrls
 
+  -- | Tag rules.
   tagsRules tags $ \tag pattern -> do
     let title = "Posts tagged " ++ tag
     route idRoute

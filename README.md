@@ -1,4 +1,9 @@
-# Quick walkthrough of Hakyll
+# Codetalk.io site
+
+[![Build Status](https://travis-ci.org/codetalkio/codetalk.io.svg?branch=master)](https://travis-ci.org/codetalkio/codetalk.io)
+
+## Quick walkthrough of Hakyll
+
 If you change something in `site.hs`, then it needs to be recompiled, using GHC. Everything else, should just need a rebuild via Hakyll.
 
 ```bash
@@ -17,8 +22,8 @@ or, alternatively use `watch` to launch a preview server while developing,
 $ stack exec -- hakyll watch
 ```
 
+## Compiling .scss
 
-# Compiling .scss
 The hakyll setup features a compressScssCompiler, which relies on the `sass` tool being installed (e.g. `gem install compass`). It automatically compiles the SCSS from `scss/app.scss`, and puts it in `_site/app.css`.
 
 Alternatively it is possible to just use the `sass` tool directly. For the initial compile, use,
@@ -33,10 +38,10 @@ and while developing, you can automatically compile it using,
 $ sass --watch resources/scss/app.scss:_site/app.css
 ```
 
+## Uploading the site
 
-# Uploading the site
 Simply run `deploy.sh` and the site will be uploaded along with the CloudFlare cache purged.
 
+## 403 on images
 
-# 403 on images
 This is caused by missing permissions, and can be fixed by running `chmod -R +rx /usr/share/nginx/codetalk.io/images` on the folder on the server.

@@ -1,6 +1,6 @@
 name:                codetalk-io
 version:             1.2.0
-synopsis:            Hakyll website for the codetalk.io blog
+synopsis:            The codetalk.io blog, generated using Hakyll
 description:         Please see README.md
 homepage:            https://github.com/codetalkio/codetalk.io#readme
 license:             BSD3
