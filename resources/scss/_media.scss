@@ -20,16 +20,24 @@ $mobile-padding: 1rem;
   }
 
   #footer {
-    padding: 0 $mobile-padding $mobile-padding;
+    font-size: 1rem;
+    padding: 0.5rem $mobile-padding $mobile-padding;
   }
 }
 
 @mixin frontpage-styling() {
   #frontpage-content {
+    hr {
+      margin-bottom: 2rem;
+      &.logo-separator {
+        margin-top: 2rem;
+      }
+    }
     #overview-table {
       // Make the table rows/columns fill 100%.
       &, tbody, tr, td {
         width: 100%;
+        max-width: 100%;
       }
       td {
         display: block;
