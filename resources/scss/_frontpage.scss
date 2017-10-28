@@ -47,10 +47,14 @@
   }
 
   #overview-table {
-    width: 100%;
+    table-layout: fixed;
+    &, tbody, tr {
+      width: 100%;
+    }
     td {
       vertical-align: top;
       width: 50%;
+      max-width: 50%;
       &.overview-right-side {
         h3 {
           text-align: right;
@@ -67,6 +71,16 @@
       float: left;
       li {
         list-style: none;
+        color: $footer-color;
+      }
+    }
+    .overview-recent-posts {
+      li {
+        max-width: 350px;
+        width: 45vw;
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
       }
     }
   }

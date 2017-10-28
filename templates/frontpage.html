@@ -1,9 +1,5 @@
 <div id="logo-container">
-  <img width="150px" height="125px" src="/resources/images/codetalk-logo-white.png" alt="codetalk logo" title="codetalk logo" />
-  Christian Kjær Laustsen
-  - <a href="https://dk.linkedin.com/in/christian-kjær-laustsen-08635942"
-       target="_blank">LinkedIn</a>
-  - <a href="https://github.com/Tehnix" target="_blank">Github</a>
+  <img width="150px" height="125px" src="/resources/images/codetalk-logo-white.png" alt="codetalk logo" title="codetalk logo" /> Christian Kjær Laustsen - <a href="https://www.linkedin.com/in/christian-kjaer-laustsen-08635942/" target="_blank">LinkedIn</a>  - <a href="https://github.com/Tehnix" target="_blank">GitHub</a>
 </div>
 
 <div id="frontpage-content">
@@ -12,53 +8,55 @@
   <table id="overview-table">
     <tr>
       <td>
-        <!--  -->
+        <!-- Recent Posts -->
         <h3><a href="$blogurl$"><span class="overview-keyword">Recent posts</span></a> on the blog</h3>
-        <ul>
+        <ul class="overview-recent-posts">
           $for(posts)$
-            <li><a class="blacklink" href="$url$">$title$</a></li>
+          <li><a class="blacklink" href="$url$">$title$</a></li>
           $endfor$
           <li><a href="$blogurl$">View more...</a></li>
         </ul>
-        <!--  -->
+        <!-- END Recent Posts -->
       </td>
       <td class="overview-right-side">
-        <!--  -->
+        <!-- Interesting Projects -->
         <h3>interesting <a href="https://github.com/Tehnix"><span class="overview-keyword">projects</span></a></h3>
         <ul>
-          <li><a href="https://github.com/Tehnix/spaceneovim" target="_blank">Spaceneovim</a> / <a href="https://github.com/Tehnix/spaceneovim-layers" target="_blank">Layers</a></li>
-          <li><a href="https://github.com/Tehnix/atom-haskell" target="_blank">Atom-haskell</a></li>
+          <li><a href="https://github.com/Tehnix/spaceneovim" target="_blank">spaceneovim</a> / <a href="https://github.com/Tehnix/spaceneovim-layers" target="_blank">layers</a></li>
+          <li><a href="https://github.com/Tehnix/atom-haskell" target="_blank">atom-haskell</a> / <a href="https://github.com/Tehnix/atom-haskell-hie" target="_blank">atom-haskell-hie</a></li>
           <li><a href="https://github.com/Tehnix/rfplusone-app" target="_blank">RF+1 App</a></li>
           <li><a href="https://github.com/codetalkio/Haskell-Electron-app" target="_blank">Haskell Electron App</a></li>
-          <li>cred (<a href="https://github.com/Tehnix/cred-server" target="_blank">server</a> / <a href="https://github.com/Tehnix/cred-client" target="_blank">client</a> / <a href="https://github.com/Tehnix/cred-web" target="_blank">web</a>)</li>
+          <li><a href="https://github.com/Tehnix/cred-server" target="_blank">cred-server</a> (<a href="https://github.com/Tehnix/cred-client" target="_blank">client</a> / <a href="https://github.com/Tehnix/cred-web" target="_blank">web</a>)</li>
           <li><a href="https://github.com/Tehnix/HsCMS" target="_blank">HsCMS</a></li>
           <li><a href="https://github.com/Tehnix/TowerOfPower" target="_blank">TowerOfPower</a></li>
         </ul>
         <div style="clear:both;"></div>
-        <!--  -->
+        <!-- END Interesting Projects -->
       </td>
     </tr>
     <tr>
       <td>
-        <!--  -->
+        <!-- Minor Contributions -->
         <h3>minor <span class="overview-keyword">contributions</span></h3>
         <ul>
           <li><a href="https://github.com/mobilehaskell/hackage-overlay" target="_blank">hackage-overlay</a></li>
+          <li><a href="https://github.com/haskell/haskell-ide-engine" target="_blank">haskell-ide-engine</a></li>
+          <li><a href="https://github.com/Glavin001/atom-beautify" target="_blank">atom-beautify</a></li>
           <li><a href="https://github.com/aeirola/slack-irc-client" target="_blank">slack-irc-client</a></li>
-          <li><a href="" target="_blank"></a></li>
+          <li><a href="https://github.com/begriffs/haskell-vim-now" target="_blank">haskell-vim-now</a></li>
         </ul>
         <div style="clear:both;"></div>
-        <!--  -->
+        <!-- END Minor Contributions -->
       </td>
       <td class="overview-right-side">
-        <!--  -->
+        <!-- Stackage Maintainer -->
         <h3><a href="https://github.com/fpco/stackage/blob/24e43e0e2c4910f615a8cf6e92f30d1d2b827ed8/build-constraints.yaml#L3403" target="_blank"><span class="overview-keyword">stackage</span></a> maintainer</h3>
         <ul>
           <li><a href="https://github.com/shachaf/ghc-core" target="_blank">ghc-core</a></li>
           <li><a href="https://github.com/yav/colorize-haskell" target="_blank">colorize-haskell</a></li>
         </ul>
         <div style="clear:both;"></div>
-        <!--  -->
+        <!-- END Stackage Maintainer -->
       </td>
     </tr>
   </table>
@@ -66,7 +64,7 @@
 
   <h3 id="bottom-information"><span class="overview-keyword">Codetalk</span> organization</h3>
   <p style="margin-top: 20px;">
-    Codetalk is two part: <i>codetalk-the-company</i> and <i>codetalk-the-organization</i>. While both are closely tied, <i>codetalk-the-organzation</i> includes a larger number of brilliant people from around the world.
-    The servers and infrastructure is maintained by <i>codetalk-the-company</i>. You can find more information about the organization at the <a href="http://info.codetalk.io">codetalk information page</a>
+    Codetalk is two part: <i>codetalk-the-company</i> and <i>codetalk-the-organization</i>. While both are closely tied, <i>codetalk-the-organzation</i> includes a larger number of brilliant people from around the world. The servers and infrastructure
+    is maintained by <i>codetalk-the-company</i>. You can find more information about the organization at the <a href="http://info.codetalk.io">codetalk information page</a>
   </p>
 </div>

@@ -1,0 +1,31 @@
+pre {
+    background-color: #292b2e
+}
+
+.sourceCode {
+  color: #b2b2b2;
+
+  // KeyWordTok
+  .kw { color: #4f97d7; }
+  // DataTypeTok
+  .dt { color: #ce537a; }
+
+  // DecValTok (decimal value), BaseNTok, FloatTok
+  .dv, .bn, .fl { color: #a45bad; }
+  // CharTok
+  .ch { color: #2d9574; }
+  // StringTok
+  .st { color: #2d9574; }
+  // CommentTok
+  .co { color: #2aa1ae; }
+  // OtherTok
+  .ot { color: #7590db; }
+  // AlertTok
+  .al { color: #e0211d; font-weight: bold; }
+  // FunctionTok
+  .fu { color: #bc6ec5; }
+  // RegionMarkerTok
+  .re { color: #d3d3e7; }
+  // ErrorTok
+  .er { color: #e0211d; font-weight: bold; }
+}

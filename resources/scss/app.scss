@@ -1,16 +1,24 @@
 @import 'variables';
 @import 'mixins';
 
-// Base stylings
+// Base stylings.
 @import 'base';
-// Pages
+
+// Pages.
 @import 'frontpage';
 @import 'page';
-// Blog elements
+
+// Blog elements.
 @import 'post';
 @import 'sidebar';
 @import 'archives';
-//@import 'pandoc-syntax-highlighting';
-@import 'pandoc-syntax-highlighting-solarized';
-// Media queries and responsive elements
+
+// Code highlighting.
+// - pandoc-syntax-highlighting
+// - pandoc-syntax-highlighting-solarized
+// - pandoc-syntax-highlighting-spacemacs
+// - pandoc-syntax-highlighting-spacemacs-dark
+@import 'pandoc-syntax-highlighting-spacemacs';
+
+// Media queries and responsive elements.
 @import 'media';

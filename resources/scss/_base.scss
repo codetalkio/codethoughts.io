@@ -2,7 +2,7 @@
 html,
 body {
   font-family: $normal-font-familiy;
-  font-size: 1em;
+  font-size: 16px;
   font-weight: 200;
   height: 100%;
   margin: 0;
@@ -20,40 +20,40 @@ h5,
 h6 {
   font-family: $title-font-familiy;
   font-weight: 500;
-  line-height: 1.3em;
   margin-bottom: 16px;
   -webkit-font-smoothing: antialiased;
-}
-
-h1 {
-  color: $color-red;
-  font-size: 3em;
 }
 
 h2,
 h3,
 h4 {
-  margin-top: 30px;
+  margin-top: 3rem;
 }
 
+h1 {
+  color: $color-red;
+  font-size: 3em;
+  line-height: 3.5rem;
+}
 h2 {
   font-size: 2em;
+  line-height: 2.5rem;
 }
-
 h3 {
   font-size: 1.8em;
+  line-height: 2.3rem;
 }
-
 h4 {
   font-size: 1.6em;
+  line-height: 2.1rem;
 }
-
 h5 {
   font-size: 1.2em;
+  line-height: 1.8rem;
 }
-
 h6 {
   font-size: 1.06em;
+  line-height: 1.56rem;
 }
 
 a, li, p {
@@ -119,16 +119,16 @@ hr {
 }
 
 blockquote {
-  border-left: .4em solid $blockquote-color;
+  border-left: .4rem solid $blockquote-color;
   box-sizing: border-box;
   font-style: italic;
-  margin: 1.75em 0 1.75em -2.2em;
-  padding: 0 0 0 1.75em;
+  margin: 1.75rem 0 1.75rem -2.2rem;
+  padding: 0 0 0 1.75rem;
 }
 
 label {
   display: inline-block;
-  width: 8em;
+  width: 8rem;
 }
 
 input,
@@ -137,8 +137,8 @@ textarea {
 }
 
 textarea {
-  height: 9em;
-  width: 27em;
+  height: 9rem;
+  width: 27rem;
 }
 
 pre,
@@ -146,30 +146,30 @@ code,
 kbd,
 samp {
   font-family: $code-font-family;
-  font-size: 1em;
+  font-size: $code-font-size;
 }
 
 div.sourceCode {
   background: $code-color-background;
   border-top: 1px solid $code-color-border;
-  margin-top: 8px;
+  margin-top: 0.5rem;
 }
 
 pre {
   background: transparent;
   font-size: $code-font-size;
   font-family: $code-font-family;
-  line-height: 1.5;
-  margin-bottom: 1.625em;
+  line-height: 1.4rem;
+  margin-bottom: 1.625rem;
   margin-top: 0px;
   overflow: auto;
-  padding: .75em 1.625em;
+  padding: .75rem 1.625rem;
 
   // scss-lint:disable SelectorFormat
   &.sourceCode {
     color: $color-black;
-    padding-left: 8px;
-    padding-top: 8px;
+    padding-left: 1rem;
+    padding-top: 0.5rem;
 
     .pln {
       color: inherit;
@@ -177,26 +177,26 @@ pre {
     }
   }
 }
-
 .snippet-title {
   @include center-content();
   font-size: $code-font-size;
   font-family: $code-font-family;
   color: $color-darkgray;
   font-weight: lighter;
-  margin-bottom: -32px;
-  margin-top: 8px;
-  padding-bottom: 5px;
-  padding-left: 8px;
-  padding-right: 22px;
-  padding-top: 8px;
+  margin-bottom: -2rem;
+  margin-top: 0.5rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.5rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
   &:before {
+    font-size: $code-font-size;
     content: "snippet-title: ";
   }
   // Target the sourceCode div that usually comes after
   & + div.sourceCode {
     margin-top: 0px;
-    padding-top: 30px;
+    padding-top: 1rem;
     pre {
 
     }
@@ -213,7 +213,7 @@ pre {
 
 .required,
 .optional {
-  margin: 1em 0;
+  margin: 1rem 0;
 }
 
 .two-images {
@@ -234,8 +234,8 @@ pre {
 }
 
 #content {
-  line-height: 1.5em;
-  padding-bottom: 15px;
+  line-height: 1.5rem;
+  padding-bottom: 1rem;
   position: relative;
 }
 
@@ -267,19 +267,19 @@ pre {
 #breadcrumbs {
   @include center-content();
   color: $color-black;
-  font-size: .9em;
+  font-size: 0.9rem;
   font-weight: 200;
-  line-height: 1.5em;
-  padding: 15px 30px 0;
+  line-height: 1.5rem;
+  padding: 1rem 2rem 0;
 }
 
 #footer {
   border-top: 1px solid $color-lightgray;
   color: $footer-color;
-  font-size: .85em;
+  font-size: .85rem;
   margin: 0 auto;
   max-width: $max-content-width;
-  padding: 5px 30px;
+  padding: 0.5rem 2rem;
 
   .left-half {
     float: left;
@@ -292,8 +292,8 @@ pre {
 
 #copyright {
   color: $footer-color;
-  font-size: .8em;
-  margin: 0 30px 15px;
-  padding: 5px 30px 25px;
+  font-size: .8rem;
+  margin: 0 2rem 1rem;
+  padding: 0.5rem 2rem 1.5rem;
   text-align: center;
 }
