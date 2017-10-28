@@ -11,6 +11,12 @@
     margin-bottom: 30px;
     max-width: 100%;
   }
+
+  #reach-me {
+    margin-top: 1rem;
+    color: $footer-color;
+    font-size: 0.8rem;
+  }
 }
 
 #frontpage-content {
@@ -31,7 +37,7 @@
     margin-bottom: 60px;
 
     &.logo-separator {
-      margin-top: 60px;
+      margin-top: 40px;
       border-top-color: $color-red;
     }
   }
@@ -85,7 +91,7 @@
     }
   }
 
-  #bottom-information {
-    margin-top: 70px;
+  .bottom-information {
+    margin-top: 50px;
   }
 }
