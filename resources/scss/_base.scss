@@ -35,28 +35,35 @@ h1 {
   font-size: 3em;
   line-height: 3.5rem;
 }
+
 h2 {
   font-size: 2em;
   line-height: 2.5rem;
 }
+
 h3 {
   font-size: 1.8em;
   line-height: 2.3rem;
 }
+
 h4 {
   font-size: 1.6em;
   line-height: 2.1rem;
 }
+
 h5 {
   font-size: 1.2em;
   line-height: 1.8rem;
 }
+
 h6 {
   font-size: 1.06em;
   line-height: 1.56rem;
 }
 
-a, li, p {
+a,
+li,
+p {
   font-family: $normal-font-familiy;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
@@ -81,9 +88,12 @@ a {
     color: $link-color;
   }
 
-  &.blacklink,
-  &.blacklink:visited {
+  &.blacklink {
     color: $color-black;
+
+    &:visited {
+      color: $color-black;
+    }
   }
 
   h2,
@@ -102,7 +112,8 @@ p {
   color: $paragraph-color;
 }
 
-ul, ol {
+ul,
+ol {
   // list-style: square;
   margin-top: 10px;
   padding-left: 80px;
@@ -119,7 +130,7 @@ hr {
 }
 
 blockquote {
-  border-left: .4rem solid $blockquote-color;
+  border-left: 0.4rem solid $blockquote-color;
   box-sizing: border-box;
   font-style: italic;
   margin: 1.75rem 0 1.75rem -2.2rem;
@@ -149,10 +160,13 @@ samp {
   font-size: $code-font-size;
 }
 
-div.sourceCode {
-  background: $code-color-background;
-  border-top: 1px solid $code-color-border;
-  margin-top: 0.5rem;
+// sass-lint:disable-block class-name-format
+div {
+  &.sourceCode {
+    background: $code-color-background;
+    border-top: 1px solid $code-color-border;
+    margin-top: 0.5rem;
+  }
 }
 
 pre {
@@ -161,11 +175,11 @@ pre {
   font-family: $code-font-family;
   line-height: 1.4rem;
   margin-bottom: 1.625rem;
-  margin-top: 0px;
+  margin-top: 0;
   overflow: auto;
   padding: .75rem 1.625rem;
 
-  // scss-lint:disable SelectorFormat
+  // sass-lint:disable-block class-name-format
   &.sourceCode {
     color: $color-black;
     padding-left: 1rem;
@@ -177,8 +191,11 @@ pre {
     }
   }
 }
+
 .snippet-title {
-  @include center-content();
+  // sass-lint:disable-block class-name-format
+  @include center-content;
+
   font-size: $code-font-size;
   font-family: $code-font-family;
   color: $color-darkgray;
@@ -189,16 +206,17 @@ pre {
   padding-left: 0.5rem;
   padding-right: 1rem;
   padding-top: 0.5rem;
-  &:before {
-    font-size: $code-font-size;
-    content: "snippet-title: ";
-  }
-  // Target the sourceCode div that usually comes after
-  & + div.sourceCode {
-    margin-top: 0px;
-    padding-top: 1rem;
-    pre {
 
+  &::before {
+    font-size: $code-font-size;
+    content: 'snippet-title: ';
+  }
+
+  // Target the sourceCode div that usually comes after
+  & + div {
+    &.sourceCode {
+      margin-top: 0;
+      padding-top: 1rem;
     }
   }
 }
@@ -265,7 +283,8 @@ pre {
 }
 
 #breadcrumbs {
-  @include center-content();
+  @include center-content;
+
   color: $color-black;
   font-size: 0.9rem;
   font-weight: 200;

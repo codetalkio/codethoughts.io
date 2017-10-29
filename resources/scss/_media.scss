@@ -1,14 +1,13 @@
-// scss-lint:disable IdSelector
-
-$mobile-padding: 1rem;
+$mobile-base-padding: 1rem;
+$mobile-base-landscape-padding: 2em;
 
 // Mixin that is the basis for all the media queries.
-@mixin iphone-styling() {
-  #breadcrumbs,
+@mixin iphone-styling($padding) {
   #archives,
+  #breadcrumbs,
   .article,
   .page {
-    padding: $mobile-padding 0;
+    padding: $padding 0;
   }
 
   #logo-container {
@@ -16,182 +15,182 @@ $mobile-padding: 1rem;
   }
 
   #content {
-    padding: 0 $mobile-padding $mobile-padding;
+    padding: 0 $padding $padding;
   }
 
   #footer {
     font-size: 1rem;
-    padding: 0.5rem $mobile-padding $mobile-padding;
+    padding: 0.5rem $padding $padding;
   }
-}
 
-@mixin frontpage-styling() {
-  #frontpage-content {
-    hr {
-      margin-bottom: 2rem;
-      &.logo-separator {
-        margin-top: 2rem;
-      }
+  div {
+    &.sourceCode {
+      margin-left: -$padding;
+      margin-right: -$padding;
     }
-    #overview-table {
-      // Make the table rows/columns fill 100%.
-      &, tbody, tr, td {
-        width: 100%;
-        max-width: 100%;
-      }
-      td {
-        display: block;
-        // Reset the stylings to normal.
-        &.overview-right-side {
-          h3 {
-            text-align: left;
-          }
-          ul {
-            float: none;
-          }
-        }
-        .overview-recent-posts {
-          li {
-            max-width: auto;
-            width: 90%;
-            white-space: nowrap;
-            overflow-x: hidden;
-            text-overflow: ellipsis;
-          }
-        }
-      }
+
+    &.snippet-title {
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
-}
 
-@mixin post-styling() {
-  .article {
-    .article-body {
-      h2, h3, h4, h5, h6 {
-          &::before {
-              margin-left: 0px;
-          }
-      }
-    }
-  }
-}
-
-@mixin base-styling() {
-  div.sourceCode {
-    margin-left: -$mobile-padding;
-    margin-right: -$mobile-padding;
-  }
-  div.snippet-title {
-    overflow-x:hidden;
-    text-overflow:ellipsis ;
-    white-space: nowrap ;
-  }
-  p, li, a {
-    code, pre {
+  a,
+  li,
+  p {
+    code,
+    pre {
       word-break: break-all;
     }
   }
 }
 
+@mixin frontpage-styling {
+  #frontpage-content {
+    hr {
+      margin-bottom: 2rem;
+
+      &.logo-separator {
+        margin-top: 2rem;
+      }
+    }
+
+    #overview-table {
+      // Make the table rows/columns fill 100%.
+      &,
+      tbody,
+      td,
+      tr {
+        max-width: 95%;
+        width: 95%;
+      }
+
+      td {
+        display: block;
+
+        // Reset the stylings to normal.
+        &.overview-right-side {
+          h3 {
+            text-align: left;
+          }
+
+          ul {
+            float: none;
+            width: 100%;
+          }
+        }
+
+        .overview-recent-posts {
+          width: 100%;
+
+          li {
+            max-width: auto;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin post-styling {
+  .article {
+    .article-body {
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        &::before {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
 // Disable the sidebar on smaller screens.
-@media only screen
-and (max-width: 1230px) {
+@media only screen and (max-width: 1230px) {
   #articles-sidebar {
     display: none;
   }
 }
 
-@media only screen
-and (max-width: 710px) {
-  @include iphone-styling();
+@media only screen and (max-width: 710px) {
+  @include iphone-styling($mobile-base-padding);
 }
 
 // ---------------------------------------
 // ----------- iPhone 4 and 4S -----------
 // Portrait and Landscape.
-@media only screen
-and (min-device-width: 320px)
-and (max-device-width: 480px)
-and (-webkit-min-device-pixel-ratio: 2) {
-  @include iphone-styling();
+@media only screen and (min-width: 320px) and (max-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+  @include iphone-styling($mobile-base-padding);
+  @include frontpage-styling;
+  @include post-styling;
 
   #pagination {
-    padding: 0 0 $mobile-padding;
+    padding: 0 0 $mobile-base-padding;
   }
 }
 
 // ---------------------------------------
 // ----------- iPhone 5 and 5S -----------
 // Portrait and Landscape.
-@media only screen
-and (min-device-width: 320px)
-and (max-device-width: 568px)
-and (-webkit-min-device-pixel-ratio: 2) {
-  @include iphone-styling();
-  @include base-styling();
-  @include frontpage-styling();
-  @include post-styling();
+@media only screen and (min-width: 320px) and (max-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  @include iphone-styling($mobile-base-padding);
+  @include frontpage-styling;
+  @include post-styling;
 }
 
 // ---------------------------------------
-// -------------- iPhone 6, 7, 8 ---------
+// -------------- iPhone 6, 6s, 7, 8 -----
 // Portrait and Landscape.
-@media only screen
-and (min-device-width: 375px)
-and (max-device-width: 667px)
-and (-webkit-min-device-pixel-ratio: 2) {
-  @include iphone-styling();
-  @include base-styling();
+@media only screen and (min-width: 375px) and (max-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+  @include post-styling;
 }
+
 // Portrait ONLY.
-@media only screen
-and (min-device-width: 375px)
-and (max-device-width: 667px)
-and (-webkit-min-device-pixel-ratio: 2)
-and (orientation : portrait)  {
-  @include base-styling();
-  @include frontpage-styling();
-  @include post-styling();
+@media only screen and (min-width: 375px) and (max-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  @include iphone-styling($mobile-base-padding);
+  @include frontpage-styling;
+}
+
+// Landscape ONLY.
+@media only screen and (min-width: 375px) and (max-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+  @include iphone-styling($mobile-base-landscape-padding);
+  @include frontpage-styling;
 }
 
 // ---------------------------------------
 // -------------- iPhone 6+, 6s+, 7+, 8+ -
-// Portrait and Landscape.
-@media only screen
-and (min-device-width: 414px)
-and (max-device-width: 736px)
-and (-webkit-min-device-pixel-ratio: 3) {
-  @include iphone-styling();
-  @include base-styling();
-}
 // Portrait ONLY.
-@media only screen
-and (min-device-width: 414px)
-and (max-device-width: 736px)
-and (-webkit-min-device-pixel-ratio: 3)
-and (orientation : portrait)  {
-  @include base-styling();
-  @include frontpage-styling();
-  @include post-styling();
+@media only screen and (min-width: 414px) and (max-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+  @include iphone-styling($mobile-base-padding);
+  @include frontpage-styling;
+  @include post-styling;
+}
+
+// Landscape ONLY.
+@media only screen and (min-width: 414px) and (max-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+  @include iphone-styling($mobile-base-landscape-padding);
 }
 
 // ---------------------------------------
 // -------------- iPhone X ---------------
-// Portrait and Landscape.
-@media only screen
-and (device-width : 375px)
-and (device-height : 812px)
-and (-webkit-device-pixel-ratio : 3) {
-  @include iphone-styling();
-  @include base-styling();
-}
 // Portrait ONLY.
-@media only screen
-and (device-width : 375px)
-and (device-height : 812px)
-and (-webkit-device-pixel-ratio : 3)
-and (orientation : portrait)  {
-  @include base-styling();
-  @include frontpage-styling();
-  @include post-styling();
+@media only screen and (min-width: 375px) and (max-width: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  @include iphone-styling($mobile-base-padding);
+  @include frontpage-styling;
+  @include post-styling;
+}
+
+// Landscape ONLY.
+@media only screen and (min-width: 375px) and (max-width: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
+  @include iphone-styling($mobile-base-landscape-padding);
+  @include frontpage-styling;
+  @include post-styling;
 }
