@@ -1,6 +1,7 @@
 <div id="breadcrumbs">
   <a href="/">Home</a>
-  &gt; <a href="$blogurl$">Posts</a>
+  &gt;
+  <a href="$blogurl$">Posts</a>
   &gt; $title$
 </div>
 
@@ -14,10 +15,12 @@
     </thead>
     <tbody>
       $for(posts)$
-        <tr>
-          <td class="title"><a href="$url$" class="link">$title$</a></td>
-          <td class="published">$prettydate$</td>
-        </tr>
+      <tr>
+        <td class="title">
+          <a href="$url$" class="link">$title$</a>
+        </td>
+        <td class="published">$prettydate$</td>
+      </tr>
       $endfor$
     </tbody>
   </table>

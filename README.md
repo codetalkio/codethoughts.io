@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/codetalkio/codetalk.io.svg?branch=master)](https://travis-ci.org/codetalkio/codetalk.io)
 
 ## Dependencies
+
 You'll need sass/compass to compile the (S)CSS files, else `hakyll` will complain in the build phase.
 
 ```bash

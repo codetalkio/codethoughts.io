@@ -1,14 +1,13 @@
 <div id="breadcrumbs">
   <a href="/">Home</a>
-  &gt; <a href="$blogurl$">Posts</a>
+  &gt;
+  <a href="$blogurl$">Posts</a>
   &gt; $title$
 </div>
 
 <section class="page">
-  $body$
-  $if(comments)$
-    <br>
-    <div class="clear"></div>
-    $partial("templates/disqus.html")$
-  $endif$
+  $body$ $if(comments)$
+  <br>
+  <div class="clear"></div>
+  $partial("templates/disqus.html")$ $endif$
 </section>
