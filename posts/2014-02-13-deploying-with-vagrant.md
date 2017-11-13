@@ -11,7 +11,7 @@ _Versions used:_
 
 I recently started looking into ways that I could improve my current deployment workflow. Since my server doesn't have much RAM, I currently build the binaries locally in a Virtual Machine (VM from here on out) and then send them to the server using `scp`.
 
-Although I can't do much about the server part (except buying a bigger server), I can do something about what I do locally. I set out to check what possibilities I had, and ended up looking at <a href="http://www.vagrantup.com" target="_blank" title="Vagrant" alt="Vagrant">Vagrant</a>.
+Although I can't do much about the server part (except buying a bigger server), I can do something about what I do locally. I set out to check what possibilities I had, and ended up looking at <a href="http://www.vagrantup.com" target="_blank" rel="noopener noreferrer" title="Vagrant" alt="Vagrant">Vagrant</a>.
 
 While it doesn't cut hugely from the local part of my deployment hassles, it could at least streamline it a bit, and help remove the cabal hell that I'd sometimes run into with my current setup (having multiple applications that I deploy from the same VM).
 
@@ -32,12 +32,12 @@ A quick overview of the article:
 * [Concluding thoughts](#concludingthoughts)
 
 ## What is Vagrant?
-Vagrant basically manages your VMs in a manner that is local to each project you use it in (although you can use it in a more general way). As standard it uses <a href="https://www.virtualbox.org" target="_blank" title="VirtualBox" alt="VirtualBox">VirtualBox</a>, but you can also use it with other providers, such as <a href="http://www.vmware.com" target="_blank" title="VMWare" alt="VMWare">VMWare</a>.
+Vagrant basically manages your VMs in a manner that is local to each project you use it in (although you can use it in a more general way). As standard it uses <a href="https://www.virtualbox.org" target="_blank" rel="noopener noreferrer" title="VirtualBox" alt="VirtualBox">VirtualBox</a>, but you can also use it with other providers, such as <a href="http://www.vmware.com" target="_blank" rel="noopener noreferrer" title="VMWare" alt="VMWare">VMWare</a>.
 
 That said, for the purpose of being convenient to most people, I'm going to assume VirtualBox throughout this article, since that is the free alternative of the two I mentioned.
 
 ## Getting started with Vagrant
-Vagrant has a nice <a href="http://docs.vagrantup.com/v2/getting-started/index.html" target="_blank" title="Getting started with Vagrant" alt="Getting started with Vagrant">getting started</a> series that you should follow if you want to understand Vagrant better (I highly recommend it, it's not that long). I'm going to try and give a quick explanation of how it works though.
+Vagrant has a nice <a href="http://docs.vagrantup.com/v2/getting-started/index.html" target="_blank" rel="noopener noreferrer" title="Getting started with Vagrant" alt="Getting started with Vagrant">getting started</a> series that you should follow if you want to understand Vagrant better (I highly recommend it, it's not that long). I'm going to try and give a quick explanation of how it works though.
 
 Vagrant uses something called a `box`. These serve as the basis for the Vagrant setups you create, and are in essence just VMs with the bare minimum installed. To add a box you do,
 
@@ -75,9 +75,9 @@ Next up, is the architecture, and we get that by running, <kbd>uname -r</kbd>, w
 with `amd64` telling us it's 64 bit and built for amd. You should also try and match the kernel version as best you can though (the `3.2.0`).
 
 ## Rolling your own Vagrant box
-First off, you need to install <a href="https://www.virtualbox.org" target="_blank" title="VirtualBox" alt="VirtualBox">VirtualBox</a>, and then go and download the installer image for the distro you want. Since my server uses the amd64 version of Debian Jessie, I'm going to go ahead and download the <a href="http://www.debian.org/devel/debian-installer/" target="_blank" title="Debian amd64 netinst CD image" alt="Debian amd64 netinst CD image">amd64 netinst CD image</a>.
+First off, you need to install <a href="https://www.virtualbox.org" target="_blank" rel="noopener noreferrer" title="VirtualBox" alt="VirtualBox">VirtualBox</a>, and then go and download the installer image for the distro you want. Since my server uses the amd64 version of Debian Jessie, I'm going to go ahead and download the <a href="http://www.debian.org/devel/debian-installer/" target="_blank" rel="noopener noreferrer" title="Debian amd64 netinst CD image" alt="Debian amd64 netinst CD image">amd64 netinst CD image</a>.
 
-After downloading it you launch it in VirtualBox and install it as you normally would a Virtual Machine. Following Vagrant's <a href="http://docs.vagrantup.com/v2/virtualbox/boxes.html" target="_blank" title="Guidelines for creating a base box" alt="guidelines for creating a base box">guidelines for creating a base box</a>, I set the following properties (with some altercations of my own):
+After downloading it you launch it in VirtualBox and install it as you normally would a Virtual Machine. Following Vagrant's <a href="http://docs.vagrantup.com/v2/virtualbox/boxes.html" target="_blank" rel="noopener noreferrer" title="Guidelines for creating a base box" alt="guidelines for creating a base box">guidelines for creating a base box</a>, I set the following properties (with some altercations of my own):
 
 * `40GB` dynamically resizing drive
 * `2GB` RAM (they recommend 360MB, but compiling is quite memory intensive, and my laptop has 8GB of memory already)
@@ -159,7 +159,7 @@ I intentionally didn't include `chef` here, since I don't personally need it, an
 #### Custom packages
 This step is a bit more personalized, whereas the rest is for creating a general Vagrant box. Since I intend to use this box for deploying and testing my Haskell packages, it's relevant for me to install the `haskell-platform` and an updated version of `cabal` to save some time when I create the VM with <kbd>vagrant up</kbd> later on.
 
-You can also do these steps automatically on the creation of a box, by adding a shell script with the comamnds inside the `VagrantFile` in your project, sorta like the <a href="http://docs.vagrantup.com/v2/getting-started/provisioning.html" target="_blank" title="Automatically setting up Apache" alt="Automatically setting up Apache">example with automatically setting up Apache</a>.
+You can also do these steps automatically on the creation of a box, by adding a shell script with the comamnds inside the `VagrantFile` in your project, sorta like the <a href="http://docs.vagrantup.com/v2/getting-started/provisioning.html" target="_blank" rel="noopener noreferrer" title="Automatically setting up Apache" alt="Automatically setting up Apache">example with automatically setting up Apache</a>.
 
 That said, I did the following,
 
@@ -173,7 +173,7 @@ This will save me a bit of time compiling things (especially `cabal-install`) ov
 
 
 #### SSH keys
-Finally, you can now jump back to the vagrant user with `exit`, since the last bit needs to be done in the home folder of the vagrant user. We need to setup the authorized SSH keys for the vagrant user so <kbd>vagrant ssh</kbd> works easily using their <a href="https://github.com/mitchellh/vagrant/tree/master/keys/" target="_blank" title="Vagrant standard insecure key pair" alt="Vagrant standard insecure key pair">standard insecure key pair</a>,
+Finally, you can now jump back to the vagrant user with `exit`, since the last bit needs to be done in the home folder of the vagrant user. We need to setup the authorized SSH keys for the vagrant user so <kbd>vagrant ssh</kbd> works easily using their <a href="https://github.com/mitchellh/vagrant/tree/master/keys/" target="_blank" rel="noopener noreferrer" title="Vagrant standard insecure key pair" alt="Vagrant standard insecure key pair">standard insecure key pair</a>,
 
 ```bash
 $ mkdir .ssh
@@ -256,7 +256,7 @@ If there is some trouble with some packages I can simply do,
 $ vagrant destroy
 ```
 
-This will destroy the VM in my project (it still keeps the box we created before, don't worry). You can change <kbd>destroy</kbd> with <kbd>halt</kbd> to shut down the VM or <kbd>suspend</kbd> to simply suspend it. There is some information about the pros and cons to the three options <a href="http://docs.vagrantup.com/v2/getting-started/teardown.html" target="_blank" title="Vagrant documentation on teardown" alt="Vagrant documentation on teardown">in the Vagrant documentation</a>.
+This will destroy the VM in my project (it still keeps the box we created before, don't worry). You can change <kbd>destroy</kbd> with <kbd>halt</kbd> to shut down the VM or <kbd>suspend</kbd> to simply suspend it. There is some information about the pros and cons to the three options <a href="http://docs.vagrantup.com/v2/getting-started/teardown.html" target="_blank" rel="noopener noreferrer" title="Vagrant documentation on teardown" alt="Vagrant documentation on teardown">in the Vagrant documentation</a>.
 
 ## Concluding thoughts
 Vagrant has greatly made me more comfortable messing around with my local VMs, since it's so easy to just destroy one and spin up an exact replica.

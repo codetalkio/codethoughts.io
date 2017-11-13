@@ -8,7 +8,7 @@ _Versions used:_
 * _UnrealIRCd 4.0.0-rc3_
 * _Anope 2.0.2_
 
-Having recently discovered <a href="http://sameroom.io" target="_blank">sameroom.io</a> I wanted to update the codetalk IRC server to be compliant with their
+Having recently discovered <a href="http://sameroom.io" target="_blank" rel="noopener noreferrer">sameroom.io</a> I wanted to update the codetalk IRC server to be compliant with their
 authentication method. This basically just meant enabling `SASL` support, but
 while I was tinkering with stuff anyways, I thought I might as well streamline
 the setup process for the IRC server. In short, everything is fully automated and

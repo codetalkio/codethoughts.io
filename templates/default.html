@@ -37,11 +37,11 @@
         </div>
         <div class="right-half">
           personal
-          <a href="https://github.com/Tehnix" target="_blank">github</a> and
+          <a href="https://github.com/Tehnix" target="_blank" rel="noopener noreferrer">github</a> and
           <br>
-          <a href="https://github.com/codetalkio" target="_blank">codetalk</a> projects
+          <a href="https://github.com/codetalkio" target="_blank" rel="noopener noreferrer">codetalk</a> projects
           <br />
-          <a href="https://twitter.com/codetalkio" target="_blank">twitter</a> feed
+          <a href="https://twitter.com/codetalkio" target="_blank" rel="noopener noreferrer">twitter</a> feed
         </div>
       </footer>
       <div class="clear"></div>
@@ -81,26 +81,26 @@
     }
   </script>
   <script> // Archive.js
-      // Make the table rows clickable and act as links
-      newReady(function (event) {
-        var archiveRows = document.querySelectorAll('#archives-table tbody tr');
-        newForEachElement('#archives-table tbody tr', function (el, i) {
-          newAddEventListener(el, 'click', function () {
-            var link = el.querySelector('.link');
-            window.location = link.getAttribute('href');
-          });
-        })
-      });
+    // Make the table rows clickable and act as links
+    newReady(function (event) {
+      var archiveRows = document.querySelectorAll('#archives-table tbody tr');
+      newForEachElement('#archives-table tbody tr', function (el, i) {
+        newAddEventListener(el, 'click', function () {
+          var link = el.querySelector('.link');
+          window.location = link.getAttribute('href');
+        });
+      })
+    });
   </script>
 
   <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.  chromium.org/developers/how-tos/chrome-frame-getting-started -->
   <!--[if lt IE 7 ]><script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script><script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script><![endif]-->
   <script> // Google-Analytics.js
     (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-      (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date(); a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-67413666-1', 'auto');
     ga('send', 'pageview');
