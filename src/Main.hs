@@ -25,6 +25,11 @@ main = hakyll $ do
     route   $ constRoute "favicon.ico"
     compile copyFileCompiler
 
+  -- | Route for the rest of the favicons
+  match "resources/favicon/*" $ do
+    route   idRoute
+    compile copyFileCompiler
+
   -- | Compile SCSS to CSS and serve it
   match "resources/scss/**.scss" $ compile getResourceBody
   scssDependencies <- makePatternDependency "resources/scss/**.scss"
