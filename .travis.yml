@@ -52,7 +52,7 @@ install:
   - travis_wait stack -j 2 install text --no-terminal --skip-ghc-check
   - travis_wait stack -j 2 install lrucache --no-terminal --skip-ghc-check
   # Build the rest of the dependencies.
-  - travis_wait stack -j 2 build --no-terminal --skip-ghc-check --only-dependencies
+  - travis_wait 40 stack -j 2 build --no-terminal --skip-ghc-check --only-dependencies
 
 before_script:
   # Build the site itself.
