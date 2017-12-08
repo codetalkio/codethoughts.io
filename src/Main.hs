@@ -15,6 +15,11 @@ main = hakyll $ do
     route   idRoute
     compile copyFileCompiler
 
+  -- | Route for all pdfs
+  match "resources/pdfs/*" $ do
+    route   idRoute
+    compile copyFileCompiler
+
   -- | Route for the favicon
   match "resources/favicon.ico" $ do
     route   $ constRoute "favicon.ico"
