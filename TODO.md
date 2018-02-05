@@ -29,4 +29,11 @@
     - https://en.wikibooks.org/wiki/Haskell/Existentially_quantified_types
   - [ ] GADTs
     - https://en.wikibooks.org/wiki/Haskell/GADT
+  - [ ] Generics (and deriving them)
+    - [ ] https://ocharles.org.uk/blog/guest-posts/2014-12-15-deriving.html
+    - [ ] https://www.stackbuilders.com/tutorials/haskell/generics/
+    - [ ] https://wiki.haskell.org/GHC.Generics
+  - [ ] Dependent types/DataKinds/TypeFamilies
+    - [ ] https://www.youtube.com/watch?v=PNkoUv74JQU
+
 
