@@ -12,7 +12,7 @@ tags: haskell, mobile, iOS
 
 A lot of progress has been going on to make Haskell work on mobile natively, instead of e.g. generating JavaScript via GHCJS and using that. Unfortunately, not much documentation exists yet on how to build a project using these tools all together.
 
-This post will be an attempt to piece together the tools and various attempts into a coherent step-by-step on how to guide. We will start by setting up the tools needed, and then build an iOS app that runs in both the simulator and on the device itself (i.e. an x86 build and an arm build).
+This post will be an attempt to piece together the tools and various attempts into a coherent step-by-step guide. We will start by setting up the tools needed, and then build an iOS app that runs in both the simulator and on the device itself (i.e. a x86 build and an arm build).
 
 For the impatient and brave, simply,
 
