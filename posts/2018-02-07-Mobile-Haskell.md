@@ -14,7 +14,7 @@ A lot of progress has been going on to make Haskell work on mobile natively, ins
 
 This post will be an attempt to piece together the tools and various attempts into a coherent step-by-step on how to guide. We will start by setting up the tools needed, and then build an iOS app that runs in both the simulator and on the device itself (i.e. an x86 build and an arm build).
 
-For the impatient and brave, simply
+For the impatient and brave, simply,
 
 - clone down the [MobileHaskellFun](https://github.com/Tehnix/MobileHaskellFun) repository,
 - run `./setup-tools.sh` to set up the tools,
@@ -27,7 +27,7 @@ For the impatient and brave, simply
 
 A bunch of tools are needed, so we will set these up first. You might have some of these, but I will go through them anyways, for good measure. The steps will assume that we are on macOS for some parts, but it should not be part to adapt these to your system (all steps using `brew`).
 
-Install [stack](https://docs.haskellstack.org/en/stable/README/),
+If you don't have [stack](https://docs.haskellstack.org/en/stable/README/) installed already, set it up with,
 
 ```bash
 $ curl -sSL https://get.haskellstack.org/ | sh
@@ -35,11 +35,11 @@ $ curl -sSL https://get.haskellstack.org/ | sh
 
 We will collect all our tools and GHC versions in a folder in `$HOME`—for convenience—so first we are a going to create that directory,
 
-```
+```bash
 $ mkdir -p ~/.mobile-haskell
 ```
 
-Next step is cloning down [cabal](github.com/haskell/cabal) and building cabal-install. We need this until `new-update` lands.
+Next step is cloning down [cabal](github.com/haskell/cabal) and building cabal-install. This is necessary until `new-update` lands.
 
 ```bash
 $ cd ~/.mobile-haskell
@@ -59,7 +59,7 @@ $ brew install llvm
 
 This should set up LLVM in `/usr/local/opt/llvm@5/bin` (or just `/usr/local/opt/llvm/bin`), remember this path for later.
 
-We'll now set up the tools from http://hackage.mobilehaskell.org, namely the toolchain-wrapper and the different GHC versions we will use.
+We'll now set up the tools from [http://hackage.mobilehaskell.org](http://hackage.mobilehaskell.org), namely the toolchain-wrapper and the different GHC versions we will use.
 
 Let's start off with getting our GHCs, by downloading `ghc-8.4.0.20180109-x86_64-apple-ios.tar.xz` and `ghc-8.4.0.20180109-aarch64-apple-ios.tar.xz`, for the simulator and device respectively. You can download the by cliking their links on the website, or curl them down with (the links are probably outdated soon, so replace the links with the ones on the site),
 
@@ -78,15 +78,16 @@ $ mkdir -p ghc-x86_64-apple-ios && xz -d ghc-x86_64-apple-ios.tar.xz && tar -xf 
 
 Next up is the toolchain-wrapper, which provides wrappers around `cabal` and other tools we need,
 
-```
+```bash
 $ cd ~/.mobile-haskell
 $ git clone git@github.com:zw3rk/toolchain-wrapper.git
 $ cd toolchain-wrapper && ./bootstrap
 ```
 
+<!--
 We will also need an up-to-date version of [libffi](https://github.com/libffi/libffi) with support for other architectures (this [PR](https://github.com/libffi/libffi/pull/307)). We will use the fork from `zw3rk` for now,
 
-```
+```bash
 $ cd ~/.mobile-haskell
 $ mkdir -p lffi
 $ git clone https://github.com/zw3rk/libffi.git
@@ -95,7 +96,7 @@ $ cd libffi
 
 and then build libffi for each of our target architectures,
 
-```
+```bash
 $ ./autogen.sh
 $ CC="$HOME/.mobile-haskell/toolchain-wrapper/aarch64-apple-ios-clang" \
 CXX="$HOME/.mobile-haskell/toolchain-wrapper/aarch64-apple-ios-clang" \
@@ -116,6 +117,7 @@ $ make && make install
 ```
 
 We should now have our libffi files for the two targets living in `~/.mobile-haskell/lffi/aarch64-apple-ios` and `~/.mobile-haskell/lffi/x86_64-apple-ios` respectively.
+-->
 
 And that's it! We have now set up all the tools we need for later. If you want all the steps as a single script, check out the [setup script in the MobileHaskellFun repo](https://github.com/Tehnix/MobileHaskellFun/blob/master/setup-tools.sh).
 
@@ -125,19 +127,24 @@ Setting up Xcode is a bit of a visual process, so I'll augment these steps with 
 
 First, let's set up our Xcode project, by creating a new project.
 
-![1. Create Project](/resources/images/mobile-haskell-1. Create Project.png)
+![](/resources/images/mobile-haskell-1. Create Project.png)
 
 Choose `Single View Application`,
 
-![1.1. Create Project - Single View Application](/resources/images/mobile-haskell-1.1. Create Project - Single View Application.png)
+![](/resources/images/mobile-haskell-1.1. Create Project - Single View Application.png)
 
 And set the name and location of your project,
 
-<table><tr><td>![1.2. Create Project - Name](/resources/images/mobile-haskell-1.2. Create Project - Name.png)</td><td>![1.3. Create Project - Set Location](/resources/images/mobile-haskell-1.3. Create Project - Set Location.png)</td></tr></table>
+<div class="clear two-images">
+  <a href="/resources/images/mobile-haskell-1.2. Create Project - Name.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-haskell-1.2. Create Project - Name.png" alt="1.2. Create Project - Name" title="1.2. Create Project - Name" /></a>
+  <a href="/resources/images/mobile-haskell-1.3. Create Project - Set Location.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-haskell-1.3. Create Project - Set Location.png" alt="1.3. Create Project - Set Location" title="1.3. Create Project - Set Location" /></a>
+</div>
 
 Now, let's add a folder to keep our Haskell code in and call it `hs-src`, by right-clicking our project and adding a `New Group`,
 
-![2. Add Source Folder for Haskell Code](/resources/images/mobile-haskell-2. Add Source Folder for Haskell Code.png)
+<div style="text-align:center;">
+<a href="/resources/images/mobile-haskell-2. Add Source Folder for Haskell Code.png" target="_blank" rel="noopener noreferrer"><img width="40%" src="/resources/images/mobile-haskell-2. Add Source Folder for Haskell Code.png" alt="2. Add Source Folder for Haskell Code" title="2. Add Source Folder for Haskell Code" /></a>
+</div>
 
 
 
@@ -150,7 +157,7 @@ $ mkdir -p src
 $ touch MobileFun.cabal cabal.project Makefile call LICENSE src/Lib.hs
 ```
 
-#### cabal.project
+#### hs-src/cabal.project
 
 We use the features of `cabal.project` to set our package repository to use the hackage.mobilehaskell.org overlay.
 
@@ -166,7 +173,7 @@ repository hackage.mobilehaskell
   key-threshold: 3
 ```
 
-#### MobileFun.cabal
+#### hs-src/MobileFun.cabal
 
 Just a simple cabal package setup.
 
@@ -190,7 +197,7 @@ library
   default-language:    Haskell2010
 ```
 
-#### Makefile
+#### hs-src/Makefile
 
 The Makefile simplifies a lot of the compilation process and passes the flags we need to use.
 
@@ -238,7 +245,7 @@ clean:
 	rm -R binaries
 ```
 
-#### src/Lib.hs
+#### hs-src/src/Lib.hs
 
 Our Haskell code for now, is simply some C FFI that sets up a small toy function.
 
@@ -258,7 +265,7 @@ hello = "Hello from Haskell"
 
 ```
 
-#### call
+#### hs-src/call
 
 We use the  `call` script to set up the various path variables that point to our tools, so we don't need these polluting our global command space. If you've followed the setup so far, the paths should match out-of-the-box.
 
@@ -281,8 +288,7 @@ $@
 ```
 
 
-
-### Compiling Our Haskell Code
+## Compiling Our Haskell Code
 
 First off, we need to build our package index, so run (inside `hs-src`),
 
@@ -310,7 +316,7 @@ In order, the following would be built (use -v for more details):
 find . -path "*-ios*" -name "libHSMobileFun*ghc*.a" -exec lipo -create -output binaries/iOS/libHSMobileFun.a {} +
 ```
 
-We should now have our library file at `hs-src/binaries/iOS/libHSMobileFun.a` .
+We should now have our library file at `hs-src/binaries/iOS/libHSMobileFun.a`. If you change your project, to will probably need to run `./call make clean` before running `./call make iOS` again.
 
 
 
@@ -318,19 +324,25 @@ We should now have our library file at `hs-src/binaries/iOS/libHSMobileFun.a` .
 
 Now we need to tie together the Haskell code with Xcode. Drag-and-drop the newly created files into the `hs-src` group in Xcode (if it hasn't found it by itself).
 
-![3. Drag the files to Xcode](/resources/images/mobile-haskell-3. Drag the files to Xcode.png)
+![](/resources/images/mobile-haskell-3. Drag the files to Xcode.png)
 
 Since we are using Swift, we need a bridging header to bring our C prototypes into Swift. We'll do this by adding an Objective-C file to the project, `tmp.m`, which will make Xcode ask if we want to create a bridging header, `Offie-Bridging-Header.h`, for which we will answer yes.
 
-![4. Create Objective-C File](/resources/images/mobile-haskell-4. Create Objective-C File.png)
+<div style="text-align:center;">
+<a href="/resources/images/mobile-haskell-4. Create Objective-C File.png" target="_blank" rel="noopener noreferrer"><img width="40%" src="/resources/images/mobile-haskell-4. Create Objective-C File.png" alt="4. Create Objective-C File" title="4. Create Objective-C File" /></a>
+</div>
 
-![4.1. Create Objective-C File - Choose Filetype](/resources/images/mobile-haskell-4.1. Create Objective-C File - Choose Filetype.png)
+<div class="clear two-images">
+  <a href="/resources/images/mobile-haskell-4.1. Create Objective-C File - Choose Filetype.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-haskell-4.1. Create Objective-C File - Choose Filetype.png" alt="4.1. Create Objective-C File - Choose Filetype" title="4.1. Create Objective-C File - Choose Filetype" /></a>
+  <a href="/resources/images/mobile-haskell-4.2. Create Objective-C File - Set Name.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-haskell-4.2. Create Objective-C File - Set Name.png" alt="4.2. Create Objective-C File - Set Name" title="4.2. Create Objective-C File - Set Name" /></a>
+</div>
 
-![4.2. Create Objective-C File - Set Name](/resources/images/mobile-haskell-4.2. Create Objective-C File - Set Name.png)
+<div class="clear two-images">
+  <a href="/resources/images/mobile-haskell-4.3. Create Objective-C File - Set Location.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-haskell-4.3. Create Objective-C File - Set Location.png" alt="4.3. Create Objective-C File - Set Location" title="4.3. Create Objective-C File - Set Location" /></a>
+  <a href="/resources/images/mobile-haskell-4.4. Create Objective-C File - Create Bridging Header.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-haskell-4.4. Create Objective-C File - Create Bridging Header.png" alt="4.4. Create Objective-C File - Create Bridging Header" title="4.4. Create Objective-C File - Create Bridging Header" /></a>
+</div>
 
-![4.3. Create Objective-C File - Set Location](/resources/images/mobile-haskell-4.3. Create Objective-C File - Set Location.png)
-
-![4.4. Create Objective-C File - Create Bridging Header](/resources/images/mobile-haskell-4.4. Create Objective-C File - Create Bridging Header.png)
+<div class="clear"></div>
 
 #### Offie-Bridging-Header.h
 
@@ -345,7 +357,7 @@ extern char * hello();
 
 Now let's go into `AppDelegate.swift` and call `hs_init` to initialize the Haskell code,
 
-```swift
+```objective-c
 import UIKit
 
 @UIApplicationMain
@@ -375,15 +387,15 @@ Next, we will set up a label in a view controller. You can either set this up in
 
 First go into the `Main.storyboard` and create a label element somewhere on the screen.
 
-![7. Add Label](/resources/images/mobile-haskell-7. Add Label.png)
+![](/resources/images/mobile-haskell-7. Add Label.png)
 
 Then enable the `Assistant Editor` in the top right cornor, and ctrl-click on the label, dragging it over to the `ViewController.swift` and name `helloWorldLabel`.
 
-![7.1. Add Label - Connect IBOutlet](/resources/images/mobile-haskell-7.1. Add Label - Connect IBOutlet.png)
+![](/resources/images/mobile-haskell-7.1. Add Label - Connect IBOutlet.png)
 
-We can now set the text of the label by calling our Haskell function with `cString: hello()`,
+We can now set the text of the label by calling our Haskell function with `cString: hello()`, making our `ViewController.swift` look like,
 
-```swift
+```objective-c
 import UIKit
 
 class ViewController: UIViewController {
@@ -407,29 +419,33 @@ The final step we need to do, is linking in our library that we built earlier, `
 
 We do this by going into `Build Phases`, which is exposed under the Xcode project settings, and click the `+` to add a new library,
 
-![5. Build Phases](/resources/images/mobile-haskell-5. Build Phases.png)
+![](/resources/images/mobile-haskell-5. Build Phases.png)
 
 Choose `Add Other...` to locate the library,
 
-![5.1. Build Phases - Add New](/resources/images/mobile-haskell-5.1. Build Phases - Add New.png)
+![](/resources/images/mobile-haskell-5.1. Build Phases - Add New.png)
 
 and finally locate the library file in `hs-src/binaries/iOS/libHSMobileFun.a`,
 
-![5.2. Build Phases - Locate the Library](/resources/images/mobile-haskell-5.2. Build Phases - Locate the Library.png)
+![](/resources/images/mobile-haskell-5.2. Build Phases - Locate the Library.png)
 
 We also need to set the build to not generate bytecode, because we are using the external GHC library. This is done under `Build Settings`, locating `Enable Bitcode` (e.g. via the search) and setting it to `No`.
 
-![6. Build Settings](/resources/images/mobile-haskell-6. Build Settings.png)
+![](/resources/images/mobile-haskell-6. Build Settings.png)
 
 ## Run the Code!
 
 Final step, let's run our code in the simulator
 
-![9. Run Simulator](/resources/images/mobile-haskell-9. Run Simulator.png)
+<div style="text-align:center;">
+![](/resources/images/mobile-haskell-9. Run Simulator.png){width=60%}
+</div>
+
+Congratulations! You're now calling Haskell code from Swift and running it in an iOS simulator.
 
 *NOTE:* You might run into a problem like `could not create compact unwind for _ffi_call_unix64: does not use RBP or RSP based frame` in your Xcode builds. You can fix this by adding `libconv` to your libraries in `Build Phase`.
 
-![8. Add libconv to libraries](/resources/images/mobile-haskell-8. Add libconv to libraries.png)
+![](/resources/images/mobile-haskell-8. Add libconv to libraries.png)
 
 ## Resources
 
@@ -439,4 +455,7 @@ Most of this is gathered from:
 - Various issues on the [mobile-haskell/hackage-overlay](https://github.com/mobilehaskell/hackage-overlay) ([#5](https://github.com/mobilehaskell/hackage-overlay/issues/5), [#2](https://github.com/mobilehaskell/hackage-overlay/issues/2)).
 - The [preliminary user guide](http://mobile-haskell-user-guide.readthedocs.io/en/latest/).
 
-If you are interested in following the development of Haskell in the mobile space, I recommend following [@zw3rktech](https://twitter.com/zw3rktech) and [@mobilehaskell](https://twitter.com/mobilehaskell).
+If you are interested in following the development of Haskell in the mobile space, I recommend following [\@zw3rktech](https://twitter.com/zw3rktech) and [\@mobilehaskell](https://twitter.com/mobilehaskell).
+
+
+Finally, let me know if something is not working with the [MobileHaskellFun repository](https://github.com/Tehnix/MobileHaskellFun). I haven't dealt that much with setting up Xcode projects for sharing, so I'm a bit unclear on what settings follow the repository around.
