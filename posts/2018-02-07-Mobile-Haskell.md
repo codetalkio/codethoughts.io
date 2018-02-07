@@ -127,11 +127,11 @@ Setting up Xcode is a bit of a visual process, so I'll augment these steps with 
 
 First, let's set up our Xcode project, by creating a new project.
 
-![](/resources/images/mobile-haskell-1. Create Project.png)
+[![](/resources/images/mobile-haskell-1. Create Project.png){width=100%}](/resources/images/mobile-haskell-1. Create Project.png)
 
 Choose `Single View Application`,
 
-![](/resources/images/mobile-haskell-1.1. Create Project - Single View Application.png)
+[![](/resources/images/mobile-haskell-1.1. Create Project - Single View Application.png){width=100%}](/resources/images/mobile-haskell-1.1. Create Project - Single View Application.png)
 
 And set the name and location of your project,
 
@@ -324,7 +324,7 @@ We should now have our library file at `hs-src/binaries/iOS/libHSMobileFun.a`. I
 
 Now we need to tie together the Haskell code with Xcode. Drag-and-drop the newly created files into the `hs-src` group in Xcode (if it hasn't found it by itself).
 
-![](/resources/images/mobile-haskell-3. Drag the files to Xcode.png)
+[![](/resources/images/mobile-haskell-3. Drag the files to Xcode.png){width=100%}](/resources/images/mobile-haskell-3. Drag the files to Xcode.png)
 
 Since we are using Swift, we need a bridging header to bring our C prototypes into Swift. We'll do this by adding an Objective-C file to the project, `tmp.m`, which will make Xcode ask if we want to create a bridging header, `Offie-Bridging-Header.h`, for which we will answer yes.
 
@@ -387,11 +387,11 @@ Next, we will set up a label in a view controller. You can either set this up in
 
 First go into the `Main.storyboard` and create a label element somewhere on the screen.
 
-![](/resources/images/mobile-haskell-7. Add Label.png)
+[![](/resources/images/mobile-haskell-7. Add Label.png){width=100%}](/resources/images/mobile-haskell-7. Add Label.png)
 
 Then enable the `Assistant Editor` in the top right cornor, and ctrl-click on the label, dragging it over to the `ViewController.swift` and name `helloWorldLabel`.
 
-![](/resources/images/mobile-haskell-7.1. Add Label - Connect IBOutlet.png)
+[![](/resources/images/mobile-haskell-7.1. Add Label - Connect IBOutlet.png){width=100%}](/resources/images/mobile-haskell-7.1. Add Label - Connect IBOutlet.png)
 
 We can now set the text of the label by calling our Haskell function with `cString: hello()`, making our `ViewController.swift` look like,
 
@@ -419,33 +419,33 @@ The final step we need to do, is linking in our library that we built earlier, `
 
 We do this by going into `Build Phases`, which is exposed under the Xcode project settings, and click the `+` to add a new library,
 
-![](/resources/images/mobile-haskell-5. Build Phases.png)
+[![](/resources/images/mobile-haskell-5. Build Phases.png){width=100%}](/resources/images/mobile-haskell-5. Build Phases.png)
 
 Choose `Add Other...` to locate the library,
 
-![](/resources/images/mobile-haskell-5.1. Build Phases - Add New.png)
+[![](/resources/images/mobile-haskell-5.1. Build Phases - Add New.png){width=100%}](/resources/images/mobile-haskell-5.1. Build Phases - Add New.png)
 
 and finally locate the library file in `hs-src/binaries/iOS/libHSMobileFun.a`,
 
-![](/resources/images/mobile-haskell-5.2. Build Phases - Locate the Library.png)
+[![](/resources/images/mobile-haskell-5.2. Build Phases - Locate the Library.png){width=100%}](/resources/images/mobile-haskell-5.2. Build Phases - Locate the Library.png)
 
 We also need to set the build to not generate bytecode, because we are using the external GHC library. This is done under `Build Settings`, locating `Enable Bitcode` (e.g. via the search) and setting it to `No`.
 
-![](/resources/images/mobile-haskell-6. Build Settings.png)
+[![](/resources/images/mobile-haskell-6. Build Settings.png){width=100%}](/resources/images/mobile-haskell-6. Build Settings.png)
 
 ## Run the Code!
 
 Final step, let's run our code in the simulator
 
 <div style="text-align:center;">
-![](/resources/images/mobile-haskell-9. Run Simulator.png){width=60%}
+[![](/resources/images/mobile-haskell-9. Run Simulator.png){width=60%}](/resources/images/mobile-haskell-9. Run Simulator.png)
 </div>
 
 Congratulations! You're now calling Haskell code from Swift and running it in an iOS simulator.
 
 *NOTE:* You might run into a problem like `could not create compact unwind for _ffi_call_unix64: does not use RBP or RSP based frame` in your Xcode builds. You can fix this by adding `libconv` to your libraries in `Build Phase`.
 
-![](/resources/images/mobile-haskell-8. Add libconv to libraries.png)
+[![](/resources/images/mobile-haskell-8. Add libconv to libraries.png){width=100%}](/resources/images/mobile-haskell-8. Add libconv to libraries.png)
 
 ## Resources
 
