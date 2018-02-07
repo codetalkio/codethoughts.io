@@ -54,7 +54,7 @@ main = hakyll $ do
     route   idRoute
     compile $ do
       -- Get the two latest posts
-      posts <- fmap (take 4) $ recentFirst =<< loadAllSnapshots ("posts/*.md" .||. "posts/*.html") "content"
+      posts <- fmap (take 5) $ recentFirst =<< loadAllSnapshots ("posts/*.md" .||. "posts/*.html") "content"
       let ctx = listField "posts" rawPostCtx (return posts) <>
                 constField "title" "codetalk"               <>
                 baseCtx
