@@ -125,19 +125,19 @@ Setting up Xcode is a bit of a visual process, so I'll augment these steps with 
 
 First, let's set up our Xcode project, by creating a new project.
 
-![1. Create Project](/resources/images/mobile-haskell/1. Create Project.png)
+![1. Create Project](/resources/images/mobile-haskell-1. Create Project.png)
 
 Choose `Single View Application`,
 
-![1.1. Create Project - Single View Application](/resources/images/mobile-haskell/1.1. Create Project - Single View Application.png)
+![1.1. Create Project - Single View Application](/resources/images/mobile-haskell-1.1. Create Project - Single View Application.png)
 
 And set the name and location of your project,
 
-<table><tr><td>![1.2. Create Project - Name](/resources/images/mobile-haskell/1.2. Create Project - Name.png)</td><td>![1.3. Create Project - Set Location](/resources/images/mobile-haskell/1.3. Create Project - Set Location.png)</td></tr></table>
+<table><tr><td>![1.2. Create Project - Name](/resources/images/mobile-haskell-1.2. Create Project - Name.png)</td><td>![1.3. Create Project - Set Location](/resources/images/mobile-haskell-1.3. Create Project - Set Location.png)</td></tr></table>
 
 Now, let's add a folder to keep our Haskell code in and call it `hs-src`, by right-clicking our project and adding a `New Group`,
 
-![2. Add Source Folder for Haskell Code](/resources/images/mobile-haskell/2. Add Source Folder for Haskell Code.png)
+![2. Add Source Folder for Haskell Code](/resources/images/mobile-haskell-2. Add Source Folder for Haskell Code.png)
 
 
 
@@ -318,19 +318,19 @@ We should now have our library file at `hs-src/binaries/iOS/libHSMobileFun.a` .
 
 Now we need to tie together the Haskell code with Xcode. Drag-and-drop the newly created files into the `hs-src` group in Xcode (if it hasn't found it by itself).
 
-![3. Drag the files to Xcode](/resources/images/mobile-haskell/3. Drag the files to Xcode.png)
+![3. Drag the files to Xcode](/resources/images/mobile-haskell-3. Drag the files to Xcode.png)
 
 Since we are using Swift, we need a bridging header to bring our C prototypes into Swift. We'll do this by adding an Objective-C file to the project, `tmp.m`, which will make Xcode ask if we want to create a bridging header, `Offie-Bridging-Header.h`, for which we will answer yes.
 
-![4. Create Objective-C File](/resources/images/mobile-haskell/4. Create Objective-C File.png)
+![4. Create Objective-C File](/resources/images/mobile-haskell-4. Create Objective-C File.png)
 
-![4.1. Create Objective-C File - Choose Filetype](/resources/images/mobile-haskell/4.1. Create Objective-C File - Choose Filetype.png)
+![4.1. Create Objective-C File - Choose Filetype](/resources/images/mobile-haskell-4.1. Create Objective-C File - Choose Filetype.png)
 
-![4.2. Create Objective-C File - Set Name](/resources/images/mobile-haskell/4.2. Create Objective-C File - Set Name.png)
+![4.2. Create Objective-C File - Set Name](/resources/images/mobile-haskell-4.2. Create Objective-C File - Set Name.png)
 
-![4.3. Create Objective-C File - Set Location](/resources/images/mobile-haskell/4.3. Create Objective-C File - Set Location.png)
+![4.3. Create Objective-C File - Set Location](/resources/images/mobile-haskell-4.3. Create Objective-C File - Set Location.png)
 
-![4.4. Create Objective-C File - Create Bridging Header](/resources/images/mobile-haskell/4.4. Create Objective-C File - Create Bridging Header.png)
+![4.4. Create Objective-C File - Create Bridging Header](/resources/images/mobile-haskell-4.4. Create Objective-C File - Create Bridging Header.png)
 
 #### Offie-Bridging-Header.h
 
@@ -375,11 +375,11 @@ Next, we will set up a label in a view controller. You can either set this up in
 
 First go into the `Main.storyboard` and create a label element somewhere on the screen.
 
-![7. Add Label](/resources/images/mobile-haskell/7. Add Label.png)
+![7. Add Label](/resources/images/mobile-haskell-7. Add Label.png)
 
 Then enable the `Assistant Editor` in the top right cornor, and ctrl-click on the label, dragging it over to the `ViewController.swift` and name `helloWorldLabel`.
 
-![7.1. Add Label - Connect IBOutlet](/resources/images/mobile-haskell/7.1. Add Label - Connect IBOutlet.png)
+![7.1. Add Label - Connect IBOutlet](/resources/images/mobile-haskell-7.1. Add Label - Connect IBOutlet.png)
 
 We can now set the text of the label by calling our Haskell function with `cString: hello()`,
 
@@ -407,29 +407,29 @@ The final step we need to do, is linking in our library that we built earlier, `
 
 We do this by going into `Build Phases`, which is exposed under the Xcode project settings, and click the `+` to add a new library,
 
-![5. Build Phases](/resources/images/mobile-haskell/5. Build Phases.png)
+![5. Build Phases](/resources/images/mobile-haskell-5. Build Phases.png)
 
 Choose `Add Other...` to locate the library,
 
-![5.1. Build Phases - Add New](/resources/images/mobile-haskell/5.1. Build Phases - Add New.png)
+![5.1. Build Phases - Add New](/resources/images/mobile-haskell-5.1. Build Phases - Add New.png)
 
 and finally locate the library file in `hs-src/binaries/iOS/libHSMobileFun.a`,
 
-![5.2. Build Phases - Locate the Library](/resources/images/mobile-haskell/5.2. Build Phases - Locate the Library.png)
+![5.2. Build Phases - Locate the Library](/resources/images/mobile-haskell-5.2. Build Phases - Locate the Library.png)
 
 We also need to set the build to not generate bytecode, because we are using the external GHC library. This is done under `Build Settings`, locating `Enable Bitcode` (e.g. via the search) and setting it to `No`.
 
-![6. Build Settings](/resources/images/mobile-haskell/6. Build Settings.png)
+![6. Build Settings](/resources/images/mobile-haskell-6. Build Settings.png)
 
 ## Run the Code!
 
 Final step, let's run our code in the simulator
 
-![9. Run Simulator](/resources/images/mobile-haskell/9. Run Simulator.png)
+![9. Run Simulator](/resources/images/mobile-haskell-9. Run Simulator.png)
 
 *NOTE:* You might run into a problem like `could not create compact unwind for _ffi_call_unix64: does not use RBP or RSP based frame` in your Xcode builds. You can fix this by adding `libconv` to your libraries in `Build Phase`.
 
-![8. Add libconv to libraries](/resources/images/mobile-haskell/8. Add libconv to libraries.png)
+![8. Add libconv to libraries](/resources/images/mobile-haskell-8. Add libconv to libraries.png)
 
 ## Resources
 
