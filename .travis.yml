@@ -9,7 +9,7 @@ git:
   depth: 5
 
 ghc:
-  - "8.8.2"
+  - "8.6.5"
 
 cache:
   directories:
@@ -38,21 +38,21 @@ before_install:
 
 install:
   # Build some of the dependencies separately, so we don't run out of memory.
-  # - travis_wait stack --system-ghc -j 2 build --fast aeson --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast happy --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast cryptonite --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast cryptohash --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast mtl --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast pandoc --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast blaze-html --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast tagsoup --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast wai --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast warp --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast yaml --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast text --no-terminal --skip-ghc-check
-  # - travis_wait stack --system-ghc -j 2 build --fast lrucache --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast aeson --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast happy --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast cryptonite --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast cryptohash --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast mtl --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast pandoc --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast blaze-html --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast tagsoup --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast wai --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast warp --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast yaml --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast text --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast lrucache --no-terminal --skip-ghc-check
   # Build the rest of the dependencies.
-  - travis_wait 40 stack --system-ghc -j 2 build --fast --no-terminal --skip-ghc-check --only-dependencies
+  - travis_wait 60 stack --system-ghc -j 2 build --fast --no-terminal --skip-ghc-check --only-dependencies
 
 before_script:
   # Build the site itself.

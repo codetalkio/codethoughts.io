@@ -1,6 +1,4 @@
-# Codetalk.io site
-
-[![Build Status](https://travis-ci.org/codetalkio/codetalk.io.svg?branch=master)](https://travis-ci.org/codetalkio/codetalk.io)
+# [codetalk.io](https://codetalk.io) site [![Build Status](https://travis-ci.org/codetalkio/codetalk.io.svg?branch=master)](https://travis-ci.org/codetalkio/codetalk.io)
 
 ## Dependencies
 
