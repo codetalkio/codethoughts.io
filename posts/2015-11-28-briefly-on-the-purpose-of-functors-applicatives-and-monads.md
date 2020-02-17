@@ -178,11 +178,11 @@ To understand this better, let's take a look at the `Maybe` instance,
 
 <div class="snippet-title">Maybe Monad typeclass instance</div>
 ```haskell
-instance Monad Maybe where  
-    return x = Just x  
-    Nothing >>= f = Nothing  
-    Just x >>= f  = f x  
-    fail _ = Nothing  
+instance Monad Maybe where
+    return x = Just x
+    Nothing >>= f = Nothing
+    Just x >>= f  = f x
+    fail _ = Nothing
 ```
 
 Notably here is the line that says `Nothing >>= f = Nothing`. It throws away

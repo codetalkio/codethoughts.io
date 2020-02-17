@@ -1,23 +1,26 @@
-language: generic
+sudo: true
+language: haskell
 
-sudo: false
+branches:
+  only:
+  - master
+
+git:
+  depth: 5
+
+ghc:
+  - "8.8.2"
+
+cache:
+  directories:
+  - "$HOME/.cabal/store"
+  - "$HOME/.stack"
+  - "$TRAVIS_BUILD_DIR/.stack-work"
 
 addons:
   ssh_known_hosts:
     - codetalk.io
     - direct.codetalk.io
-
-cache:
-  directories:
-  - $HOME/.stack
-  - $HOME/.cabal
-  - $HOME/.ghc
-  - $HOME/.stack-work-cache
-  - .stack-work
-
-branches:
-  only:
-  - master
 
 before_install:
   # Decrypt the encrypted key.
@@ -29,37 +32,34 @@ before_install:
   # Setup stack.
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
-  - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+  - travis_retry curl -L https://get.haskellstack.org/stable/linux-x86_64.tar.gz | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
   # Install sass/compass.
   - gem install compass
 
 install:
-  # Setup GHC.
-  - travis_wait stack -j 2 setup --no-terminal --skip-ghc-check
-  - stack exec -- ghc --version
   # Build some of the dependencies separately, so we don't run out of memory.
-  - travis_wait stack -j 2 install aeson --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install happy --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install cryptonite --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install cryptohash --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install mtl --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install pandoc --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install blaze-html --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install tagsoup --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install wai --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install warp --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install yaml --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install text --no-terminal --skip-ghc-check
-  - travis_wait stack -j 2 install lrucache --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast aeson --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast happy --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast cryptonite --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast cryptohash --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast mtl --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast pandoc --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast blaze-html --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast tagsoup --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast wai --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast warp --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast yaml --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast text --no-terminal --skip-ghc-check
+  # - travis_wait stack --system-ghc -j 2 build --fast lrucache --no-terminal --skip-ghc-check
   # Build the rest of the dependencies.
-  - travis_wait 40 stack -j 2 build --no-terminal --skip-ghc-check --only-dependencies
+  - travis_wait 40 stack --system-ghc -j 2 build --fast --no-terminal --skip-ghc-check --only-dependencies
 
 before_script:
   # Build the site itself.
-  - travis_wait stack -j 2 build --no-terminal --skip-ghc-check
+  - travis_wait stack --system-ghc -j 2 build --fast --no-terminal --skip-ghc-check
   # First clean up and then build the site.
-  - travis_wait stack exec -- hakyll-site clean
-  - travis_wait stack exec -- hakyll-site build
+  - travis_wait stack --system-ghc exec -- hakyll-site clean
+  - travis_wait stack --system-ghc exec -- hakyll-site build
 
 script:
   # Generate the CSS from the SCSS files.

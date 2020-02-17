@@ -7,7 +7,7 @@
 You'll need sass/compass to compile the (S)CSS files, else `hakyll` will complain in the build phase.
 
 ```bash
-$ gem install compass
+$ gem install compass # run `rbenv install 2.6.5` if you needed
 ```
 
 ## Quick walkthrough of Hakyll

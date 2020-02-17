@@ -1,11 +1,16 @@
-resolver: lts-9.9
-# Local packages, usually specified by relative directory name
+resolver: lts-15.0
+
 packages:
 - '.'
-# Packages to be pulled from upstream that are not in the resolver (e.g., acme-missiles-0.3)
+
 extra-deps:
 - hakyll-shakespeare-0.1.0.0.2
+- hakyll-4.13.0.1
+
+allow-newer: true
+
 # Override default flag values for local packages and extra-deps
 flags: {}
+
 # Extra package databases containing global packages
 extra-package-dbs: []
