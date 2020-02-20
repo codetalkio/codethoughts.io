@@ -60,10 +60,10 @@ jobs:
         run: |
           stack --system-ghc build --fast --no-terminal --skip-ghc-check
           stack --system-ghc exec -- hakyll-site clean
-          stack --system-ghc exec -- hakyll-site clean
+          stack --system-ghc exec -- hakyll-site build
 
 
-      - name: Upload site to S3
+      - name: Upload site to S3 and purge CloudFront cache
         if: github.ref == 'refs/heads/master'
         run: |
           # Optimize the CSS output
