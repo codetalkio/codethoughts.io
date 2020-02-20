@@ -1,0 +1,82 @@
+name: cd
+
+# Check out https://help.github.com/en/articles/workflow-syntax-for-github-actions for documentation on Actions.
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  cd:
+    runs-on: ubuntu-16.04
+    env:
+      GHC_VERSION: '8.6.5'
+      CABAL_VERSION: '3.0'
+    steps:
+      - uses: actions/checkout@v1
+
+      # Setup tooling
+      - name: Setup stack
+        uses: mstksg/setup-stack@v1
+      - name: Setup GHC 8.6.5
+        uses: actions/setup-haskell@v1
+        with:
+          ghc-version: ${{env.GHC_VERSION}}
+          cabal-version: ${{env.CABAL_VERSION}}
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: Install compass for scss
+        run: |
+          gem install compass
+
+      # Enable cache for cabal
+      - uses: actions/cache@v1
+        name: Cache ~/.cabal/packages
+        with:
+          path: ~/.cabal/packages
+          key: ${{ runner.os }}-${{ matrix.ghc }}-cabal-packages
+      - uses: actions/cache@v1
+        name: Cache ~/.cabal/store
+        with:
+          path: ~/.cabal/store
+          key: ${{ runner.os }}-${{ matrix.ghc }}-cabal-store
+      - uses: actions/cache@v1
+        name: Cache dist-newstyle
+        with:
+          path: dist-newstyle
+          key: ${{ runner.os }}-${{ matrix.ghc }}-dist-newstyle
+
+
+      - name: Build dependencies
+        run: |
+          cabal update
+          cabal build --only dependencies
+
+      - name: Build executable
+        run: |
+          cabal build
+          cabal exec hakyll-site clean
+          cabal exec hakyll-site build
+
+
+      - name: Upload site to S3
+        if: github.ref == 'refs/heads/master'
+        run: |
+          # Optimize the CSS output
+          sass resources/scss/app.scss:_site/app.css --style compressed
+
+          # Upload the site to the S3 bucket
+          aws s3 sync _site s3://codetalk.io --delete
+
+          # Clear the aggressive CloudFlare cache
+          curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
+            -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'
+        env:
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
