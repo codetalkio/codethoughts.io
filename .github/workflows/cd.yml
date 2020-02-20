@@ -3,8 +3,12 @@ name: cd
 # Check out https://help.github.com/en/articles/workflow-syntax-for-github-actions for documentation on Actions.
 on:
   push:
-    branches:
-      - master
+    paths:
+      - 'posts/**'
+      - 'resources/**'
+      - 'src/**'
+      - 'templates/**'
+      - '.github/workflows/cd.yml'
 
 jobs:
   cd:
@@ -32,32 +36,31 @@ jobs:
 
       # Enable cache for cabal
       - uses: actions/cache@v1
-        name: Cache ~/.cabal/packages
+        name: Cache .stack-work
         with:
-          path: ~/.cabal/packages
-          key: ${{ runner.os }}-${{ matrix.ghc }}-cabal-packages
+          path: .stack-work
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-work
       - uses: actions/cache@v1
         name: Cache ~/.cabal/store
         with:
           path: ~/.cabal/store
-          key: ${{ runner.os }}-${{ matrix.ghc }}-cabal-store
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store
       - uses: actions/cache@v1
-        name: Cache dist-newstyle
+        name: Cache stack
         with:
-          path: dist-newstyle
-          key: ${{ runner.os }}-${{ matrix.ghc }}-dist-newstyle
+          path: ~/.stack
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack
 
 
       - name: Build dependencies
         run: |
-          cabal update
-          cabal build --only dependencies
+          stack --system-ghc build --fast --no-terminal --skip-ghc-check --only-dependencies
 
       - name: Build executable
         run: |
-          cabal build
-          cabal exec hakyll-site clean
-          cabal exec hakyll-site build
+          stack --system-ghc build --fast --no-terminal --skip-ghc-check
+          stack --system-ghc exec -- hakyll-site clean
+          stack --system-ghc exec -- hakyll-site clean
 
 
       - name: Upload site to S3
