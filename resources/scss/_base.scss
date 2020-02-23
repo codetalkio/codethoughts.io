@@ -160,6 +160,23 @@ samp {
   font-size: $code-font-size;
 }
 
+code:not(.sourceCode) {
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+// Reset the code block inside pre
+pre {
+  code:not(.sourceCode) {
+    background-color: transparent;
+    border-radius: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+}
+
 // sass-lint:disable-block class-name-format
 div {
   &.sourceCode {
@@ -177,7 +194,7 @@ pre {
   margin-bottom: 1.625rem;
   margin-top: 0;
   overflow: auto;
-  padding: .75rem 1.625rem;
+  padding: 0.75rem 1.625rem;
 
   // sass-lint:disable-block class-name-format
   &.sourceCode {
@@ -209,7 +226,7 @@ pre {
 
   &::before {
     font-size: $code-font-size;
-    content: 'snippet-title: ';
+    content: "snippet-title: ";
   }
 
   // Target the sourceCode div that usually comes after
@@ -260,7 +277,7 @@ pre {
 #pagination {
   border-top: 1px solid $color-lightgray;
   color: $color-black;
-  font-size: .9em;
+  font-size: 0.9em;
   height: 30px;
   line-height: 30px;
   margin: 0 auto;
@@ -295,7 +312,7 @@ pre {
 #footer {
   border-top: 1px solid $color-lightgray;
   color: $footer-color;
-  font-size: .85rem;
+  font-size: 0.85rem;
   margin: 0 auto;
   max-width: $max-content-width;
   padding: 0.5rem 2rem;
@@ -311,7 +328,7 @@ pre {
 
 #copyright {
   color: $footer-color;
-  font-size: .8rem;
+  font-size: 0.8rem;
   margin: 0 2rem 1rem;
   padding: 0.5rem 2rem 1.5rem;
   text-align: center;

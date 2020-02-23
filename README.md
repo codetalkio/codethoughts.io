@@ -26,4 +26,28 @@ or, alternatively use `watch` to launch a preview server while developing,
 
 ```bash
 $ stack exec -- hakyll-site watch
+$ sass resources/scss/app.scss:_site/app.css --style compressed --watch
 ```
+
+## Image Optimization
+
+```bash
+$ brew install imagemagick
+```
+
+Either put the images in `resources/images/unoptimized`, or copy them with the following script,
+
+```bash
+$ cd resources/images
+$ mkdir -p unoptimized
+$ for f in *.png; do cp "$f" "unoptimized/${f%.png}.thumbnail.png"; done
+```
+
+Now that the images you want to generate optimized versions for are in `resources/images/unoptimized`, run the optimization script inside this folder,
+
+```bash
+$ cd unoptimized
+$ mogrify -resize 50% *.thumbnail.png
+```
+
+Finally, copy them out to images again.
