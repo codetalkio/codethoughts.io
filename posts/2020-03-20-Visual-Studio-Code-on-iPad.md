@@ -9,7 +9,7 @@ tags: vscode, ipad, dx, digital nomad
 - Your own server
 - Your own domain
 
-With [Apple increasing their focus](https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/) on making the iPad a viable device for work, it is time to revisit using my iPad as a workstation for programming.
+With Apple increasing their focus[^1] on making the iPad a viable device for work, it is time to revisit using my iPad as a workstation for programming.
 
 I rely heavily on command-line tools and language specific tools (rust-analyser, node, ghcide, etc) for my day-to-day programming, and my current setup features:
 
@@ -63,7 +63,7 @@ Neat! 🙂
 ## Securing the setup for remote access
 So far `code-server` is only listening for local connections, but we'd like to be able to use it on the go, from a browser on the iPad. This means we have to do a little extra work to secure our setup.
 
-`code-server` covers how to do this [in their FAQ](https://github.com/cdr/code-server/blob/master/doc/FAQ.md#how-should-i-expose-code-server-to-the-internet), but skips the specific steps. Due to an issue with self-signed certificates on iOS, we cannot use these (see [code-serfer#1122](https://github.com/cdr/code-server/issues/1122)), so instead we will opt for [letsencrypt](https://letsencrypt.org)!
+`code-server` covers how to do this [in their FAQ](https://github.com/cdr/code-server/blob/master/doc/FAQ.md#how-should-i-expose-code-server-to-the-internet), but skips the specific steps. Due to an issue with self-signed certificates on iOS, we cannot use these[^2], so instead we will opt for [letsencrypt](https://letsencrypt.org)!
 
 <!--
 We'll set up a self-signed certificate. For the pass phrase, simply press enter to put a blank password on the key.
@@ -228,3 +228,7 @@ $ systemctl start code-server
 ```
 
 Navigate to your domain on port `8080`. Congratulations, you've now got a solid setup for editing code in your iPad browser 🎉
+
+[^1]: [https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/](https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/)
+
+[^2]: See issue [code-server#1122](https://github.com/cdr/code-server/issues/1122) covering this
