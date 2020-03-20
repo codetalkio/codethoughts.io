@@ -1,5 +1,5 @@
 ---
-title: Live Migration of DynamoDB Tables for Migration
+title: Live Migration of DynamoDB Tables
 tags: aws, dynamodb, sqs, migration
 ---
 
