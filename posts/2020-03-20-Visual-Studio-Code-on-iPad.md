@@ -5,7 +5,7 @@ tags: vscode, ipad, dx, digital nomad
 
 *Versions and Tools used:*
 
-- *code-server Version 3.0.0*
+- *`code-server` Version 3.0.0*
 - your own server
 - your own domain
 
@@ -29,7 +29,7 @@ On my computer I use Visual Studio Code, and its long been a wish to get that ru
 
 I'll assume you have a server running somewhere, that you intend to use for this setup.
 
-First, SSH into your server, so that we can setup code-server. We are going to download the latest release from GitHub, and set it up. Checkout the latest release at https://github.com/cdr/code-server/releases, and pick the asset for `linux_x86_64`,
+First, SSH into your server, so that we can setup `code-server`. We are going to download the latest release from GitHub, and set it up. Checkout the latest release at [https://github.com/cdr/code-server/releases](https://github.com/cdr/code-server/releases), and pick the asset for `linux_x86_64`,
 
 ```bash
 $ ssh user@example.com
@@ -40,14 +40,14 @@ code-server-3.0.0-linux-x86_6 100%[=============================================
 $ tar -zxvf code-server-3.0.0-linux-x86_64.tar.gz
 ```
 
-You should now have a folder called `code-server-3.0.0-linux-x86_64`. Lastly, we're going to rename it and make the executable we need to run accessible,
+You should now have a folder called `code-server-3.0.0-linux-x86_64`. Let's rename it and make the put the executable on our `PATH`,
 
 ```bash
 $ mv code-server-3.0.0-linux-x86_64 .code-server
 $ ln -s "$HOME/.code-server" /usr/local/bin/code-server
 ```
 
-The `code-server` executable should now be available in your terminal, try it out by starting the server!
+Try firing it up,
 
 ```bash
 $ code-server
@@ -63,15 +63,11 @@ info    - Automatic updates are enabled
 Neat! 🙂
 
 ## Securing the setup for remote access
-So far code-server is only listening for local connections, but we'd like to be able to use it on the go, from a browser on the iPad. This means we have to do a little extra work to secure our setup.
+So far `code-server` is only listening for local connections, but we'd like to be able to use it on the go, from a browser on the iPad. This means we have to do a little extra work to secure our setup.
 
-code-server covers how to do this [in their FAQ](https://github.com/cdr/code-server/blob/master/doc/FAQ.md#how-should-i-expose-code-server-to-the-internet), but skips the specific steps. Unfortunately, due to an issue with self-signed certificates on iOS, we cannot simply use these (see [code-serfer#1122](https://github.com/cdr/code-server/issues/1122)). Instead, we will opt for [letsencrypt](https://letsencrypt.org)!
+`code-server` covers how to do this [in their FAQ](https://github.com/cdr/code-server/blob/master/doc/FAQ.md#how-should-i-expose-code-server-to-the-internet), but skips the specific steps. Unfortunately, due to an issue with self-signed certificates on iOS, we cannot simply use these (see [code-serfer#1122](https://github.com/cdr/code-server/issues/1122)). Instead, we will opt for [letsencrypt](https://letsencrypt.org)!
 
-<details>
-	<summary>
-		👈 If you are still interested in the self-signed setup, you can unfold this section.
-	</summary>
-
+<!--
 We'll set up a self-signed certificate. For the pass phrase, simply press enter to put a blank password on the key.
 
 ```bash
@@ -82,23 +78,20 @@ Generating a RSA private key
 ...
 ```
 
-Here we made a directory to hold our keys for code-server, and generated them using `openssl`. You can adjust the days to a number you are comfortable with, here I just went with 365, meaning I'll have to renew the certificate in a year.
-
-</details>
+Here we made a directory to hold our keys for `code-server`, and generated them using `openssl`. You can adjust the days to a number you are comfortable with, here I just went with 365, meaning I'll have to renew the certificate in a year.
+-->
 
 First we will install certbot, which will manage the certificate renewal on our server,
 
 ```bash
-$ sudo apt-get install software-properties-common # For add-apt-repository
+$ sudo apt-get install software-properties-common # for add-apt-repository
 $ sudo add-apt-repository ppa:certbot/certbot
 $ sudo apt install python-certbot-nginx
 ```
 
-Because these certificates are managed under `certbot`, and require root permissions, we'll need to setup a script that will move the certificates to a location we want, so that our `code-server` does not need root permissions.
+Because these certificates are managed under `certbot`, we'll need to setup a script that will move the certificates to a location we want, so that our `code-server` does not need root permissions. We'll do this with a [deploy-hook](https://certbot.eff.org/docs/using.html#renewing-certificates), which runs after each successful renewal.
 
-We'll do this with a [deploy-hook](https://certbot.eff.org/docs/using.html#renewing-certificates), which runs after a successful renewal.
-
-Let's make a directory the certificates in, and for convenience we will also export our domain name as an environment variables, to be used throughout the rest,
+Let's make a directory for the certificates. For convenience we will also export our domain name as an environment variables, to be used throughout the rest of the post (change `vscode.example.com` to your own domain),
 
 ```bash
 $ mkdir .code-server-meta
@@ -106,7 +99,7 @@ $ cd .code-server-meta
 $ export DOMAIN=vscode.example.com
 ```
 
-Now we are going to set up the renewal script in `/etc/letsencrypt/renewal-hooks/deploy/renewal.sh`,
+Let's set up the renewal script in `/etc/letsencrypt/renewal-hooks/deploy/renewal.sh`,
 
 ```bash
 $ echo 'echo '\''#!/bin/bash
@@ -122,7 +115,7 @@ if [[ $RENEWED_LINEAGE == *"'$DOMAIN'"* ]]; then
 fi'\'' > /etc/letsencrypt/renewal-hooks/deploy/renewal.sh' | sudo bash && sudo chmod +x /etc/letsencrypt/renewal-hooks/deploy/renewal.sh
 ```
 
-We'll now set up our certificates by starting `certbot`. You will be asked for your email, and to agree to the terms of service.
+We'll now set up our certificates by starting `certbot`. During this you will be asked for your email, and to agree to the terms of service.
 
 ```bash
 $ sudo certbot certonly --standalone --preferred-challenges http -d $DOMAIN
@@ -134,31 +127,38 @@ This will create the certificates in `/etc/letsencrypt/live/$DOMAIN`. Check that
 $ sudo certbot renew --dry-run
 ```
 
-You can now launch your code-server instance using the keys for HTTPS,
+Excellent. You are now ready to launch your `code-server` instance using the keys for HTTPS,
 
 ```bash
 $ code-server --cert ~/.code-server-meta/cert.pem --cert-key ~/.code-server-meta/key.pem --host 0.0.0.0
+info  code-server 3.0.0
+info  Server listening on http://127.0.0.1:8080
+info    - Password is xxxxxxxxxxxxxxxxxxxxxx
+info      - To use your own password, set the PASSWORD environment variable
+info      - To disable use `--auth none`
+info    - Automatic updates are enabled
 ```
 
-You should now be presented with a login screen. Use the password that the server prints, and you are in! 🥳
+A login screen should appear. Use the password that the server printed, and you are in! 🥳
 
 <div class="clear two-images">
   <a href="/resources/images/visual-studio-on-ipad-welcome.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/visual-studio-on-ipad-welcome.thumbnail.png" loading="lazy" alt="Welcome screen in Visual Studio Code on iPad" title="Welcome screen in Visual Studio Code on iPad" /></a>
   <a href="/resources/images/visual-studio-on-ipad-code-file.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/visual-studio-on-ipad-code-file.thumbnail.png" loading="lazy" alt="Code file in Visual Studio Code on iPad" title="Code file in Visual Studio Code on iPad" /></a>
 </div>
 
+
 ## Daemonizing the server
-Currently we need to manually start the server every time we reboot our server. Instead of this, we'd like the code-server to be managed as a system service.
+Currently we need to manually start the server every time we reboot our server. Instead of this, we'd like the `code-server` to be managed as a system service.
 
 We'll do this by:
 
-- Start code-server with a fixed password
-- Setting up a script to start code-server in a `screen` instance
+- Start `code-server` with a fixed password
+- Setting up a script to start `code-server` in a `screen` instance
 - Letting `systemd` manage the start/stop of the service
 
 **Passphrase**
 
-First let us set up our password for the code-server, so that we can login across reboots. We'll do this by dropping a simple plaintext file inside `$HOME/.code-server-meta`.
+First let us set up our password for the `code-server`, so that we can login across reboots. We'll do this by dropping a simple plaintext file inside `$HOME/.code-server-meta`.
 
 This is under the assumption that you are the only one with access to the server. It is recommended that you put a unique passphrase for this service.
 
@@ -168,7 +168,7 @@ $ echo "MySecretPassword" > $HOME/.code-server-meta/passphrase.txt
 
 **Manage code-server in screen**
 
-We are going to put our script to manage the code-server instance in `$HOME/.code-server-meta/service.sh`.
+We are going to put our script to manage the `code-server` instance in `$HOME/.code-server-meta/service.sh`.
 
 ```bash
 $ echo '#!/bin/bash
@@ -228,6 +228,4 @@ $ systemctl enable code-server
 $ systemctl start code-server
 ```
 
-You can check its running by navigating to your server IP on port `8080`.
-
-Congratulations, you've now got a solid setup for editing code in your iPad browser 🎉
+Navigate to your domain on port `8080`. Congratulations, you've now got a solid setup for editing code in your iPad browser 🎉

@@ -17,7 +17,7 @@ The following will be a very high-level overview of how you:
   This won't be detailed walkthrough, but rather the goal is to provide a method for people familiar with their AWS setups, that are in the same situation we were.
 </div>
 
-### Context
+## Context
 To put this migration into context, our entire cloud and setup is automated via CloudFormation, deploying a bunch of micro-services.
 
 To better orchestrate the deployment of these and have better handling of dependencies between the order of deployments, we had been working on a lot of infrastructure changes, switching around the tools that manage CloudFormation (from [serverless](https://serverless.com) to [AWS CDK](https://github.com/aws/aws-cdk)).
@@ -26,7 +26,7 @@ Internally these tools generate unique references (logical ids), each in their o
 
 Unfortunately, [this is not possible for DynamoDB tables](https://github.com/serverless/serverless/issues/1677), without recreating the resources ☹️.
 
-### Approach
+## Approach
 The idea came after AWS announced support for [importing existing resources into a CloudFormation stack](https://aws.amazon.com/blogs/aws/new-import-existing-resources-into-a-cloudformation-stack/), and was further motivated by [the later support for restoring a DynamoDB table to another region](https://aws.amazon.com/blogs/database/restore-amazon-dynamodb-backups-to-different-aws-regions-and-with-custom-table-settings/).
 
 The concept is simple and can be divided into two phases.
@@ -34,11 +34,12 @@ The concept is simple and can be divided into two phases.
 **Phase 1**
 
 In the first phase we will:
+
 - Enable streams on all the DynamoDB tables you intend to migrate
 - Set up a Lambda function that will receive the events from these streams
 - Set up an FIFO SQS queue which the Lambda function will put all of the events on
 
-![Phase 1](https://codetalk.io/resources/images/dynamodb-migration-phase-1.png)
+<a href="/images/dynamodb-migration-phase-1.png" target="_blank" rel="noopener noreferrer"><img src="/images/dynamodb-migration-phase-1.png.thumbnail.png" loading="lazy" alt="Migration Phase 1" title="Migration Phase 1" width="100%" /></a>
 
 After this is set up, all DynamoDB events will exist on the SQS queue. We will now create a backup for each of the tables. The time of the backups will be important later on. You don't have to note them down, since they are visible in the table backup overview.
 
@@ -47,14 +48,16 @@ After this is set up, all DynamoDB events will exist on the SQS queue. We will n
 For phase 2, we are focusing on setting up the new tables and starting the live synchronization process.
 
 We will now:
+
 - Restore the tables from a backup into to your new tables
 	- This is where you can rename the tables, put them in different regions, etc
 - Set up a Lambda Function that consumes from you SQS queue
   - The consumer Lambda should only act on events that has happened on or after your backup time
 
-![Phase 2](https://codetalk.io/resources/images/dynamodb-migration-phase-2.png)
+<a href="/images/dynamodb-migration-phase-2.png" target="_blank" rel="noopener noreferrer"><img src="/images/dynamodb-migration-phase-2.png.thumbnail.png" loading="lazy" alt="Migration Phase 2" title="Migration Phase 2" width="100%" /></a>
 
 Since DynamoDB stream events contain all the information about a  record, we can break them into the following:
+
 - `CREATE` and `MODIFY` is directly `put` the record into DynamoDB.
 - For `DELETE`s, we'll perform a `delete` on the record (we have the keys from the old record image).
 
@@ -80,6 +83,7 @@ Pointing the API to the new DynamoDB tables means that no more operations are do
 We've only talked about migrating tables, without really touching the data, but this approach actually allows you to perform a data transformation along with your migration without needing to coordinate a complex API switch or need to support both formats of data at the same time.
 
 You could do the following instead:
+
 - Follow phase 1 as before
 - Phase 2 looks a bit different now
 	- Create the new tables from the backups again
@@ -92,4 +96,4 @@ This way you perform live transformation on your data, and have ample time to se
 ## Conclusion
 While very high-level, this approach is a great tool to have in your toolbox when you run into those once-in-awhile cases where you need to perform these migrations.
 
-If you are interested in me expanding more on the approach, please don't hesitate to leave a comment 🙂.
+If you are interested in me expanding more on the approach, please don't hesitate to leave a comment 🙂
