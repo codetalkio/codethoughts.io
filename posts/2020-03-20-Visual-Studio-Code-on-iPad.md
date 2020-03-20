@@ -40,7 +40,7 @@ $ tar -zxvf code-server-3.0.0-linux-x86_64.tar.gz
 You should now have a folder called `code-server-3.0.0-linux-x86_64`. Let's rename it and make the put the executable on our `PATH`,
 
 ```bash
-$ mv code-server-3.0.0-linux-x86_64 .code-server
+$ mv code-server-3.0.0-linux-x86_64 ~/.code-server
 $ ln -s "$HOME/.code-server" /usr/local/bin/code-server
 ```
 
@@ -227,14 +227,3 @@ $ systemctl start code-server
 ```
 
 Navigate to your domain on port `8080`. Congratulations, you've now got a solid setup for editing code in your iPad browser 🎉
-
-
-<!--
-Setting up in iSH:
-
-```bash
-$ apk add libc-dev
-```
-
-
--->
