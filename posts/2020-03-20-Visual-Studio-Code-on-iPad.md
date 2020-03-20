@@ -125,7 +125,7 @@ This will create the certificates in `/etc/letsencrypt/live/$DOMAIN`. Check that
 $ sudo certbot renew --dry-run
 ```
 
-Excellent. You are now ready to launch your `code-server` instance using the keys for HTTPS,
+Excellent! You are now ready to launch your `code-server` instance using the keys for HTTPS,
 
 ```bash
 $ code-server --cert ~/.code-server-meta/cert.pem --cert-key ~/.code-server-meta/key.pem --host 0.0.0.0
@@ -140,11 +140,11 @@ info    - Automatic updates are enabled
 A login screen should appear. Use the password that the server printed, and you are in! 🥳
 
 <div class="clear two-images">
-  <a href="/resources/images/visual-studio-on-ipad-welcome.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/visual-studio-on-ipad-welcome.thumbnail.png" loading="lazy" alt="Welcome screen in Visual Studio Code on iPad" title="Welcome screen in Visual Studio Code on iPad" /></a>
-  <a href="/resources/images/visual-studio-on-ipad-code-file.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/visual-studio-on-ipad-code-file.thumbnail.png" loading="lazy" alt="Code file in Visual Studio Code on iPad" title="Code file in Visual Studio Code on iPad" /></a>
+  <a href="/resources/images/visual-studio-on-ipad-welcome.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/visual-studio-on-ipad-welcome.thumbnail.png" loading="lazy" alt="Welcome screen in Visual Studio Code on iPad" title="Welcome screen in Visual Studio Code on iPad" style="margin-right: 1%; width: 49%;" /></a>
+  <a href="/resources/images/visual-studio-on-ipad-code-file.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/visual-studio-on-ipad-code-file.thumbnail.png" loading="lazy" alt="Code file in Visual Studio Code on iPad" title="Code file in Visual Studio Code on iPad" style="margin-left: 1%; width: 49%;" /></a>
 </div>
+<div class="clear"></div>
 
-Note that we can even use the integrated terminal via the browser instance.
 
 ## Daemonizing the server
 Currently we need to manually start the server every time we reboot our server. Instead of this, we'd like the `code-server` to be managed as a system service.

@@ -143,6 +143,24 @@
     }
   }
 
+  a {
+    sup {
+      // Avoid footnotes increasing the line-height.
+      line-height: 1px;
+    }
+  }
+
+  .footnotes {
+    margin-top: 50px;
+    font-size: 0.8em;
+    hr {
+      display: none;
+    }
+    ol {
+      padding-left: 0;
+    }
+  }
+
   #disqus_thread {
     @include center-content();
     margin-top: 70px;

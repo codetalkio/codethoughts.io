@@ -6,7 +6,8 @@ tags: aws, dynamodb, sqs, migration
 I was recently faced with the challenge of having to migrate a set of AWS DynamoDB tables to completely new tables. We wanted to achieve this without affecting any of our users, and without having a maintenance window while migrating data from the old table to the new ones.
 
 The following will be a very high-level overview of how you:
-- Get all your DynamoDB events onto a Queue
+
+- Get all your DynamoDB events onto a queue
 - Replicate your DynamoDB tables to the new tables (or even a different region)
 - Continuously synchronize your original tables to your new tables
 	- Restart the migration if you made an error
@@ -14,7 +15,7 @@ The following will be a very high-level overview of how you:
 
 <div class="callout">
   <div class="callout-bulb">💡</div>
-  This won't be detailed walkthrough, but rather the goal is to provide a method for people familiar with their AWS setups, that are in the same situation we were.
+  This won't be detailed walkthrough but will instead outline a method for people that are in the same situation we were.
 </div>
 
 ## Context
@@ -24,10 +25,10 @@ To better orchestrate the deployment of these and have better handling of depend
 
 Internally these tools generate unique references (logical ids), each in their own way, to the resources they generate CloudFormation for. This meant that for us to have the new tools adopt and manage the existing resources, we needed a way to change the logical ids of a resource.
 
-Unfortunately, [this is not possible for DynamoDB tables](https://github.com/serverless/serverless/issues/1677), without recreating the resources ☹️.
+Unfortunately, [this is not possible for DynamoDB tables](https://github.com/serverless/serverless/issues/1677), without recreating the resources ☹️
 
 ## Approach
-The idea came after AWS announced support for [importing existing resources into a CloudFormation stack](https://aws.amazon.com/blogs/aws/new-import-existing-resources-into-a-cloudformation-stack/), and was further motivated by [the later support for restoring a DynamoDB table to another region](https://aws.amazon.com/blogs/database/restore-amazon-dynamodb-backups-to-different-aws-regions-and-with-custom-table-settings/).
+The idea came after AWS announced support for importing existing resources into a CloudFormation stack[^1], and was further motivated by the later support for restoring a DynamoDB table to another region[^2].
 
 The concept is simple and can be divided into two phases.
 
@@ -39,7 +40,7 @@ In the first phase we will:
 - Set up a Lambda function that will receive the events from these streams
 - Set up an FIFO SQS queue which the Lambda function will put all of the events on
 
-<a href="/images/dynamodb-migration-phase-1.png" target="_blank" rel="noopener noreferrer"><img src="/images/dynamodb-migration-phase-1.png.thumbnail.png" loading="lazy" alt="Migration Phase 1" title="Migration Phase 1" width="100%" /></a>
+<a href="/resources/images/dynamodb-migration-phase-1.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/dynamodb-migration-phase-1.thumbnail.png" loading="lazy" alt="Migration Phase 1" title="Migration Phase 1" width="100%" /></a>
 
 After this is set up, all DynamoDB events will exist on the SQS queue. We will now create a backup for each of the tables. The time of the backups will be important later on. You don't have to note them down, since they are visible in the table backup overview.
 
@@ -54,7 +55,7 @@ We will now:
 - Set up a Lambda Function that consumes from you SQS queue
   - The consumer Lambda should only act on events that has happened on or after your backup time
 
-<a href="/images/dynamodb-migration-phase-2.png" target="_blank" rel="noopener noreferrer"><img src="/images/dynamodb-migration-phase-2.png.thumbnail.png" loading="lazy" alt="Migration Phase 2" title="Migration Phase 2" width="100%" /></a>
+<a href="/resources/images/dynamodb-migration-phase-2.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/dynamodb-migration-phase-2.thumbnail.png" loading="lazy" alt="Migration Phase 2" title="Migration Phase 2" width="100%" /></a>
 
 Since DynamoDB stream events contain all the information about a  record, we can break them into the following:
 
@@ -94,6 +95,10 @@ This way you perform live transformation on your data, and have ample time to se
 
 
 ## Conclusion
-While very high-level, this approach is a great tool to have in your toolbox when you run into those once-in-awhile cases where you need to perform these migrations.
+While very high-level, this approach is a great tool to have in your toolbox when you run into those once-in-a-while cases where you need to perform these migrations.
 
 If you are interested in me expanding more on the approach, please don't hesitate to leave a comment 🙂
+
+[^1]: [https://aws.amazon.com/blogs/aws/new-import-existing-resources-into-a-cloudformation-stack/](https://aws.amazon.com/blogs/aws/new-import-existing-resources-into-a-cloudformation-stack/)
+
+[^2]: [https://aws.amazon.com/blogs/database/restore-amazon-dynamodb-backups-to-different-aws-regions-and-with-custom-table-settings/](https://aws.amazon.com/blogs/database/restore-amazon-dynamodb-backups-to-different-aws-regions-and-with-custom-table-settings/)
