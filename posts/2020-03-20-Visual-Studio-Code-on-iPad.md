@@ -32,7 +32,6 @@ First, SSH into your server, so that we can setup `code-server`. We are going to
 ```bash
 $ ssh user@example.com
 $ wget https://github.com/cdr/code-server/releases/download/3.0.0/code-server-3.0.0-linux-x86_64.tar.gz
-tar.gz
 ...
 code-server-3.0.0-linux-x86_6 100%[==============================================>]  64.31M  3.47MB/s    in 9.4s
 $ tar -zxvf code-server-3.0.0-linux-x86_64.tar.gz
@@ -228,3 +227,14 @@ $ systemctl start code-server
 ```
 
 Navigate to your domain on port `8080`. Congratulations, you've now got a solid setup for editing code in your iPad browser 🎉
+
+
+<!--
+Setting up in iSH:
+
+```bash
+$ apk add libc-dev
+```
+
+
+-->
