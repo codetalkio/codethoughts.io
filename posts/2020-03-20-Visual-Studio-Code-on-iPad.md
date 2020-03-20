@@ -13,9 +13,9 @@ With [Apple increasing their focus](https://www.apple.com/newsroom/2020/03/apple
 
 I rely heavily on command-line tools and language specific tools (rust-analyser, node, ghcide, etc) for my day-to-day programming, and my current setup features:
 
-- Blink with mosh to a remote server
-- Neovim and [wemux]() on the remote server
-- iSH to play around with very simple CLI needs locally on the iPad
+- [Blink](https://blink.sh) with mosh to a remote server.
+- Neovim and [wemux]() on the remote server.
+- [iSH](https://ish.app) to play around with very simple CLI needs locally on the iPad.
 
 On my computer I use Visual Studio Code, and its long been a wish to get that running somehow on my iPad. This is an attempt to make VS Code available on the iPad, under the restrictions that we have to deal with.
 
@@ -26,8 +26,6 @@ On my computer I use Visual Studio Code, and its long been a wish to get that ru
 
 ## Enter code-server
 [code-server](https://github.com/cdr/code-server) enables you to run VS Code on a remote server, and access it through a browser. While not ideal, this is at least one way to get VS Code onto an iPad.
-
-I'll assume you have a server running somewhere, that you intend to use for this setup.
 
 First, SSH into your server, so that we can setup `code-server`. We are going to download the latest release from GitHub, and set it up. Checkout the latest release at [https://github.com/cdr/code-server/releases](https://github.com/cdr/code-server/releases), and pick the asset for `linux_x86_64`,
 
@@ -65,7 +63,7 @@ Neat! 🙂
 ## Securing the setup for remote access
 So far `code-server` is only listening for local connections, but we'd like to be able to use it on the go, from a browser on the iPad. This means we have to do a little extra work to secure our setup.
 
-`code-server` covers how to do this [in their FAQ](https://github.com/cdr/code-server/blob/master/doc/FAQ.md#how-should-i-expose-code-server-to-the-internet), but skips the specific steps. Unfortunately, due to an issue with self-signed certificates on iOS, we cannot simply use these (see [code-serfer#1122](https://github.com/cdr/code-server/issues/1122)). Instead, we will opt for [letsencrypt](https://letsencrypt.org)!
+`code-server` covers how to do this [in their FAQ](https://github.com/cdr/code-server/blob/master/doc/FAQ.md#how-should-i-expose-code-server-to-the-internet), but skips the specific steps. Due to an issue with self-signed certificates on iOS, we cannot use these (see [code-serfer#1122](https://github.com/cdr/code-server/issues/1122)), so instead we will opt for [letsencrypt](https://letsencrypt.org)!
 
 <!--
 We'll set up a self-signed certificate. For the pass phrase, simply press enter to put a blank password on the key.
@@ -146,15 +144,16 @@ A login screen should appear. Use the password that the server printed, and you 
   <a href="/resources/images/visual-studio-on-ipad-code-file.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/visual-studio-on-ipad-code-file.thumbnail.png" loading="lazy" alt="Code file in Visual Studio Code on iPad" title="Code file in Visual Studio Code on iPad" /></a>
 </div>
 
+Note that we can even use the integrated terminal via the browser instance.
 
 ## Daemonizing the server
 Currently we need to manually start the server every time we reboot our server. Instead of this, we'd like the `code-server` to be managed as a system service.
 
 We'll do this by:
 
-- Start `code-server` with a fixed password
-- Setting up a script to start `code-server` in a `screen` instance
-- Letting `systemd` manage the start/stop of the service
+- Starting `code-server` with a fixed password.
+- Setting up a script to start `code-server` in a `screen` instance.
+- Letting `systemd` manage the start/stop of the service.
 
 **Passphrase**
 
