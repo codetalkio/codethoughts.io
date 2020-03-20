@@ -25,10 +25,10 @@ To better orchestrate the deployment of these and have better handling of depend
 
 Internally these tools generate unique references (logical ids), each in their own way, to the resources they generate CloudFormation for. This meant that for us to have the new tools adopt and manage the existing resources, we needed a way to change the logical ids of a resource.
 
-Unfortunately, [this is not possible for DynamoDB tables](https://github.com/serverless/serverless/issues/1677), without recreating the resources ☹️
+Unfortunately, this is not possible for DynamoDB tables^[As mentioned in [serverless#1677](https://github.com/serverless/serverless/issues/1677), this is not supported.], without recreating the resources ☹️
 
 ## Approach
-The idea came after AWS announced support for importing existing resources into a CloudFormation stack[^1], and was further motivated by the later support for restoring a DynamoDB table to another region[^2].
+The idea came after AWS announced support for importing existing resources into a CloudFormation stack^[[https://aws.amazon.com/blogs/aws/new-import-existing-resources-into-a-cloudformation-stack/](https://aws.amazon.com/blogs/aws/new-import-existing-resources-into-a-cloudformation-stack/).], and was further motivated by the later support for restoring a DynamoDB table to another region^[[https://aws.amazon.com/blogs/database/restore-amazon-dynamodb-backups-to-different-aws-regions-and-with-custom-table-settings/](https://aws.amazon.com/blogs/database/restore-amazon-dynamodb-backups-to-different-aws-regions-and-with-custom-table-settings/).].
 
 The concept is simple and can be divided into two phases.
 
@@ -98,7 +98,3 @@ This way you perform live transformation on your data, and have ample time to se
 While very high-level, this approach is a great tool to have in your toolbox when you run into those once-in-a-while cases where you need to perform these migrations.
 
 If you are interested in me expanding more on the approach, please don't hesitate to leave a comment 🙂
-
-[^1]: [https://aws.amazon.com/blogs/aws/new-import-existing-resources-into-a-cloudformation-stack/](https://aws.amazon.com/blogs/aws/new-import-existing-resources-into-a-cloudformation-stack/)
-
-[^2]: [https://aws.amazon.com/blogs/database/restore-amazon-dynamodb-backups-to-different-aws-regions-and-with-custom-table-settings/](https://aws.amazon.com/blogs/database/restore-amazon-dynamodb-backups-to-different-aws-regions-and-with-custom-table-settings/)
