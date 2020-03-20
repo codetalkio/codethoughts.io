@@ -6,8 +6,8 @@ tags: vscode, ipad, dx, digital nomad
 *Versions and Tools used:*
 
 - *`code-server` Version 3.0.0*
-- your own server
-- your own domain
+- Your own server
+- Your own domain
 
 With [Apple increasing their focus](https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/) on making the iPad a viable device for work, it is time to revisit using my iPad as a workstation for programming.
 
