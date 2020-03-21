@@ -12,15 +12,15 @@ packages:
   original:
     hackage: hakyll-shakespeare-0.1.0.0.2
 - completed:
-    hackage: hakyll-4.13.0.1@sha256:0f27d74feaedc96648ec5377ecec2b35dd677516c9667d179462a350f2075628,8817
+    hackage: hakyll-4.13.2.0@sha256:7185031bacfff87141486ada90798550dd0c29424ba613c7974222b27cf0f3b5,8867
     pantry-tree:
       size: 7841
-      sha256: 4a4409d287ee3daabb0141e3ebd3d2e88ead7382ba5cc582733907b4a938c4a8
+      sha256: d56afbe335270c66a19dea685413f4b06225805b5d6036a28da8b51f113dffae
   original:
-    hackage: hakyll-4.13.0.1
+    hackage: hakyll-4.13.2.0
 snapshots:
 - completed:
-    size: 524996
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/27.yaml
-    sha256: 7ea31a280c56bf36ff591a7397cc384d0dff622e7f9e4225b47d8980f019a0f0
-  original: lts-14.27
+    size: 503886
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/3/21.yaml
+    sha256: c58f3560a333e9055a4c9a686d2ec9e7c957010d52ea4163cd38b09a110ddc4f
+  original: nightly-2020-03-21

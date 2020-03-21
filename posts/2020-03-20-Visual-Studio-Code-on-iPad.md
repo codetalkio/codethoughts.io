@@ -1,13 +1,11 @@
 ---
 title: Visual Studio Code on iPad
-tags: vscode, ipad, dx, digital nomad
+tags: vscode, ipad, digital nomad
+versions:
+- '`code-server` version 3.0.0'
+- 'Your own server'
+- 'Your own domain'
 ---
-
-*Versions and Tools used:*
-
-- *`code-server` Version 3.0.0*
-- Your own server
-- Your own domain
 
 With Apple increasing their focus^[[https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/](https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/).] on making the iPad a viable device for work, it is time to revisit using my iPad as a workstation for programming.
 
@@ -18,6 +16,8 @@ I rely heavily on command-line tools and language specific tools (rust-analyser,
 - [iSH](https://ish.app) to play around with very simple CLI needs locally on the iPad.
 
 On my computer I use Visual Studio Code, and its long been a wish to get that running somehow on my iPad. This is an attempt to make VS Code available on the iPad, under the restrictions that we have to deal with.
+
+<div></div><!--more-->
 
 <div class="callout">
   <div class="callout-bulb">💡</div>

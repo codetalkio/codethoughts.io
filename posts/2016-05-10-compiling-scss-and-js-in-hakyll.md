@@ -1,16 +1,16 @@
 ---
 title: Compiling SCSS and JavaScript in Hakyll
 tags: haskell, hakyll
+versions:
+- Hakyll 4.8.3.0
+- hjsmin 0.2.0.1
+- Sass 3.4.18
+- Stackage LTS 5.15
 ---
 
-_Versions used:_
-
-* _Hakyll 4.8.3.0_
-* _hjsmin 0.2.0.1_
-* _Sass 3.4.18_
-* _Stackage LTS 5.15_
-
 This seems to be an often asked question, so I thought I'd try and share the approach that I've arrived at after having explored a couple of solutions to the problem. If you want to see the full code in action, check out the [repo for the codetalk.io site](https://github.com/codetalkio/codetalk.io/blob/v1.0.0/site.hs#L9) (linking to v1.0.0 is intended, in case the code changes later on).
+
+<div></div><!--more-->
 
 ## Compiling and minifying JavaScript
 For some reason `Hakyll` does not include its own JavaScript compiler, which makes little sense. Luckily there is a package called `hjsmin` giving us `Text.Jasmine`, which we will use to both compile and minify our JavaScript files.

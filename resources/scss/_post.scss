@@ -75,6 +75,18 @@
       margin-top: 0;
     }
 
+    p.versions-section {
+      font-style: italic;
+    }
+    ul.versions {
+      li {
+        p {
+          margin-top: 0;
+          font-style: italic;
+        }
+      }
+    }
+
     blockquote {
       ul {
         padding-left: $spacing;

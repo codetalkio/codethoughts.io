@@ -1,18 +1,18 @@
 ---
 title: Mobile Haskell (iOS)
 tags: haskell, mobile, iOS
+versions:
+- 'Xcode Version 9.2 (9C40b)'
+- 'Cabal HEAD (commit [94a7374](https://github.com/haskell/cabal/commit/94a7374d7b1a9b55454209e92d5057ba81be7d6a){target="_blank" rel="noopener noreferrer"})'
+- 'Stack Version 1.6.3'
+- 'LLVM Version 5.0.1'
 ---
-
-*Versions used:*
-
-- *Xcode Version 9.2 (9C40b)*
-- *Cabal HEAD (commit [94a7374](https://github.com/haskell/cabal/commit/94a7374d7b1a9b55454209e92d5057ba81be7d6a){target="_blank" rel="noopener noreferrer"})*
-- *Stack Version 1.6.3*
-- *LLVM Version 5.0.1*
 
 A lot of progress has been going on to make Haskell work on mobile natively, instead of e.g. generating JavaScript via GHCJS and using that. Unfortunately, not much documentation exists yet on how to build a project using these tools all together.
 
 This post will be an attempt to piece together the tools and various attempts into a coherent step-by-step guide. We will start by setting up the tools needed, and then build an iOS app that runs in both the simulator and on the device itself (i.e. a x86 build and an arm build).
+
+<div></div><!--more-->
 
 For the impatient and brave, simply,
 

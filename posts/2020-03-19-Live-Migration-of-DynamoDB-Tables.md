@@ -13,6 +13,8 @@ The following will be a very high-level overview of how you:
 	- Restart the migration if you made an error
 - Complete the switchover after validating everything looks OK
 
+<div></div><!--more-->
+
 <div class="callout">
   <div class="callout-bulb">💡</div>
   This won't be detailed walkthrough but will instead outline a method for people that are in the same situation we were.

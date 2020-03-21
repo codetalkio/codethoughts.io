@@ -3,9 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import Data.Aeson
-import Data.Aeson.Types
-import Data.Text
-       (Text, append, drop, isPrefixOf, pack, toLower, unpack)
+import Data.Text (Text, append, drop, isPrefixOf, pack, toLower, unpack)
 import GHC.Generics
 import Prelude hiding (drop)
 import Text.HandsomeSoup

@@ -21,9 +21,34 @@ $endif$
       $if(tags)$ in $tags$ $endif$ $if(author)$ by $author$ $endif$
     </p>
   </header>
+
   <article class="article-body">
-    $body$
+    $if(isRawPost)$
+    <!-- Show a teaser, if we are in a raw post and it exists -->
+    $if(teaser)$ $teaser$
+    <p>
+      <a href="$url$">
+        Read more →
+      </a>
+    </p>
+    $else$
+    <!-- Else fall back to the body -->
+    $body$ $endif$ $else$
+    <!-- If we are viewing a single post, show versions also -->
+    $if(hasVersions)$
+    <p class="versions-section">
+      Versions and tools used:
+    </p>
+    <ul class="versions">
+      $for(versions)$
+      <li>$version$</li>
+      $endfor$
+    </ul>
+    $endif$
+    <!-- Finally, the body of the post -->
+    $body$ $endif$
   </article>
+
   $if(isNormalPost)$
   <div class="clear"></div>
   $partial("templates/disqus.html")$ $endif$

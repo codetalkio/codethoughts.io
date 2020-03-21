@@ -1,11 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main (main) where
-import Data.Monoid ((<>))
 import Hakyll
 
 import Site.Compiler (sassCompiler)
-import Site.Context (baseCtx, postCtx, rawPostCtx, rawPostWithTagsCtx)
+import Site.Context (baseCtx, postCtx, rawPostCtx, teaserCtx)
+import Site.Feed (feedConfiguration)
 
+postPatterns :: Pattern
+postPatterns = "posts/*.md" .||. "posts/*.html"
 
 -- | Define the rules for the site/hakyll compiler
 main :: IO ()
@@ -54,7 +56,7 @@ main = hakyll $ do
     route   idRoute
     compile $ do
       -- Get the two latest posts
-      posts <- fmap (take 7) $ recentFirst =<< loadAllSnapshots ("posts/*.md" .||. "posts/*.html") "content"
+      posts <- fmap (take 7) $ recentFirst =<< loadAllSnapshots postPatterns "raw-post-content"
       let ctx = listField "posts" rawPostCtx (return posts) <>
                 constField "title" "codetalk"               <>
                 baseCtx
@@ -67,7 +69,7 @@ main = hakyll $ do
   create ["archive.html"] $ do
     route   idRoute
     compile $ do
-      posts <- recentFirst =<< loadAllSnapshots ("posts/*.md" .||. "posts/*.html") "content"
+      posts <- recentFirst =<< loadAllSnapshots postPatterns "raw-post-content"
       let ctx = listField "posts" rawPostCtx (return posts) <>
                 constField "title" "Archive"                <>
                 baseCtx
@@ -77,15 +79,30 @@ main = hakyll $ do
         >>= relativizeUrls
 
   -- | Build the tags
-  tags <- buildTags "posts/*" (fromCapture "tags/*.html")
+  tags <- buildTags postPatterns (fromCapture "tags/*.html")
+
+  -- | Create an RSS and Atom feed
+  let feedContent = do
+        route idRoute
+        compile $ do
+            let feedCtx = postCtx tags <> bodyField "description"
+            posts <- fmap (take 10) . recentFirst =<<
+                loadAllSnapshots postPatterns "processed-post-content"
+            renderAtom feedConfiguration feedCtx posts
+  create ["atom.xml"] feedContent
+  create ["rss.xml"] feedContent
 
   -- | Posts: The post as an HTML page
-  match ("posts/*.md" .||. "posts/*.html") $ do
+  match postPatterns $ do
     route   $ setExtension "html"
     compile $ pandocCompiler
-      -- Create snapshots for later, when using the "raw" blog post
-      >>= saveSnapshot "content"
+      -- Create snapshots of the raw post, before any templates are applied. We can get this
+      -- later by loading the snapshot from `raw-post-content`.
+      >>= saveSnapshot "raw-post-content"
       >>= loadAndApplyTemplate "templates/post.html"    (postCtx tags)
+      -- Create snapshots of the processed post, before any the final templates is applied. We can get this
+      -- later by loading the snapshot from `postContent`.
+      >>= saveSnapshot "processed-post-content"
       >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
       >>= relativizeUrls
 
@@ -93,10 +110,10 @@ main = hakyll $ do
     let title = "Posts tagged " ++ tag
     route idRoute
     compile $ do
-      posts <- recentFirst =<< loadAllSnapshots pattern' "content"
+      posts <- recentFirst =<< loadAllSnapshots pattern' "raw-post-content"
       let ctx = constField "title" title                                   <>
                 constField "currenttag" tag                                <>
-                listField "posts" (rawPostWithTagsCtx tags) (return posts) <>
+                listField "posts" (teaserCtx tags) (return posts) <>
                 baseCtx
       makeItem ""
         >>= loadAndApplyTemplate "templates/post-listing.html" ctx
@@ -104,23 +121,23 @@ main = hakyll $ do
         >>= relativizeUrls
 
   -- | Set the pagination grouping to be 3 items, sorted by recent first
-  let grouping = fmap (paginateEvery 3) . sortRecentFirst
+  let grouping = fmap (paginateEvery 10) . sortRecentFirst
   -- | Create the identifier for the paginated pages in the format of
   -- 'posts/page/1/index.html' and so on
   let makeIdentifier n = fromFilePath $ "posts/page/" ++ show n
                                         ++ "/index.html"
   -- | Blog pagination: Create the pagination rules for the blog
-  blog <- buildPaginateWith grouping ("posts/*.md" .||. "posts/*.html") makeIdentifier
+  blog <- buildPaginateWith grouping postPatterns makeIdentifier
 
   -- | Blog: Create the paginated blog page
   paginateRules blog $ \pageNum pattern' -> do
     route   idRoute
     compile $ do
       -- Load all the pages from snapshot, to avoid pulling in all the HTML
-      posts <- recentFirst =<< loadAllSnapshots pattern' "content"
+      posts <- recentFirst =<< loadAllSnapshots pattern' "raw-post-content"
       let paginateCtx = paginateContext blog pageNum
           ctx = constField "title" "codetalk blog"                         <>
-                listField "posts" (rawPostWithTagsCtx tags) (return posts) <>
+                listField "posts" (teaserCtx tags) (return posts) <>
                 paginateCtx                                                <>
                 baseCtx
       makeItem ""

@@ -1,22 +1,20 @@
 ---
 title: Local notifications from irssi on a remote server
 tags: irssi
+versions:
+- OS X 10.9 Mavericks (should work on all, unless they change launchtl plists)
+- irssi v0.8.15
+- autossh v1.4c
+- terminal-notifier v1.6.1
 ---
-
-_As of writing, the versions used are_
-
-* _OS X 10.9 Mavericks (should work on all, unless they change launchtl plists_
-* _irssi v0.8.15_
-* _autossh v1.4c_
-* _terminal-notifier v1.6.1_
-
-_Update: Added checks for existing processes in the script._
 
 So, if you're like me and like to have your IRC client (in this instance [irssi](http://www.irssi.org)) running on a server in a `tmux` or `screen` session to never miss out on the conversation, you might feel like you're missing some of the benefits of running a local IRC client.
 
-In particular, I was missing local notifications when someone would highlight my nickname. I could of course use a bouncer, but hey! it's no fun running `irssi` locally and having to close it for a reboot just as you've gotten it precisely the way you like it :)...
+In particular, I was missing local notifications when someone would highlight my nickname. I could of course use a bouncer, but hey! it's no fun running `irssi` locally and having to close it for a reboot just as you've gotten it precisely the way you like it 🙂...
 
 So, how does one solve this problem?
+
+<div></div><!--more-->
 
 
 ## The setup

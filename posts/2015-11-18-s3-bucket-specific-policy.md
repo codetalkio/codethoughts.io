@@ -19,6 +19,7 @@ There are two ways to generate policies:
 I will generally advise to either use the generator completely or at least use
 it for the basis of the policy you want to create.
 
+<div></div><!--more-->
 
 ## Using the policy generator
 To access the generator go into IAM -> Policies -> Create Policy -> Policy Generator.

@@ -8,6 +8,8 @@ Or really anywhere that [https://pushover.net](https://pushover.net) supports.
 
 In light of the [earlier article](/posts/2014-09-24-local-notifications-from-irssi-on-a-remote-server.html), I thought I'd might as well supercharge my IRC setup. So, now we're gonna get some notifications for our mobile devices via pushover.
 
+<div></div><!--more-->
+
 ## Setting up pushover
 There really isn't much to do here. First, go create an account and download the app on the device you want notifications on.
 

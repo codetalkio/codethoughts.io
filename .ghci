@@ -1,2 +1,5 @@
 :set -XOverloadedStrings
+:set -fwarn-unused-binds -fwarn-unused-imports
+:set -isrc
+:load Main
 import           Hakyll

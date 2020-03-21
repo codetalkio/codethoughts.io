@@ -1,17 +1,17 @@
 ---
 title: Deploying with Vagrant
 tags: vagrant
+versions:
+- Vagrant 1.4.3
 ---
 
-__UPDATE: I wouldn't really recommend this approach anymore! In stead you should look into [Docker](https://www.docker.com) for containerization and [Stack](http://docs.haskellstack.org/en/stable/README/) as a Haskell build tool that eliminates Cabal hell :)...__
-
-_Versions used:_
-
-* _Vagrant 1.4.3_
+_UPDATE: I wouldn't really recommend this approach anymore! In stead you should look into [Docker](https://www.docker.com) for containerization and [Stack](http://docs.haskellstack.org/en/stable/README/) for the Haskell side_
 
 I recently started looking into ways that I could improve my current deployment workflow. Since my server doesn't have much RAM, I currently build the binaries locally in a Virtual Machine (VM from here on out) and then send them to the server using `scp`.
 
 Although I can't do much about the server part (except buying a bigger server), I can do something about what I do locally. I set out to check what possibilities I had, and ended up looking at <a href="http://www.vagrantup.com" target="_blank" rel="noopener noreferrer" title="Vagrant" alt="Vagrant">Vagrant</a>.
+
+<div></div><!--more-->
 
 While it doesn't cut hugely from the local part of my deployment hassles, it could at least streamline it a bit, and help remove the cabal hell that I'd sometimes run into with my current setup (having multiple applications that I deploy from the same VM).
 

@@ -1,12 +1,10 @@
 ---
 title: Setting up UnrealIRCd and Anope IRC Services on EC2
 tags: irc, aws, unrealircd, anope
+versions:
+- UnrealIRCd 4.0.0-rc3
+- Anope 2.0.2
 ---
-
-_Versions used:_
-
-* _UnrealIRCd 4.0.0-rc3_
-* _Anope 2.0.2_
 
 Having recently discovered <a href="http://sameroom.io" target="_blank" rel="noopener noreferrer">sameroom.io</a> I wanted to update the codetalk IRC server to be compliant with their
 authentication method. This basically just meant enabling `SASL` support, but
@@ -22,6 +20,8 @@ This will go through the process of doing exactly that, by talking about:
 * <a href="#automating-launch-of-ec2-and-install">a little about automating the launch of the `EC2`</a> instance that the IRC server will run on, using the `user-data` field as input for a setup
 script.
 * <a href="#github-repo-ready-to-fork">all the important files gathered in a github repo</a>
+
+<div></div><!--more-->
 
 If you just want to throw yourself in the deep end, you can fork/clone the github
 repository, alter the configuration and script variables to fit your need and

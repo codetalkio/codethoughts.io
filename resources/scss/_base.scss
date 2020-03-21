@@ -299,6 +299,12 @@ pre {
   }
 }
 
+.post-listing {
+  .footnote-ref {
+    display: none;
+  }
+}
+
 #breadcrumbs {
   @include center-content;
 

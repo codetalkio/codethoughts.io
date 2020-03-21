@@ -19,7 +19,9 @@
   </div>
 </div>
 
-$for(posts)$ $partial("templates/post.html")$ $endfor$
+<span class="post-listing">
+  $for(posts)$ $partial("templates/post.html")$ $endfor$
+</span>
 
 <div id="pagination">
   $if(previousPageNum)$

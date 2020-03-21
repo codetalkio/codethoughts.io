@@ -19,12 +19,14 @@ executable hakyll-site
   ghc-options:         -Wall -threaded
   other-modules:       Site.Compiler
                      , Site.Context
+                     , Site.Feed
   build-depends:       base
                      , hakyll
+                     , hakyll-shakespeare
+                     , pandoc
                      , text
                      , bytestring
                      , aeson
-                     , hakyll-shakespeare
                      , hxt
                      , HandsomeSoup
 

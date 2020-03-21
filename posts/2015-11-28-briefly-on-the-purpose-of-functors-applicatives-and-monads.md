@@ -6,6 +6,7 @@ tags: haskell
 In a recent thread on [/r/haskell](https://www.reddit.com/r/haskell/) about how
 to [motivate the AMP proposal in teaching](https://www.reddit.com/r/haskell/comments/3tpom7/amp_how_do_you_motivate_this_in_teaching/), I read a comment that finally helped me understand the purpose of `Functor`s, `Applicative`s and `Monad`s.
 
+<div></div><!--more-->
 
 ## Wait, what is AMP?
 
