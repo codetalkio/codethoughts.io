@@ -14,22 +14,22 @@ main :: IO ()
 main = hakyll $ do
   -- | Route for all images
   match "resources/images/*" $ do
-    route   idRoute
+    route idRoute
     compile copyFileCompiler
 
   -- | Route for all pdfs
   match "resources/pdfs/*" $ do
-    route   idRoute
+    route idRoute
     compile copyFileCompiler
 
   -- | Route for the favicon
   match "resources/favicon.ico" $ do
-    route   $ constRoute "favicon.ico"
+    route $ constRoute "favicon.ico"
     compile copyFileCompiler
 
   -- | Route for the rest of the favicons
   match "resources/favicon/*" $ do
-    route   idRoute
+    route idRoute
     compile copyFileCompiler
 
   -- | Compile SCSS to CSS and serve it
@@ -53,25 +53,25 @@ main = hakyll $ do
 
   -- | Index: Create the index page but using a list of posts
   create ["index.html"] $ do
-    route   idRoute
+    route idRoute
     compile $ do
       -- Get the two latest posts
       posts <- fmap (take 7) $ recentFirst =<< loadAllSnapshots postPatterns "raw-post-content"
       let ctx = listField "posts" rawPostCtx (return posts) <>
-                constField "title" "codetalk"               <>
+                constField "title" "codetalk" <>
                 baseCtx
       makeItem ""
         >>= loadAndApplyTemplate "templates/frontpage.html" ctx
-        >>= loadAndApplyTemplate "templates/default.html"   ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
   -- | Archive: Create the archive page but using a list of the posts
   create ["archive.html"] $ do
-    route   idRoute
+    route idRoute
     compile $ do
       posts <- recentFirst =<< loadAllSnapshots postPatterns "raw-post-content"
       let ctx = listField "posts" rawPostCtx (return posts) <>
-                constField "title" "Archive"                <>
+                constField "title" "Archive" <>
                 baseCtx
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" ctx
@@ -111,36 +111,37 @@ main = hakyll $ do
     route idRoute
     compile $ do
       posts <- recentFirst =<< loadAllSnapshots pattern' "raw-post-content"
-      let ctx = constField "title" title                                   <>
-                constField "currenttag" tag                                <>
+      let ctx = constField "title" title <>
+                constField "currenttag" tag <>
                 listField "posts" (teaserCtx tags) (return posts) <>
                 baseCtx
       makeItem ""
         >>= loadAndApplyTemplate "templates/post-listing.html" ctx
-        >>= loadAndApplyTemplate "templates/default.html"      ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
   -- | Set the pagination grouping to be 3 items, sorted by recent first
   let grouping = fmap (paginateEvery 10) . sortRecentFirst
+
   -- | Create the identifier for the paginated pages in the format of
   -- 'posts/page/1/index.html' and so on
-  let makeIdentifier n = fromFilePath $ "posts/page/" ++ show n
-                                        ++ "/index.html"
+  let makeIdentifier n = fromFilePath $ "posts/page/" ++ show n ++ "/index.html"
+
   -- | Blog pagination: Create the pagination rules for the blog
   blog <- buildPaginateWith grouping postPatterns makeIdentifier
 
   -- | Blog: Create the paginated blog page
   paginateRules blog $ \pageNum pattern' -> do
-    route   idRoute
+    route idRoute
     compile $ do
       -- Load all the pages from snapshot, to avoid pulling in all the HTML
       posts <- recentFirst =<< loadAllSnapshots pattern' "raw-post-content"
       let paginateCtx = paginateContext blog pageNum
-          ctx = constField "title" "codetalk blog"                         <>
+          ctx = constField "title" "codetalk blog" <>
                 listField "posts" (teaserCtx tags) (return posts) <>
-                paginateCtx                                                <>
+                paginateCtx <>
                 baseCtx
       makeItem ""
         >>= loadAndApplyTemplate "templates/post-listing.html" ctx
-        >>= loadAndApplyTemplate "templates/default.html"      ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
