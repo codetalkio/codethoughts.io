@@ -39,17 +39,17 @@ jobs:
         name: Cache .stack-work
         with:
           path: .stack-work
-          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-work
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-${{ hashFiles('stack.yaml') }}-stack-work
       - uses: actions/cache@v1
         name: Cache ~/.cabal/store
         with:
           path: ~/.cabal/store
-          key: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-${{ hashFiles('stack.yaml') }}-cabal-store
       - uses: actions/cache@v1
         name: Cache stack
         with:
           path: ~/.stack
-          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-${{ hashFiles('stack.yaml') }}-stack
 
 
       - name: Build dependencies
