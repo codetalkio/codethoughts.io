@@ -14,7 +14,7 @@ jobs:
   cd:
     runs-on: ubuntu-16.04
     env:
-      GHC_VERSION: '8.6.5'
+      GHC_VERSION: '8.8.3'
       CABAL_VERSION: '3.0'
     steps:
       - uses: actions/checkout@v1
@@ -22,7 +22,7 @@ jobs:
       # Setup tooling
       - name: Setup stack
         uses: mstksg/setup-stack@v1
-      - name: Setup GHC 8.6.5
+      - name: Setup GHC ${{env.GHC_VERSION}}
         uses: actions/setup-haskell@v1
         with:
           ghc-version: ${{env.GHC_VERSION}}
@@ -39,17 +39,17 @@ jobs:
         name: Cache .stack-work
         with:
           path: .stack-work
-          key: ${{ runner.os }}-${{env.GHC_VERSION}}-${{ hashFiles('stack.yaml') }}-stack-work
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-work
       - uses: actions/cache@v1
         name: Cache ~/.cabal/store
         with:
           path: ~/.cabal/store
-          key: ${{ runner.os }}-${{env.GHC_VERSION}}-${{ hashFiles('stack.yaml') }}-cabal-store
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store
       - uses: actions/cache@v1
         name: Cache stack
         with:
           path: ~/.stack
-          key: ${{ runner.os }}-${{env.GHC_VERSION}}-${{ hashFiles('stack.yaml') }}-stack
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack
 
 
       - name: Build dependencies
