@@ -3,7 +3,7 @@ title: Common JSON patterns in Haskell, Rust and TypeScript
 tags: haskell, lens, javascript, typescript, rust, records, serde, aeson
 ---
 
-A lot of web development is transforming JSON one way or another. In TypeScript/JavaScript this is straightforward, since JSON is built-in to the language. But can we also achieve good ergonomics in Haskell and Rust? *Dear reader, I am glad you asked! 🙌*
+A lot of web development is transforming JSON one way or another. In TypeScript/JavaScript this is straightforward, since JSON is built into the language. But can we also achieve good ergonomics in Haskell and Rust? *Dear reader, I am glad you asked! 🙌*
 
 The comparisons we will see is not meant to show if one approach is better than another. Instead, it is intended to be a reference to become familiar with common patterns across multiple languages. Throughout this post we will utilize several tools and libraries.
 
@@ -120,48 +120,52 @@ house = Household
     son = Person { id = 3, firstname = "Eric", lastname = "Swanson" }
 ```
 
-To allow the overlapping record fields, we use [DuplicateRecordFields](https://gitlab.haskell.org/ghc/ghc/-/wikis/records/overloaded-record-fields/duplicate-record-fields) + [OverloadedLabels](https://gitlab.haskell.org/ghc/ghc/-/wikis/records/overloaded-record-fields/overloaded-labels), along with a bunch of other extensions for deriving things via generics.
+To allow overlapping record fields, we use [DuplicateRecordFields](https://github.com/adamgundry/ghc-proposals/blob/overloaded-record-fields/proposals/0000-overloaded-record-fields.rst#recap-duplicaterecordfields) along with [OverloadedLabels](https://github.com/adamgundry/ghc-proposals/blob/overloaded-record-fields/proposals/0000-overloaded-record-fields.rst#recap-overloadedlabels) (only in the Lens version), and a bunch of other extensions for deriving things via generics.
 
 **Rust**
 
 The full setup can be found in [rust-serde](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/rust-serde). Check out `src/house.rs` for the data structures, and `src/main.rs` for all the examples throughout this post.
 
 ```rust
-pub struct Address<'a> {
-    pub country: &'a str,
-    pub address: &'a str,
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Address {
+    pub country: String,
+    pub address: String,
 }
 
-pub struct Person<'a> {
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Person {
     pub id: u32,
-    pub firstname: &'a str,
-    pub lastname: &'a str,
+    pub firstname: String,
+    pub lastname: String,
 }
 
-pub struct Household<'a> {
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct Household {
     pub id: u32,
-    pub people: Vec<Person<'a>>,
-    pub address: Option<Address<'a>>,
-    pub alternative_address: Option<Address<'a>>,
-    pub owner: Person<'a>
+    pub people: Vec<Person>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub address: Option<Address>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub alternative_address: Option<Address>,
+    pub owner: Person
 }
 
-pub fn house<'a>() -> Household<'a> {
-    let addr = Address { country: "Ocean", address: "Under the sea" };
-    let mom = Person { id: 1, firstname: "Ariel", lastname: "Swanson" };
-    let dad = Person { id: 2, firstname: "Triton", lastname: "Swanson" };
-    let son = Person { id: 3, firstname: "Eric", lastname: "Swanson" };
+pub fn house() -> Household {
+    let addr = Address { country: "Ocean".to_string(), address: "Under the sea".to_string() };
+    let mom = Person { id: 1, firstname: "Ariel".to_string(), lastname: "Swanson".to_string() };
+    let dad = Person { id: 2, firstname: "Triton".to_string(), lastname: "Swanson".to_string() };
+    let son = Person { id: 3, firstname: "Eric".to_string(), lastname: "Swanson".to_string() };
     Household {
         id: 1,
-        people: vec![mom, dad, son],
+        people: vec![mom.clone(), dad, son],
         address: Some(addr),
         alternative_address: None,
-        owner: mom
+        owner: mom.clone()
     }
 }
 ```
-
-Note that I've removed most of the `serde` macros for readability.
 
 
 ## Comparison
@@ -184,16 +188,19 @@ $ stack ghci
 *Main Data>
 ```
 
+
+Unfortunately GHC plugins doesn't play nicely with `ghci`, so we will instead build the project, and then you can play around with the examples in `src/Main.hs`.
+
 ```bash
 $ cd haskell-record-dot
 $ stack build
-$ stack ghci
-*Main Data>
+$ # Open src/Main.hs in your editor
+$ stack run
 ```
 
 **Rust**
 
-Unfortunately Rust doesn't have a REPL, so we will instead build the project, and then you can play around with the examples in `src/main.rs`.
+Since Rust doesn't have a REPL, we will instead build the project, and then you can play around with the examples in `src/main.rs`.
 
 ```bash
 $ cd rust-serde
@@ -217,9 +224,14 @@ Let's see how we achieve this in **Haskell with Lenses:**
 Person {id = 1, firstname = "Ariel", lastname = "Swanson"}
 ```
 
+There's probably already two unfamiliar pieces of syntax here.
+
+The first, `^.`, comes from Lens and is the `view` function that we use as an accessor to the object/record. The second, the `#` prefix of `#owner`, comes from the `OverloadedLabels` extension, and allows us to have multiple record fields of the same name in scope.
+
 Let's see how we achieve this in **Haskell with Record Dot Syntax:**
 ```haskell
-*Main Data>
+house.owner
+--> Person {id = 1, firstname = "Ariel", lastname = "Swanson"}
 ```
 
 Finally, let's check out **Rust:**
@@ -245,7 +257,8 @@ We slowly increase the difficulty, by accessing a nested field.
 
 **Haskell with Record Dot Syntax:**
 ```haskell
-*Main Data>
+house.owner.firstname
+--> "Ariel"
 ```
 
 **Rust:**
@@ -273,6 +286,8 @@ TypeError: Cannot read property 'address' of undefined
 undefined
 ```
 
+Optional chaining (`?`) is a great step forward for writing safer and cleaner code in JS/TS.
+
 **Haskell with Lenses:**
 ```haskell
 -- Return the value in a Maybe.
@@ -288,10 +303,24 @@ Just (Address {country = "Ocean", address = "Under the sea"})
 ""
 ```
 
+`#_Just` from Lens gives us handy access to fields wrapped in `Maybe`s, with a fallback value.
+
 **Haskell with Record Dot Syntax:**
 ```haskell
-*Main Data>
+-- Return the value in a Maybe.
+house.address
+--> Just (Address {country = "Ocean", address = "Under the sea"})
+
+-- A field on an object that exists.
+maybe "" (.address) house.address
+--> "Under the sea"
+
+-- A field on an object that does *NOT* exist (falls back to an empty value.)
+maybe "" (.address) house.alternativeAddress
+--> ""
 ```
+
+We end up writing more regular code to dive into the `Maybe` value, by using `maybe`[^dataMaybe] to proceed or fallback to a default value.
 
 **Rust:**
 ```rust
@@ -300,13 +329,15 @@ house.address
 --> Some(Address { country: "Ocean", address: "Under the sea" })
 
 // A field on an object that exists.
-house.address.and_then(|a| Some(a.address)).unwrap_or("")
+house.address.and_then(|a| Some(a.address)).unwrap_or("".to_string()
 --> "Under the sea"
 
 // A field on an object that does *NOT* exist (falls back to an empty value.)
-house.alternative_address.and_then(|a| Some(a.address)).unwrap_or("")
+house.alternative_address.and_then(|a| Some(a.address)).unwrap_or("".to_string())
 --> ""
 ```
+We utilize `and_then` a bit like `maybe`, passing a function to act on our value if it's `Some`, and then creating a default case with `unwrap_or`.
+
 
 ### Update a field
 We'll start with updating a non-nested field. Note that for the JavaScript versions we will clone our objects before doing any mutations, to keep our `data` object consistent througout the examples.
@@ -314,24 +345,35 @@ We'll start with updating a non-nested field. Note that for the JavaScript versi
 **TypeScript:**
 ```typescript
 > newData = JSON.parse(JSON.stringify(data)); // Clone our data object.
-> newData.house.owner = { id: 1, firstname: 'New Ariel', lastname: 'Swandóttir' }
-{ id: 1, firstname: 'New Ariel', lastname: 'Swandóttir' }
+> const newAriel = { id: 4, firstname: 'New Ariel', lastname: 'Swandóttir' }
+> newData.house.owner = newAriel
+{ id: 4, firstname: 'New Ariel', lastname: 'Swandóttir' }
 ```
 
 **Haskell with Lenses:**
 ```haskell
-*Main Data>
+*Main Data> let newAriel = Person { id = 4, firstname = "New Ariel", lastname = "Swanson" }
+*Main Data> house & #owner .~ newAriel
+Household { {- Full Household object... -} }
 ```
+
+We add two pieces of syntax here. The `&` is a reverse application operator, but for all intents and purposes, think of it as the `^.` for setters. Finally, `.~` is what allows us to actually set our value.
 
 **Haskell with Record Dot Syntax:**
 ```haskell
-*Main Data>
+let newAriel = Person { id = 4, firstname = "New Ariel", lastname = "Swanson" }
+house{owner = newAriel}
+--> Household { {- Full Household object... -} }
 ```
 
 **Rust:**
 ```rust
-
+let new_ariel = Person { id: 4, firstname: "New Ariel".to_string(), lastname: "Swanson".to_string() };
+Household { owner: new_ariel, ..house }
+--> Household { /* Full Household object... */ }
 ```
+
+We use Rust's [Struct Update syntax](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax), `..`, which works much like the spread syntax (`...`) in JavaScript.
 
 ### Update a nested field
 Now it gets a bit more tricky.
@@ -345,17 +387,24 @@ Now it gets a bit more tricky.
 
 **Haskell with Lenses:**
 ```haskell
-*Main Data>
+*Main Data> house & #owner . #firstname .~ "New Ariel"
+Household { {- Full Household object... -} }
 ```
+
+Note that we mix `&` and `.` to dig deeper in the object/record, much like accessing a nested field.
 
 **Haskell with Record Dot Syntax:**
 ```haskell
-*Main Data>
+house{owner.firstname = "New Ariel"}
+--> Household { {- Full Household object... -} }
 ```
+
+Note that the lack of spacing in `house{owner.firstname` is actually important, at least in the current state of [RecordDotSyntax](https://github.com/shayne-fletcher-da/ghc-proposals/blob/record-dot-syntax/proposals/0000-record-dot-syntax.md#3-examples).
 
 **Rust:**
 ```rust
-
+Household { owner: Person { firstname: "New Ariel".to_string(), ..house.owner }, ..house }
+--> Household { /* Full Household object... */ }
 ```
 
 ### Update each item in a list
@@ -375,22 +424,36 @@ Let's work a bit on the people list in our household. We'll make those first nam
 
 **Haskell with Lenses:**
 ```haskell
-*Main Data>
+*Main Data> house & #people . mapped %~ (\p -> p & #firstname .~ "Fly " ++ p ^. #firstname)
+Household { {- Full Household object... -} }
 ```
+
+`mapped` allows us to map a function over all the values in `#people`.
 
 **Haskell with Record Dot Syntax:**
 ```haskell
-*Main Data>
+house{people = map (\p -> p{firstname = "Fly " ++ p.firstname}) house.people}
+--> Household { {- Full Household object... -} }
 ```
+
+Using `map` feels very natural, and is quite close to the regular code you would write in Haskell.
 
 **Rust:**
 ```rust
-
+Household {
+    people: house.people.into_iter().map(|p| {
+        Person { firstname: format!("Fly {}", p.firstname).to_string(), ..p }
+    }).rev().collect(),
+    ..house
+}
+--> Household { /* Full Household object... */ }
 ```
+
+<br />
 
 ---
 
-Have other common patterns you'd like to see? Leave a comment, and I will try to expand this list to be more comprehensive.
+Have other common patterns you'd like to see? Feel like some of the approaches could be improved? Leave a comment, and I will try to expand this list to be more comprehensive!
 
 [^moreOptions]: There are of course more options, like [Optics](https://www.well-typed.com/blog/2019/09/announcing-the-optics-library/) ([usage example](https://www.reddit.com/r/haskell/comments/cyo4o2/welltyped_announcing_the_optics_library/eywc9ya?utm_source=share&utm_medium=web2x)), but I won't cover them all here.
 
@@ -399,3 +462,5 @@ Have other common patterns you'd like to see? Leave a comment, and I will try to
 [^genericLens]: We use [generic-lens](https://github.com/kcsongor/generic-lens) for Lens derivations instead of TemplateHaskell.
 
 [^recordDotSyntax]: It will take a bit of time before it is merged and available in GHC, so we will use the [record-dot-preprocessor](https://hackage.haskell.org/package/record-dot-preprocessor) plugin to get a sneak peak.
+
+[^dataMaybe]: `maybe` from Data.Maybe has the type signature `maybe :: b -> (a -> b) -> Maybe a -> b`, taking in as argument (1) a default value (2) a function to run if the value is `Just` and (3) the `Maybe` value we want to operate on.

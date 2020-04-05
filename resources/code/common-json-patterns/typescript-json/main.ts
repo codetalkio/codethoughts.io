@@ -31,7 +31,8 @@ console.log(
 // ## Update a field.
 console.log("\n\n## Update a field.");
 newData = JSON.parse(JSON.stringify(data)); // Clone our data object.
-newData.house.owner = { id: 1, firstname: "New Ariel", lastname: "Swandóttir" };
+const newAriel = { id: 4, firstname: "New Ariel", lastname: "Swandóttir" };
+newData.house.owner = newAriel;
 console.log(newData.house.owner);
 
 // ## Update a nested field.

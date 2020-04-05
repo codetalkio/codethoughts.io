@@ -4,15 +4,18 @@
 {-# LANGUAGE DerivingVia #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE TypeSynonymInstances #-}
 
 module Data where
 
 import Data.Aeson (FromJSON, ToJSON, encode)
 import qualified Data.ByteString.Lazy.Char8 as ByteLazy
-import Data.Generics.Labels ()
 import Deriving.Aeson (CustomJSON(..), Generic, OmitNothingFields)
+import Prelude hiding (id)
 
 data Address = Address
   { country :: String

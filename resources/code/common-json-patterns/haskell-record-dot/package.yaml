@@ -1,0 +1,36 @@
+name: haskell-record-dot
+version: 0.1.0.0
+github: "codetalkio/codetalk.io"
+license: BSD3
+author: "Christian Laustsen"
+maintainer: "ckl@codetalk.io"
+copyright: "Christian Laustsen"
+description: Common JSON patterns using Haskell Record Dot Syntax
+
+# Manage your dependencies here.
+dependencies:
+  - base
+  - bytestring
+  - aeson
+  - deriving-aeson
+  - record-dot-preprocessor
+  - record-hasfield
+
+executables:
+  simple-program-exe:
+    main: Main.hs
+    source-dirs: src
+    ghc-options:
+      # - -fplugin=RecordDotPreprocessor
+      - -F -pgmF=record-dot-preprocessor # We use this instead to get ghcide support (see https://github.com/digital-asset/ghcide/issues/279).
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+      - -Wall
+      - -Wcompat
+      - -Wincomplete-record-updates
+      - -Wincomplete-uni-patterns
+      - -Wredundant-constraints
+      - -Wpartial-fields
+      - -fhide-source-paths
+      - -Wno-type-defaults
