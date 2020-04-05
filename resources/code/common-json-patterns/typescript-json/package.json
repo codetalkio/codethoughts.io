@@ -4,7 +4,7 @@
   "description": "Common JSON patterns in JavaScript",
   "main": "main.js",
   "scripts": {
-    "run": "ts-node main.ts",
+    "main": "ts-node main.ts",
     "repl": "ts-node"
   },
   "author": "Christian Laustsen (tehnix)",

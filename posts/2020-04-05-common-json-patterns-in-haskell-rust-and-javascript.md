@@ -9,15 +9,15 @@ The comparisons we will see is not meant to show if one approach is better than 
 
 The core of working with JSON in Haskell and Rust is covered by:
 
-- [Aeson](https://hackage.haskell.org/package/aeson): a Haskell JSON serialization/deserialization library[^derivingAeson].
-- [Serde](https://serde.rs): a Rust JSON serialization/deserialization library.
+- [Aeson](https://hackage.haskell.org/package/aeson){target="_blank" rel="noopener noreferrer"}: a Haskell JSON serialization/deserialization library[^derivingAeson].
+- [Serde](https://serde.rs){target="_blank" rel="noopener noreferrer"}: a Rust JSON serialization/deserialization library.
 
 The ergonomics is then improved in Haskell by grabbing one of the following options[^moreOptions]:
 
-- [Lens](https://hackage.haskell.org/package/lens): a heavy-weight library to transform and work with records (and much more!)[^genericLens].
-- [Record Dot Syntax](https://github.com/shayne-fletcher-da/ghc-proposals/blob/record-dot-syntax/proposals/0000-record-dot-syntax.md): an upcoming language extension in Haskell, which [recently got accepted](https://github.com/ghc-proposals/ghc-proposals/pull/282#issuecomment-608329102) by the GHC steering Committee[^recordDotSyntax].
+- [Lens](https://hackage.haskell.org/package/lens){target="_blank" rel="noopener noreferrer"}: a heavy-weight library to transform and work with records (and much more!)[^genericLens].
+- [Record Dot Syntax](https://github.com/shayne-fletcher-da/ghc-proposals/blob/record-dot-syntax/proposals/0000-record-dot-syntax.md){target="_blank" rel="noopener noreferrer"}: an upcoming language extension in Haskell, which [recently got accepted](https://github.com/ghc-proposals/ghc-proposals/pull/282#issuecomment-608329102){target="_blank" rel="noopener noreferrer"} by the GHC steering Committee[^recordDotSyntax].
 
-We'll go through typical use-cases you will see in a lot of TypeScript/JavaScript codebases, and see how we can achieve the same in Haskell and Rust.
+We'll go through typical use-cases seen in TypeScript/JavaScript codebases, and see how we can achieve the same in Haskell and Rust.
 
 <div></div><!--more-->
 
@@ -39,7 +39,7 @@ First we will setup our data structures and a few examples, which we will use th
 
 **TypeScript**
 
-Let us first set up our reference Object in TypeScript. Save the following in `house.ts` (or checkout [typescript-json](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/typescript-json)):
+Let us first set up our reference Object in TypeScript. Save the following in `house.ts` (or check out [typescript-json](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/typescript-json){target="_blank" rel="noopener noreferrer"}):
 
 ```typescript
 interface Address {
@@ -80,8 +80,8 @@ The included snippet serves to give you an idea of the datastructures, types, an
 
 The setups for each specific solution can be found in:
 
-- [haskell-lens](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/haskell-lens): Contains the Lens apporach.
-- [haskell-record-dot](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/haskell-record-dot): Contains the Record Dot Syntax apporach.
+- [haskell-lens](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/haskell-lens){target="_blank" rel="noopener noreferrer"}: Contains the Lens apporach.
+- [haskell-record-dot](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/haskell-record-dot){target="_blank" rel="noopener noreferrer"}: Contains the Record Dot Syntax apporach.
 
 Check out `src/House.hs` for the data structures, and `src/Main.hs` for all the examples throughout this post.
 
@@ -120,11 +120,11 @@ house = Household
     son = Person { id = 3, firstname = "Eric", lastname = "Swanson" }
 ```
 
-To allow overlapping record fields, we use [DuplicateRecordFields](https://github.com/adamgundry/ghc-proposals/blob/overloaded-record-fields/proposals/0000-overloaded-record-fields.rst#recap-duplicaterecordfields) along with [OverloadedLabels](https://github.com/adamgundry/ghc-proposals/blob/overloaded-record-fields/proposals/0000-overloaded-record-fields.rst#recap-overloadedlabels) (only in the Lens version), and a bunch of other extensions for deriving things via generics.
+To allow overlapping record fields, we use [DuplicateRecordFields](https://github.com/adamgundry/ghc-proposals/blob/overloaded-record-fields/proposals/0000-overloaded-record-fields.rst#recap-duplicaterecordfields){target="_blank" rel="noopener noreferrer"} along with [OverloadedLabels](https://github.com/adamgundry/ghc-proposals/blob/overloaded-record-fields/proposals/0000-overloaded-record-fields.rst#recap-overloadedlabels){target="_blank" rel="noopener noreferrer"} (only in the Lens version), and a bunch of other extensions for deriving things via generics.
 
 **Rust**
 
-The full setup can be found in [rust-serde](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/rust-serde). Check out `src/house.rs` for the data structures, and `src/main.rs` for all the examples throughout this post.
+The full setup can be found in [rust-serde](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/rust-serde){target="_blank" rel="noopener noreferrer"}. Check out `src/house.rs` for the data structures, and `src/main.rs` for all the examples throughout this post.
 
 ```rust
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -170,7 +170,7 @@ pub fn house() -> Household {
 
 ## Comparison
 
-If you wish to following along and play with the approaches, you can fire up a REPL for each approach:
+If you wish to following along, you can fire up a REPL for each approach.
 
 **TypeScript**
 ```bash
@@ -189,7 +189,7 @@ $ stack ghci
 ```
 
 
-Unfortunately GHC plugins doesn't play nicely with `ghci`, so we will instead build the project, and then you can play around with the examples in `src/Main.hs`.
+Unfortunately GHC plugins doesn't play nicely with `ghci`. We will instead build the project, so we can play around with the examples in `src/Main.hs`.
 
 ```bash
 $ cd haskell-record-dot
@@ -200,7 +200,7 @@ $ stack run
 
 **Rust**
 
-Since Rust doesn't have a REPL, we will instead build the project, and then you can play around with the examples in `src/main.rs`.
+Since Rust doesn't have a REPL, we will instead build the project, so we play around with the examples in `src/main.rs`.
 
 ```bash
 $ cd rust-serde
@@ -210,7 +210,7 @@ $ cargo run
 ```
 
 ### Get a field
-The first one is simple, we'll simply get a value in the object.
+The first one is simple, we will get a value from our object.
 
 First, our **TypeScript** version:
 ```typescript
@@ -329,7 +329,7 @@ house.address
 --> Some(Address { country: "Ocean", address: "Under the sea" })
 
 // A field on an object that exists.
-house.address.and_then(|a| Some(a.address)).unwrap_or("".to_string()
+house.address.and_then(|a| Some(a.address)).unwrap_or("".to_string())
 --> "Under the sea"
 
 // A field on an object that does *NOT* exist (falls back to an empty value.)
@@ -357,7 +357,7 @@ We'll start with updating a non-nested field. Note that for the JavaScript versi
 Household { {- Full Household object... -} }
 ```
 
-We add two pieces of syntax here. The `&` is a reverse application operator, but for all intents and purposes, think of it as the `^.` for setters. Finally, `.~` is what allows us to actually set our value.
+We add two new pieces of syntax here. The `&` is a reverse application operator, but for all intents and purposes think of it as the `^.` for setters. Finally, `.~` is what allows us to actually set our value.
 
 **Haskell with Record Dot Syntax:**
 ```haskell
@@ -366,6 +366,8 @@ house{owner = newAriel}
 --> Household { {- Full Household object... -} }
 ```
 
+Pretty neat. Note that the lack of spacing in `house{owner` is intentional.
+
 **Rust:**
 ```rust
 let new_ariel = Person { id: 4, firstname: "New Ariel".to_string(), lastname: "Swanson".to_string() };
@@ -373,7 +375,7 @@ Household { owner: new_ariel, ..house }
 --> Household { /* Full Household object... */ }
 ```
 
-We use Rust's [Struct Update syntax](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax), `..`, which works much like the spread syntax (`...`) in JavaScript.
+We use Rust's [Struct Update syntax](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax){target="_blank" rel="noopener noreferrer"}, `..`, which works much like the spread syntax (`...`) in JavaScript.
 
 ### Update a nested field
 Now it gets a bit more tricky.
@@ -399,7 +401,7 @@ house{owner.firstname = "New Ariel"}
 --> Household { {- Full Household object... -} }
 ```
 
-Note that the lack of spacing in `house{owner.firstname` is actually important, at least in the current state of [RecordDotSyntax](https://github.com/shayne-fletcher-da/ghc-proposals/blob/record-dot-syntax/proposals/0000-record-dot-syntax.md#3-examples).
+Note that the lack of spacing in `house{owner.firstname` is actually important, at least in the current state of [RecordDotSyntax](https://github.com/shayne-fletcher-da/ghc-proposals/blob/record-dot-syntax/proposals/0000-record-dot-syntax.md#3-examples){target="_blank" rel="noopener noreferrer"}.
 
 **Rust:**
 ```rust
@@ -455,12 +457,12 @@ Household {
 
 Have other common patterns you'd like to see? Feel like some of the approaches could be improved? Leave a comment, and I will try to expand this list to be more comprehensive!
 
-[^moreOptions]: There are of course more options, like [Optics](https://www.well-typed.com/blog/2019/09/announcing-the-optics-library/) ([usage example](https://www.reddit.com/r/haskell/comments/cyo4o2/welltyped_announcing_the_optics_library/eywc9ya?utm_source=share&utm_medium=web2x)), but I won't cover them all here.
+[^moreOptions]: There are of course more options, like [Optics](https://www.well-typed.com/blog/2019/09/announcing-the-optics-library/){target="_blank" rel="noopener noreferrer"} ([usage example](https://www.reddit.com/r/haskell/comments/cyo4o2/welltyped_announcing_the_optics_library/eywc9ya?utm_source=share&utm_medium=web2x){target="_blank" rel="noopener noreferrer"}), but I won't cover them all here.
 
-[^derivingAeson]: Along with [aeson](https://hackage.haskell.org/package/aeson), we will use the new [deriving-aeson](https://hackage.haskell.org/package/deriving-aeson) library to derive our instances.
+[^derivingAeson]: Along with [aeson](https://hackage.haskell.org/package/aeson){target="_blank" rel="noopener noreferrer"}, we will use the new [deriving-aeson](https://hackage.haskell.org/package/deriving-aeson){target="_blank" rel="noopener noreferrer"} library to derive our instances.
 
-[^genericLens]: We use [generic-lens](https://github.com/kcsongor/generic-lens) for Lens derivations instead of TemplateHaskell.
+[^genericLens]: We use [generic-lens](https://github.com/kcsongor/generic-lens){target="_blank" rel="noopener noreferrer"} for Lens derivations instead of TemplateHaskell.
 
-[^recordDotSyntax]: It will take a bit of time before it is merged and available in GHC, so we will use the [record-dot-preprocessor](https://hackage.haskell.org/package/record-dot-preprocessor) plugin to get a sneak peak.
+[^recordDotSyntax]: It will take a bit of time before it is merged and available in GHC, so we will use the [record-dot-preprocessor](https://hackage.haskell.org/package/record-dot-preprocessor){target="_blank" rel="noopener noreferrer"} plugin to get a sneak peak.
 
 [^dataMaybe]: `maybe` from Data.Maybe has the type signature `maybe :: b -> (a -> b) -> Maybe a -> b`, taking in as argument (1) a default value (2) a function to run if the value is `Just` and (3) the `Maybe` value we want to operate on.

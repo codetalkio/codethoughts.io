@@ -45,13 +45,3 @@ main = do
   -- ## Update each item in a list.
   putStrLn "\n\n## Update each item in a list."
   print $ house & #people . mapped %~ (\p -> p & #firstname .~ "Fly " ++ p ^. #firstname)
-
-  -- -- Accessors are more powerful:
-  -- print $ foo ^? #moarStuff . #_Just . #name
-  -- print $ foo ^? #moarStuff . #_Just . #moarStuff
-
-  -- -- Setters:
-  -- print $ foo & #count %~ (+ 1)
-  -- print $ foo & #name .~ "bar"
-  -- print $ foo & #moarStuff . #_Just . #count %~ (+ 1)
-  -- -- and much much more!

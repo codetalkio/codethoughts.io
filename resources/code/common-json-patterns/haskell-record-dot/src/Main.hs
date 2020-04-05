@@ -44,7 +44,6 @@ main = do
   putStrLn "\n\n## Update a nested field."
   print $ house{owner.firstname = "New Ariel"}
 
-
   -- ## Update each item in a list.
   putStrLn "\n\n## Update each item in a list."
   print $ house{people = map (\p -> p{firstname = "Fly " ++ p.firstname}) house.people}
