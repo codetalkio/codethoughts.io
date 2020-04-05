@@ -1,0 +1,4 @@
+resolver: nightly-2020-04-05
+extra-deps: []
+packages:
+  - .

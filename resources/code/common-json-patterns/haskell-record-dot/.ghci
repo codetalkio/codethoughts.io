@@ -1,0 +1,11 @@
+:set -XAllowAmbiguousTypes
+:set -XDataKinds
+:set -XDeriveGeneric
+:set -XDerivingVia
+:set -XDuplicateRecordFields
+:set -XFlexibleContexts
+:set -XFlexibleInstances
+:set -XMultiParamTypeClasses
+:set -XNoMonomorphismRestriction
+:set -XTypeApplications
+:set -XTypeSynonymInstances

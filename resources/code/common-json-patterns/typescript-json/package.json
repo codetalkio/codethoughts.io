@@ -1,0 +1,16 @@
+{
+  "name": "javascript-json",
+  "version": "1.0.0",
+  "description": "Common JSON patterns in JavaScript",
+  "main": "main.js",
+  "scripts": {
+    "run": "ts-node main.ts",
+    "repl": "ts-node"
+  },
+  "author": "Christian Laustsen (tehnix)",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3"
+  }
+}
