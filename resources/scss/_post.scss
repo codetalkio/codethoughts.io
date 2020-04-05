@@ -155,6 +155,12 @@
     }
   }
 
+  hr {
+    width: 50%;
+    margin: auto;
+    max-width: $max-content-width - 20;
+  }
+
   a {
     sup {
       // Avoid footnotes increasing the line-height.

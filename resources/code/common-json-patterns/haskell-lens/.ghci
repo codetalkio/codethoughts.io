@@ -1,0 +1,8 @@
+:set -XAllowAmbiguousTypes
+:set -XDataKinds
+:set -XDeriveGeneric
+:set -XDuplicateRecordFields
+:set -XFlexibleContexts
+:set -XNoMonomorphismRestriction
+:set -XTypeApplications
+:set -XOverloadedLabels

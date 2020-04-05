@@ -2,12 +2,33 @@ $mobile-base-padding: 1rem;
 $mobile-base-landscape-padding: 2em;
 
 // Mixin that is the basis for all the media queries.
-@mixin iphone-styling($padding) {
+@mixin small-screen-styling($padding) {
+  a,
+  li,
+  p {
+    code,
+    pre {
+      word-break: break-all;
+    }
+  }
+
+  ul,
+  ol {
+    padding-left: 35px;
+  }
+
   #archives,
   #breadcrumbs,
   .article,
   .page {
     padding: $padding 0;
+  }
+
+  .article {
+    hr {
+      width: 100%;
+      margin: auto;
+    }
   }
 
   #logo-container {
@@ -36,13 +57,18 @@ $mobile-base-landscape-padding: 2em;
     }
   }
 
-  a,
-  li,
-  p {
-    code,
-    pre {
-      word-break: break-all;
+  #archives table {
+    tbody tr td.author {
+      display: none;
     }
+    thead tr th.author {
+      display: none;
+    }
+  }
+}
+@mixin mobile-styling($padding) {
+  section.footnotes {
+    margin-left: $padding;
   }
 }
 
@@ -85,7 +111,7 @@ $mobile-base-landscape-padding: 2em;
           width: 100%;
 
           li {
-            max-width: auto;
+            max-width: unset;
             overflow-x: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -114,23 +140,27 @@ $mobile-base-landscape-padding: 2em;
 }
 
 // Disable the sidebar on smaller screens.
-@media only screen and (max-width: 1230px) {
+@media screen and (max-width: 1230px) {
   #articles-sidebar {
     display: none;
   }
 }
 
-@media only screen and (max-width: 710px) {
-  @include iphone-styling($mobile-base-padding);
+@media screen and (max-width: 780px) {
+  @include small-screen-styling($mobile-base-padding);
+  @include frontpage-styling;
+  @include post-styling;
+  @include mobile-styling($mobile-base-padding);
 }
 
 // ---------------------------------------
-// ----------- iPhone 4 and 4S -----------
+// ----------- iPhone 2G-4S in portrait & landscape
 // Portrait and Landscape.
-@media only screen and (min-width: 320px) and (max-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
-  @include iphone-styling($mobile-base-padding);
+@media screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  @include small-screen-styling($mobile-base-padding);
   @include frontpage-styling;
   @include post-styling;
+  @include mobile-styling($mobile-base-padding);
 
   #pagination {
     padding: 0 0 $mobile-base-padding;
@@ -138,59 +168,38 @@ $mobile-base-landscape-padding: 2em;
 }
 
 // ---------------------------------------
-// ----------- iPhone 5 and 5S -----------
+// ----------- iPhone 5 & 5S in portrait & landscape
 // Portrait and Landscape.
-@media only screen and (min-width: 320px) and (max-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
-  @include iphone-styling($mobile-base-padding);
+@media screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  @include small-screen-styling($mobile-base-padding);
   @include frontpage-styling;
   @include post-styling;
+  @include mobile-styling($mobile-base-padding);
 }
 
 // ---------------------------------------
-// -------------- iPhone 6, 6s, 7, 8 -----
-// Portrait and Landscape.
-@media only screen and (min-width: 375px) and (max-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+// -------------- iPhone 6, 7, & 8 in portrait & landscape
+@media screen and (min-device-width: 375px) and (max-device-width: 667px) {
+  @include small-screen-styling($mobile-base-padding);
+  @include frontpage-styling;
   @include post-styling;
-}
-
-// Portrait ONLY.
-@media only screen and (min-width: 375px) and (max-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-  @include iphone-styling($mobile-base-padding);
-  @include frontpage-styling;
-}
-
-// Landscape ONLY.
-@media only screen and (min-width: 375px) and (max-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
-  @include iphone-styling($mobile-base-landscape-padding);
-  @include frontpage-styling;
+  @include mobile-styling($mobile-base-padding);
 }
 
 // ---------------------------------------
-// -------------- iPhone 6+, 6s+, 7+, 8+ -
-// Portrait ONLY.
-@media only screen and (min-width: 414px) and (max-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
-  @include iphone-styling($mobile-base-padding);
+// -------------- iPhone 6, 7, & 8 Plus in portrait & landscape
+@media screen and (min-device-width: 375px) and (max-device-width: 667px) {
+  @include small-screen-styling($mobile-base-padding);
   @include frontpage-styling;
   @include post-styling;
-}
-
-// Landscape ONLY.
-@media only screen and (min-width: 414px) and (max-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
-  @include iphone-styling($mobile-base-landscape-padding);
+  @include mobile-styling($mobile-base-padding);
 }
 
 // ---------------------------------------
 // -------------- iPhone X ---------------
-// Portrait ONLY.
-@media only screen and (min-width: 375px) and (max-width: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
-  @include iphone-styling($mobile-base-padding);
+@media screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
+  @include small-screen-styling($mobile-base-padding);
   @include frontpage-styling;
   @include post-styling;
-}
-
-// Landscape ONLY.
-@media only screen and (min-width: 375px) and (max-width: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape) {
-  @include iphone-styling($mobile-base-landscape-padding);
-  @include frontpage-styling;
-  @include post-styling;
+  @include mobile-styling($mobile-base-padding);
 }

@@ -33,15 +33,3 @@
     }
   }
 }
-
-/* iPhone [portrait + landscape] */
-@media only screen and (max-device-width: 480px) {
-  #archives table {
-    tbody tr td.author {
-      display: none;
-    }
-    thead tr th.author {
-      display: none;
-    }
-  }
-}
