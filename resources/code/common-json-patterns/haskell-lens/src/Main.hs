@@ -44,4 +44,5 @@ main = do
 
   -- ## Update each item in a list.
   putStrLn "\n\n## Update each item in a list."
-  print $ house & #people . mapped %~ (\p -> p & #firstname .~ "Fly " ++ p ^. #firstname)
+  -- You can usually also use `traverse` instead of `mapped` here.
+  print $ house & #people . mapped %~ #firstname %~ ("Fly " <>)

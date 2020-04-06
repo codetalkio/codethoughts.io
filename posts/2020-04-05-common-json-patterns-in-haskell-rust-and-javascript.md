@@ -31,6 +31,7 @@ We'll go through typical use-cases seen in TypeScript/JavaScript codebases, and 
     - [Update a field](#update-a-field)
     - [Update a nested field](#update-a-nested-field)
     - [Update each item in a list](#update-each-item-in-a-list)
+- [Changelog](#changelog)
 
 
 ## Preparation: Setting up our data
@@ -172,12 +173,18 @@ pub fn house() -> Household {
 
 If you wish to following along, you can fire up a REPL for each approach.
 
+<div class="callout">
+  <div class="callout-bulb">💡</div>
+  For the TypeScript and Rust versions, where we utilize mutability, we will clone the objects each time, to keep them consistent across examples.
+</div>
+
 **TypeScript**
 ```bash
 $ cd typescript-json
 $ npm i
 $ npm run repl
-> import data from './house';
+> import data from './house'
+> let newData
 ```
 
 **Haskell**
@@ -340,11 +347,11 @@ We utilize `and_then` a bit like `maybe`, passing a function to act on our value
 
 
 ### Update a field
-We'll start with updating a non-nested field. Note that for the JavaScript versions we will clone our objects before doing any mutations, to keep our `data` object consistent througout the examples.
+We'll start with updating a non-nested field.
 
 **TypeScript:**
 ```typescript
-> newData = JSON.parse(JSON.stringify(data)); // Clone our data object.
+> newData = JSON.parse(JSON.stringify(data)) // Clone our data object.
 > const newAriel = { id: 4, firstname: 'New Ariel', lastname: 'Swandóttir' }
 > newData.house.owner = newAriel
 { id: 4, firstname: 'New Ariel', lastname: 'Swandóttir' }
@@ -362,16 +369,17 @@ We add two new pieces of syntax here. The `&` is a reverse application operator,
 **Haskell with Record Dot Syntax:**
 ```haskell
 let newAriel = Person { id = 4, firstname = "New Ariel", lastname = "Swanson" }
-house{owner = newAriel}
+house{ owner = newAriel}
 --> Household { {- Full Household object... -} }
 ```
 
-Pretty neat. Note that the lack of spacing in `house{owner` is intentional.
+Pretty neat. Note that the lack of spacing in `house{` is intentional.
 
 **Rust:**
 ```rust
+let mut new_house = house.clone();
 let new_ariel = Person { id: 4, firstname: "New Ariel".to_string(), lastname: "Swanson".to_string() };
-Household { owner: new_ariel, ..house }
+new_house.owner = new_ariel;
 --> Household { /* Full Household object... */ }
 ```
 
@@ -382,7 +390,7 @@ Now it gets a bit more tricky.
 
 **TypeScript:**
 ```typescript
-> newData = JSON.parse(JSON.stringify(data)); // Clone our data object.
+> newData = JSON.parse(JSON.stringify(data)) // Clone our data object.
 > newData.house.owner.firstname = 'New Ariel'
 'New Ariel'
 ```
@@ -397,15 +405,16 @@ Note that we mix `&` and `.` to dig deeper in the object/record, much like acces
 
 **Haskell with Record Dot Syntax:**
 ```haskell
-house{owner.firstname = "New Ariel"}
+house{ owner.firstname = "New Ariel"}
 --> Household { {- Full Household object... -} }
 ```
 
-Note that the lack of spacing in `house{owner.firstname` is actually important, at least in the current state of [RecordDotSyntax](https://github.com/shayne-fletcher-da/ghc-proposals/blob/record-dot-syntax/proposals/0000-record-dot-syntax.md#3-examples){target="_blank" rel="noopener noreferrer"}.
+Note that the lack of spacing in `house{` is actually important, at least in the current state of [RecordDotSyntax](https://github.com/shayne-fletcher-da/ghc-proposals/blob/record-dot-syntax/proposals/0000-record-dot-syntax.md#3-examples){target="_blank" rel="noopener noreferrer"}.
 
 **Rust:**
 ```rust
-Household { owner: Person { firstname: "New Ariel".to_string(), ..house.owner }, ..house }
+let mut new_house = house.clone();
+new_house.owner.firstname = "New Ariel".to_string();
 --> Household { /* Full Household object... */ }
 ```
 
@@ -414,8 +423,8 @@ Let's work a bit on the people list in our household. We'll make those first nam
 
 **TypeScript:**
 ```typescript
-> newData = JSON.parse(JSON.stringify(data)); // Clone our data object.
-> newData.house.people.map(person => { person.firstname = `Fly ${person.firstname}` })
+> newData = JSON.parse(JSON.stringify(data)) // Clone our data object.
+> newData.house.people.forEach(person => { person.firstname = `Fly ${person.firstname}` })
 > newData.house.people
 [
   { id: 1, firstname: 'Fly Ariel', lastname: 'Swanson' },
@@ -426,7 +435,8 @@ Let's work a bit on the people list in our household. We'll make those first nam
 
 **Haskell with Lenses:**
 ```haskell
-*Main Data> house & #people . mapped %~ (\p -> p & #firstname .~ "Fly " ++ p ^. #firstname)
+-- You can usually also use `traverse` instead of `mapped` here.
+*Main Data> house & #people . mapped . #firstname %~ ("Fly " <>)
 Household { {- Full Household object... -} }
 ```
 
@@ -434,7 +444,7 @@ Household { {- Full Household object... -} }
 
 **Haskell with Record Dot Syntax:**
 ```haskell
-house{people = map (\p -> p{firstname = "Fly " ++ p.firstname}) house.people}
+house{ people = map (\p -> p{firstname = "Fly " ++ p.firstname}) house.people}
 --> Household { {- Full Household object... -} }
 ```
 
@@ -442,12 +452,8 @@ Using `map` feels very natural, and is quite close to the regular code you would
 
 **Rust:**
 ```rust
-Household {
-    people: house.people.into_iter().map(|p| {
-        Person { firstname: format!("Fly {}", p.firstname).to_string(), ..p }
-    }).rev().collect(),
-    ..house
-}
+let mut new_house = house.clone();
+new_house.people.iter_mut().for_each(|p| p.firstname = format!("Fly {}", p.firstname));
 --> Household { /* Full Household object... */ }
 ```
 
@@ -456,6 +462,17 @@ Household {
 ---
 
 Have other common patterns you'd like to see? Feel like some of the approaches could be improved? Leave a comment, and I will try to expand this list to be more comprehensive!
+
+### Changelog
+
+Thanks to all the feedback from the [/r/rust](https://www.reddit.com/r/rust/comments/fvw58f/common_json_patterns_in_haskell_rust_and/) and [/r/haskell](https://www.reddit.com/r/haskell/comments/fvw548/common_json_patterns_in_haskell_rust_and/) communities, the following changes has been made:
+
+- Made `house & #people . mapped %~ (\p -> p & #firstname .~ "Fly " ++ p ^. #firstname)` much more succint with `house & #people . mapped . #firstname %~ ("Fly " <>)`.
+- Added acceptable spacing between `house{` and the rest of the RecordDotSyntax approaches (e.g. `house{ owner.firstname = "New Ariel"}`).
+- Changed from `map` to `forEach` in TypeScript, since the return value was discarded.
+- Switched the Rust approaches to use mutations instead of the unidiomatic immutable style it was written in.
+
+
 
 [^moreOptions]: There are of course more options, like [Optics](https://www.well-typed.com/blog/2019/09/announcing-the-optics-library/){target="_blank" rel="noopener noreferrer"} ([usage example](https://www.reddit.com/r/haskell/comments/cyo4o2/welltyped_announcing_the_optics_library/eywc9ya?utm_source=share&utm_medium=web2x){target="_blank" rel="noopener noreferrer"}), but I won't cover them all here.
 

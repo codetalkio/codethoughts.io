@@ -35,6 +35,6 @@ pub fn house() -> Household {
         people: vec![mom.clone(), dad, son],
         address: Some(addr),
         alternative_address: None,
-        owner: mom.clone()
+        owner: mom
     }
 }

@@ -3,9 +3,9 @@ mod house;
 use house::*;
 
 fn main() {
+    let house = house();
     {
-        let house = house();
-
+        let house = house.clone();
         // Showcase our derived JSON object.
         println!("\n\nShowcase our derived JSON object:");
         let serialized = serde_json::to_string(&house).unwrap();
@@ -34,28 +34,26 @@ fn main() {
     // ## Update a field.
     {
         println!("\n\n## Update a field.");
-        let house = house();
+        let mut new_house = house.clone();
         let new_ariel = Person { id: 4, firstname: "New Ariel".to_string(), lastname: "Swanson".to_string() };
-        println!("{:?}", Household { owner: new_ariel, ..house });
+        new_house.owner = new_ariel;
+        println!("{:?}", new_house);
     }
 
     // ## Update a nested field.
     {
         println!("\n\n## Update a nested field.");
-        let house = house();
-        println!("{:?}", Household { owner: Person { firstname: "New Ariel".to_string(), ..house.owner }, ..house });
+        let mut new_house = house.clone();
+        new_house.owner.firstname = "New Ariel".to_string();
+        println!("{:?}", new_house);
     }
 
     // ## Update each item in a list.
     {
         println!("\n\n## Update each item in a list.");
-        let house = house();
-        println!("{:?}", Household {
-            people: house.people.into_iter().map(|p| {
-                Person { firstname: format!("Fly {}", p.firstname).to_string(), ..p }
-            }).rev().collect(),
-            ..house
-        });
+        let mut new_house = house.clone();
+        new_house.people.iter_mut().for_each(|p| p.firstname = format!("Fly {}", p.firstname));
+        println!("{:?}", new_house);
     }
 
 }

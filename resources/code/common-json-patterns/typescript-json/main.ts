@@ -44,7 +44,7 @@ console.log(newData.house.owner.firstname);
 // ## Update each item in a list.
 console.log("\n\n## Update each item in a list.");
 newData = JSON.parse(JSON.stringify(data)); // Clone our data object.
-newData.house.people.map((person) => {
+newData.house.people.forEach((person) => {
   person.firstname = `Fly ${person.firstname}`;
 });
 console.log(newData.house.people);
