@@ -463,7 +463,7 @@ new_house.people.iter_mut().for_each(|p| p.firstname = format!("Fly {}", p.first
 
 Have other common patterns you'd like to see? Feel like some of the approaches could be improved? Leave a comment, and I will try to expand this list to be more comprehensive!
 
-### Changelog
+## Changelog
 
 Thanks to all the feedback from the [/r/rust](https://www.reddit.com/r/rust/comments/fvw58f/common_json_patterns_in_haskell_rust_and/) and [/r/haskell](https://www.reddit.com/r/haskell/comments/fvw548/common_json_patterns_in_haskell_rust_and/) communities, the following changes has been made:
 
