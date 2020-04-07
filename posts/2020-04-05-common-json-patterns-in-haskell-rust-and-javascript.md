@@ -28,9 +28,9 @@ We'll go through typical use-cases seen in TypeScript/JavaScript codebases, and 
     - [Get a field](#get-a-field)
     - [Get a nested field](#get-a-nested-field)
     - [Get an optional field](#get-an-optional-field)
-    - [Update a field](#update-a-field)
-    - [Update a nested field](#update-a-nested-field)
-    - [Update each item in a list](#update-each-item-in-a-list)
+    - [Set a field](#set-a-field)
+    - [Set a nested field](#set-a-nested-field)
+    - [Set each item in a list](#set-each-item-in-a-list)
 - [Changelog](#changelog)
 
 
@@ -346,7 +346,7 @@ house.alternative_address.and_then(|a| Some(a.address)).unwrap_or("".to_string()
 We utilize `and_then` a bit like `maybe`, passing a function to act on our value if it's `Some`, and then creating a default case with `unwrap_or`.
 
 
-### Update a field
+### Set a field
 We'll start with updating a non-nested field.
 
 **TypeScript:**
@@ -385,7 +385,7 @@ new_house.owner = new_ariel;
 
 We use Rust's [Struct Update syntax](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax){target="_blank" rel="noopener noreferrer"}, `..`, which works much like the spread syntax (`...`) in JavaScript.
 
-### Update a nested field
+### Set a nested field
 Now it gets a bit more tricky.
 
 **TypeScript:**
@@ -418,7 +418,7 @@ new_house.owner.firstname = "New Ariel".to_string();
 --> Household { /* Full Household object... */ }
 ```
 
-### Update each item in a list
+### Set each item in a list
 Let's work a bit on the people list in our household. We'll make those first names a bit more fresh.
 
 **TypeScript:**
