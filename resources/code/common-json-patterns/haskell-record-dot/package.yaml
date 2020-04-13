@@ -10,7 +10,6 @@ description: Common JSON patterns using Haskell Record Dot Syntax
 # Manage your dependencies here.
 dependencies:
   - base
-  - bytestring
   - aeson
   - deriving-aeson
   - record-dot-preprocessor

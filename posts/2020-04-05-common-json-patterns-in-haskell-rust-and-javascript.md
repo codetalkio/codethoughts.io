@@ -31,6 +31,8 @@ We'll go through typical use-cases seen in TypeScript/JavaScript codebases, and 
     - [Set a field](#set-a-field)
     - [Set a nested field](#set-a-nested-field)
     - [Set each item in a list](#set-each-item-in-a-list)
+    - [Encode / Serialize](#encode-serialize)
+    - [Decode / Deserialize](#decode-deserialize)
 - [Changelog](#changelog)
 
 
@@ -91,13 +93,15 @@ Check out `src/House.hs` for the data structures, and `src/Main.hs` for all the 
 data Address = Address
   { country :: String
   , address :: String
-  }
+  } deriving (Show, Generic)
+  deriving (ToJSON, FromJSON) via CustomJSON '[OmitNothingFields] Address
 
 data Person = Person
   { id :: Int
   , firstname :: String
   , lastname :: String
-  }
+  } deriving (Show, Generic)
+  deriving (ToJSON, FromJSON) via CustomJSON '[OmitNothingFields] Person
 
 data Household = Household
   { id :: Int
@@ -105,7 +109,8 @@ data Household = Household
   , address :: Maybe Address
   , alternativeAddress :: Maybe Address
   , owner :: Person
-  }
+  } deriving (Show, Generic)
+  deriving (ToJSON, FromJSON) via CustomJSON '[OmitNothingFields] Household
 
 house = Household
   { id = 1
@@ -122,6 +127,8 @@ house = Household
 ```
 
 To allow overlapping record fields, we use [DuplicateRecordFields](https://github.com/adamgundry/ghc-proposals/blob/overloaded-record-fields/proposals/0000-overloaded-record-fields.rst#recap-duplicaterecordfields){target="_blank" rel="noopener noreferrer"} along with [OverloadedLabels](https://github.com/adamgundry/ghc-proposals/blob/overloaded-record-fields/proposals/0000-overloaded-record-fields.rst#recap-overloadedlabels){target="_blank" rel="noopener noreferrer"} (only in the Lens version), and a bunch of other extensions for deriving things via generics.
+
+We control the details of the JSON serialization / deserialization using the [derive-aeson](https://hackage.haskell.org/package/deriving-aeson) package + the [`DerivingVia`](https://github.com/ghc-proposals/ghc-proposals/blob/master/proposals/0120-deriving-via.rst) language extension.
 
 **Rust**
 
@@ -150,7 +157,7 @@ pub struct Household {
     pub address: Option<Address>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub alternative_address: Option<Address>,
-    pub owner: Person
+    pub owner: Person,
 }
 
 pub fn house() -> Household {
@@ -457,6 +464,93 @@ new_house.people.iter_mut().for_each(|p| p.firstname = format!("Fly {}", p.first
 --> Household { /* Full Household object... */ }
 ```
 
+
+### Encode / Serialize
+Encoding JSON from our data is quite simple. In TypeScript JavaScript it's built-in, and in Haskell and Rust we simply reach for Aeson and Serde. Each of the libraries gives us control over the details in various ways, such as omitting `Nothing`/`None` values.
+
+**TypeScript:**
+```typescript
+> JSON.stringify(data)
+'{"mom": ... }'
+```
+
+**Haskell with Lenses + Haskell with Record Dot Syntax:**
+```haskell
+-- You can usually also use `traverse` instead of `mapped` here.
+*Main Data> import Data.Aeson (encode)
+*Main Data Data.Aeson> encode house
+"{\"id\":1, ... }}"
+```
+
+**Rust:**
+```rust
+let serialized = serde_json::to_string(&house).unwrap();
+```
+
+### Decode / Deserialize
+Decoding JSON into our data type is luckily also straightforward, although we will need to tell Haskell and Rust a bit more information than when encoding (as one would expect).
+
+**TypeScript:**
+```typescript
+> let houseJson = JSON.stringify(data)
+> JSON.parse(houseJson)
+{
+  mom: { id: 1, firstname: 'Ariel', lastname: 'Swanson' },
+  dad: { id: 2, firstname: 'Triton', lastname: 'Swanson' },
+  son: { id: 3, firstname: 'Eric', lastname: 'Swanson' },
+  house: {
+    id: 1,
+    people: [ [Object], [Object], [Object] ],
+    address: { country: 'Ocean', address: 'Under the sea' },
+    owner: { id: 1, firstname: 'Ariel', lastname: 'Swanson' }
+  }
+}
+```
+
+**Haskell with Lenses + Haskell with Record Dot Syntax:**
+```haskell
+-- Setting up imports and language extensions.
+*Main Data>:set -XTypeApplications
+*Main Data> import Data.Aeson (decode, encode)
+*Main Data Data.Aeson> let houseJson = encode house
+-- Our decoding.
+*Main Data Data.Aeson> decode @Household houseJson
+Just (Household
+  { id = 1
+  , people =
+      [ Person {id = 1, firstname = "Ariel", lastname = "Swanson"}
+      , Person {id = 2, firstname = "Triton", lastname = "Swanson"}
+      , Person {id = 3, firstname = "Eric", lastname = "Swanson"}
+    ]
+  , address = Just (Address {country = "Ocean", address = "Under the sea"})
+  , alternativeAddress = Nothing, owner = Person {id = 1, firstname = "Ariel", lastname = "Swanson"}
+  }
+)
+```
+
+Since we are in the REPL, we manually enable the `TypeApplications` language extension. We then use this when decoding, in `@Household`, to let Haskell know what data type we are actually trying to convert this random string into.
+
+Alternatively we could have written `(decode houseJson) :: Maybe Household`. The `Maybe` is what the decoder wraps the value in, in case we fed it a malformed JSON string.
+
+**Rust:**
+```rust
+let house_json = serde_json::to_string(&house).unwrap();
+let deserialize: Household = serde_json::from_str(&house_json).unwrap();
+--> Household {
+    id: 1,
+    people: [
+        Person { id: 1, firstname: "Ariel", lastname: "Swanson", },
+        Person { id: 2, firstname: "Triton", lastname: "Swanson", },
+        Person { id: 3, firstname: "Eric", lastname: "Swanson", },
+    ],
+    address: Some(Address { country: "Ocean", address: "Under the sea", }),
+    alternative_address: None,
+    owner: Person { id: 1, firstname: "Ariel", lastname: "Swanson", },
+}
+```
+
+Like with Haskell, we let Rust know what data type we are trying to convert our random string into. We do this by annotating the type of `deserialize` to with `deserialize: Household`. The `unwrap` here is for convenience, but in real code you're probably more likely to do `serde_json::from_str(&house_json)?` instead.
+
 <br />
 
 ---
@@ -467,11 +561,14 @@ Have other common patterns you'd like to see? Feel like some of the approaches c
 
 Thanks to all the feedback from the [/r/rust](https://www.reddit.com/r/rust/comments/fvw58f/common_json_patterns_in_haskell_rust_and/) and [/r/haskell](https://www.reddit.com/r/haskell/comments/fvw548/common_json_patterns_in_haskell_rust_and/) communities, the following changes has been made:
 
-- Made `house & #people . mapped %~ (\p -> p & #firstname .~ "Fly " ++ p ^. #firstname)` much more succint with `house & #people . mapped . #firstname %~ ("Fly " <>)`.
-- Added acceptable spacing between `house{` and the rest of the RecordDotSyntax approaches (e.g. `house{ owner.firstname = "New Ariel"}`).
-- Changed from `map` to `forEach` in TypeScript, since the return value was discarded.
-- Switched the Rust approaches to use mutations instead of the unidiomatic immutable style it was written in.
-
+- **6th of April, 2020**
+  - Made `house & #people . mapped %~ (\p -> p & #firstname .~ "Fly " ++ p ^. #firstname)` much more succint with `house & #people . mapped . #firstname %~ ("Fly " <>)`.
+  - Added acceptable spacing between `house{` and the rest of the RecordDotSyntax approaches (e.g. `house{ owner.firstname = "New Ariel"}`).
+  - Changed from `map` to `forEach` in TypeScript, since the return value was discarded.
+  - Switched the Rust approaches to use mutations instead of the unidiomatic immutable style it was written in.
+- **13th of April, 2020**
+  - Added serialize and deserialize examples
+  - Included Aeson derive code in the Haskell snippet since the two Haskell data type examples ended up being almost identical
 
 
 [^moreOptions]: There are of course more options, like [Optics](https://www.well-typed.com/blog/2019/09/announcing-the-optics-library/){target="_blank" rel="noopener noreferrer"} ([usage example](https://www.reddit.com/r/haskell/comments/cyo4o2/welltyped_announcing_the_optics_library/eywc9ya?utm_source=share&utm_medium=web2x){target="_blank" rel="noopener noreferrer"}), but I won't cover them all here.

@@ -9,8 +9,7 @@
 
 module Data where
 
-import Data.Aeson (FromJSON, ToJSON, encode)
-import qualified Data.ByteString.Lazy.Char8 as ByteLazy
+import Data.Aeson (FromJSON, ToJSON)
 import Data.Generics.Labels ()
 import Deriving.Aeson (CustomJSON(..), Generic, OmitNothingFields)
 
@@ -53,7 +52,3 @@ house = Household
     mom = Person { id = 1, firstname = "Ariel", lastname = "Swanson" }
     dad = Person { id = 2, firstname = "Triton", lastname = "Swanson" }
     son = Person { id = 3, firstname = "Eric", lastname = "Swanson" }
-
--- | Helper function for printing out our data types as JSON objects.
-encodeJson :: ToJSON a => a -> IO ()
-encodeJson item = ByteLazy.putStrLn $ encode item

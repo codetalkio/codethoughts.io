@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 799d79ea50efb5f1a361c1d6d1fed1f01ecdb32501a9e6cd69fa6c3e49f905d4
+-- hash: c54422eec6b0b58315a5eef3fed281aed0484fb809492932a2fb06c3984701a2
 
 name:           haskell-record-dot
 version:        0.1.0.0
@@ -32,7 +32,6 @@ executable simple-program-exe
   build-depends:
       aeson
     , base
-    , bytestring
     , deriving-aeson
     , record-dot-preprocessor
     , record-hasfield

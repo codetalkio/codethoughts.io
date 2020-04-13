@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8f016edee5cd3c3fd1d3656e727aff5e51c03981e6c080a2c3820f9c3aff145d
+-- hash: 872d306b752c838b47196d3e90cb3e0d6676ec47e53d92faa66b71fb570e0606
 
 name:           haskell-lens
 version:        0.1.0.0
@@ -32,7 +32,6 @@ executable simple-program-exe
   build-depends:
       aeson
     , base
-    , bytestring
     , deriving-aeson
     , generic-lens
     , lens

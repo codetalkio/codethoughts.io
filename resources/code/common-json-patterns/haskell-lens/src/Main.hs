@@ -1,19 +1,17 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE OverloadedLabels #-}
+{-# LANGUAGE TypeApplications #-}
 
 module Main where
 
 import Control.Lens (mapped, (%~), (&), (.~), (^.))
 
 import Data
+import Data.Aeson (decode, encode)
 
 
 main :: IO ()
 main = do
-  -- Showcase our derived JSON object.
-  putStrLn "\n\nShowcase our derived JSON object:"
-  encodeJson house
-
   -- ## Get a field.
   putStrLn "\n\n## Get a field."
   print $ house ^. #owner
@@ -46,3 +44,12 @@ main = do
   putStrLn "\n\n## Update each item in a list."
   -- You can usually also use `traverse` instead of `mapped` here.
   print $ house & #people . mapped %~ #firstname %~ ("Fly " <>)
+
+  -- ## Encode / Serialize.
+  putStrLn "\n\n## Encode / Serialize."
+  print $ encode house
+
+  -- ## Decode / Deserialize.
+  putStrLn "\n\n## Decode / Deserialize."
+  let houseJson = encode house
+  print $ decode @Household houseJson

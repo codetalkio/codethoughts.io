@@ -10,7 +10,6 @@ description: Common JSON patterns using Haskell Lens
 # Manage your dependencies here.
 dependencies:
   - base
-  - bytestring
   - aeson
   - deriving-aeson
   - lens

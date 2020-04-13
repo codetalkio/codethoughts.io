@@ -48,3 +48,12 @@ newData.house.people.forEach((person) => {
   person.firstname = `Fly ${person.firstname}`;
 });
 console.log(newData.house.people);
+
+// ## Encode / Serialize.
+console.log("\n\n## Encode / Serialize.");
+console.log(JSON.stringify(data));
+
+// ## Decode / Deserialize.
+console.log("\n\n## Decode / Deserialize.");
+let houseJson = JSON.stringify(data);
+console.log(JSON.parse(houseJson));

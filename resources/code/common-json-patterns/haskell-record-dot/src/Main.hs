@@ -7,14 +7,11 @@ module Main where
 import Prelude hiding (id)
 
 import Data
+import Data.Aeson (encode, decode)
 
 
 main :: IO ()
 main = do
-  -- Showcase our derived JSON object.
-  putStrLn "\n\nShowcase our derived JSON object:"
-  encodeJson house
-
   -- ## Get a field.
   putStrLn "\n\n## Get a field."
   print $ house.owner
@@ -47,3 +44,12 @@ main = do
   -- ## Update each item in a list.
   putStrLn "\n\n## Update each item in a list."
   print $ house{ people = map (\p -> p{firstname = "Fly " ++ p.firstname}) house.people}
+
+  -- ## Encode / Serialize.
+  putStrLn "\n\n## Encode / Serialize."
+  print $ encode house
+
+  -- ## Decode / Deserialize.
+  putStrLn "\n\n## Decode / Deserialize."
+  let houseJson = encode house
+  print $ decode @Household houseJson
