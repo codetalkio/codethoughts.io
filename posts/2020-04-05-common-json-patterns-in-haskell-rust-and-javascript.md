@@ -178,11 +178,11 @@ pub fn house() -> Household {
 
 ## Comparison
 
-If you wish to following along, you can fire up a REPL for each approach.
+If you wish to following along, you can fire up a REPL for each approach. For the TypeScript and Rust versions, where we utilize mutability, we will clone the objects each time, to keep them consistent across examples and in our REPL.
 
 <div class="callout">
   <div class="callout-bulb">💡</div>
-  For the TypeScript and Rust versions, where we utilize mutability, we will clone the objects each time, to keep them consistent across examples.
+  In TypeScript this would more commonly be done using the spread operator, `...`, or using something like [`_.cloneDeep(value)`](https://lodash.com/docs/#cloneDeep){target="_blank" rel="noopener noreferrer"}.
 </div>
 
 **TypeScript**
@@ -390,7 +390,7 @@ new_house.owner = new_ariel;
 --> Household { /* Full Household object... */ }
 ```
 
-We use Rust's [Struct Update syntax](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax){target="_blank" rel="noopener noreferrer"}, `..`, which works much like the spread syntax (`...`) in JavaScript.
+Alternatively we could use Rust's [Struct Update syntax](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax){target="_blank" rel="noopener noreferrer"}, `..`, which works much like the spread syntax (`...`) in JavaScript. It would look something like `Household { owner: new_ariel, ..house }`.
 
 ### Set a nested field
 Now it gets a bit more tricky.
