@@ -561,14 +561,14 @@ Have other common patterns you'd like to see? Feel like some of the approaches c
 
 Thanks to all the feedback from the [/r/rust](https://www.reddit.com/r/rust/comments/fvw58f/common_json_patterns_in_haskell_rust_and/) and [/r/haskell](https://www.reddit.com/r/haskell/comments/fvw548/common_json_patterns_in_haskell_rust_and/) communities, the following changes has been made:
 
+- **13th of April, 2020**
+  - Added serialize and deserialize examples
+  - Included Aeson derive code in the Haskell snippet since the two Haskell data type examples ended up being almost identical
 - **6th of April, 2020**
   - Made `house & #people . mapped %~ (\p -> p & #firstname .~ "Fly " ++ p ^. #firstname)` much more succint with `house & #people . mapped . #firstname %~ ("Fly " <>)`.
   - Added acceptable spacing between `house{` and the rest of the RecordDotSyntax approaches (e.g. `house{ owner.firstname = "New Ariel"}`).
   - Changed from `map` to `forEach` in TypeScript, since the return value was discarded.
   - Switched the Rust approaches to use mutations instead of the unidiomatic immutable style it was written in.
-- **13th of April, 2020**
-  - Added serialize and deserialize examples
-  - Included Aeson derive code in the Haskell snippet since the two Haskell data type examples ended up being almost identical
 
 
 [^moreOptions]: There are of course more options, like [Optics](https://www.well-typed.com/blog/2019/09/announcing-the-optics-library/){target="_blank" rel="noopener noreferrer"} ([usage example](https://www.reddit.com/r/haskell/comments/cyo4o2/welltyped_announcing_the_optics_library/eywc9ya?utm_source=share&utm_medium=web2x){target="_blank" rel="noopener noreferrer"}), but I won't cover them all here.

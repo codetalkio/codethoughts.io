@@ -2,7 +2,8 @@
 title: Visual Studio Code on iPad
 tags: vscode, ipad, digital nomad
 versions:
-- '`code-server` version 3.0.0'
+- '`code-server` version 3.4.1'
+- 'Ubuntu 18.04 (should fit with most distros)'
 - 'Your own server'
 - 'Your own domain'
 ---
@@ -27,37 +28,14 @@ On my computer I use Visual Studio Code, and its long been a wish to get that ru
 ## Enter code-server
 [code-server](https://github.com/cdr/code-server){target="_blank" rel="noopener noreferrer"} enables you to run VS Code on a remote server, and access it through a browser. While not ideal, this is at least one way to get VS Code onto an iPad.
 
-First, SSH into your server, so that we can setup `code-server`. We are going to download the latest release from GitHub, and set it up. Checkout the latest release at [https://github.com/cdr/code-server/releases](https://github.com/cdr/code-server/releases){target="_blank" rel="noopener noreferrer"}, and pick the asset for `linux_x86_64`,
+First, SSH into your server, so that we can setup `code-server`,
 
 ```bash
 $ ssh user@example.com
-$ wget https://github.com/cdr/code-server/releases/download/3.0.0/code-server-3.0.0-linux-x86_64.tar.gz
-...
-code-server-3.0.0-linux-x86_6 100%[==============================================>]  64.31M  3.47MB/s    in 9.4s
-$ tar -zxvf code-server-3.0.0-linux-x86_64.tar.gz
+$ curl -fsSL https://code-server.dev/install.sh | sh
 ```
 
-You should now have a folder called `code-server-3.0.0-linux-x86_64`. Let's rename it and make the put the executable on our `PATH`,
-
-```bash
-$ mv code-server-3.0.0-linux-x86_64 ~/.code-server
-$ ln -s "$HOME/.code-server" /usr/local/bin/code-server
-```
-
-Try firing it up,
-
-```bash
-$ code-server
-info  code-server 3.0.0
-info  Server listening on http://127.0.0.1:8080
-info    - Password is xxxxxxxxxxxxxxxxxxxxxx
-info      - To use your own password, set the PASSWORD environment variable
-info      - To disable use `--auth none`
-info    - Not serving HTTPS
-info    - Automatic updates are enabled
-```
-
-Neat! 🙂
+Neat! 🙂 This was previously multiple steps, but code-server's recent addition of the quick-install script makes this painless.
 
 ## Securing the setup for remote access
 So far `code-server` is only listening for local connections, but we'd like to be able to use it on the go, from a browser on the iPad. This means we have to do a little extra work to secure our setup.
@@ -83,17 +61,18 @@ First we will install certbot, which will manage the certificate renewal on our 
 ```bash
 $ sudo apt-get install software-properties-common # for add-apt-repository
 $ sudo add-apt-repository ppa:certbot/certbot
-$ sudo apt install python-certbot-nginx
+$ sudo apt install certbot
 ```
 
 Because these certificates are managed under `certbot`, we'll need to setup a script that will move the certificates to a location we want, so that our `code-server` does not need root permissions. We'll do this with a [deploy-hook](https://certbot.eff.org/docs/using.html#renewing-certificates){target="_blank" rel="noopener noreferrer"}, which runs after each successful renewal.
 
-Let's make a directory for the certificates. For convenience we will also export our domain name as an environment variables, to be used throughout the rest of the post (change `vscode.example.com` to your own domain),
+Let's make a directory for the certificates. For convenience we will also export our domain name as an environment variables, to be used throughout the rest of the post (change `vscode.example.com` to your own domain and `XXXXxxxxXXXXXxxxxxxxXXXXXX` to your secret password),
 
 ```bash
 $ mkdir .code-server-meta
 $ cd .code-server-meta
 $ export DOMAIN=vscode.example.com
+$ export CODE_SERVER_PASSPHRASE=XXXXxxxxXXXXXxxxxxxxXXXXXX
 ```
 
 Let's set up the renewal script in `/etc/letsencrypt/renewal-hooks/deploy/renewal.sh`,
@@ -124,16 +103,17 @@ This will create the certificates in `/etc/letsencrypt/live/$DOMAIN`. Check that
 $ sudo certbot renew --dry-run
 ```
 
-Excellent! You are now ready to launch your `code-server` instance using the keys for HTTPS,
+Excellent! We can now configure code-server to use these certificates,
 
 ```bash
-$ code-server --cert ~/.code-server-meta/cert.pem --cert-key ~/.code-server-meta/key.pem --host 0.0.0.0
-info  code-server 3.0.0
-info  Server listening on http://127.0.0.1:8080
-info    - Password is xxxxxxxxxxxxxxxxxxxxxx
-info      - To use your own password, set the PASSWORD environment variable
-info      - To disable use `--auth none`
-info    - Automatic updates are enabled
+$ echo "
+bind-addr: 0.0.0.0:8080
+auth: password
+password: $CODE_SERVER_PASSPHRASE
+cert: /home/tehnix/.code-server-meta/cert.pem
+cert-key: /home/tehnix/.code-server-meta/key.pem
+" > .config/code-server/config2.yaml
+$ systemctl --user restart code-server
 ```
 
 A login screen should appear. Use the password that the server printed, and you are in! 🥳
@@ -145,85 +125,26 @@ A login screen should appear. Use the password that the server printed, and you 
 <div class="clear"></div>
 
 
-## Daemonizing the server
-Currently we need to manually start the server every time we reboot our server. Instead of this, we'd like the `code-server` to be managed as a system service.
-
-We'll do this by:
-
-- Starting `code-server` with a fixed password.
-- Setting up a script to start `code-server` in a `screen` instance.
-- Letting `systemd` manage the start/stop of the service.
-
-**Passphrase**
-
-First let us set up our password for the `code-server`, so that we can login across reboots. We'll do this by dropping a simple plaintext file inside `$HOME/.code-server-meta`.
-
-This is under the assumption that you are the only one with access to the server. It is recommended that you put a unique passphrase for this service.
-
-```bash
-$ echo "MySecretPassword" > $HOME/.code-server-meta/passphrase.txt
-```
-
-**Manage code-server in screen**
-
-We are going to put our script to manage the `code-server` instance in `$HOME/.code-server-meta/service.sh`.
-
-```bash
-$ echo '#!/bin/bash
-
-case "$1" in
-  start)
-    # Create a screen in detached mode, called "code-server"
-    screen -dmS code-server bash -c '\''PASSWORD=$(cat $HOME/.code-server-meta/passphrase.txt) code-server --cert $HOME/.code-server-meta/cert.pem --cert-key ~/.code-server-meta/key.pem --host 0.0.0.0'\''
-    echo "Service started."
-    ;;
-  status)
-    result=$(screen -list | grep code-server)
-    if [ $? == 0 ]; then
-      echo "code-server service is ON."
-    else
-      echo "code-server service is OFF."
-    fi
-    ;;
-  stop)
-    # Quit the "code-server" screen
-    screen -S code-server -X quit
-    echo "Service stopped."
-    ;;
-  *)
-    echo "Unknown command: $1"
-    exit 1
-  ;;
-esac
-' > $HOME/.code-server-meta/service.sh && chmod +x $HOME/.code-server-meta/service.sh
-```
-
-**Systemd service**
-
-Finally, we are gonna put our `systemd` service in `/etc/systemd/system/code-server.service`.
-
-```bash
-$ echo "echo '[Unit]
-Description=Service to run code-server
-After=network.target
-
-[Service]
-Type=oneshot
-User=$(whoami)
-ExecStart=$HOME/.code-server-meta/service.sh start
-ExecStop=$HOME/.code-server-meta/service.sh stop
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target
-' > /etc/systemd/system/code-server.service" | sudo bash
-```
-
-Enable the script and start the service,
-
-```bash
-$ systemctl enable code-server
-$ systemctl start code-server
-```
-
 Navigate to your domain on port `8080`. Congratulations, you've now got a solid setup for editing code in your iPad browser 🎉
+
+### Certbot not updating automatically
+
+Since we are running the standalone version of certbot, we'll need port 80 to be free. Make sure `sudo certbot renew --dry-run` does not complain about not being able to connect on port 80. If you experience this, check that you don't have nginx or apache occupying the port,
+
+```bash
+$ sudo systemctl status nginx
+$ sudo systemctl status apache2
+```
+
+If they are, disable and stop them using `systemctl`. If this is not possible, then you can actually make certbot utilize either of these. DigitalOcean has some excellent guides:
+
+- [How To Secure Nginx with Let's Encrypt on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04)
+- [How To Secure Apache with Let's Encrypt on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-18-04)
+
+## Changelog
+
+- **20th of June, 2020**
+  - `code-server` has done a lot to improve the onboarding and setup experience, so the article has been cleaned up a bit
+    - Removed section on how to daemonize the setup
+    - Switched to using the new install script instead of downloading and setting up assets manually
+    - Updated letsencrypt instructions to utilize new config.yml to contain cert paths and password
