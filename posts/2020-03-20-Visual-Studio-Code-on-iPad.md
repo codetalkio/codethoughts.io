@@ -116,7 +116,7 @@ cert-key: /home/tehnix/.code-server-meta/key.pem
 $ systemctl --user restart code-server
 ```
 
-A login screen should appear. Use the password that the server printed, and you are in! 🥳
+Navigate to your domain on port `8080`. A login screen should appear. Use the password that the server printed, and you are in! 🥳
 
 <div class="clear two-images">
   <a href="/resources/images/visual-studio-on-ipad-welcome.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/visual-studio-on-ipad-welcome.thumbnail.png" loading="lazy" alt="Welcome screen in Visual Studio Code on iPad" title="Welcome screen in Visual Studio Code on iPad" style="margin-right: 1%; width: 49%;" /></a>
@@ -124,8 +124,7 @@ A login screen should appear. Use the password that the server printed, and you 
 </div>
 <div class="clear"></div>
 
-
-Navigate to your domain on port `8080`. Congratulations, you've now got a solid setup for editing code in your iPad browser 🎉
+Congratulations, you've now got a solid setup for editing code in your iPad browser 🎉
 
 ### Certbot not updating automatically
 
@@ -144,7 +143,6 @@ If they are, disable and stop them using `systemctl`. If this is not possible, t
 ## Changelog
 
 - **20th of June, 2020**
-  - `code-server` has done a lot to improve the onboarding and setup experience, so the article has been cleaned up a bit
-    - Removed section on how to daemonize the setup
-    - Switched to using the new install script instead of downloading and setting up assets manually
-    - Updated letsencrypt instructions to utilize new config.yml to contain cert paths and password
+  - Removed section on how to daemonize the setup now that `code-server` has added their own support for this
+  - Switched to using `code-server`'s new install script instead of downloading and setting up assets manually
+  - Updated letsencrypt instructions to utilize `code-server`'s new config.yml to contain cert paths and password
