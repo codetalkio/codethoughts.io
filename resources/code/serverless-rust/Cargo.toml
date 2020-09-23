@@ -1,0 +1,21 @@
+[package]
+name = "sls-rust"
+version = "0.0.1"
+authors = ["Christian <ckl@codetalk.io>"]
+edition = "2018"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+
+[build]
+target = "x86_64-unknown-linux-musl"
+
+[dependencies]
+lambda = { git = "https://github.com/awslabs/aws-lambda-rust-runtime/", branch = "master"}
+tokio = { version = "0.2.22", features = ["macros"] }
+serde = "1.0.115"
+serde_derive = "1.0.115"
+serde_json = "1.0.57"
+rusoto_core = "0.45.0"
+rusoto_sqs = "0.45.0"
+rusoto_s3 = "0.45.0"
+rusoto_dynamodb = "0.45.0"
