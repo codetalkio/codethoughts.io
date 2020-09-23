@@ -10,13 +10,13 @@ versions:
 
 With Apple increasing their focus^[[https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/](https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/){target="_blank" rel="noopener noreferrer"}.] on making the iPad a viable device for work, it is time to revisit using my iPad as a workstation for programming.
 
-I rely heavily on command-line tools and language specific tools (rust-analyser, node, ghcide, etc) for my day-to-day programming, and my current setup features:
+I rely heavily on command-line tools and language-specific tools (rust-analyser, node, ghcide, etc.) for my day-to-day programming, and my current setup features:
 
 - [Blink](https://blink.sh){target="_blank" rel="noopener noreferrer"} with mosh to a remote server.
 - Neovim and [wemux](https://github.com/zolrath/wemux){target="_blank" rel="noopener noreferrer"} on the remote server.
 - [iSH](https://ish.app){target="_blank" rel="noopener noreferrer"} to play around with very simple CLI needs locally on the iPad.
 
-On my computer I use Visual Studio Code, and its long been a wish to get that running somehow on my iPad. This is an attempt to make VS Code available on the iPad, under the restrictions that we have to deal with.
+On my computer, I use Visual Studio Code, and it's long been a wish to get that running somehow on my iPad. This is an attempt to make VS Code available on the iPad under the restrictions that we have to deal with.
 
 <div></div><!--more-->
 
@@ -28,7 +28,7 @@ On my computer I use Visual Studio Code, and its long been a wish to get that ru
 ## Enter code-server
 [code-server](https://github.com/cdr/code-server){target="_blank" rel="noopener noreferrer"} enables you to run VS Code on a remote server, and access it through a browser. While not ideal, this is at least one way to get VS Code onto an iPad.
 
-First, SSH into your server, so that we can setup `code-server`,
+First, SSH into your server, so that we can set up `code-server`,
 
 ```bash
 $ ssh user@example.com
@@ -38,12 +38,12 @@ $ curl -fsSL https://code-server.dev/install.sh | sh
 Neat! 🙂 This was previously multiple steps, but code-server's recent addition of the quick-install script makes this painless.
 
 ## Securing the setup for remote access
-So far `code-server` is only listening for local connections, but we'd like to be able to use it on the go, from a browser on the iPad. This means we have to do a little extra work to secure our setup.
+So far, `code-server` is only listening for local connections, but we'd like to be able to use it on the go, from a browser on the iPad. This means we have to do a little extra work to secure our setup.
 
 `code-server` covers how to do this [in their FAQ](https://github.com/cdr/code-server/blob/master/doc/FAQ.md#how-should-i-expose-code-server-to-the-internet){target="_blank" rel="noopener noreferrer"}, but skips the specific steps. Due to an issue with self-signed certificates on iOS, we cannot use these^[See issue [code-server#1122](https://github.com/cdr/code-server/issues/1122){target="_blank" rel="noopener noreferrer"} covering this.], so instead we will opt for [letsencrypt](https://letsencrypt.org){target="_blank" rel="noopener noreferrer"}!
 
 <!--
-We'll set up a self-signed certificate. For the pass phrase, simply press enter to put a blank password on the key.
+We'll set up a self-signed certificate. For the passphrase, simply press enter to put a blank password on the key.
 
 ```bash
 $ mkdir .code-server-meta
@@ -56,7 +56,7 @@ Generating a RSA private key
 Here we made a directory to hold our keys for `code-server`, and generated them using `openssl`. You can adjust the days to a number you are comfortable with, here I just went with 365, meaning I'll have to renew the certificate in a year.
 -->
 
-First we will install certbot, which will manage the certificate renewal on our server,
+First, we will install certbot, which will manage the certificate renewal on our server,
 
 ```bash
 $ sudo apt-get install software-properties-common # for add-apt-repository
@@ -64,7 +64,7 @@ $ sudo add-apt-repository ppa:certbot/certbot
 $ sudo apt install certbot
 ```
 
-Because these certificates are managed under `certbot`, we'll need to setup a script that will move the certificates to a location we want, so that our `code-server` does not need root permissions. We'll do this with a [deploy-hook](https://certbot.eff.org/docs/using.html#renewing-certificates){target="_blank" rel="noopener noreferrer"}, which runs after each successful renewal.
+Because these certificates are managed under `certbot`, we'll need to set up a script that will move the certificates to a location we want, so our `code-server` does not need root permissions. We'll do this with a [deploy-hook](https://certbot.eff.org/docs/using.html#renewing-certificates){target="_blank" rel="noopener noreferrer"}, which runs after each successful renewal.
 
 Let's make a directory for the certificates. For convenience we will also export our domain name as an environment variables, to be used throughout the rest of the post (change `vscode.example.com` to your own domain and `XXXXxxxxXXXXXxxxxxxxXXXXXX` to your secret password),
 
@@ -91,7 +91,7 @@ if [[ $RENEWED_LINEAGE == *"'$DOMAIN'"* ]]; then
 fi'\'' > /etc/letsencrypt/renewal-hooks/deploy/renewal.sh' | sudo bash && sudo chmod +x /etc/letsencrypt/renewal-hooks/deploy/renewal.sh
 ```
 
-We'll now set up our certificates by starting `certbot`. During this you will be asked for your email, and to agree to the terms of service.
+We'll now set up our certificates by starting `certbot`. During this, you will be asked for your email and agree to the terms of service.
 
 ```bash
 $ sudo certbot certonly --standalone --preferred-challenges http -d $DOMAIN
@@ -124,7 +124,7 @@ Navigate to your domain on port `8080`. A login screen should appear. Use the pa
 </div>
 <div class="clear"></div>
 
-Congratulations, you've now got a solid setup for editing code in your iPad browser 🎉
+Congratulations, you've now got a stable setup for editing code in your iPad browser 🎉
 
 ### Certbot not updating automatically
 
@@ -135,7 +135,7 @@ $ sudo systemctl status nginx
 $ sudo systemctl status apache2
 ```
 
-If they are, disable and stop them using `systemctl`. If this is not possible, then you can actually make certbot utilize either of these. DigitalOcean has some excellent guides:
+If they are, disable and stop them using `systemctl`. If this is not possible, then you can make certbot utilize either of these. DigitalOcean has some excellent guides:
 
 - [How To Secure Nginx with Let's Encrypt on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04)
 - [How To Secure Apache with Let's Encrypt on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-18-04)

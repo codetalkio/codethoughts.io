@@ -1,11 +1,11 @@
 ---
-title: Common JSON patterns in Haskell, Rust and TypeScript
+title: Common JSON patterns in Haskell, Rust, and TypeScript
 tags: haskell, lens, javascript, typescript, rust, records, serde, aeson
 ---
 
-A lot of web development is transforming JSON one way or another. In TypeScript/JavaScript this is straightforward, since JSON is built into the language. But can we also achieve good ergonomics in Haskell and Rust? *Dear reader, I am glad you asked! 🙌*
+A lot of web development is transforming JSON one way or another. In TypeScript/JavaScript, this is straightforward, since JSON is built into the language. But can we also achieve good ergonomics in Haskell and Rust? *Dear reader, I am glad you asked! 🙌*
 
-The comparisons we will see is not meant to show if one approach is better than another. Instead, it is intended to be a reference to become familiar with common patterns across multiple languages. Throughout this post we will utilize several tools and libraries.
+The comparisons we will see are not meant to show if one approach is better than another. Instead, it is intended to be a reference to become familiar with common patterns across multiple languages. Throughout this post, we will utilize several tools and libraries.
 
 The core of working with JSON in Haskell and Rust is covered by:
 
@@ -38,7 +38,7 @@ We'll go through typical use-cases seen in TypeScript/JavaScript codebases, and 
 
 ## Preparation: Setting up our data
 
-First we will setup our data structures and a few examples, which we will use throughout this post. Haskell and Rust requires a bit more ceremony, because we will use packages/crates. For TypeScript we use `ts-node` to run TypeScript in a REPL.
+First, we will set up our data structures and a few examples, which we will use throughout this post. Haskell and Rust require a bit more ceremony because we will use packages/crates. For TypeScript we use `ts-node` to run TypeScript in a REPL.
 
 **TypeScript**
 
@@ -79,9 +79,9 @@ const house: Household = {
 
 **Haskell**
 
-The included snippet serves to give you an idea of the datastructures, types, and names that we will be working with.
+The included snippet serves to give you an idea of the data structures, types, and names that we will be working with.
 
-The setups for each specific solution can be found in:
+You can find the setup for each specific solution in:
 
 - [haskell-lens](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/haskell-lens){target="_blank" rel="noopener noreferrer"}: Contains the Lens apporach.
 - [haskell-record-dot](https://github.com/codetalkio/codetalk.io/tree/master/resources/code/common-json-patterns/haskell-record-dot){target="_blank" rel="noopener noreferrer"}: Contains the Record Dot Syntax apporach.
@@ -178,7 +178,7 @@ pub fn house() -> Household {
 
 ## Comparison
 
-If you wish to following along, you can fire up a REPL for each approach. For the TypeScript and Rust versions, where we utilize mutability, we will clone the objects each time, to keep them consistent across examples and in our REPL.
+If you wish to follow along, you can fire up a REPL for each approach. For the TypeScript and Rust versions, where we utilize mutability, we will clone the objects each time, to keep them consistent across examples and in our REPL.
 
 <div class="callout">
   <div class="callout-bulb">💡</div>
@@ -203,7 +203,7 @@ $ stack ghci
 ```
 
 
-Unfortunately GHC plugins doesn't play nicely with `ghci`. We will instead build the project, so we can play around with the examples in `src/Main.hs`.
+Unfortunately, GHC plugins don't play nicely with `ghci`. We will instead build the project to play around with the examples in `src/Main.hs`.
 
 ```bash
 $ cd haskell-record-dot
@@ -224,7 +224,7 @@ $ cargo run
 ```
 
 ### Get a field
-The first one is simple, we will get a value from our object.
+The first one is simple: we will get a value from our object.
 
 First, our **TypeScript** version:
 ```typescript
@@ -240,7 +240,7 @@ Person {id = 1, firstname = "Ariel", lastname = "Swanson"}
 
 There's probably already two unfamiliar pieces of syntax here.
 
-The first, `^.`, comes from Lens and is the `view` function that we use as an accessor to the object/record. The second, the `#` prefix of `#owner`, comes from the `OverloadedLabels` extension, and allows us to have multiple record fields of the same name in scope.
+The first, `^.`, comes from Lens and is the `view` function that we use as an accessor to the object/record. The second, the `#` prefix of `#owner`, comes from the `OverloadedLabels` extension and allows us to have multiple record fields of the same name in scope.
 
 Let's see how we achieve this in **Haskell with Record Dot Syntax:**
 ```haskell
@@ -255,7 +255,7 @@ house.owner
 ```
 
 ### Get a nested field
-We slowly increase the difficulty, by accessing a nested field.
+We slowly increase the difficulty by accessing a nested field.
 
 **TypeScript:**
 ```typescript
@@ -290,7 +290,7 @@ How do we handle optional fields?
 > data.house.address.address
 'Under the sea'
 
-// A field that does *NOT* exist (throws exception.)
+// A field that does *NOT* exist (throws an exception.)
 > data.house.alternativeAddress.address
 TypeError: Cannot read property 'address' of undefined
     at ....
@@ -300,7 +300,7 @@ TypeError: Cannot read property 'address' of undefined
 undefined
 ```
 
-Optional chaining (`?`) is a great step forward for writing safer and cleaner code in JS/TS.
+Optional chaining (`?`) is a significant step toward writing safer and cleaner code in JS/TS.
 
 **Haskell with Lenses:**
 ```haskell
@@ -317,7 +317,7 @@ Just (Address {country = "Ocean", address = "Under the sea"})
 ""
 ```
 
-`#_Just` from Lens gives us handy access to fields wrapped in `Maybe`s, with a fallback value.
+`#_Just` from Lens gives us convenient access to fields wrapped in `Maybe`s, with a fallback value.
 
 **Haskell with Record Dot Syntax:**
 ```haskell
@@ -334,7 +334,7 @@ maybe "" (.address) house.alternativeAddress
 --> ""
 ```
 
-We end up writing more regular code to dive into the `Maybe` value, by using `maybe`[^dataMaybe] to proceed or fallback to a default value.
+We end up writing more regular code to dive into the `Maybe` value by using `maybe`[^dataMaybe] to proceed or fallback to a default value.
 
 **Rust:**
 ```rust
@@ -408,7 +408,7 @@ Now it gets a bit more tricky.
 Household { {- Full Household object... -} }
 ```
 
-Note that we mix `&` and `.` to dig deeper in the object/record, much like accessing a nested field.
+Note that we mix `&` and `.` to dig deeper into the object/record, much like accessing a nested field.
 
 **Haskell with Record Dot Syntax:**
 ```haskell
@@ -466,7 +466,7 @@ new_house.people.iter_mut().for_each(|p| p.firstname = format!("Fly {}", p.first
 
 
 ### Encode / Serialize
-Encoding JSON from our data is quite simple. In TypeScript JavaScript it's built-in, and in Haskell and Rust we simply reach for Aeson and Serde. Each of the libraries gives us control over the details in various ways, such as omitting `Nothing`/`None` values.
+Encoding JSON from our data is quite simple. In TypeScript/JavaScript it's built-in, and in Haskell and Rust, we simply reach for Aeson and Serde. Each of the libraries gives us control over the details in various ways, such as omitting `Nothing`/`None` values.
 
 **TypeScript:**
 ```typescript
@@ -528,9 +528,9 @@ Just (Household
 )
 ```
 
-Since we are in the REPL, we manually enable the `TypeApplications` language extension. We then use this when decoding, in `@Household`, to let Haskell know what data type we are actually trying to convert this random string into.
+Since we are in the REPL, we manually enable the `TypeApplications` language extension. We then use this when decoding, in `@Household`, to let Haskell know what data type we are trying to convert this random string into.
 
-Alternatively we could have written `(decode houseJson) :: Maybe Household`. The `Maybe` is what the decoder wraps the value in, in case we fed it a malformed JSON string.
+Alternatively, we could have written `(decode houseJson) :: Maybe Household`. The `Maybe` is what the decoder wraps the value in, in case we fed it a malformed JSON string.
 
 **Rust:**
 ```rust
@@ -549,7 +549,7 @@ let deserialize: Household = serde_json::from_str(&house_json).unwrap();
 }
 ```
 
-Like with Haskell, we let Rust know what data type we are trying to convert our random string into. We do this by annotating the type of `deserialize` to with `deserialize: Household`. The `unwrap` here is for convenience, but in real code you're probably more likely to do `serde_json::from_str(&house_json)?` instead.
+Like with Haskell, we let Rust know what data type we are trying to convert our random string into. We do this by annotating the type of `deserialize` to with `deserialize: Household`. The `unwrap` here is for convenience, but in real code, you're probably more likely to do `serde_json::from_str(&house_json)?` instead.
 
 <br />
 
@@ -559,7 +559,7 @@ Have other common patterns you'd like to see? Feel like some of the approaches c
 
 ## Changelog
 
-Thanks to all the feedback from the [/r/rust](https://www.reddit.com/r/rust/comments/fvw58f/common_json_patterns_in_haskell_rust_and/) and [/r/haskell](https://www.reddit.com/r/haskell/comments/fvw548/common_json_patterns_in_haskell_rust_and/) communities, the following changes has been made:
+Thanks to all the feedback from the [/r/rust](https://www.reddit.com/r/rust/comments/fvw58f/common_json_patterns_in_haskell_rust_and/) and [/r/haskell](https://www.reddit.com/r/haskell/comments/fvw548/common_json_patterns_in_haskell_rust_and/) communities, the following changes have been made:
 
 - **13th of April, 2020**
   - Added serialize and deserialize examples
