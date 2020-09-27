@@ -77,4 +77,6 @@ We are using a couple of libraries, in various state of maturity/release:
   - To statically build you might also need OpenSSL development headers, but we let the [openssl-sys package manage that](https://github.com/sfackler/rust-openssl/issues/980) for us with a `openssl-sys/vendored`.
   - We will need the musl tools, which we use instead of glibc, via `apt-get install musl-tools` for Ubuntu or `brew tap SergioBenitez/osxct && brew install FiloSottile/musl-cross/musl-cross` for macOS.
   - We need zip to create our deployment package, `apt-get install zip`.
--
+- [Rusoto](https://github.com/rusoto/rusoto) for talking with the AWS SDK. It recently landed official async/await support.
+- [aws-cdk](https://docs.aws.amazon.com/cdk/latest/guide/home.html) for deploying to AWS, using CloudFormation under-the-hood. We'll use their support for [Custom Runtimes](https://docs.aws.amazon.com/cdk/api/latest/docs/aws-lambda-readme.html).
+- The [aws-cdk fork](https://github.com/localstack/aws-cdk) of [localstack](https://github.com/localstack/localstack) for a local development setup.
