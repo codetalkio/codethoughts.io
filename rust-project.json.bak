@@ -1,0 +1,9 @@
+{
+  "crates": [
+    {
+      "root_module": "./resources/code/serverless-rust",
+      "edition": "2018",
+      "deps": []
+    }
+  ]
+}

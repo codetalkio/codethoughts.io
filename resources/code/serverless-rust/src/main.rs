@@ -5,12 +5,12 @@ type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let func = handler_fn(func);
+    let func = handler_fn(handler);
     lambda::run(func).await?;
     Ok(())
 }
 
-async fn func(event: Value, _: Context) -> Result<Value, Error> {
+async fn handler(event: Value, _: Context) -> Result<Value, Error> {
     let first_name = event["firstName"].as_str().unwrap_or("world");
     Ok(json!({ "message": format!("Hello, {}!", first_name) }))
 }
