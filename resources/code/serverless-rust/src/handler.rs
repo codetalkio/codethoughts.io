@@ -1,6 +1,4 @@
-use async_graphql::{EmptyMutation, EmptySubscription, Schema};
 use lambda::Context;
-use lazy_static::lazy_static;
 use serde_json::Value;
 
 use crate::global::SCHEMA;

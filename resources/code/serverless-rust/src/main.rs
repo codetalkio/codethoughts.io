@@ -1,5 +1,6 @@
 use lambda::handler_fn;
 
+mod dynamodb;
 mod global;
 mod graphql;
 mod handler;

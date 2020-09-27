@@ -16,6 +16,8 @@ rusoto_core = "0.45.0"
 rusoto_sqs = "0.45.0"
 rusoto_s3 = "0.45.0"
 rusoto_dynamodb = "0.45.0"
+dynomite = "0.10.0"
+uuid = "0.8.1"
 async-graphql = "1.18.2"
 lazy_static = "1.4.0"
 # Add openssl-sys as a direct dependency so it can be cross compiled to
