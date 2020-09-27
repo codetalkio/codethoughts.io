@@ -1,16 +1,15 @@
-use lambda::{handler_fn, Context};
-use serde_json::{json, Value};
+use lambda::handler_fn;
 
-type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
+mod graphql;
+mod handler;
+mod types;
+use crate::handler::handler;
+use crate::types::*;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let func = handler_fn(handler);
-    lambda::run(func).await?;
+    // Attach our own handler function to the lambda rust runtime, and run it.
+    let runtime_handler = handler_fn(handler);
+    lambda::run(runtime_handler).await?;
     Ok(())
-}
-
-async fn handler(event: Value, _: Context) -> Result<Value, Error> {
-    let first_name = event["firstName"].as_str().unwrap_or("world");
-    Ok(json!({ "message": format!("Hello, {}!", first_name) }))
 }
