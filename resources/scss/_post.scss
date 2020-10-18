@@ -8,7 +8,7 @@
   margin-bottom: $spacing;
   padding-top: 15px;
   padding-bottom: 15px;
-  -webkit-font-smoothing: antialiased;
+  // -webkit-font-smoothing: antialiased;
 
   .article-header {
     @include center-content();
@@ -30,9 +30,29 @@
   }
 
   .article-information {
+    display: flex;
+    flex: 1;
+    align-items: center;
     color: $color-lightergray;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     margin-top: 5px;
+    font-size: 0.8rem;
+
+    .article-author-picture {
+      display: flex;
+      img {
+        border-radius: 50%;
+      }
+    }
+
+    .article-data {
+      line-height: 16px;
+      margin-left: 16px;
+      align-items: center;
+      span {
+        color: $color-black;
+      }
+    }
 
     a,
     a:visited,

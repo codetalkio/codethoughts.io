@@ -16,10 +16,23 @@ $endif$
     $else$
     <h1>$title$</h1>
     $endif$
-    <p class="article-information">
-      <time datetime="$datetime$">$date$</time>
-      $if(tags)$ in $tags$ $endif$ $if(author)$ by $author$ $endif$
-    </p>
+    <div class="article-information">
+      <div class="article-author-picture">
+        <img
+          src="/resources/images/me-casual.jpg"
+          alt="Christian Kjær in a casual setting :)"
+          title="Christian Kjær in a casual setting :)"
+          width="48px"
+          height="48px"
+        />
+      </div>
+      <div class="article-data">
+        <span>Christian Kjær</span>
+        <br />
+        <time datetime="$datetime$">$date$</time> $if(tags)$ · $tags$ $endif$
+        $if(author)$ by $author$ $endif$
+      </div>
+    </div>
   </header>
 
   <article class="article-body">
@@ -27,18 +40,14 @@ $endif$
     <!-- Show a teaser, if we are in a raw post and it exists -->
     $if(teaser)$ $teaser$
     <p>
-      <a href="$url$">
-        Read more →
-      </a>
+      <a href="$url$"> Read more → </a>
     </p>
     $else$
     <!-- Else fall back to the body -->
     $body$ $endif$ $else$
     <!-- If we are viewing a single post, show versions also -->
     $if(hasVersions)$
-    <p class="versions-section">
-      Versions and tools used:
-    </p>
+    <p class="versions-section">Versions and tools used:</p>
     <ul class="versions">
       $for(versions)$
       <li>$version$</li>
