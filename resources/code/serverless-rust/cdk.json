@@ -1,3 +1,0 @@
-{
-  "app": "ts-node -r tsconfig-paths/register deployment/bin/stack.ts"
-}
