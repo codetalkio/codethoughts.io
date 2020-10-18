@@ -8,7 +8,6 @@
   margin-bottom: $spacing;
   padding-top: 15px;
   padding-bottom: 15px;
-  // -webkit-font-smoothing: antialiased;
 
   .article-header {
     @include center-content();
@@ -36,7 +35,7 @@
     color: $color-lightergray;
     margin-bottom: 20px;
     margin-top: 5px;
-    font-size: 0.8rem;
+    font-size: 12px;
 
     .article-author-picture {
       display: flex;
