@@ -4,19 +4,19 @@ name: cd
 on:
   push:
     paths:
-      - 'posts/**'
-      - 'resources/**'
-      - 'src/**'
-      - 'templates/**'
-      - '.github/workflows/cd.yml'
+      - "posts/**"
+      - "resources/**"
+      - "src/**"
+      - "templates/**"
+      - ".github/workflows/cd.yml"
 
 jobs:
   cd:
     runs-on: ubuntu-20.04
     env:
-      GHC_VERSION: '8.10.2'
-      CABAL_VERSION: '3.4.0.0'
-      STACK_VERSION: '2.5.1'
+      GHC_VERSION: "8.10.2"
+      CABAL_VERSION: "3.4.0.0"
+      STACK_VERSION: "2.5.1"
     steps:
       - uses: actions/checkout@v1
 
@@ -30,7 +30,7 @@ jobs:
           enable-stack: true
       - uses: actions/setup-ruby@v1
         with:
-          ruby-version: '2.6'
+          ruby-version: "2.6"
       - name: Install compass for scss
         run: |
           gem install compass
@@ -52,17 +52,15 @@ jobs:
           path: ~/.stack
           key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack
 
-
       - name: Install dependencies
         run: |
-          stack --system-ghc --test --bench --no-run-tests --no-run-benchmarks --only-dependencies
+          stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --only-dependencies
 
       - name: Build executable
         run: |
           stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks
           stack exec --system-ghc -- hakyll-site clean
           stack exec --system-ghc -- hakyll-site build
-
 
       - name: Upload site to S3 and purge CloudFront cache
         if: github.ref == 'refs/heads/master'
