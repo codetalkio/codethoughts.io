@@ -1,0 +1,49 @@
+name: "cache cron"
+
+# Check out https://help.github.com/en/articles/workflow-syntax-for-github-actions for documentation on Actions.
+on:
+  schedule:
+    # Run every Monday at 01:00 in the night.
+    cron: "0 1 * * 1"
+
+jobs:
+  ci:
+    runs-on: ubuntu-20.04
+    environment:
+      name: ci
+    env:
+      GHC_VERSION: "8.10.2"
+      CABAL_VERSION: "3.4.0.0"
+      STACK_VERSION: "2.5.1"
+    steps:
+      - uses: actions/checkout@v1
+
+      # Setup tooling
+      - uses: haskell/actions/setup@v1
+        name: Setup Haskell Stack
+        with:
+          ghc-version: ${{env.GHC_VERSION}}
+          cabal-version: ${{env.CABAL_VERSION}}
+          stack-version: ${{env.STACK_VERSION}}
+          enable-stack: true
+
+      # Enable cache for cabal
+      - uses: actions/cache@v1
+        name: Cache .stack-work
+        with:
+          path: .stack-work
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-work
+      - uses: actions/cache@v1
+        name: Cache ~/.cabal/store
+        with:
+          path: ~/.cabal/store
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store
+      - uses: actions/cache@v1
+        name: Cache stack
+        with:
+          path: ~/.stack
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack
+
+      - name: Install dependencies
+        run: |
+          stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --only-dependencies

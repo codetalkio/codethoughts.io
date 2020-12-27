@@ -1,11 +1,17 @@
-resolver: nightly-2020-03-21
+resolver: nightly-2020-12-14
 
 packages:
-- '.'
+  - "."
 
 extra-deps:
-- hakyll-shakespeare-0.1.0.0.2
-- hakyll-4.13.2.0
+  - hakyll-shakespeare-0.1.0.0.2
+  - hakyll-4.13.4.1
+  - pandoc-2.11.3.1
+  - pandoc-citeproc-0.17.0.2
+  - citeproc-0.3.0.1
+  - commonmark-0.1.1.2
+  - commonmark-extensions-0.2.0.4
+  - commonmark-pandoc-0.2.0.1
 
 allow-newer: true
 
