@@ -4,7 +4,7 @@ name: "cache cron"
 on:
   schedule:
     # Run every Monday at 01:00 in the night.
-    cron: "0 1 * * 1"
+    - cron: "0 1 * * 1"
 
 jobs:
   ci:
