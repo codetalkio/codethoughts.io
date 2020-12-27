@@ -12,21 +12,22 @@ on:
 
 jobs:
   cd:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
     env:
       GHC_VERSION: '8.8.3'
-      CABAL_VERSION: '3.0'
+      CABAL_VERSION: '3.2'
+      STACK_VERSION: '2.5.1.1'
     steps:
       - uses: actions/checkout@v1
 
       # Setup tooling
-      - name: Setup stack
-        uses: mstksg/setup-stack@v1
-      - name: Setup GHC ${{env.GHC_VERSION}}
-        uses: actions/setup-haskell@v1
+      - uses: actions/setup-haskell@v1.1
+        name: Setup Haskell Stack
         with:
           ghc-version: ${{env.GHC_VERSION}}
           cabal-version: ${{env.CABAL_VERSION}}
+          stack-version: ${{env.STACK_VERSION}}
+          enable-stack: true
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.6'
@@ -52,15 +53,15 @@ jobs:
           key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack
 
 
-      - name: Build dependencies
+      - name: Install dependencies
         run: |
-          stack --system-ghc build --fast --no-terminal --skip-ghc-check --only-dependencies
+          stack --system-ghc --test --bench --no-run-tests --no-run-benchmarks --only-dependencies
 
       - name: Build executable
         run: |
-          stack --system-ghc build --fast --no-terminal --skip-ghc-check
-          stack --system-ghc exec -- hakyll-site clean
-          stack --system-ghc exec -- hakyll-site build
+          stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks
+          stack exec --system-ghc -- hakyll-site clean
+          stack exec --system-ghc -- hakyll-site build
 
 
       - name: Upload site to S3 and purge CloudFront cache
