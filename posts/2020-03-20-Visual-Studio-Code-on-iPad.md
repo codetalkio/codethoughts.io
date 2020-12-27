@@ -110,8 +110,8 @@ $ echo "
 bind-addr: 0.0.0.0:8080
 auth: password
 password: $CODE_SERVER_PASSPHRASE
-cert: /home/tehnix/.code-server-meta/cert.pem
-cert-key: /home/tehnix/.code-server-meta/key.pem
+cert: $HOME/.code-server-meta/cert.pem
+cert-key: $HOME/.code-server-meta/key.pem
 " > .config/code-server/config.yml
 $ systemctl --user restart code-server
 ```
