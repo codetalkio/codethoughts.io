@@ -8,7 +8,7 @@ on:
       - "resources/**"
       - "src/**"
       - "templates/**"
-      - ".github/workflows/cd.yml"
+      - ".github/workflows/ci-cd.yml"
 
 jobs:
   ci:
