@@ -60,6 +60,34 @@ packages:
       sha256: d9954a15f73c8fe55a5097e1cc0957fa626d340ef36e2beefb8caae66008c3dc
   original:
     hackage: commonmark-pandoc-0.2.0.1
+- completed:
+    hackage: doctemplates-0.9@sha256:eb0bf957ba8571746f36f07ceca43d311a0e390a9fdcfde6909f9f9be85b3b28,3125
+    pantry-tree:
+      size: 2421
+      sha256: db06db0bf8c9620f4fc4884e154848046827fabd43d31fb4b56b419793b9fd35
+  original:
+    hackage: doctemplates-0.9
+- completed:
+    hackage: pandoc-types-1.22@sha256:15512ce011555ee720820f11cac0598317293406da5812337cbb1550d144e3bd,4071
+    pantry-tree:
+      size: 737
+      sha256: 28e43150f4bb0d4d880cf92ade20fefcd8705ee95cfe4a1d0bb5efd320982a9d
+  original:
+    hackage: pandoc-types-1.22
+- completed:
+    hackage: skylighting-0.10.2@sha256:9c395703ca61752f4491044443e87d5b87ed94bca78c0a00b5ebf4e4b8e59904,10031
+    pantry-tree:
+      size: 10836
+      sha256: 43df2573383f05aec7cb961cff4d4f428d8cb1020ea5f4cc3d602a74f78bf668
+  original:
+    hackage: skylighting-0.10.2
+- completed:
+    hackage: skylighting-core-0.10.2@sha256:5070d9f08135cdb7c935c5936a4a76a9e1922ec846cd40d6e2837f42e7a9f29f,8159
+    pantry-tree:
+      size: 13518
+      sha256: d785717a91386c1b1dadc63305d296de3f05b26c17811336a19db374b4e06651
+  original:
+    hackage: skylighting-core-0.10.2
 snapshots:
 - completed:
     size: 558061

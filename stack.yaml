@@ -12,6 +12,10 @@ extra-deps:
   - commonmark-0.1.1.2
   - commonmark-extensions-0.2.0.4
   - commonmark-pandoc-0.2.0.1
+  - doctemplates-0.9
+  - pandoc-types-1.22
+  - skylighting-0.10.2
+  - skylighting-core-0.10.2
 
 allow-newer: true
 
