@@ -38,22 +38,20 @@ jobs:
         run: |
           gem install compass
 
-      # Enable cache for cabal
-      - uses: actions/cache@v1
-        name: Cache .stack-work
+      # Enable cache for cabal and stack
+      - uses: actions/cache@v2
+        name: Cache ~/.cabal/packages, ~/.cabal/store and dist-newstyle
         with:
-          path: .stack-work
-          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-work
+          path: |
+            ~/.cabal/packages
+            ~/.cabal/store
+            dist-newstyle
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store-${{ hashFiles('*.cabal') }}
       - uses: actions/cache@v1
-        name: Cache ~/.cabal/store
-        with:
-          path: ~/.cabal/store
-          key: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store
-      - uses: actions/cache@v1
-        name: Cache stack
+        name: Cache ~/.stack
         with:
           path: ~/.stack
-          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-${{ hashFiles('stack.yaml.lock') }}
 
       - name: Install dependencies
         run: |
