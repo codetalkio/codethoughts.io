@@ -57,7 +57,9 @@
 
   #overview-table {
     table-layout: fixed;
-    &, tbody, tr {
+    &,
+    tbody,
+    tr {
       width: 100%;
     }
     td {
@@ -96,5 +98,17 @@
 
   .bottom-information {
     margin-top: 50px;
+  }
+
+  details {
+    &.details-no-arrow {
+      cursor: pointer;
+      & > summary:first-of-type {
+        list-style-type: none;
+      }
+      & > summary::-webkit-details-marker {
+        display: none;
+      }
+    }
   }
 }
