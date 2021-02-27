@@ -90,7 +90,7 @@ packages:
     hackage: skylighting-core-0.10.2
 snapshots:
 - completed:
-    size: 558061
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/12/14.yaml
-    sha256: 0c80697b1db876c0ab31b43e42be53f886657a336eca59c73c361078e631d65b
-  original: nightly-2020-12-14
+    size: 568887
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2021/2/27.yaml
+    sha256: e753860a88b2abb808fdfa9a191d7f331cbf62da78f2951d20cb1fe91fbc5f50
+  original: nightly-2021-02-27
