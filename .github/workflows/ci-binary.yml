@@ -52,7 +52,7 @@ jobs:
       - name: Build executable
         run: |
           stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --local-bin-path ./dist --copy-bins
-          ls .dist/
+          ls ./dist
 
       - uses: codetalkio/release-action@v1
         with:
