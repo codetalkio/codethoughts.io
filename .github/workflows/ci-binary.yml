@@ -3,9 +3,9 @@ name: "CI: Upload Binary"
 # Check out https://help.github.com/en/articles/workflow-syntax-for-github-actions for documentation on Actions.
 on:
   push:
-    # branches:
-    #   - master
-    #   - main
+    branches:
+      - master
+      - main
     paths:
       - "src/**"
       - ".github/workflows/ci-binary.yml"
@@ -67,3 +67,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.date.outputs.date }}
           commit: ${{ github.sha }}
+          allowUpdates: true
