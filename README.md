@@ -8,6 +8,14 @@ You'll need sass/compass to compile the (S)CSS files, else `hakyll` will complai
 $ gem install compass # run `rbenv install 2.6.5` if you needed
 ```
 
+To avoid needing to rebuild the entire Haskell application, you can use the ready-made binary (Linux only),
+
+```bash
+$ gh release download --pattern "hakyll-site" --dir ./dist
+$ chmod +x ./dist/hakyll-site
+$ ./dist/hakyll-site watch
+```
+
 ## Quick walkthrough of Hakyll
 
 If you change something in `site.hs`, then it needs to be recompiled, using GHC. Everything else, should just need a rebuild via Hakyll.
