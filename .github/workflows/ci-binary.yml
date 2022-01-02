@@ -3,9 +3,9 @@ name: "CI: Upload Binary"
 # Check out https://help.github.com/en/articles/workflow-syntax-for-github-actions for documentation on Actions.
 on:
   push:
-    branches:
-      - master
-      - main
+    # branches:
+    #   - master
+    #   - main
     paths:
       - "src/**"
       - ".github/workflows/ci-binary.yml"
@@ -14,7 +14,6 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-20.04
-    if: github.ref == 'refs/heads/master'
     environment:
       name: ci
     env:
