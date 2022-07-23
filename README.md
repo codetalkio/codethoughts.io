@@ -5,7 +5,15 @@
 You'll need sass/compass to compile the (S)CSS files, else `hakyll` will complain in the build phase.
 
 ```bash
-$ gem install compass # run `rbenv install 2.6.5` if you needed
+$ gem install compass # run `rbenv install 2.6.5` if you need it.
+```
+
+To avoid needing to rebuild the entire Haskell application, you can use the ready-made binary (Linux only),
+
+```bash
+$ gh release download --pattern "hakyll-site" --dir ./dist
+$ chmod +x ./dist/hakyll-site
+$ ./dist/hakyll-site watch
 ```
 
 ## Quick walkthrough of Hakyll
