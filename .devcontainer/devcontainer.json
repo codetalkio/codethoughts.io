@@ -24,7 +24,7 @@
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "uname -a",
   // Run this command everytime the container is being prebuilt.
-  "updateContentCommand": "stack install pandoc && stack build --test --bench --no-run-tests --no-run-benchmarks --only-dependencies && stack build --test --bench --no-run-tests --no-run-benchmarks",
+  "updateContentCommand": "",
 
   // Comment out connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "vscode"
