@@ -8,7 +8,7 @@
     "dockerfile": "Dockerfile",
     "args": {
       // Update 'VARIANT' to pick a Haskell version: 9, 8
-      "VARIANT": "8"
+      "VARIANT": "9"
     }
   },
 
@@ -24,7 +24,7 @@
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "uname -a",
   // Run this command everytime the container is being prebuilt.
-  "updateContentCommand": "",
+  "updateContentCommand": "stack upgrade && stack setup",
 
   // Comment out connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "vscode"

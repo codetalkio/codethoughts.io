@@ -1,7 +1,7 @@
 # Use the [Choice] comment to indicate option arguments that should appear in VS Code UX
 #
 # [Choice] Haskell version: 9, 8
-ARG VARIANT=8
+ARG VARIANT=9
 FROM haskell:${VARIANT}
 
 # Use the [Option] comment to specify true/false arguments that should appear in VS Code UX

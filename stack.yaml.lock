@@ -3,94 +3,10 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages:
-- completed:
-    hackage: hakyll-shakespeare-0.1.0.0.2@sha256:8e81f615162a066f96dff257a9efea27478c87cd345bb708d1cdd4ba565c838d,933
-    pantry-tree:
-      size: 226
-      sha256: 3f8f8059a570e4e2041df833dcb809e0f76fe2b439eaa87633cf435678afe6af
-  original:
-    hackage: hakyll-shakespeare-0.1.0.0.2
-- completed:
-    hackage: hakyll-4.13.4.1@sha256:af3096c611bcb164143df2d9543e88f1eaabe76e8f0261423aff8382f10368c3,9212
-    pantry-tree:
-      size: 7842
-      sha256: 2cf57f61b0eb6f30beb01f78a65078138bfee0e4a4d8b6630ac4ddd91c7de6db
-  original:
-    hackage: hakyll-4.13.4.1
-- completed:
-    hackage: pandoc-2.11.3.1@sha256:68edca38855bcbf16cb38da3f77f5030b2a3ff3e88cf8bfc749380a9020f1632,39657
-    pantry-tree:
-      size: 117077
-      sha256: a82af4d0f3f896f65436f3acb213b83068aef34ab0aabc318a5d0eda52b354f4
-  original:
-    hackage: pandoc-2.11.3.1
-- completed:
-    hackage: pandoc-citeproc-0.17.0.2@sha256:39c5c60a5eca2c1cb50ae9a00dc7093ca1baac78ad5be4e222505de257dce456,8737
-    pantry-tree:
-      size: 25684
-      sha256: 8a5f6398d750902d79c215a4c8f85c74f3e7ea572dd1f950d57e784669ac7a48
-  original:
-    hackage: pandoc-citeproc-0.17.0.2
-- completed:
-    hackage: citeproc-0.3.0.1@sha256:1860a6757d5bc3ec149a434ed4011edb30155cb6ae92a1d83ccf3bd163bca0f1,5590
-    pantry-tree:
-      size: 78647
-      sha256: b89e157002539316e59f94b87cf379bf417d036f2f0b7a205fac35fe99998abb
-  original:
-    hackage: citeproc-0.3.0.1
-- completed:
-    hackage: commonmark-0.1.1.2@sha256:c06ab05f0f224ab7982502a96e17952823a9b6dae8505fb35194b0baa9e2a975,3278
-    pantry-tree:
-      size: 1346
-      sha256: 6a187bbbfaf61b4b1bf87ee5027e7edb5b7157ad3380982b07b876e9a60cd63d
-  original:
-    hackage: commonmark-0.1.1.2
-- completed:
-    hackage: commonmark-extensions-0.2.0.4@sha256:6a437bcfa3c757af4262b71336513619990eafb5cfdc33e57a499c93ad225608,3184
-    pantry-tree:
-      size: 2928
-      sha256: ac8993e356edabc65a40d6c6909696c5f2dfe2a5298089da820c29ca75852360
-  original:
-    hackage: commonmark-extensions-0.2.0.4
-- completed:
-    hackage: commonmark-pandoc-0.2.0.1@sha256:529c6e2c6cabf61558b66a28123eafc1d90d3324be29819f59f024e430312c1f,1105
-    pantry-tree:
-      size: 326
-      sha256: d9954a15f73c8fe55a5097e1cc0957fa626d340ef36e2beefb8caae66008c3dc
-  original:
-    hackage: commonmark-pandoc-0.2.0.1
-- completed:
-    hackage: doctemplates-0.9@sha256:eb0bf957ba8571746f36f07ceca43d311a0e390a9fdcfde6909f9f9be85b3b28,3125
-    pantry-tree:
-      size: 2421
-      sha256: db06db0bf8c9620f4fc4884e154848046827fabd43d31fb4b56b419793b9fd35
-  original:
-    hackage: doctemplates-0.9
-- completed:
-    hackage: pandoc-types-1.22@sha256:15512ce011555ee720820f11cac0598317293406da5812337cbb1550d144e3bd,4071
-    pantry-tree:
-      size: 737
-      sha256: 28e43150f4bb0d4d880cf92ade20fefcd8705ee95cfe4a1d0bb5efd320982a9d
-  original:
-    hackage: pandoc-types-1.22
-- completed:
-    hackage: skylighting-0.10.2@sha256:9c395703ca61752f4491044443e87d5b87ed94bca78c0a00b5ebf4e4b8e59904,10031
-    pantry-tree:
-      size: 10836
-      sha256: 43df2573383f05aec7cb961cff4d4f428d8cb1020ea5f4cc3d602a74f78bf668
-  original:
-    hackage: skylighting-0.10.2
-- completed:
-    hackage: skylighting-core-0.10.2@sha256:5070d9f08135cdb7c935c5936a4a76a9e1922ec846cd40d6e2837f42e7a9f29f,8159
-    pantry-tree:
-      size: 13518
-      sha256: d785717a91386c1b1dadc63305d296de3f05b26c17811336a19db374b4e06651
-  original:
-    hackage: skylighting-core-0.10.2
+packages: []
 snapshots:
 - completed:
-    size: 568887
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2021/2/27.yaml
-    sha256: e753860a88b2abb808fdfa9a191d7f331cbf62da78f2951d20cb1fe91fbc5f50
-  original: nightly-2021-02-27
+    size: 617441
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2022/7/23.yaml
+    sha256: cad492e2b47615065c8003bd44157ee24f4d2accfd147f7ad1f7bd63da822e93
+  original: nightly-2022-07-23

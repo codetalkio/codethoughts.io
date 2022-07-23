@@ -22,7 +22,7 @@ executable hakyll-site
                      , Site.Feed
   build-depends:       base
                      , hakyll
-                     , hakyll-shakespeare
+                    --  , hakyll-shakespeare
                      , pandoc
                      , text
                      , bytestring
