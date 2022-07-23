@@ -20,6 +20,13 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true"\
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+# Setup ghcup, rbenv, and ruby dependencies.
+RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 BOOTSTRAP_HASKELL_MINIMAL=1 sh \
+    && echo '[ -f "/home/vscode/.ghcup/env" ] && source "/home/vscode/.ghcup/env" # ghcup-env' >> /home/vscode/.zshrc \
+    && git clone https://github.com/rbenv/rbenv.git /home/vscode/.rbenv \
+    && cd /home/vscode/.rbenv && src/configure && make -C src \
+    && echo '[ -f "/home/vscode/.rbenv/bin/rbenv" ] && eval "$(rbenv init - bash)" # rbenv' >> /home/vscode/.zshrc \
+    && echo 'export PATH="/home/vscode/.rbenv/bin:$PATH"' >> /home/vscode/.zshrc \
+    && echo 'export PATH="/home/vscode/.rbenv/bin:$PATH"' >> /home/vscode/.bashrc \
+    && mkdir -p "$(/home/vscode/.rbenv/bin/rbenv root)"/plugins \
+    && git clone https://github.com/rbenv/ruby-build.git "$(/home/vscode/.rbenv/bin/rbenv root)"/plugins/ruby-build
