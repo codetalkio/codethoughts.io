@@ -24,8 +24,7 @@
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "uname -a",
   // Run this command everytime the container is being prebuilt.
-  //"updateContentCommand": "rbenv install 2.6.5 && rbenv global 2.6.5 && gem install compass && ghcup install ghc 9.2.3 && ghcup set ghc 9.2.3 && stack upgrade && stack setup",
-  "updateContentCommand": "stack upgrade && stack setup",
+  "updateContentCommand": "rbenv install 2.6.5 && rbenv global 2.6.5 && gem install compass && ghcup install ghc 9.2.3 && ghcup set ghc 9.2.3 && stack upgrade && stack setup",
 
   // Comment out connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
   "remoteUser": "vscode"
