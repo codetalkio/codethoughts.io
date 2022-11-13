@@ -24,7 +24,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 BOOTSTRAP_HASKELL_MINIMAL=1 sh \
     && echo '[ -f "/home/vscode/.ghcup/env" ] && source "/home/vscode/.ghcup/env" # ghcup-env' >> /home/vscode/.zshrc \
     && git clone https://github.com/rbenv/rbenv.git /home/vscode/.rbenv \
-    && cd /home/vscode/.rbenv && src/configure && make -C src \
     && echo '[ -f "/home/vscode/.rbenv/bin/rbenv" ] && eval "$(rbenv init - bash)" # rbenv' >> /home/vscode/.zshrc \
     && echo 'export PATH="/home/vscode/.rbenv/bin:$PATH"' >> /home/vscode/.zshrc \
     && echo 'export PATH="/home/vscode/.rbenv/bin:$PATH"' >> /home/vscode/.bashrc \

@@ -1,4 +1,4 @@
-name: "CD: Deploy site"
+name: "CI: Build and create release"
 
 # Check out https://help.github.com/en/articles/workflow-syntax-for-github-actions for documentation on Actions.
 on:
@@ -10,6 +10,7 @@ on:
       - "templates/**"
       - ".github/workflows/ci-cd.yml"
       - "stack.yaml"
+    workflow_dispatch:
 
 jobs:
   ci:
@@ -78,10 +79,5 @@ jobs:
           tag: ${{ steps.date.outputs.date }}
           commit: ${{ github.sha }}
           allowUpdates: true
-
-      # - uses: actions/upload-artifact@v2
-      #   if: github.ref == 'refs/heads/master'
-      #   with:
-      #     name: assets
-      #     path: ./_site
-      #     if-no-files-found: error
+          generateReleaseNotes: true
+          artifactErrorsFailBuild: true
