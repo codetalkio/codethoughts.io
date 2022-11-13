@@ -66,9 +66,9 @@ jobs:
 
       - name: Build executable
         run: |
-          stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks
-          stack exec --system-ghc -- hakyll-site clean
-          stack exec --system-ghc -- hakyll-site build
+          stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --local-bin-path ./dist --copy-bins
+          ./dist/hakyll-site clean
+          ./dist/hakyll-site build
 
       - name: Compile SCSS
         run: |
