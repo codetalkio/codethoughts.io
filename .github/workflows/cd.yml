@@ -18,6 +18,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Download latest release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release download --pattern "_site.tar.gz" --dir ./
           tar -zxvf _site.tar.gz
@@ -25,19 +27,19 @@ jobs:
           [ -d "_site" ] || echo "Failed downloading the _site directory." && exit 1
 
       - name: Upload site to S3
-        run: |
-          aws s3 sync _site s3://codetalk.io --delete
         env:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 sync _site s3://codetalk.io --delete
 
       - name: Purge CloudFront cache
+        env:
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
         run: |
           curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
             -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
             -H "Content-Type: application/json" \
             --data '{"purge_everything":true}'
-        env:
-          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
-          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
