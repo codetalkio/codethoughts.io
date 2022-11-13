@@ -9,16 +9,12 @@ concurrency: production
 
 jobs:
   cd:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     environment:
       name: production
       url: https://codetalk.io
     steps:
-      - uses: actions/checkout@v1
-      # - uses: actions/download-artifact@v2
-      #   with:
-      #     name: assets
-      #     path: ./_site
+      - uses: actions/checkout@v3
 
       - name: Download latest release
         run: |
