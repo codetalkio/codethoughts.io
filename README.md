@@ -1,4 +1,4 @@
-# [codetalk.io](https://codetalk.io) site [![build status](https://github.com/codetalkio/codetalk.io/workflows/cd/badge.svg)](https://github.com/codetalkio/codetalk.io/actions)
+# [codetalk.io](https://codetalk.io) site [![CI: Build and create release](https://github.com/codetalkio/codetalk.io/actions/workflows/ci.yml/badge.svg)](https://github.com/codetalkio/codetalk.io/actions/workflows/ci.yml) [![CD: Deploy site](https://github.com/codetalkio/codetalk.io/actions/workflows/cd.yml/badge.svg)](https://github.com/codetalkio/codetalk.io/actions/workflows/cd.yml) [![Codespaces Prebuilds](https://github.com/codetalkio/codetalk.io/actions/workflows/codespaces/create_codespaces_prebuilds/badge.svg)](https://github.com/codetalkio/codetalk.io/actions/workflows/codespaces/create_codespaces_prebuilds)
 
 ## Dependencies
 
