@@ -12,6 +12,10 @@ on:
       - ".github/workflows/ci.yml"
       - "stack.yaml"
 
+defaults:
+  run:
+    shell: bash # Set the default shell to bash.
+
 jobs:
   ci:
     runs-on: ubuntu-latest

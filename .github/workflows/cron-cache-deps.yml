@@ -6,6 +6,10 @@ on:
     # Run every Monday at 01:00 in the night.
     - cron: "0 1 * * 1"
 
+defaults:
+  run:
+    shell: bash # Set the default shell to bash.
+
 jobs:
   ci:
     runs-on: ubuntu-20.04
