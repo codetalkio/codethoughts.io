@@ -14,7 +14,7 @@ on:
 
 jobs:
   ci:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     environment:
       name: ci
     env:
@@ -22,10 +22,10 @@ jobs:
       CABAL_VERSION: "3.4.0.0"
       STACK_VERSION: "2.5.1"
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
       # Setup tooling
-      - uses: haskell/actions/setup@v1
+      - uses: haskell/actions/setup@v2
         name: Setup Haskell Stack
         with:
           ghc-version: ${{env.GHC_VERSION}}
@@ -40,7 +40,7 @@ jobs:
           gem install compass
 
       # Enable cache for cabal and stack
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         name: Cache ~/.cabal/packages, ~/.cabal/store and dist-newstyle
         with:
           path: |
@@ -48,7 +48,7 @@ jobs:
             ~/.cabal/store
             dist-newstyle
           key: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store-${{ hashFiles('*.cabal') }}
-      - uses: actions/cache@v1
+      - uses: actions/cache@v3
         name: Cache ~/.stack
         with:
           path: ~/.stack
@@ -70,7 +70,7 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - uses: codetalkio/release-action@v1
         if: github.ref == 'refs/heads/master'
