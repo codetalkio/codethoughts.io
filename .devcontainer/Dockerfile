@@ -30,4 +30,4 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTR
     && mkdir -p /home/vscode/.rbenv/versions \
     && mkdir -p /home/vscode/.rbenv/plugins \
     && git clone https://github.com/rbenv/ruby-build.git /home/vscode/.rbenv/plugins/ruby-build \
-    && chown -R vscode /home/vscode
+    && chown -R vscode:vscode /home/vscode
