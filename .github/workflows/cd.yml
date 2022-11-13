@@ -18,7 +18,8 @@ jobs:
 
       - name: Download latest release
         run: |
-          gh release download --pattern "_site" --dir ./_site
+          gh release download --pattern "_site.tar.gz" --dir ./
+          tar -zxvf _site.tar.gz
           ls _site
           [ -d "_site" ] || echo "Failed downloading the _site directory." && exit 1
 

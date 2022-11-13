@@ -74,14 +74,16 @@ jobs:
         run: |
           sass resources/scss/app.scss:_site/app.css --style compressed
 
-      - name: Get current date
+      - name: Prepare build artifacts and input for release
         id: date
-        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+        run: |
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          tar -zcvf _site.tar.gz _site
 
       - uses: codetalkio/release-action@v1
         if: github.ref == 'refs/heads/master'
         with:
-          artifacts: "./dist/hakyll-site,./_site"
+          artifacts: "./dist/hakyll-site,./_site.tar.gz"
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.date.outputs.date }}
           commit: ${{ github.sha }}
