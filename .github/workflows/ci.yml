@@ -2,6 +2,7 @@ name: "CI: Build and create release"
 
 # Check out https://help.github.com/en/articles/workflow-syntax-for-github-actions for documentation on Actions.
 on:
+  workflow_dispatch:
   push:
     paths:
       - "posts/**"
@@ -10,7 +11,6 @@ on:
       - "templates/**"
       - ".github/workflows/ci-cd.yml"
       - "stack.yaml"
-    workflow_dispatch:
 
 jobs:
   ci:
