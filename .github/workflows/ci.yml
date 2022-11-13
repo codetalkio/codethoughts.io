@@ -67,40 +67,21 @@ jobs:
         run: |
           sass resources/scss/app.scss:_site/app.css --style compressed
 
-      - uses: actions/upload-artifact@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - uses: codetalkio/release-action@v1
         with:
-          name: assets
-          path: ./_site
-          if-no-files-found: error
+          artifacts: "./dist/hakyll-site,./_site"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.date.outputs.date }}
+          commit: ${{ github.sha }}
+          allowUpdates: true
 
-  cd:
-    runs-on: ubuntu-20.04
-    if: github.ref == 'refs/heads/master'
-    needs: ci
-    environment:
-      name: production
-      url: https://codetalk.io
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/download-artifact@v2
-        with:
-          name: assets
-          path: ./_site
-
-      - name: Upload site to S3
-        run: |
-          aws s3 sync _site s3://codetalk.io --delete
-        env:
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Purge CloudFront cache
-        run: |
-          curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
-            -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
-            -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}'
-        env:
-          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
-          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+      # - uses: actions/upload-artifact@v2
+      #   if: github.ref == 'refs/heads/master'
+      #   with:
+      #     name: assets
+      #     path: ./_site
+      #     if-no-files-found: error

@@ -61,10 +61,10 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-      - uses: codetalkio/release-action@v1
-        with:
-          artifacts: "./dist/hakyll-site"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.date.outputs.date }}
-          commit: ${{ github.sha }}
-          allowUpdates: true
+      # - uses: codetalkio/release-action@v1
+      #   with:
+      #     artifacts: "./dist/hakyll-site"
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag: ${{ steps.date.outputs.date }}
+      #     commit: ${{ github.sha }}
+      #     allowUpdates: true
