@@ -25,7 +25,7 @@ jobs:
           tar -zxvf _site.tar.gz
           ls _site
           [ ! -d "_site" ] && echo "Failed downloading the _site directory."
-          [ ! -d "_site" ] && && exit 1
+          [ ! -d "_site" ] && exit 1
 
       - name: Upload site to S3
         env:
