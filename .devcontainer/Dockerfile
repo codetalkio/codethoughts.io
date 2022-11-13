@@ -21,6 +21,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 # Setup ghcup, rbenv, and ruby dependencies.
+USER vscode
 RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 BOOTSTRAP_HASKELL_MINIMAL=1 sh \
     && echo '[ -f "/home/vscode/.ghcup/env" ] && source "/home/vscode/.ghcup/env" # ghcup-env' >> /home/vscode/.zshrc \
     && git clone https://github.com/rbenv/rbenv.git /home/vscode/.rbenv \
@@ -29,5 +30,4 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTR
     && echo 'export PATH="/home/vscode/.rbenv/bin:$PATH"' >> /home/vscode/.bashrc \
     && mkdir -p /home/vscode/.rbenv/versions \
     && mkdir -p /home/vscode/.rbenv/plugins \
-    && git clone https://github.com/rbenv/ruby-build.git /home/vscode/.rbenv/plugins/ruby-build \
-    && chown -R vscode:vscode /home/vscode
+    && git clone https://github.com/rbenv/ruby-build.git /home/vscode/.rbenv/plugins/ruby-build
