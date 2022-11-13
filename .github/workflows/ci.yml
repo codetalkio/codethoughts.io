@@ -91,6 +91,8 @@ jobs:
           generateReleaseNotes: true
           artifactErrorsFailBuild: true
 
+      # Trigger the deployment workflow directly via repository_dispatch. Alternatively, use a
+      # PAT as suggested in https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow.
       - name: Trigger deployment
         if: github.ref == 'refs/heads/master'
         run: |
@@ -99,4 +101,4 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/codetalk/codetalk.io/dispatches \
-            -d '{"event_type":"on-demand-deploy"}'
+            -d '{"event_type":"on-demand-deploy", "client_payload": {}}'
