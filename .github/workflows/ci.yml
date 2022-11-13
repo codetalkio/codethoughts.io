@@ -22,16 +22,27 @@ jobs:
       CABAL_VERSION: "3.4.0.0"
       STACK_VERSION: "2.5.1"
     steps:
+      # To avoid cabal unneccesarilly recompiling things, we set the time modified of all
+      # files to match their commit times.
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set all tracked file modification times to the time of their last commit
+        run: |
+          for f in $(git ls-tree -r -t --full-name --name-only "HEAD") ; do
+              touch -d $(git log --pretty=format:%cI -1 "HEAD" -- "$f") "$f";
+          done
 
       # Setup tooling
       - uses: haskell/actions/setup@v2
         name: Setup Haskell Stack
+        id: setup-haskell-build-env
         with:
-          ghc-version: ${{env.GHC_VERSION}}
-          cabal-version: ${{env.CABAL_VERSION}}
-          stack-version: ${{env.STACK_VERSION}}
+          ghc-version: ${{ env.GHC_VERSION }}
+          cabal-version: ${{ env.CABAL_VERSION }}
+          stack-version: ${{ env.STACK_VERSION }}
           enable-stack: true
+
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: "2.6"
@@ -44,15 +55,19 @@ jobs:
         name: Cache ~/.cabal/packages, ~/.cabal/store and dist-newstyle
         with:
           path: |
-            ~/.cabal/packages
-            ~/.cabal/store
+            ${{ steps.setup-haskell-build-env.outputs.cabal-store }}
             dist-newstyle
           key: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store-${{ hashFiles('*.cabal') }}
+          restore-keys: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store-
+
       - uses: actions/cache@v3
         name: Cache ~/.stack
         with:
-          path: ~/.stack
+          path: |
+            ~/.stack
+            .stack-work
           key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-${{ hashFiles('stack.yaml.lock') }}
+          restore-keys: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-
 
       - name: Install dependencies
         run: |
