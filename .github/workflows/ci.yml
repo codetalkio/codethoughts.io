@@ -9,7 +9,7 @@ on:
       - "resources/**"
       - "src/**"
       - "templates/**"
-      - ".github/workflows/ci-cd.yml"
+      - ".github/workflows/ci.yml"
       - "stack.yaml"
 
 jobs:
