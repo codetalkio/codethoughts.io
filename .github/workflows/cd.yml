@@ -27,7 +27,7 @@ jobs:
         run: |
           gh release download --pattern "_site.tar.gz" --dir ./
           tar -zxvf _site.tar.gz
-          [ ! -d "./_site" ] && echo "Failed downloading the _site directory." && exit 1
+          [ ! -d "_site" ] && echo "Failed downloading the _site directory." && exit 5
 
       - name: Upload site to S3
         env:
