@@ -95,10 +95,8 @@
       ]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script
     ><![endif]-->
     <script>
-      document.documentElement.className = document.documentElement.className.replace(
-        /\bno-js\b/,
-        "js"
-      );
+      document.documentElement.className =
+        document.documentElement.className.replace(/\bno-js\b/, "js");
     </script>
   </head>
 
@@ -158,7 +156,7 @@
         } else if (document.addEventListener) {
           document.addEventListener("DOMContentLoaded", fn);
         } else {
-          document.attachEvent("onreadystatechange", function() {
+          document.attachEvent("onreadystatechange", function () {
             if (document.readyState != "loading") fn();
           });
         }
@@ -168,7 +166,7 @@
         if (el.addEventListener) {
           el.addEventListener(eventName, handler);
         } else if (el.attachEvent) {
-          el.attachEvent("on" + eventName, function() {
+          el.attachEvent("on" + eventName, function () {
             handler.call(el);
           });
         }
@@ -182,10 +180,10 @@
     <script>
       // Archive.js
       // Make the table rows clickable and act as links
-      newReady(function(event) {
+      newReady(function (event) {
         var archiveRows = document.querySelectorAll("#archives-table tbody tr");
-        newForEachElement("#archives-table tbody tr", function(el, i) {
-          newAddEventListener(el, "click", function() {
+        newForEachElement("#archives-table tbody tr", function (el, i) {
+          newAddEventListener(el, "click", function () {
             var link = el.querySelector(".link");
             window.location = link.getAttribute("href");
           });
@@ -193,11 +191,26 @@
       });
     </script>
 
+    <!-- Mermaid JS -->
+    <script
+      type="application/javascript"
+      src="/resources/js/mermaid.js"
+    ></script>
+    <script type="module">
+      var config = {
+        startOnLoad: true,
+        theme: "dark",
+        align: "center",
+      };
+      mermaid.initialize(config);
+    </script>
+    <!-- End Mermaid JS -->
+
     <!-- Google Analytics -->
     <script>
       window.ga =
         window.ga ||
-        function() {
+        function () {
           (ga.q = ga.q || []).push(arguments);
         };
       ga.l = +new Date();
