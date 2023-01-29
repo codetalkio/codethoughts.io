@@ -10,7 +10,66 @@ Goals: Low cost, high flexibility, modular approach to infrastructure pieces.
 - Control Tower and audit trail
 - Billing alerts and tags
 
+Let's first sketch out the Account Governance structure, before diving into the view of each individual AWS account:
+
+- **Control Tower**: This is your central place to control access and policies for all accounts in your organization
+- **Production Multi-tenant**: Your primary production account for multi-tenant setup, and most likely were the majority of users will be
+- **Production Single-tenant**: While desirable to avoid the operation overhead for single-tenant setups, its good to think in this from the get-go
+- **Integration Test**: This will be the account that IaC deployments get tested on to ensure rollout works
+- **Individual Developer**: Individual developer accounts to allow easy testing of IaC testing and exploration
+- **Monitoring**: Centralize monitoring and observability into one account, allowing access to insights without access to sensitive logs or infrastructure from the other accounts
+- **Logs**: Centralized storage of logs, which may require different access considerations than metrics and traces
+
+```mermaid
+graph TD
+  subgraph ControlTower[AWS: Control Tower]
+    AuditLog[Audit Log]
+    GuardRails[Guard Rails]
+  end
+  ControlTower-->AWSProdMultiTenantAccount
+  ControlTower-->AWSProdSingleTenantAccount
+  ControlTower-->AWSIntegrationTestAccount
+  ControlTower-->AWSIndividualDeveloperAccount
+  ControlTower-->AWSMonitoringAccount
+  ControlTower-->AWSLogsAccount
+
+  subgraph AWSProdMultiTenantAccount[AWS: Production Multi-tenant]
+    AccountFillerProdMultiTenant[...]
+  end
+
+  subgraph AWSProdSingleTenantAccount[AWS: Production Single-tenant]
+    AccountFillerProdSingleTenant[...]
+  end
+
+  subgraph AWSIntegrationTestAccount[AWS: Integration Test]
+    AccountFillerIntegrationTest[...]
+  end
+
+  subgraph AWSIndividualDeveloperAccount[AWS: Individual Developer]
+    AccountFillerIndividualDeveloper[...]
+  end
+
+  subgraph AWSMonitoringAccount[AWS: Monitoring]
+    direction LR
+    CloudWatchDashboards[CloudWatch Dashboards]
+    CloudWatchMetrics[CloudWatch Metrics/Alarms]
+    XRay[XRay Analytics]
+  end
+
+  subgraph AWSLogsAccount[AWS: Logs]
+    CloudWatchLogs[CloudWatch Logs]
+  end
+```
+
+```mermaid
+graph TD
+  A-->B
+```
+
 # Deployment and CI
+- AWS CDK
+    - Speed up https://pgrzesik.com/posts/speed-up-cdk-deploments/
+    - CDK Watch https://aws.amazon.com/blogs/developer/increasing-development-speed-with-cdk-watch/
 - Deployments
     - Canary environment
     - Dev environments?
@@ -75,4 +134,7 @@ Goals: Low cost, high flexibility, modular approach to infrastructure pieces.
 
 # Monitoring and observability
 - Xray
+  - Cross-account
+    - https://docs.aws.amazon.com/xray/latest/devguide/xray-console-crossaccount.html
+    - https://aws.amazon.com/about-aws/whats-new/2022/11/amazon-cloudwatch-cross-account-observability-multiple-aws-accounts/
 - CloudWatch Dashboards
