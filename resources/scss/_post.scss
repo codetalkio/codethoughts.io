@@ -81,12 +81,16 @@
     ul,
     ol,
     blockquote,
-    pre,
+    pre:not(.mermaid),
     div.figure {
       @include center-content();
     }
     div.figure img {
       width: 100%;
+    }
+
+    pre.mermaid {
+      max-width: 80%;
     }
 
     ul > li > ul {

@@ -17,6 +17,11 @@ main = hakyll $ do
     route idRoute
     compile copyFileCompiler
 
+  -- | Route for all javascript
+  match "resources/js/*" $ do
+    route idRoute
+    compile copyFileCompiler
+
   -- | Route for all pdfs
   match "resources/pdfs/*" $ do
     route idRoute

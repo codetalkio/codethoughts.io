@@ -1,4 +1,4 @@
-resolver: nightly-2022-07-23 # GHC 9.2.3
+resolver: lts-20.9 # GHC 9.2.5
 
 packages:
   - "."
