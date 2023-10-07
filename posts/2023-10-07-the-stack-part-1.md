@@ -6,6 +6,7 @@ tags: aws, cloud, infrastructure
 In [the last post](/posts/2023-01-29-the-stack.html) we went over the overall goals of "The Stack" and what we will be building. In this post we'll be setting up our AWS Account structure. See the full overview of posts [here](/posts/2023-01-29-the-stack.html#what-will-we-be-covering).
 
 As a reminder, here is the structure we are aiming for:
+
 - **Control Tower**: This is your central place to control access and policies for all accounts in your organization
 - **Production Multi-tenant**: Your primary production account for multi-tenant setup, and most likely were the majority of users will be
 - **Production Single-tenant**: While desirable to avoid the operation overhead for single-tenant setups, its good to think in this from the get-go
