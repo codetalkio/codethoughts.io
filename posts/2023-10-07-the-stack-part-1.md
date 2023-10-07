@@ -132,7 +132,9 @@ Skip through Step 3, Step 4, and click "Finish" on the review step.
 
 Once the key is created we'll immediately edit it now that it has gotten a Key ID. If we don't we'll run into this nice error later on:
 
+<div style="text-align:center;">
 <a href="/resources/images/the-stack-part-1-kms-error.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-kms-error.thumbnail.png" loading="lazy" alt="KMS error" title="KMS error" width="70%" /></a>
+</div>
 
 To avoid this:
 
