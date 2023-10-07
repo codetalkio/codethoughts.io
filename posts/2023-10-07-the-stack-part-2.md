@@ -6,10 +6,11 @@ tags: aws, cloud, infrastructure, cdk
 In [the last post](/posts/2023-10-07-the-stack-part-1.html) we created our Control Tower structure with all of our AWS Accounts in it. In this post we will be automating our deployment process for each of these environments. See the full overview of posts [here](/posts/2023-01-29-the-stack.html#what-will-we-be-covering).
 
 This will include:
+
 - Workflow for bootstrapping our AWS Accounts for CDK ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-bootstrap.yml))
 - Workflow for deploying our CDK stacks, including synthesizing and testing before ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-deploy.yml))
 
-But first we must prepare our GitHub environments, setting it up with AWS credentials and configuring it with the environments we want to deploy to.
+But first we must prepare our AWS and GitHub environments, setting it up with credentials and configuring it with the environments we want to deploy to.
 
 <div></div><!--more-->
 
@@ -24,7 +25,7 @@ For each of these we will need to set up IAM credentials that we can use in GitH
 
 <div class="callout">
   <div class="callout-bulb">💡</div>
-  GitHub also supports authenticating to AWS via OpenID, but this is much more complicated to set up. Check out their docs on that [here](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services).
+  GitHub also supports authenticating to AWS via OpenID. Check out their docs on that [here](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services).
 </div>
 
 Let's get set up. First we'll define a group for the user to go into, create the user, and then create the access keys for the user:
@@ -272,7 +273,7 @@ Push your project to GitHub. You now have access to the workflows and can trigge
 
 - Trigger the `Deployment: Bootstrap` workflow first, to set up CDK on all accounts.
 
-Before we initiate the deployment, it's recommended to be logged into your Domain Registrar that controls the DNS of your domain, so that you can quickly update your name servers to point to the Hosted Zone that we will be creating. This is necessary to DNS validate our ACM certificates.
+Next up, before we initiate the deployment it's recommended to be logged into your Domain Registrar that controls the DNS of your domain, so that you can quickly update your name servers to point to the Hosted Zone that we will be creating. This is necessary to DNS validate our ACM certificates.
 
 Our process will go:
 
@@ -301,7 +302,7 @@ We've now set up the foundation for all of our future deployments of application
 
 ### Manual alternative: Setting up CDK & Bootstrapping our Accounts
 
-Once you've clone the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments) (or made your own version of it), set up bun:
+Once you've cloned the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments) (or made your own version of it), set up bun:
 
 ```bash
 $ curl -fsSL https://bun.sh/install | bash
@@ -350,4 +351,4 @@ The `DOMAIN` environment variable is required here, since we need to know what d
 
 ## Next Steps
 
-Next up is to start building! Follow along in Part 1 of the series (will be posted soon).
+Next up is to add our first Frontend! Follow along in Part 3 of the series (will be posted soon).
