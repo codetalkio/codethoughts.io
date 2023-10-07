@@ -104,10 +104,12 @@ Now that we have a location for our logs, we can configure CloudTrail as well as
 When you check the box to enable KMS encryption you'll be asked for a key to use. Click "Create a KMS key" which will take us into the KMS Console:
 
 Key configuration
+
 - **Symmetric**
 - **Encrypt and decrypt**
 
 Key labels
+
 - **KMS Key Alias**: `control-tower-cloudtrail`
 - **Description**: `KMS key used for CloudTrail logs stored by Control Tower`
 - **Tags**:
@@ -119,7 +121,9 @@ We'll immediately start our good habit of adding billing tags whereever we can, 
 <details>
 <summary>👈 Open the toggle for an example</summary>
 
+<div style="text-align:center;">
 <a href="/resources/images/the-stack-part-1-kms-step-1.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-kms-step-1.thumbnail.png" loading="lazy" alt="KMS Configuration" title="KMS Configuration" width="70%" /></a>
+</div>
 
 </details>
 
@@ -128,6 +132,8 @@ Skip through Step 3, Step 4, and click "Finish" on the review step.
 Once the key is created we'll immediately edit it now that it has gotten a Key ID. If we don't we'll run into this nice error later on:
 
 <a href="/resources/images/the-stack-part-1-kms-error.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-kms-error.thumbnail.png" loading="lazy" alt="KMS error" title="KMS error" width="70%" /></a>
+
+To avoid this:
 
 1. Click on your newly created key.
 2. Note down the Key ID (e.g. `12345678-1234-1234-1234-123456789012`).
@@ -219,12 +225,15 @@ This will take a bit of time, and we cannot create accounts during this.
 For this step it's important that you are not logged in as the Root user anymore. Instead, jump to your new User portal URL which AWS has set up for us.
 
 Find the User portal URL:
+
 1. Go to the [AWS Console -> Control Tower](https://console.aws.amazon.com/controltower/).
 2. Go into **Users and access**.
 3. Copy the **User portal URL** from the **Federated access management** card.
 4. Bookmark this URL, you're gonna need it a lot.
 
+<div style="text-align:center;">
 <a href="/resources/images/the-stack-part-1-user-portal-url.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-user-portal-url.thumbnail.png" loading="lazy" alt="User portal URL" title="User portal URL" width="65%" /></a>
+</div>
 
 Once you're logged into the Control Tower account using the portal, jump into the Account Factory again:
 
@@ -233,6 +242,7 @@ Once you're logged into the Control Tower account using the portal, jump into th
 3. Click **Create account**.
 
 We'll be creating the following accounts:
+
 - `Integration Test` in our Development OU
 - `Production Multi-tenant` in our Production OU
 - `Production Single-tenant` in our Production OU
@@ -249,8 +259,9 @@ For each account, in the **Create account** process, fill in:
 
 Pick the appropriate Organizational unit according to the list above, and click **Create account**. You should end up with an overall structure like the following:
 
-<a href="/resources/images/the-stack-part-1-account-overview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-account-overview.thumbnail.png" loading="lazy" alt="Account overview" title="Account overview" width="50%" /></a>
-
+<div style="text-align:center;">
+<a href="/resources/images/the-stack-part-1-account-overview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-account-overview.thumbnail.png" loading="lazy" alt="Account overview" title="Account overview" width="40%" /></a>
+</div>
 
 # Next Steps
 

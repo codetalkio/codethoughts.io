@@ -13,7 +13,7 @@ But first we must prepare our GitHub environments, setting it up with AWS creden
 
 <div></div><!--more-->
 
-# AWS: Set up our Credentials
+# AWS: Seting up Credentials
 
 For now, we will focus on the following of our accounts as deployment targets:
 - Integration Test
@@ -55,24 +55,26 @@ For our GitHub Actions workflows to work, we need to set up our `Environment`s c
 2. Create your environments e.g. `Integration Test`
 3. [Recommended] Restrict deployments to the `main` branch
 4. Set up the secrets for
-   1. `AWS_ACCESS_KEY_ID`
-   2. `AWS_SECRET_ACCESS_KEY`
+  - `AWS_ACCESS_KEY_ID`
+  - `AWS_SECRET_ACCESS_KEY`
 5. Set up the variables for
-   1. `AWS_ACCOUNT_ID`
-   2. `AWS_REGION`
-   3. `DOMAIN` (where your app will live, e.g. `app.example.com`. `integration.example.com`, and `single.example.com`)
+  -  `AWS_ACCOUNT_ID`
+  -  `AWS_REGION`
+  -  `DOMAIN` (where your app will live, e.g. `app.example.com`. `integration.example.com`, and `single.example.com`)
 
 Repeat those steps with the relevant values for each of the environments `Integration Test`, `Production Single`, `Production Multi`.
 
 Your `Environment` overview will look like this:
 
+<div style="text-align:center;">
 <a href="/resources/images/the-stack-part-2-environment-overview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-environment-overview.thumbnail.png" loading="lazy" alt="Overview of Environments" title="Overview of Environments" width="65%" /></a>
-
+</div>
 
 And each environment will roughly look like this:
 
+<div style="text-align:center;">
 <a href="/resources/images/the-stack-part-2-environment-configuration.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-environment-configuration.thumbnail.png" loading="lazy" alt="Configuration, secrets, and variables of an environment" title="Configuration, secrets, and variables of an environment" width="65%" /></a>
-
+</div>
 
 # CDK: Infrastructure as Code
 [CDK](https://github.com/aws/aws-cdk) is our tool of choice for Infrastructure as Code. We'll start from the default template and adjust it to use [Bun](https://bun.sh/) which simplifies the process of running CDK commands while using TypeScript.
@@ -290,7 +292,9 @@ This can easily take 5-15 minutes to complete the first time, depending on how q
 
 You can go and see the generated CloudFormation stacks in the [AWS Console -> CloudFormation](https://console.aws.amazon.com/cloudformation/) which will look something like this:
 
-<a href="/resources/images/the-stack-part-2-cloudformation.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-cloudformation.thumbnail.png" loading="lazy" alt="Cloudformation stacks" title="Cloudformation stacks" width="100%" /></a>
+<div style="text-align:center;">
+<a href="/resources/images/the-stack-part-2-cloudformation.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-cloudformation.thumbnail.png" loading="lazy" alt="Cloudformation stacks" title="Cloudformation stacks" width="85%" /></a>
+</div>
 
 We've now set up the foundation for all of our future deployments of applications and services 🥳
 
