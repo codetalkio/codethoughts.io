@@ -83,6 +83,14 @@ And each environment will roughly look like this:
 
 Instead of setting this up from scratch, start from the template for this step in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments). We'll go through what this contains in the next two sections.
 
+Our overall aim is to structure our CDK into three main groupings:
+
+- `Cloud`: Hosted Zones, VPC, Certificates, infrequently changing things
+- `Platform`: DynamoDB, Cache, SQS
+- `Services`: Lambdas, API Gateway, etc
+
+This split is based on the frequency something changes, and allows us to deploy freqeuently changing stacks without having to also look at things that very rarely change. In this part of the series we will set up the `Cloud` stack.
+
 ### Explanation: CDK Stack
 
 We structure our CDK stack as follows:
@@ -91,8 +99,8 @@ We structure our CDK stack as follows:
     - `deployment.ts`: Our "executable" that CDK run run (defined in `cdk.json`)
     - `helpers.ts`: Helper functions to make our CDK code more readable and safe to run
   - `lib/`: The actual logic of our CDK stacks
-    - `base/`: Our base layer containing all the resources that are shared across all stacks
-      - `stack.ts`: Gathers all of our base stacks into one stack
+    - `cloud/`: Our 'Cloud' layer containing all the resources that are shared across all stacks
+      - `stack.ts`: Gathers all of our 'Cloud' stacks into one stack
       - `domain.ts`: Sets up our Hosted Zone and ACM certificates
 
 This might seem like overkill right now, but will benefit us quite quickly as we start adding more stacks to our project.
@@ -104,28 +112,28 @@ In `deployment.ts` you'll see the root of our CDK stack:
 const app = new cdk.App();
 
 /**
- * Define our base stack that provisions the infrastructure for our application, such
+ * Define our 'cloud' stack that provisions the infrastructure for our application, such
  * as domain names, certificates, and other resources that are shared across all.
  */
-const baseStackName = "Base";
-if (matchesStack(app, baseStackName)) {
-  new BaseStack(app, baseStackName, {
+const cloudStackName = "Cloud";
+if (matchesStack(app, cloudStackName)) {
+  new CloudStack(app, cloudStackName, {
     env: {
       account: process.env.CDK_DEFAULT_ACCOUNT || process.env.AWS_ACCOUNT_ID,
       region: process.env.CDK_DEFAULT_REGION || process.env.AWS_REGION,
     },
-    domain: validateEnv("DOMAIN", baseStackName),
+    domain: validateEnv("DOMAIN", cloudStackName),
   });
 }
 ```
 
 We've set up some conveniences to easily run a single stack, via `matchesStack`, and to validate our environment variables, via `validateEnv`.
 
-Our `BaseStack` is then defined in `lib/base/stack.ts`, and more or less just pieces together the types and the sub-stacks in the `base/` directory:
+Our `CloudStack` is then defined in `lib/cloud/stack.ts`, and more or less just pieces together the types and the sub-stacks in the `cloud/` directory:
 
 ```typescript
 // ...imports
-interface StackProps extends cdk.StackProps, domain.StackProps {}
+interface StackProps extends cdk.StackProps, domain.Props {}
 
 export class Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
@@ -137,11 +145,11 @@ export class Stack extends cdk.Stack {
 }
 ```
 
-And finally, to the meat of things, our `lib/base/domain.ts` is currently where the magic happens:
+And finally, to the meat of things, our `lib/cloud/domain.ts` is currently where the magic happens:
 
 ```typescript
 // ...imports
-export interface StackProps extends cdk.StackProps {
+export interface Props {
   /**
    * The domain name the application is hosted under.
    */
@@ -149,12 +157,17 @@ export interface StackProps extends cdk.StackProps {
 }
 
 /**
+ * Combine our `Props` with the base `NestedStackProps`.
+ */
+interface NestedStackProps extends cdk.NestedStackProps, Props {}
+
+/**
  * Set up a Hosted Zone to manage our domain names.
  *
  * https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_route53.HostedZone.html
  */
-export class Stack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: StackProps) {
+export class Stack extends cdk.NestedStack {
+  constructor(scope: Construct, id: string, props: NestedStackProps) {
     super(scope, id, props);
 
     // Set up the hosted zone.
@@ -344,7 +357,7 @@ Our process will go:
 Assuming you are ready for step 3., we can start the deployment. We'll assume that you are still in the deployment folder and that you have switched your CLI environment to point to the AWS account that you want to deploy to:
 
 ```bash
-$ DOMAIN="app.example.com" bun run cdk deploy 'Base'
+$ DOMAIN="app.example.com" bun run cdk deploy 'Cloud'
 ```
 
 The `DOMAIN` environment variable is required here, since we need to know what domain we should use for the Hosted Zone.
