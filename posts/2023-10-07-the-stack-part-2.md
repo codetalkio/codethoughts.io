@@ -13,7 +13,7 @@ But first we must prepare our GitHub environments, setting it up with AWS creden
 
 <div></div><!--more-->
 
-# AWS: Seting up Credentials
+## AWS: Seting up Credentials
 
 For now, we will focus on the following of our accounts as deployment targets:
 - Integration Test
@@ -48,7 +48,7 @@ Finally, we need to create the access keys for the user:
 Repeat this process for `Integration Test`, `Production Single-tenant`, and `Production Multi-tenant`.
 
 
-# GitHub: Setting up Environments
+## GitHub: Setting up Environments
 For our GitHub Actions workflows to work, we need to set up our `Environment`s configure a couple of `Environment` variables and secrets.
 
 1. Go to your repository Settings -> Environments
@@ -76,12 +76,12 @@ And each environment will roughly look like this:
 <a href="/resources/images/the-stack-part-2-environment-configuration.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-environment-configuration.thumbnail.png" loading="lazy" alt="Configuration, secrets, and variables of an environment" title="Configuration, secrets, and variables of an environment" width="65%" /></a>
 </div>
 
-# CDK: Infrastructure as Code
+## CDK: Infrastructure as Code
 [CDK](https://github.com/aws/aws-cdk) is our tool of choice for Infrastructure as Code. We'll start from the default template and adjust it to use [Bun](https://bun.sh/) which simplifies the process of running CDK commands while using TypeScript.
 
 Instead of setting this up from scratch, start from the template for this step in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments). We'll go through what this contains in the next two sections.
 
-## Explanation: CDK Stack
+### Explanation: CDK Stack
 
 We structure our CDK stack as follows:
 - `deployment/`: The root folder for all things CDK
@@ -171,7 +171,7 @@ export class Stack extends cdk.Stack {
 
 This sets up a Hosted Zone and an ACM certificate for our domain, and configures it to validate the Certificate via DNS validation.
 
-## Explanation: Automated Deployments via GitHub Actions
+### Explanation: Automated Deployments via GitHub Actions
 
 We have two workflows to deploy things, they share much of the same logic, so let's focus on the commonalities first.
 
@@ -266,7 +266,7 @@ Our deployment workflow does a bit more, we also synthesize our stacks and run a
 
 The synth and test steps ensure we have a minimum of sanity checking in place.
 
-## Trigger the Workflows
+### Trigger the Workflows
 
 Push your project to GitHub. You now have access to the workflows and can trigger them manually.
 
@@ -275,6 +275,7 @@ Push your project to GitHub. You now have access to the workflows and can trigge
 Before we initiate the deployment, it's recommended to be logged into your Domain Registrar that controls the DNS of your domain, so that you can quickly update your name servers to point to the Hosted Zone that we will be creating. This is necessary to DNS validate our ACM certificates.
 
 Our process will go:
+
 1. Open the DNS settings of your domain registrar
 2. Trigger the `Deployment: Deploy to AWS` workflow to start the deployments
 3. Log into the target AWS Account and go to the [AWS Console -> Route 53](https://console.aws.amazon.com/route53/) and select **Hosted Zones**
@@ -298,7 +299,7 @@ You can go and see the generated CloudFormation stacks in the [AWS Console -> Cl
 
 We've now set up the foundation for all of our future deployments of applications and services 🥳
 
-## Manual alternative: Setting up CDK
+### Manual alternative: Setting up CDK
 
 Once you're clone the repo, set up bun:
 
@@ -313,7 +314,7 @@ $ cd deployment
 $ bun install
 ```
 
-## Manual alternative: Bootstrapping our Accounts
+### Manual alternative: Bootstrapping our Accounts
 We’ll be setting up CDK on each of our accounts, so that we can start using it for deployments.
 
 And now we can bootstrap our environment. We'll assume that you have already switched your CLI environment to point to the AWS account that you want to bootstrap:
@@ -325,13 +326,14 @@ $ bun run cdk bootstrap
 
 This is essentially what the [cd-bootstrap](/.github/workflows/cd-bootstrap.yml) workflow does for you, across all the environments you've specified (you can adjust the list in the build matrix).
 
-## Manual alternative: Deployments
+### Manual alternative: Deployments
 
 Now that we have bootstrapped our accounts, we can deploy our CDK stacks.
 
 Similar to using the Workflow: Before we initiate the deployment, it's recommended to be logged into your Domain Registrar that controls the DNS of your domain, so that you can quickly update your name servers to point to the Hosted Zone that we will be creating. This is necessary to DNS validate our ACM certificates.
 
 Our process will go:
+
 1. Open the DNS settings of your domain registrar
 2. Log into the target AWS Account and go to Route 53 -> Hosted Zones
 3. Start the deployment
@@ -347,6 +349,6 @@ $ DOMAIN="app.example.com" bun run cdk deploy 'Base'
 The `DOMAIN` environment variable is required here, since we need to know what domain we should use for the Hosted Zone.
 
 
-# Next Steps
+## Next Steps
 
 Next up is to start building! Follow along in Part 1 of the series (will be posted soon).

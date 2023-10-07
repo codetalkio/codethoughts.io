@@ -59,7 +59,7 @@ graph TD
   end
 </pre>
 
-# Set up Control Tower
+## Set up Control Tower
 
 AWS has an excellent [Getting Started Guide](https://docs.aws.amazon.com/controltower/latest/userguide/quick-start.html) which goes through setting up a new Control Tower at a high-level. We'll do a few adjustments to the defaults to make it fit our needs.
 
@@ -198,7 +198,7 @@ Finally, we'll also cleanup the VPCs that were created in our Control Tower:
 2. Click on **Your VPCs** in the menu on the left, and click on your Control Tower VPC.
 3. Choose **Actions** and then choose **Delete VPC** as well as confirming the choice.
 
-# Adjusting Account Factory defaults
+## Adjusting Account Factory defaults
 
 By default the Account Factory will be creating VPCs and Subnets in newly provisioned accounts. We don't want this as we are focusing on serverless, so we'll disable this.
 
@@ -209,7 +209,7 @@ By default the Account Factory will be creating VPCs and Subnets in newly provis
 5. Uncheck any checkboxes in the **Regions for VPC creation** list.
 6. Click **Save**.
 
-# Set up our Development Organizational Unit
+## Set up our Development Organizational Unit
 
 We've only set up two OUs so far, `Compliance` and `Production`, but we have one more we'd like to use. Jump into your Organization overview in Control Tower:
 
@@ -220,7 +220,7 @@ We've only set up two OUs so far, `Compliance` and `Production`, but we have one
 
 This will take a bit of time, and we cannot create accounts during this.
 
-# Set up our AWS Accounts
+## Set up our AWS Accounts
 
 For this step it's important that you are not logged in as the Root user anymore. Instead, jump to your new User portal URL which AWS has set up for us.
 
@@ -263,6 +263,6 @@ Pick the appropriate Organizational unit according to the list above, and click 
 <a href="/resources/images/the-stack-part-1-account-overview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-account-overview.thumbnail.png" loading="lazy" alt="Account overview" title="Account overview" width="40%" /></a>
 </div>
 
-# Next Steps
+## Next Steps
 
 Next up, we will be looking at how we can set up and automate our deployments to these environments so that once we start building it will update automatically. Follow along in [Part 2 of the series](/posts/2023-01-29-the-stack-part-2.html).
