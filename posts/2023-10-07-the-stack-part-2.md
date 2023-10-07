@@ -140,7 +140,9 @@ export class Stack extends cdk.Stack {
     super(scope, id, props);
 
     // Set up our domain stack.
-    new domain.Stack(this, "Domain", props);
+    new domain.Stack(this, "Domain", {
+      domain: props.domain,
+    });
   }
 }
 ```
