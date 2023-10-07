@@ -299,9 +299,9 @@ You can go and see the generated CloudFormation stacks in the [AWS Console -> Cl
 
 We've now set up the foundation for all of our future deployments of applications and services 🥳
 
-### Manual alternative: Setting up CDK
+### Manual alternative: Setting up CDK & Bootstrapping our Accounts
 
-Once you're clone the repo, set up bun:
+Once you've clone the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments) (or made your own version of it), set up bun:
 
 ```bash
 $ curl -fsSL https://bun.sh/install | bash
@@ -314,10 +314,9 @@ $ cd deployment
 $ bun install
 ```
 
-### Manual alternative: Bootstrapping our Accounts
 We’ll be setting up CDK on each of our accounts, so that we can start using it for deployments.
 
-And now we can bootstrap our environment. We'll assume that you have already switched your CLI environment to point to the AWS account that you want to bootstrap:
+Assuming that you have already switched your CLI environment to point to the AWS account that you want to bootstrap:
 
 ```bash
 # Assuming we are still in the deployment folder
