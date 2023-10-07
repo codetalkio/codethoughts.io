@@ -188,11 +188,6 @@ This ensures that both Config and CloudTrail can use the key for encryption and 
 
 Review and confirm the setup.
 
-<div class="callout">
-  <div class="callout-bulb">💡</div>
-  If you missed the KMS policy adjustment in Step 4 and the creation fails, you can go into CloudFormation and delete the stack called `AWSControlTowerBP-BASELINE-CLOUDTRAIL-MASTER`. Once that is done, you can go back to the Control Tower console and click "Retry" to try again.
-</div>
-
 **Cleanup**
 
 Finally, we'll also cleanup the VPCs that were created in our Control Tower:
@@ -200,6 +195,11 @@ Finally, we'll also cleanup the VPCs that were created in our Control Tower:
 1. Go to the [AWS Console -> VPC](https://console.aws.amazon.com/vpc/).
 2. Click on **Your VPCs** in the menu on the left, and click on your Control Tower VPC.
 3. Choose **Actions** and then choose **Delete VPC** as well as confirming the choice.
+
+<div class="callout">
+  <div class="callout-bulb">💡</div>
+  If you missed the KMS policy adjustment in Step 4 and the creation fails, you can go into CloudFormation and delete the stack called `AWSControlTowerBP-BASELINE-CLOUDTRAIL-MASTER`. Once that is done, you can go back to the Control Tower console and click "Retry" to try again.
+</div>
 
 ## Adjusting Account Factory defaults
 
