@@ -17,6 +17,7 @@ But first we must prepare our AWS and GitHub environments, setting it up with cr
 ## AWS: Seting up Credentials
 
 For now, we will focus on the following of our accounts as deployment targets:
+
 - Integration Test
 - Production Single-tenant
 - Production Multi-tenant
