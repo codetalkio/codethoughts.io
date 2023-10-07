@@ -81,6 +81,7 @@
     ul,
     ol,
     blockquote,
+    details,
     pre:not(.mermaid),
     div.figure {
       @include center-content();

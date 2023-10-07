@@ -1,5 +1,5 @@
 ---
-title: "\"The Stack\" Part 1: Setting up your AWS Account Structure"
+title: "The Stack Part 1: Setting up your AWS Account Structure"
 tags: aws, cloud, infrastructure
 ---
 
@@ -119,7 +119,7 @@ We'll immediately start our good habit of adding billing tags whereever we can, 
 <details>
 <summary>👈 Open the toggle for an example</summary>
 
-<a href="/resources/images/the-stack-part-1-kms-step-1.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-kms-step-1.thumbnail.png" loading="lazy" alt="KMS Configuration" title="KMS Configuration" width="100%" /></a>
+<a href="/resources/images/the-stack-part-1-kms-step-1.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-kms-step-1.thumbnail.png" loading="lazy" alt="KMS Configuration" title="KMS Configuration" width="70%" /></a>
 
 </details>
 
@@ -127,7 +127,7 @@ Skip through Step 3, Step 4, and click "Finish" on the review step.
 
 Once the key is created we'll immediately edit it now that it has gotten a Key ID. If we don't we'll run into this nice error later on:
 
-<a href="/resources/images/the-stack-part-1-kms-error.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-kms-error.thumbnail.png" loading="lazy" alt="KMS error" title="KMS error" width="100%" /></a>
+<a href="/resources/images/the-stack-part-1-kms-error.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-kms-error.thumbnail.png" loading="lazy" alt="KMS error" title="KMS error" width="70%" /></a>
 
 1. Click on your newly created key.
 2. Note down the Key ID (e.g. `12345678-1234-1234-1234-123456789012`).
@@ -224,7 +224,7 @@ Find the User portal URL:
 3. Copy the **User portal URL** from the **Federated access management** card.
 4. Bookmark this URL, you're gonna need it a lot.
 
-<a href="/resources/images/the-stack-part-1-user-portal-url.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-user-portal-url.thumbnail.png" loading="lazy" alt="User portal URL" title="User portal URL" width="100%" /></a>
+<a href="/resources/images/the-stack-part-1-user-portal-url.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-user-portal-url.thumbnail.png" loading="lazy" alt="User portal URL" title="User portal URL" width="65%" /></a>
 
 Once you're logged into the Control Tower account using the portal, jump into the Account Factory again:
 
@@ -249,7 +249,7 @@ For each account, in the **Create account** process, fill in:
 
 Pick the appropriate Organizational unit according to the list above, and click **Create account**. You should end up with an overall structure like the following:
 
-<a href="/resources/images/the-stack-part-1-account-overview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-account-overview.thumbnail.png" loading="lazy" alt="Account overview" title="Account overview" width="100%" /></a>
+<a href="/resources/images/the-stack-part-1-account-overview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-account-overview.thumbnail.png" loading="lazy" alt="Account overview" title="Account overview" width="50%" /></a>
 
 
 # Next Steps
