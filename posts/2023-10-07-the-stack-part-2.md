@@ -7,8 +7,9 @@ In [the last post](/posts/2023-10-07-the-stack-part-1.html) we created our Contr
 
 At the end of this post we will have a:
 
-- Workflow for bootstrapping our AWS Accounts for CDK ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-bootstrap.yml))
-- Workflow for deploying our CDK stacks, including synthesizing and testing before ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-deploy.yml))
+- Workflow for bootstrapping our AWS Accounts for CDK ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-bootstrap.yml)).
+- Workflow for deploying our CDK stacks, including synthesizing and testing before ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-deploy.yml)).
+- Automatic staggered deployments when changes are merged to our `main` branch.
 
 But first we must prepare our AWS and GitHub environments, setting it up with credentials and configuring it with the environments we want to deploy to.
 
