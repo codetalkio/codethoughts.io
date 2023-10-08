@@ -14,6 +14,19 @@ But first we must prepare our AWS and GitHub environments, setting it up with cr
 
 <div></div><!--more-->
 
+- [AWS: Seting up Credentials](#aws-seting-up-credentials)
+- [GitHub: Setting up Environments](#github-setting-up-environments)
+- [CDK: Infrastructure as Code](#cdk-infrastructure-as-code)
+  - [Explanation: CDK Stack](#explanation-cdk-stack)
+  - [Explanation: Automated Deployments via GitHub Actions](#explanation-automated-deployments-via-github-actions)
+    - [Boostrap Workflow](#boostrap-workflow)
+    - [Deployment Workflow](#deployment-workflow)
+  - [Trigger the Workflows](#trigger-the-workflows)
+  - [Manual alternative: Bootstrapping our Accounts](#manual-alternative-bootstrapping-our-accounts)
+  - [Manual alternative: Deployments](#manual-alternative-deployments)
+- [Next Steps](#next-steps)
+
+
 ## AWS: Seting up Credentials
 
 For now, we will focus on the following of our accounts as deployment targets:
@@ -57,25 +70,25 @@ For our GitHub Actions workflows to work, we need to set up our `Environment`s c
 2. Create your environments e.g. `Integration Test`
 3. [Recommended] Restrict deployments to the `main` branch
 4. Set up the secrets for
-  - `AWS_ACCESS_KEY_ID`
-  - `AWS_SECRET_ACCESS_KEY`
-5. Set up the variables for
-  -  `AWS_ACCOUNT_ID`
-  -  `AWS_REGION`
-  -  `DOMAIN` (where your app will live, e.g. `app.example.com`. `integration.example.com`, and `single.example.com`)
+    - `AWS_ACCESS_KEY_ID`
+    - `AWS_SECRET_ACCESS_KEY`
+1. Set up the variables for
+    -  `AWS_ACCOUNT_ID`
+    -  `AWS_REGION`
+    -  `DOMAIN` (where your app will live, e.g. `app.example.com`. `integration.example.com`, and `single.example.com`)
 
 Repeat those steps with the relevant values for each of the environments `Integration Test`, `Production Single`, `Production Multi`.
 
 Your `Environment` overview will look like this:
 
 <div style="text-align:center;">
-<a href="/resources/images/the-stack-part-2-environment-overview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-environment-overview.thumbnail.png" loading="lazy" alt="Overview of Environments" title="Overview of Environments" width="65%" /></a>
+<a href="/resources/images/the-stack-part-2-environment-overview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-environment-overview.png" loading="lazy" alt="Overview of Environments" title="Overview of Environments" width="75%" /></a>
 </div>
 
 And each environment will roughly look like this:
 
 <div style="text-align:center;">
-<a href="/resources/images/the-stack-part-2-environment-configuration.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-environment-configuration.thumbnail.png" loading="lazy" alt="Configuration, secrets, and variables of an environment" title="Configuration, secrets, and variables of an environment" width="65%" /></a>
+<a href="/resources/images/the-stack-part-2-environment-configuration.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-environment-configuration.png" loading="lazy" alt="Configuration, secrets, and variables of an environment" title="Configuration, secrets, and variables of an environment" width="75%" /></a>
 </div>
 
 ## CDK: Infrastructure as Code
@@ -93,7 +106,8 @@ This split is based on the frequency something changes, and allows us to deploy 
 
 ### Explanation: CDK Stack
 
-We structure our CDK stack as follows:
+As you can see in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments), we structure our CDK stack as follows:
+
 - `deployment/`: The root folder for all things CDK
   - `bin/`: The entry point for all our stacks
     - `deployment.ts`: Our "executable" that CDK run run (defined in `cdk.json`)
@@ -105,14 +119,16 @@ We structure our CDK stack as follows:
 
 This might seem like overkill right now, but will benefit us quite quickly as we start adding more stacks to our project.
 
-In `deployment.ts` you'll see the root of our CDK stack:
+In `deployment.ts` you'll see the root of our CDK stack. This is where we will define the three layers we mentioned earlier, `Cloud`, `Platform`, and `Services`. In CDK terminilogy these are called `Stack`s.
+
+For now, we will only define the `Cloud` layer:
 
 ```typescript
 // ...imports
 const app = new cdk.App();
 
 /**
- * Define our 'cloud' stack that provisions the infrastructure for our application, such
+ * Define our 'Cloud' stack that provisions the infrastructure for our application, such
  * as domain names, certificates, and other resources that are shared across all.
  */
 const cloudStackName = "Cloud";
@@ -129,7 +145,9 @@ if (matchesStack(app, cloudStackName)) {
 
 We've set up some conveniences to easily run a single stack, via `matchesStack`, and to validate our environment variables, via `validateEnv`.
 
-Our `CloudStack` is then defined in `lib/cloud/stack.ts`, and more or less just pieces together the types and the sub-stacks in the `cloud/` directory:
+Our `CloudStack` is then defined in `lib/cloud/stack.ts`, and more or less just pieces together the types and the sub-stacks in the `cloud/` directory.
+
+The interesting bit here is the call to `new domain.Stack` which is what actually kicks off the provisioning of resources, which are defined inside the `lib/cloud/domain.ts` file on layer deeper:
 
 ```typescript
 // ...imports
@@ -147,7 +165,14 @@ export class Stack extends cdk.Stack {
 }
 ```
 
-And finally, to the meat of things, our `lib/cloud/domain.ts` is currently where the magic happens:
+And finally we get to the interesting part of it all in `lib/cloud/domain.ts`. This is the first place we are actually defining resources that will be deployed to AWS, by calling the CDK `Construct`s that are available to us. `Construct` is the CDK terminology for the actual resources we create, i.e. our building blocks.
+
+We create our Hosted Zone via `new route53.HostedZone` and our ACM certificate via `new acm.Certificate`. You can find out more about each of these in the CDK docs:
+
+- [Route 53](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_route53.HostedZone.html)
+- [ACM](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_certificatemanager-readme.html)
+
+Let's get our resources defined:
 
 ```typescript
 // ...imports
@@ -190,26 +215,37 @@ This sets up a Hosted Zone and an ACM certificate for our domain, and configures
 
 ### Explanation: Automated Deployments via GitHub Actions
 
-We have two workflows to deploy things, they share much of the same logic, so let's focus on the commonalities first.
+As you can see in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments), we have two workflows to deploy things. They share much of the same logic, so let's focus on the commonalities first.
 
 Both of them do a few things:
+
 - Sets up a trigger on `workflow_dispatch` so that we can manually trigger the workflow.
 - Set up a matrix of environments to deploy to.
 - Configures and `environment` and a `concurrency` group. The `concurrency` group is important, since we don't want to deploy to the same environment at the same time.
 - Installs `bun` and our dependencies.
 
-All of this looks like this, taken from the `cd-bootstrap` workflow:
+The GitHub Actions YAML might feel a bit verbose, so let's break it down a bit. We'll first focus on `cd-bootstrap` which Bootstraps AWS Accounts for CDK.
+
+#### Boostrap Workflow
+
+We first define our name and the trigger. Because we only want this to be triggered manually (bootstrapping just needs to run once) we can use `workflow_dispatch` which allows us to trigger it from the GitHub Actions UI ([docs here](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch)):
 
 ```yaml
 name: "Deployment: Bootstrap"
 
 on:
   workflow_dispatch:
+# ...
+```
 
-defaults:
-  run:
-    shell: bash # Set the default shell to bash.
+With that in place, let's take a look at the logic we are running.
 
+A neat way to "do the same thing" over a set of different things is to utilize the `matrix` feature of GitHub Actions ([docs here](https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs)). We can define a list of `environments`s ([docs here](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)) to run our workflow on, and then use that list to run the same steps for each environment.
+
+This is what the `strategy` section does, and it then feeds this into the `environment` which tells GitHub Actions which environment variables and secrets are available, as well as automatically tracks our deployments in the GitHub UI:
+
+```yaml
+# ...
 jobs:
   bootstrap:
     name: bootstrap
@@ -223,10 +259,26 @@ jobs:
           - "Production Single-tenant"
           - "Production Multi-tenant"
     environment: ${{ matrix.environment }}
+    # ...
+```
+
+Now, what would happen if we ran this multiple times in parallel on the same environment? Probably not something we'd like to find out.
+
+To prevent this, we can tell GitHub to only allow one job to run at a time, given a group identifier. We do this by adding a `concurrency` control to our workflow ([docs here](https://docs.github.com/en/actions/using-jobs/using-concurrency)):
+
+```yaml
+    # ...
     # Limit to only one concurrent deployment per environment.
     concurrency:
       group: ${{ matrix.environment }}
       cancel-in-progress: false
+    # ...
+```
+
+And finally, we get to the actual steps of logic we are performing. First we'll checkout our code, set up bun, and then use bun to install our dependencies:
+
+```yaml
+    # ...
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
@@ -234,11 +286,15 @@ jobs:
       - name: Install dependencies
         working-directory: ./deployment
         run: bun install
+      # ...
 ```
 
-We now diverge (beyond the naming in the above example) for each workflow. The bootstrap flow is quite simple, it just runs `bun run cdk bootstrap` for each environment:
+Now we're ready to bootstrap! We use the variables and secrets we defined previously. Since we told GitHub which environment we are running in, it will automatically know where to pull this from. This saves us the headache of weird hacks such as `AWS_ACCESS_KEY_ID_FOR_INTEGRATION_TEST` or something similar.
+
+We pull in what we need, and then run the `cdk bootstrap` command via bun:
 
 ```yaml
+      # ...
       - name: Bootstrap account
         working-directory: ./deployment
         env:
@@ -249,9 +305,187 @@ We now diverge (beyond the naming in the above example) for each workflow. The b
         run: bun run cdk bootstrap
 ```
 
-Our deployment workflow does a bit more, we also synthesize our stacks and run any tests we have:
+#### Deployment Workflow
+
+Our deployment flow gets a bit more complicated. We're building for the future here, so we want to put in place a few checks to make sure we don't accidentally deploy something broken. Or, if we do, we can at least stop early before it affects our users.
+
+We will be building up the following flow, illustrated in the diagram below:
+
+<div style="text-align:center;">
+<a href="/resources/images/the-stack-part-2-deployment-flow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-deployment-flow.png" loading="lazy" alt="Deployment flow" title="Deployment flow" width="100%%" /></a>
+</div>
+
+This is what is called a "staggered deployment", but across our environments:
+
+1. We roll out to our `Integration Test` environment in **Stage 1**.
+   - We validate that our IaC actually works.
+2. Once the deployment is done, we perform checks against it to validate the health of the deployment (e.g. End-to-End tests, smoke tests, etc)
+   - We validate that our application actually works with our changes to our infrastructure.
+4. If everything looks good, we proceed to **Stage 2** which deploys both our `Production Single-tenant` and `Production Multi-tenant` environments in parallel.
+5. We do a final check that all is good, and then we're done!
+
+This helps us build confidence that our deployments work, since our aim is to deploy changes immediately as they are merged into our `main` branch.
+
+**Part 1: Structuring the deployment flow**
+
+Let's take a look at how we do this. First, we'll set up our triggers. We want to both allow manually triggering a deployment, again via `workflow_dispatch`, but we also want to immediately deploy when changes are merged to our `main` branch:
 
 ```yaml
+name: "Deployment: Deploy to AWS"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+# ...
+```
+
+All good and well, so let's start defining our jobs. Ignore the `uses` for now, that's a reuseable workflow which we'll get back to later in **Part 2** of this section:
+
+```yaml
+# ...
+jobs:
+  # Stage 1 tests that the deployment is working correctly.
+  stage-1:
+    name: "Stage 1"
+    uses: ./.github/workflows/wf-deploy.yml
+    with:
+      environment: "Integration Test"
+    secrets: inherit
+  # ...
+```
+
+We first initiate our **Stage 1** deployment, specifying that it's the `Integration Test` environment. We also allow the the reuseable workflow (defined in `wf-deploy.yml`) to inherit all secrets from the caller.
+
+Next, we want to run our checks, but only after our **Stage 1** job has finished running successfully. To do this we use `needs` to define a dependency on a previous job ([docs here](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds)).
+
+```yaml
+  # ...
+  # Run tests against the environments from Stage 1.
+  stage-1-check:
+    name: "Stage 1: Check"
+    needs: [stage-1]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Check"
+        run: |
+          echo "Checking 'Integration Test'..."
+          # Run tests against the environment...
+          # Or alert/rollback if anything is wrong.
+  # ...
+```
+
+We aren't doing much interesting for now in our test job, since we are only deploying a Domain, but this will be helpful later on when we start setting up our Frontend and APIs.
+
+Similarly, we use `needs` again to specify how we move into **Stage 2**. We first set up `Production Single-tenant`:
+
+```yaml
+  # ...
+  # Stage 2 is our more critical environments, and only proceeds if prior stages succeed.
+  stage-2-single:
+    name: "Stage 2: Single-tenant"
+    needs: [stage-1-check]
+    uses: ./.github/workflows/wf-deploy.yml
+    with:
+      environment: "Production Single-tenant"
+    secrets: inherit
+
+  stage-2-single-check:
+    name: "Stage 2: Check Single-tenant"
+    needs: [stage-2-single]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Check"
+        run: |
+          echo "Checking 'Production Single-tenant'..."
+          # Run tests against the environment...
+          # Or alert/rollback if anything is wrong.
+  # ...
+```
+
+And do the same for our `Production Multi-tenant` environment:
+
+```yaml
+  # ...
+  stage-2-multi:
+    name: "Stage 2: Multi-tenant"
+    needs: [stage-1-check]
+    uses: ./.github/workflows/wf-deploy.yml
+    with:
+      environment: "Production Multi-tenant"
+    secrets: inherit
+
+  stage-2-multi-check:
+    name: "Stage 2: Check Multi-tenant"
+    needs: [stage-2-multi]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Check"
+        run: |
+          echo "Checking 'Production Multi-tenant'..."
+          # Run tests against the environment...
+          # Or alert/rollback if anything is wrong.
+  # ...
+```
+
+We could have been using using build `matrix`'s again, but that would mean that the checks for **Stage 2** would only proceed after *both* of the Jobs completed. We would prefer that they check *immediately* once the deployment is done, so instead we split up these two into their own Jobs manually.
+
+Voila 🎉 We've now set the skeleton for the deployment flow we pictured earlier:
+
+<div style="text-align:center;">
+<a href="/resources/images/the-stack-part-2-deployment-flow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-deployment-flow.png" loading="lazy" alt="Deployment flow" title="Deployment flow" width="100%%" /></a>
+</div>
+
+**Part 2: Reuseable workflow**
+
+To better reuse logic that is identical from different jobs or even different workflows and repositories, GitHub supports making workflows reuseable ([docs here](https://docs.github.com/en/actions/using-workflows/reusing-workflows)).
+
+We've done this in our `wf-deploy.yml` workflow, which we use in our `stage-1`, `stage-2-single`, and `stage-2-multi` jobs. Let's take a look at what it does.
+
+First, we will need to define which inputs this workflow takes. Remember the `with` and `secrets` that we used earlier? That's how we pass information to our resuseable workflow. We define these in the `inputs` section:
+
+```yaml
+name: Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+# ...
+```
+
+Here we simply specify that we require an `environment` to be passed along. We will automatically inherit the `secrets`, but we would otherwise specify those explicitly as well.
+
+We can now proceed to the logic, which resembles the `cd-bootstrap` workflow we looked at earlier. We first set up our environment, concurrency group, and then install our dependencies:
+
+```yaml
+# ...
+jobs:
+  deploy:
+    name: "Deploy"
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    # Limit to only one concurrent deployment per environment.
+    concurrency:
+      group: ${{ inputs.environment }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+
+      - name: Install dependencies
+        working-directory: ./deployment
+        run: bun install
+      # ...
+```
+
+Before we proceed to actually deploying anything, we want to sanity check that our deployment looks valid. We do this by trying to first synthesize the whole deployment ([some info on synth here](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)), and then run whatever test suite we have:
+
+```yaml
+      # ...
       - name: Synthesize the whole stack
         working-directory: ./deployment
         env:
@@ -269,8 +503,14 @@ Our deployment workflow does a bit more, we also synthesize our stacks and run a
           AWS_REGION: ${{ vars.AWS_REGION }}
           AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
         run: bun test
+      # ...
+```
 
-      - name: Deploy to ${{ matrix.environment }}
+Everything should now be good, so let's run our actual deployment:
+
+```yaml
+      # ...
+      - name: Deploy to ${{ inputs.environment }}
         working-directory: ./deployment
         env:
           DOMAIN: ${{ vars.DOMAIN }}
@@ -281,13 +521,17 @@ Our deployment workflow does a bit more, we also synthesize our stacks and run a
         run: bun run cdk deploy --all --require-approval never
 ```
 
-The synth and test steps ensure we have a minimum of sanity checking in place.
+And there we go! We've now automated our deployment flow, and no longer have to worry about manually deploying things to our environments.
 
 ### Trigger the Workflows
 
 Push your project to GitHub. You now have access to the workflows and can trigger them manually.
 
-- Trigger the `Deployment: Bootstrap` workflow first, to set up CDK on all accounts.
+If you haven't done it already, let's run the `Deployment: Bootstrap` workflow first, to set up CDK on all accounts. Alternatively, jump to the section [Manual alternative: Bootstrapping our Accounts](#manual-alternative-bootstrapping-our-accounts) for how to do this manually.
+
+<div style="text-align:center;">
+<a href="/resources/images/the-stack-part-2-trigger-bootstrap-workflow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-trigger-bootstrap-workflow.thumbnail.png" loading="lazy" alt="Manually trigger the bootstrap workflow" title="Manually trigger the bootstrap workflow" width="80%%" /></a>
+</div>
 
 Next up, before we initiate the deployment it's recommended to be logged into your Domain Registrar that controls the DNS of your domain, so that you can quickly update your name servers to point to the Hosted Zone that we will be creating. This is necessary to DNS validate our ACM certificates.
 
@@ -316,7 +560,7 @@ You can go and see the generated CloudFormation stacks in the [AWS Console -> Cl
 
 We've now set up the foundation for all of our future deployments of applications and services 🥳
 
-### Manual alternative: Setting up CDK & Bootstrapping our Accounts
+### Manual alternative: Bootstrapping our Accounts
 
 Once you've cloned the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments) (or made your own version of it), set up bun:
 

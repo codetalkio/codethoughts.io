@@ -60,6 +60,20 @@ graph TD
   end
 </pre>
 
+Let's jump into it, you can see the different sections here:
+
+- [Set up Control Tower](#set-up-control-tower)
+    - [Step 1](#step-1)
+    - [Step 2](#step-2)
+    - [Step 3](#step-3)
+    - [Step 4](#step-4)
+    - [Step 5](#step-5)
+    - [Cleanup](#cleanup)
+- [Adjusting Account Factory defaults](#adjusting-account-factory-defaults)
+- [Set up our Development Organizational Unit](#set-up-our-development-organizational-unit)
+- [Set up our AWS Accounts](#set-up-our-aws-accounts)
+- [Next Steps](#next-steps)
+
 ## Set up Control Tower
 
 AWS has an excellent [Getting Started Guide](https://docs.aws.amazon.com/controltower/latest/userguide/quick-start.html) which goes through setting up a new Control Tower at a high-level. We'll do a few adjustments to the defaults to make it fit our needs.
@@ -73,27 +87,27 @@ Now that we are ready, a high-level overview of the steps we will be taking are:
 5. Click "Set up landing zone" to start the process.
 6. Set up your landing zone, following the detailed steps below
 
-**Step 1**
+#### Step 1
 
 The first screen you'll meet wants you to review various infomration and pricing as well as choose a few defaults. We are going to change some of the values:
 
 - **Region deny setting**: Choose `Enabled` for this. We want to make sure that Control Tower is governing our accounts and resources.
 
-**Step 2**
+#### Step 2
 
 Now we need to create our Organizational Units (OUs). We want both a Foundation and an Additional OU, but we will rename them a bit to make more sense for our use-case:
 
 - **Foundation OU**: We'll call this `Compliance` since it contains our Logs as well as our Audit accounts.
 - **Additonal OU**: This is where we will put our Production workloads into, so we'll call this `Production`.
 
-**Step 3**
+#### Step 3
 
 The Foundation OU, **Compliance**, creates two accounts for us. We to set up emails for these accounts, but we will keep the names. I recommend pointing this to an administrator email and using `+` to allow the same email to be used for multiple accounts:
 
 - **Log Archive**: `administrator+log-archive@example.com` (adjust to an account and domain you control)
 - **Audit**: `administrator+audit@example.com` (adjust to an account and domain you control)
 
-**Step 4**
+#### Step 4
 
 Now that we have a location for our logs, we can configure CloudTrail as well as log retention. You can adjust to your needs, but I recommend the following:
 
@@ -184,11 +198,11 @@ Replace `AWS_REGION`, `AWS_ACCOUNT_ID`, and `KMS_KEY_ID` and insert the followin
 
 This ensures that both Config and CloudTrail can use the key for encryption and decryption.
 
-**Step 5**
+#### Step 5
 
 Review and confirm the setup.
 
-**Cleanup**
+#### Cleanup
 
 Finally, we'll also cleanup the VPCs that were created in our Control Tower:
 

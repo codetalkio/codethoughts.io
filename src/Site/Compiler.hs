@@ -11,10 +11,8 @@ sassCompiler =
   where
     args =
       [ "--stdin"
-      , "--scss"
       , "-I"
       , "resources/scss"
-      , "--compass"
       , "--style"
       , "compressed"
       ]

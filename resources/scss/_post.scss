@@ -97,7 +97,7 @@
       max-width: 80%;
     }
 
-    ul > li > ul {
+    ul > li > ul, ol > li > ul, ol > li > ol, ul > li > ol {
       padding-left: 24px;
       margin-top: 0;
     }
@@ -127,7 +127,7 @@
     h5,
     h6 {
       &::before {
-        color: $color-bright-red;
+        color: $color-lightergray;
       }
     }
     h2 {

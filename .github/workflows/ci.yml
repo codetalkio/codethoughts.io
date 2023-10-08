@@ -38,12 +38,12 @@ jobs:
           stack-version: ${{ env.STACK_VERSION }}
           enable-stack: true
 
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/setup-node@v3
         with:
-          ruby-version: "2.6"
-      - name: Install compass for scss
+          node-version: 20
+      - name: Install sass to compile scss
         run: |
-          gem install compass
+          npm i -g sass
 
       # Enable cache for cabal and stack
       - uses: actions/cache@v3
