@@ -5,13 +5,16 @@ tags: aws, cloud, infrastructure, cdk
 
 In [the last post](/posts/2023-10-07-the-stack-part-1.html) we created our Control Tower structure with all of our AWS Accounts in it. In this post we will be automating our deployment process for each of these environments. See the full overview of posts [here](/posts/2023-01-29-the-stack.html#what-will-we-be-covering).
 
-At the end of this post we will have a:
+At the end of this post we will have:
 
-- Workflow for bootstrapping our AWS Accounts for CDK ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-bootstrap.yml)).
-- Workflow for deploying our CDK stacks, including synthesizing and testing before ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-deploy.yml)).
-- Automatic staggered deployments when changes are merged to our `main` branch.
+- A workflow for bootstrapping our AWS Accounts for CDK ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-bootstrap.yml)).
+- A workflow for deploying our CDK stacks, including synthesizing and testing before ([see here](https://github.com/codetalkio/the-stack/blob/part-2-automatic-deployments/.github/workflows/cd-deploy.yml)).
+- Set up automatic staggered deployments when changes are merged to our `main` branch.
+- And fallback to manual deployments if we need to.
 
-But first we must prepare our AWS and GitHub environments, setting it up with credentials and configuring it with the environments we want to deploy to.
+If you want to jump straight to the code, you can find it in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments) which links directly to the Part 2 branch.
+
+Otherwise, let's jump in!
 
 <div></div><!--more-->
 
@@ -30,7 +33,7 @@ But first we must prepare our AWS and GitHub environments, setting it up with cr
 
 ## AWS: Seting up Credentials
 
-For now, we will focus on the following of our accounts as deployment targets:
+We will need to set up credentials for our GitHub Actions to be able to deploy to our AWS Accounts. For now, we will focus on the following of our accounts as deployment targets:
 
 - Integration Test
 - Production Single-tenant
