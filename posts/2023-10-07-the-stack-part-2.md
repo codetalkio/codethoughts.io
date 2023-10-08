@@ -520,7 +520,7 @@ Everything should now be good, so let's run our actual deployment:
           AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: bun run cdk deploy --all --require-approval never
+        run: bun run cdk deploy --concurrency 4 --all --require-approval never
 ```
 
 And there we go! We've now automated our deployment flow, and no longer have to worry about manually deploying things to our environments.
@@ -605,7 +605,7 @@ Our process will go:
 Assuming you are ready for step 3., we can start the deployment. We'll assume that you are still in the deployment folder and that you have switched your CLI environment to point to the AWS account that you want to deploy to:
 
 ```bash
-$ DOMAIN="app.example.com" bun run cdk deploy 'Cloud'
+$ DOMAIN="app.example.com" bun run cdk deploy --concurrency 4 'Cloud' 'Cloud/**'
 ```
 
 The `DOMAIN` environment variable is required here, since we need to know what domain we should use for the Hosted Zone.
