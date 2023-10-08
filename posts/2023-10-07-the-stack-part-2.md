@@ -134,6 +134,10 @@ const app = new cdk.App();
 /**
  * Define our 'Cloud' stack that provisions the infrastructure for our application, such
  * as domain names, certificates, and other resources that are shared across all.
+ *
+ * ```bash
+ * bun run cdk deploy --concurrency 4 'Cloud' 'Cloud/**'
+ * ```
  */
 const cloudStackName = "Cloud";
 if (matchesStack(app, cloudStackName)) {
@@ -155,16 +159,14 @@ The interesting bit here is the call to `new domain.Stack` which is what actuall
 
 ```typescript
 // ...imports
-interface StackProps extends cdk.StackProps, domain.Props {}
+interface StackProps extends cdk.StackProps, domain.StackProps {}
 
 export class Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
     // Set up our domain stack.
-    new domain.Stack(this, "Domain", {
-      domain: props.domain,
-    });
+    new domain.Stack(this, "Domain", props);
   }
 }
 ```
@@ -180,7 +182,7 @@ Let's get our resources defined:
 
 ```typescript
 // ...imports
-export interface Props {
+export interface StackProps extends cdk.StackProps {
   /**
    * The domain name the application is hosted under.
    */
@@ -188,17 +190,12 @@ export interface Props {
 }
 
 /**
- * Combine our `Props` with the base `NestedStackProps`.
- */
-interface NestedStackProps extends cdk.NestedStackProps, Props {}
-
-/**
  * Set up a Hosted Zone to manage our domain names.
  *
  * https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_route53.HostedZone.html
  */
-export class Stack extends cdk.NestedStack {
-  constructor(scope: Construct, id: string, props: NestedStackProps) {
+export class Stack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
     // Set up the hosted zone.
