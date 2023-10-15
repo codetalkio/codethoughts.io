@@ -1658,7 +1658,7 @@ export class Stack extends cdk.Stack {
 }
 ```
 
-And our Lambda@Edge function to rewrite urls is defined in `edge-functions/rewrite-urls.ts`:
+And our Lambda@Edge function to rewrite urls is defined in `edge-functions/rewrite-urls.js`:
 
 ```typescript
 exports.handler = (event, _, callback) => {
