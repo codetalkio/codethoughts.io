@@ -92,6 +92,7 @@ Now that we are ready, a high-level overview of the steps we will be taking are:
 The first screen you'll meet wants you to review various infomration and pricing as well as choose a few defaults. We are going to change some of the values:
 
 - **Region deny setting**: Choose `Enabled` for this. We want to make sure that Control Tower is governing our accounts and resources.
+- We will need `us-east-1` for certain "global" resources, so we'll add that to the list of allowed regions along with your desired region.
 
 #### Step 2
 
