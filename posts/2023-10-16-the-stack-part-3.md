@@ -1344,6 +1344,7 @@ All files will live in the `deployment/` folder. We'll first adjust our `bin/dep
 ```typescript
 // ...
 import { Stack as ServicesStack } from "../lib/services/stack";
+import { Stack as ServicesCertificateStack } from "../lib/services/stack-certificate";
 // ...
 
 /**
