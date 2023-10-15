@@ -13,7 +13,7 @@ At the end of this post we will have:
 
 We are essentially hedging our bets by building both a JavaScript-based Frontend, which is the safe bet, and a Rust/WASM-based Frontend, which is the future bet. We will be using the same GraphQL API for both, so we can easily switch between them.
 
-If you want to jump straight to the code, you can find it in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-3-frontend) which links directly to the Part 3 branch.
+There is quite a lot to cover. My recommendation is to clone down the Part 3 branch in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-3-frontend) and use this post as an explanation of what is set up.
 
 <div></div><!--more-->
 
@@ -26,9 +26,11 @@ If you want to jump straight to the code, you can find it in the [GitHub reposit
     - [Setting up our Leptos App](#setting-up-our-leptos-app)
     - [Setting up Tailwind CSS](#setting-up-tailwind-css)
     - [Setting up Localization](#setting-up-localization-1)
-- [Automating Deployments via CDK](#automating-deployments-via-cdk)
 - [Bonus: End-to-End Tests](#bonus-end-to-end-tests)
 - [Bonus: DevEx Improvements](#bonus-devex-improvements)
+- [Automating Deployments via CDK](#automating-deployments-via-cdk)
+    - [Building artifacts in CI](#building-artifacts-in-ci)
+    - [Deploying to S3 + CloudFront](#deploying-to-s3--cloudfront)
 - [Next Steps](#next-steps)
 
 
@@ -318,6 +320,30 @@ $ bun run dev
 </div>
 
 It may not look like much, but we've implemented a lot of the core functionality we need to get started, such as static builds and localization.
+
+As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
+
+```makefile
+_setup-ui-app:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd ui-app
+  bun install
+```
+
+We'll also set up a new command for running our development server:
+
+```makefile
+# Run <project> development server, e.g. `just dev ui-app`.
+dev project:
+  just _dev-{{project}}
+
+_dev-ui-app:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd ui-app
+  bun dev
+```
 
 ## Leptos (Rust/WASM)
 
@@ -609,7 +635,7 @@ Let's update `src/app.rs` to do this:
 
 ```rust
 use crate::i18n::*;
-use leptos::{logging::log, *};
+use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 
@@ -747,20 +773,268 @@ $ trunk serve --open
 
 Again, it may not look like much, but we've implemented a lot of the core functionality we need to get started!
 
-## Automating Deployments via CDK
+As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
 
-- Build artifact
-- Publish to S3 + CloudFront
-- Configure API route proxy on CloudFront already?
+```makefile
+_setup-ui-internal:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd ui-internal
+  rustup toolchain install nightly
+  rustup default nightly
+  rustup target add wasm32-unknown-unknown
 
+_dev-ui-internal:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd ui-internal
+  trunk serve
+```
 
 ## Bonus: End-to-End Tests
 
-- Simple Playwright setup in both ui-app and ui-internal
-- Update our deployments to run these
+End-to-End tests are a great way to ensure that our App is working as expected, and that we don't accidentally break something when we make changes. We'll use [Playwright](https://playwright.dev/) for this, which is a great tool for writing End-to-End tests.
+
+We want three different test suites to cover:
+
+- **ui-app**: Test our Next.js App.
+- **ui-internal**: Test our Leptos App.
+- **deployment**.: Test our deployed App to verify it is working as expected.
+
+Let's start by setting up our folder structure. Many of our configuration files will be the same across all three test suites, let's create an `end2end` folder for our projects:
+
+```bash
+$ mkdir -p deployment/end2end/tests
+$ mkdir -p ui-app/end2end/tests
+$ mkdir -p ui-internal/end2end/tests
+```
+
+We intentionally make a distinction between `end2end/` and unit/integration tests which will live in `tests/`. These have very different requirements for how to run them, and we often want to run them at different times.
+
+Before we can run anything, we will need a couple of other files to set up Playwright as well as support for TypeScript.
+
+Let's create a `tsconfig.json` for all for all three projects (`ui-app`, `ui-internal`, and `deployment`). We'll place it at `<project>/end2end/tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "lib": ["esnext"],
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "moduleDetection": "force",
+    "allowJs": true, // allow importing `.js` from `.ts`
+    "esModuleInterop": true, // allow default imports for CommonJS modules
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false
+  }
+}
+```
+
+Now, let's configure Playwright for all for all three projects (`ui-app`, `ui-internal`, and `deployment`). We'll place it at `<project>/end2end/playwright.config.ts`:
+
+```typescript
+import type { PlaywrightTestConfig } from "@playwright/test";
+import { devices } from "@playwright/test";
+
+const SERVER = `http://localhost:8080`;
+
+const config: PlaywrightTestConfig = {
+  testDir: "./tests",
+  // Maximum time one test can run for.
+  timeout: 30 * 1000,
+  expect: {
+    /**
+     * Maximum time expect() should wait for the condition to be met.
+     * For example in `await expect(locator).toHaveText();`
+     */
+    timeout: 5000,
+  },
+  // Run tests in files in parallel.
+  fullyParallel: true,
+  // Fail the build on CI if you accidentally left test.only in the source code.
+  forbidOnly: !!process.env.CI,
+  // Retry on CI only.
+  retries: process.env.CI ? 2 : 0,
+  // [Optional] Opt out of parallel tests on CI.
+  // workers: process.env.CI ? 1 : undefined,
+  // Limit the number of failures on CI to save resources
+  maxFailures: process.env.CI ? 10 : undefined,
+
+  reporter: "html",
+  use: {
+    // Base URL to use in actions like `await page.goto('/')`.
+    baseURL: SERVER,
+    // Maximum time each action such as `click()` can take. Defaults to 0 (no limit).
+    actionTimeout: 0,
+    // Collect trace when retrying the failed test.
+    trace: "on-first-retry",
+  },
+
+  // Configure which browsers to test against.
+  projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+    },
+  ],
+  webServer: {
+    command: "just dev ui-internal",
+    url: SERVER,
+    reuseExistingServer: true,
+    stdout: "ignore",
+    stderr: "pipe",
+  },
+};
+
+export default config;
+```
+
+There are some minor adjustments we want to do in the above configuration for each project:
+
+- **ui-app**: Set the `SERVER` variable to `http://localhost:3000` and command to `just dev ui-app`.
+- **ui-internal**: Set the `SERVER` variable to `http://localhost:8080` and command to `just dev ui-internal`.
+- **deployment**: Remove the `webServer` block, and set the `SERVER` variable to `http://${process.env.DOMAIN}`.
 
 
+And a `package.json` in `<project>/end2end/package.json`:
 
+```json
+{
+  "name": "end2end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setup": "playwright install",
+    "e2e": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bun-types": "latest",
+    "@types/node": "^20.5.0",
+    "typescript": "^5",
+    "@playwright/test": "^1.38.1"
+  }
+}
+```
+
+We are now ready to add our first test! Since we have just added localization, let's make sure that it works and doesn't regress.
+
+For all three projects `ui-app`, `deployment`, and `ui-internal` we'll create a test in `<project>/end2end/tests/localization.spec.ts`:
+
+```typescript
+import { test, expect } from "@playwright/test";
+
+test("localization translates text when changing language", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("h1")).toHaveText(
+    "Welcome!"
+  );
+
+  await page.getByText('Go to fr').dblclick();
+  await expect(page.locator("h1")).toHaveText(
+    "Bienvenue!"
+  );
+});
+
+test("localization loads correct text from URL", async ({ page }) => {
+  await page.goto("/fr");
+  await expect(page.locator("h1")).toHaveText(
+    "Bienvenue!"
+  );
+});
+```
+
+This same test works for both apps since we've set them up with the same functionality.
+
+Let's try and run them:
+
+```bash
+$ cd ui-app/end2end # or cd ui-internal/end2end
+$ bun run e2e
+```
+
+And for `deployment` we can test it locally by starting up `just dev ui-app` in another terminal, and then running:
+
+```bash
+$ cd deployment/end2end # or cd ui-internal/end2end
+$ DOMAIN="localhost:3000" bun run e2e
+```
+
+NOTE: You might want to add the following to your `.gitignore`:
+
+```
+playwright-report
+test-results
+```
+
+And that's it! We've now got an easy way to run End-to-End tests. Let's do our final step and add this to our `justfile`:
+
+```makefile
+# Run End-to-End tests for <project>, e.g. `just e2e ui-internal`.
+e2e project:
+  just _e2e-{{project}}
+
+_e2e-deployment:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd deployment/end2end
+  bun run e2e
+
+_e2e-ui-app:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd ui-app/end2end
+  bun run e2e
+
+_e2e-ui-internal:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd ui-internal/end2end
+  bun run e2e
+```
+
+And we'll also update our `_setup-project` commands to setup the Playwright dependencies:
+
+```makefile
+_setup-deployment:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd deployment
+  bun install
+  cd end2end
+  bun install
+  bun run setup
+
+_setup-ui-app:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd ui-app
+  bun install
+  cd end2end
+  bun install
+  bun run setup
+
+_setup-ui-internal:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd ui-internal
+  rustup toolchain install nightly
+  rustup default nightly
+  rustup target add wasm32-unknown-unknown
+  cd end2end
+  bun install
+  bun run setup
+```
 
 ## Bonus: DevEx Improvements
 
@@ -808,6 +1082,531 @@ And then add this to your settings:
   "rust-analyzer.rustfmt.overrideCommand": ["leptosfmt", "--stdin", "--rustfmt"]
 }
 ```
+
+## Automating Deployments via CDK
+
+- Build artifact
+  - [x] Split ui-app/ui-internal build into a workflow
+  - [x] Pass optional argument to upload artifact
+  - [x] Pass optional argument for release build
+  - [x] Run builds in cd-deploy to upload artifacts
+  - [x] Fetch artifacts in wf-deploy
+- [ ] Publish to S3 + CloudFront
+- [ ] Configure API route proxy on CloudFront already?
+
+Since we are now generating artifacts that we want to deploy, from multiple projects, we need to restructure our existing deployment pipeline slightly.
+
+We still want to retain staggered deployments, but we need a bit of coordination to make sure we have all relevant artifacts before we deploy.
+
+Our new flow will look like this:
+
+<div style="text-align:center;">
+<a href="/resources/images/the-stack-part-3-updated-flow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-3-updated-flow.thumbnail.png" loading="lazy" alt="Updated deployment pipeline" title="Updated deployment pipeline" width="100%" /></a>
+</div>
+
+#### Building artifacts in CI
+
+In this part we will be doing the following:
+
+- Extend our existing `cd-deploy.yml` workflow to build artifacts for `ui-app` and `ui-internal` via a reuseable workflow.
+- Extend our existing `wf-deploy.yml` workflow to download artifacts so it can use it during deployments.
+- Set up a reuseable workflow, `wf-build.yml`, that will build our artifacts.
+- Set up a reuseable workflows for both `ui-app` and `ui-internal` that will do the actual building.
+
+
+Let's start with our `wf-build-ui-app.yml` workflow:
+
+```yaml
+name: "Build: ui-app"
+
+on:
+  workflow_call:
+    inputs:
+      release:
+        type: boolean
+        default: false
+      upload-artifact:
+        type: boolean
+        default: false
+
+jobs:
+  ui-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: oven-sh/setup-bun@v1
+      - uses: extractions/setup-just@v1
+
+      - name: Install dependencies
+        working-directory: ./ui-app
+        run: bun install
+
+      - name: Build Next.js project
+        run: just build ui-app
+
+      - uses: actions/upload-artifact@v3
+        if: ${{ inputs.upload-artifact }}
+        with:
+          name: ui-app
+          path: ui-app/out
+          if-no-files-found: error
+          retention-days: 1
+```
+
+And our `wf-build-ui-internal.yml` workflow:
+
+```yaml
+name: "Build: ui-internal"
+
+on:
+  workflow_call:
+    inputs:
+      release:
+        type: boolean
+        default: false
+      upload-artifact:
+        type: boolean
+        default: false
+
+jobs:
+  ui-internal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+      - uses: extractions/setup-just@v1
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly-2023-10-11
+          targets: wasm32-unknown-unknown
+
+      - name: Install trunk
+        uses: jaxxstorm/action-install-gh-release@v1.9.0
+        with:
+          repo: thedodd/trunk
+          platform: linux # Other valid options: 'windows' or 'darwin'.
+          arch: x86_64
+
+      - uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ui-internal/target
+          key: cargo-${{ hashFiles('Cargo.lock') }}-${{ hashFiles('ui-internal/Cargo.lock') }}-ui-internal
+          restore-keys: cargo-
+
+      - name: Build release build
+        if: ${{ inputs.release }}
+        run: just build ui-internal
+
+      - name: Build debug build
+        if: ${{ !inputs.release }}
+        run: just build ui-internal true
+
+      - uses: actions/upload-artifact@v3
+        if: ${{ inputs.upload-artifact }}
+        with:
+          name: ui-internal
+          path: ui-internal/dist
+          if-no-files-found: error
+          retention-days: 1
+```
+
+Both of these workflows take two optional arguments:
+
+- `release`: Whether or not to build a release build.
+- `upload-artifact`: Whether or not to upload the artifact to GitHub.
+
+This means we can easily reuse these builds from our CI workflows. Once our jobs are building, we'll see these artifacts in the **Summary** view of our workflow, which will look something like this:
+
+<div style="text-align:center;">
+<a href="/resources/images/the-stack-part-3-artifacts.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-3-artifacts.thumbnail.png" loading="lazy" alt="Deployment artifacts" title="Deployment artifacts" width="70%" /></a>
+</div>
+
+With these in place we can now stitch them together in a `wf-build.yml`:
+
+```yaml
+name: "Build Artifacts"
+
+on:
+  workflow_call:
+
+jobs:
+  ui-app:
+    uses: ./.github/workflows/wf-build-ui-app.yml
+    with:
+      release: true
+      upload-artifact: true
+
+  ui-internal:
+    uses: ./.github/workflows/wf-build-ui-internal.yml
+    with:
+      release: true
+      upload-artifact: true
+```
+
+Not much going on here, we are simply calling our previously defined reuseable workflows.
+
+We can now update our `cd-deploy.yml` workflow to call our new `wf-build.yml` workflow. To do this, we extend the existing file by adding a `build-artifacts` job as well as mark our `stage-1` job as `needs: [build-artifacts]`:
+
+```yaml
+# ...
+jobs:
+  # Build deployment artifacts
+  build-artifacts:
+    name: "Build Artifacts"
+    uses: ./.github/workflows/wf-build.yml
+
+  # Stage 1 tests that the deployment is working correctly.
+  stage-1:
+    name: "Stage 1"
+    needs: [build-artifacts]
+    uses: ./.github/workflows/wf-deploy.yml
+    # ...the rest is the same
+```
+
+The final change we need to make is to make our `wf-deploy.yml` workflow download the artifacts we just built:
+
+```yaml
+# ...
+jobs:
+  deploy:
+    name: "Deploy"
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    # Limit to only one concurrent deployment per environment.
+    concurrency:
+      group: ${{ inputs.environment }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+      - uses: extractions/setup-just@v1
+
+      - name: Setup artifact directory
+        run: mkdir -p ./deployment/artifacts
+
+      # Download all artifacts from previous jobs.
+      - uses: actions/download-artifact@v3
+        with:
+          path: ./deployment/artifacts/
+
+      - name: Display structure of downloaded files
+        working-directory: ./deployment/artifacts/
+        run: ls -R
+
+      - name: Validate artifacts
+        working-directory: ./deployment/artifacts
+        run: just deploy-validate-artifacts
+
+      - name: Install dependencies
+        working-directory: ./deployment
+        run: bun install
+      # ...the rest is the same
+```
+
+The new additions here are the steps:
+
+- `extractions/setup-just@v1`: Make `just` available in our workflow.
+- `Setup artifact directory`: Creating our artifacts folder.
+- `actions/download-artifact@v3y`: Download all uploaded assets into this folder.
+- `Display structure of downloaded files`: Very helpful for any debugging.
+- `Validate artifacts`: Make sure we have all the artifacts we need.
+
+The `deploy-validate-artifacts` command is defined in our `justfile`:
+
+```makefile
+# Validate that all deployment artifacts are present.
+deploy-validate-artifacts:
+  @ [ -d "./deployment/artifacts/ui-app" ] && echo "ui-app exists" || exit 1
+  @ [ -d "./deployment/artifacts/ui-internal" ] && echo "ui-internal exists" || exit 1
+```
+
+
+#### Deploying to S3 + CloudFront
+
+If we remember our three groupings, we see that `ui-app` and `ui-internal` would fit into `Services`:
+
+- `Cloud`: Hosted Zones, VPC, Certificates, infrequently changing things
+- `Platform`: DynamoDB, Cache, SQS
+- `Services`: Lambdas, API Gateway, etc
+
+So let's get our `Services` stack set up!
+
+All files will live in the `deployment/` folder. We'll first adjust our `bin/deployment.ts`, adding our `Services` stack. Append the following at the end:
+
+```typescript
+// ...
+import { Stack as ServicesStack } from "../lib/services/stack";
+// ...
+
+/**
+ * Define our 'Services' stack that provisions our applications and services, such as our
+ * UI applications and APIs.
+ *
+ * ```bash
+ * bun run cdk deploy --concurrency 4 'Services' 'Services/**'
+ * ```
+ */
+const servicesStackName = "Services";
+if (matchesStack(app, servicesStackName)) {
+  // Set up our us-east-1 specific resources.
+  const certificateStack = new ServicesCertificateStack(
+    app,
+    `${servicesStackName}Certificate`,
+    {
+      env: {
+        account: process.env.AWS_ACCOUNT_ID || process.env.CDK_DEFAULT_ACCOUNT,
+        region: "us-east-1",
+      },
+      crossRegionReferences: true,
+      domain: validateEnv("DOMAIN", `${servicesStackName}Certificate`),
+    }
+  );
+  // Set up our service resources.
+  new ServicesStack(app, servicesStackName, {
+    env: {
+      account: process.env.AWS_ACCOUNT_ID || process.env.CDK_DEFAULT_ACCOUNT,
+      region:
+        process.env.AWS_REGION ||
+        process.env.AWS_DEFAULT_REGION ||
+        process.env.CDK_DEFAULT_REGION,
+    },
+    crossRegionReferences: true,
+    domain: validateEnv("DOMAIN", servicesStackName),
+    certificate: certificateStack.certificate,
+  });
+}
+```
+
+We need to do a bit of a cross-region stack dance here, since CloudFront certificates can only live in `us-east-1`, but our actual services are defined in a different region. We split these two up into two different stacks, and then pass the certificate from the `ServicesCertificateStack` to the `ServicesStack`.
+
+Additionally, we need to enable `crossRegionReferences` down through all of our stacks that might access cross-region resources ([docs here](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib-readme.html#accessing-resources-in-a-different-stack-and-region)).
+
+Our `ServicesCertificateStack` points to our new stack which we will set up in `lib/services/stack-certificate.ts`:
+
+```typescript
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
+import * as route53 from "aws-cdk-lib/aws-route53";
+import * as acm from "aws-cdk-lib/aws-certificatemanager";
+
+interface StackProps extends cdk.StackProps {
+  /**
+   * The domain name the application is hosted under.
+   */
+  readonly domain: string;
+}
+
+export class Stack extends cdk.Stack {
+  public readonly certificate: acm.Certificate;
+
+  constructor(scope: Construct, id: string, props: StackProps) {
+    super(scope, id, props);
+
+    const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
+      domainName: props.domain,
+    });
+
+    // Importantly this has to live in us-east-1 for CloudFront to be able to use it.
+    // Set up an ACM certificate for the domain + subdomains, and validate it using DNS.
+    const cert = new acm.Certificate(this, "Certificate", {
+      domainName: props.domain,
+      subjectAlternativeNames: [`*.${props.domain}`],
+      validation: acm.CertificateValidation.fromDns(hostedZone),
+    });
+    this.certificate = cert;
+  }
+}
+```
+
+And our `ServicesStack` is defined in `lib/services/stack.ts`:
+
+```typescript
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
+import * as s3Website from "./s3-website";
+import * as route53 from "aws-cdk-lib/aws-route53";
+import * as acm from "aws-cdk-lib/aws-certificatemanager";
+
+interface StackProps extends cdk.StackProps {
+  /**
+   * The domain name the application is hosted under.
+   */
+  readonly domain: string;
+
+  /**
+   * The ACM Certificate ARN to use with CloudFront.
+   */
+  readonly certificate: acm.Certificate;
+}
+
+export class Stack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: StackProps) {
+    super(scope, id, props);
+
+    // Set up our s3 website for ui-app.
+    new s3Website.Stack(this, "WebsiteUiApp", {
+      ...props,
+      assets: "artifacts/ui-app",
+      index: "index.html",
+      error: "404.html",
+      domain: props.domain,
+      certificateArn: props.certificate.certificateArn,
+      billingGroup: "ui-app",
+    });
+
+    // Set up our s3 website for ui-internal.
+    new s3Website.Stack(this, "WebsiteUiInternal", {
+      ...props,
+      assets: "artifacts/ui-internal",
+      index: "index.html",
+      error: "index.html",
+      domain: `internal.${props.domain}`,
+      certificateArn: props.certificate.certificateArn,
+      billingGroup: "ui-internal",
+    });
+  }
+}
+```
+
+In here we deploy both `ui-app` and `ui-internal` the same way, but do some minor adjustments to the props we pass on to the stack to ensure it gets the right assets and also the right domain.
+
+This brings us to our final part, which is the most lengthy, our `lib/services/s3-website.ts`:
+
+```typescript
+import * as cdk from "aws-cdk-lib";
+import { Construct } from "constructs";
+import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as cloudfrontOrigins from "aws-cdk-lib/aws-cloudfront-origins";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import * as path from "path";
+
+export interface StackProps extends cdk.StackProps {
+  /**
+   * The path to the assets we are deploying.
+   */
+  readonly assets: string;
+
+  /**
+   * The file to use as the root/index page.
+   */
+  readonly index: string;
+
+  /**
+   * The file to redirect upon errors or 404s.
+   */
+  readonly error: string;
+
+  /**
+   * The domain name the application is hosted under.
+   */
+  readonly domain: string;
+
+  /**
+   * The billing group to associate with this stack.
+   */
+  readonly billingGroup: string;
+
+  /**
+   * The ACM Certificate ARN.
+   */
+  readonly certificateArn: string;
+}
+
+/**
+ * Set up an S3 bucket, hosting our assets, with CloudFront in front of it.
+ */
+export class Stack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: StackProps) {
+    super(scope, id, props);
+
+    // Create our S3 Bucket, making it private and secure.
+    const bucket = new s3.Bucket(this, "WebsiteBucket", {
+      publicReadAccess: false,
+      accessControl: s3.BucketAccessControl.PRIVATE,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      encryption: s3.BucketEncryption.S3_MANAGED,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
+    });
+    cdk.Tags.of(bucket).add("billing", `${props.billingGroup}-s3`);
+    cdk.Tags.of(bucket).add("billing-group", `${props.billingGroup}`);
+
+    // Set up access between CloudFront and our S3 Bucket.
+    const originAccessIdentity = new cloudfront.OriginAccessIdentity(
+      this,
+      "OriginAccessIdentity"
+    );
+    bucket.grantRead(originAccessIdentity);
+
+    // Configure our CloudFront distribution.
+    const distribution = new cloudfront.Distribution(this, "Distribution", {
+      domainNames: [props.domain],
+      certificate: acm.Certificate.fromCertificateArn(
+        this,
+        "Certificate",
+        props.certificateArn
+      ),
+      // Allow both HTTP 2 and 3.
+      httpVersion: cloudfront.HttpVersion.HTTP2_AND_3,
+      // Our default behavior is to redirect to our index page.
+      defaultRootObject: props.index,
+      defaultBehavior: {
+        // Set our S3 bucket as the origin.
+        origin: new cloudfrontOrigins.S3Origin(bucket, {
+          originAccessIdentity,
+        }),
+        // Redirect users from HTTP to HTTPs.
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      },
+      // Set up redirects when a user hits a 404 or 403.
+      errorResponses: [
+        {
+          httpStatus: 403,
+          responsePagePath: props.error,
+          responseHttpStatus: 200,
+        },
+        {
+          httpStatus: 404,
+          responsePagePath: props.error,
+          responseHttpStatus: 200,
+        },
+      ],
+    });
+    cdk.Tags.of(distribution).add(
+      "billing",
+      `${props.billingGroup}-cloudfront`
+    );
+    cdk.Tags.of(distribution).add("billing-group", `${props.billingGroup}`);
+
+    // Upload our assets to our bucket, and connect it to our distribution.
+    new s3deploy.BucketDeployment(this, "WebsiteDeployment", {
+      destinationBucket: bucket,
+      sources: [s3deploy.Source.asset(path.resolve(props.assets))],
+      // Invalidate the cache for / and index.html when we deploy so that cloudfront serves latest site
+      distribution,
+      distributionPaths: ["/", `/${props.index}`],
+    });
+  }
+}
+```
+
+There is quite a bit going on here. A rough overview of what is happening:
+
+- We create an S3 Bucket, which will host our assets.
+- The S3 Bucket will be configured to with encryption and to block public read access.
+- We create a CloudFront distribution, which will serve our assets.
+- The CloudFront distribution will also redirect HTTP to HTTPS, use our domain name and certificate, as well as support HTTP 2 and 3.
+
+And that's it! Your `ui-app` will now live at the root of your domain, e.g. `app.example.com`, and `ui-internal` will live at the subdomain `internal` e.g. `internal.app.example.com`.
 
 ## Next Steps
 

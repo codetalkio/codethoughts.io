@@ -28,6 +28,7 @@ Otherwise, let's jump in!
   - [Trigger the Workflows](#trigger-the-workflows)
   - [Manual alternative: Bootstrapping our Accounts](#manual-alternative-bootstrapping-our-accounts)
   - [Manual alternative: Deployments](#manual-alternative-deployments)
+- [Bonus: Just](#bonus-just)
 - [Next Steps](#next-steps)
 
 
@@ -609,6 +610,81 @@ $ DOMAIN="app.example.com" bun run cdk deploy --concurrency 4 'Cloud' 'Cloud/**'
 ```
 
 The `DOMAIN` environment variable is required here, since we need to know what domain we should use for the Hosted Zone.
+
+
+## Bonus: Just
+
+It might seem overkill right now, but we will eventually have many different commands across many folder locations in our mono-repo setup. To make this a bit easier to work with, we can use the tool [Just](https://github.com/casey/just) to help us out.
+
+From `just`'s README:
+
+> `just` is a handy way to save and run project-specific commands
+
+From [the installation instructions](https://github.com/casey/just#packages) we can install it via:
+
+```bash
+# macOS:
+$ brew install just
+# Linux with prebuilt-mpr (https://docs.makedeb.org/prebuilt-mpr/getting-started/#setting-up-the-repository):
+$ sudo apt install just
+# Prebuilt binaries (assuming $HOME/.local/bin is in your $PATH):
+$ curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to $HOME/.local/bin
+```
+
+This allows us to set up a `justfile` in the root of our project, which we can then use to define shortcuts to our commands. For example, we can define a shortcut to run our CDK commands:
+
+```makefile
+# Display help information.
+help:
+  @ just --list
+
+# Setup dependencies and tooling for <project>, e.g. `just setup deployment`.
+setup project:
+  just _setup-{{project}}
+
+_setup-deployment:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd deployment
+  bun install
+
+# Deploy the specified <stack>, e.g. `just deploy Cloud`, defaulting to --all.
+deploy stack='--all':
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd deployment
+  bun run cdk deploy --concurrency 4 --require-approval never {{ if stack == "--all" { "--all" } else { stack } }}
+
+# Run tests for <project>, e.g. `just test deployment`.
+test project:
+  just _test-{{project}}
+
+_test-deployment:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd deployment
+  bun test
+
+_test-synth:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  cd deployment
+  bun run cdk synth --all
+```
+
+We can now run our commands via `just`:
+
+```bash
+# Setup our dependencies:
+$ just setup deployment
+# Run tests:
+$ just test deployment
+# Synthesize our CDK stack:
+$ just test synth
+# Deploy our CDK stack:
+$ just deploy # or just deploy Cloud
+```
+
 
 
 ## Next Steps
