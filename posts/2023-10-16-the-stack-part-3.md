@@ -97,6 +97,7 @@ We need to do just one small change to our Next.js setup to make it output stati
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
+  trailingSlash: true,
   experimental: {
     // Statically type links to prevent typos and other errors when using next/link, improving type safety when navigating between pages.
     typedRoutes: true,
@@ -105,6 +106,8 @@ const nextConfig = {
 
 module.exports = nextConfig;
 ```
+
+We also enabled `trailingSlash` ([docs here](https://nextjs.org/docs/pages/api-reference/next-config-js/trailingSlash)) to make Next.js work nicely with CloudFront.
 
 This tells Next.js that we want to to [Statically Export](https://nextjs.org/docs/app/building-your-application/deploying/static-exports) our files, which will generate an HTML file per route, which allows each route to serve the minimal content it needs, enabling faster page loads, instead of the traditional SPA approach of serving one large file upfront.
 
@@ -1433,7 +1436,6 @@ And our `ServicesStack` is defined in `lib/services/stack.ts`:
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as s3Website from "./s3-website";
-import * as route53 from "aws-cdk-lib/aws-route53";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 
 interface StackProps extends cdk.StackProps {
@@ -1459,8 +1461,10 @@ export class Stack extends cdk.Stack {
       index: "index.html",
       error: "404.html",
       domain: props.domain,
+      hostedZone: props.domain,
       certificateArn: props.certificate.certificateArn,
       billingGroup: "ui-app",
+      rewriteUrls: true,
     });
 
     // Set up our s3 website for ui-internal.
@@ -1470,6 +1474,7 @@ export class Stack extends cdk.Stack {
       index: "index.html",
       error: "index.html",
       domain: `internal.${props.domain}`,
+      hostedZone: props.domain,
       certificateArn: props.certificate.certificateArn,
       billingGroup: "ui-internal",
     });
@@ -1484,7 +1489,11 @@ This brings us to our final part, which is the most lengthy, our `lib/services/s
 ```typescript
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
+import * as route53 from "aws-cdk-lib/aws-route53";
+import * as route53Patterns from "aws-cdk-lib/aws-route53-patterns";
+import * as route53Targets from "aws-cdk-lib/aws-route53-targets";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as cloudfrontOrigins from "aws-cdk-lib/aws-cloudfront-origins";
@@ -1513,6 +1522,11 @@ export interface StackProps extends cdk.StackProps {
   readonly domain: string;
 
   /**
+   * The hosted zone that controls the DNS for the domain.
+   */
+  readonly hostedZone: string;
+
+  /**
    * The billing group to associate with this stack.
    */
   readonly billingGroup: string;
@@ -1521,6 +1535,11 @@ export interface StackProps extends cdk.StackProps {
    * The ACM Certificate ARN.
    */
   readonly certificateArn: string;
+
+  /**
+   * Whether to rewrite URLs to /folder/ -> /folder/index.html.
+   */
+  readonly rewriteUrls?: boolean;
 }
 
 /**
@@ -1548,6 +1567,16 @@ export class Stack extends cdk.Stack {
     );
     bucket.grantRead(originAccessIdentity);
 
+    // Rewrite requests to /folder/ -> /folder/index.html.
+    let rewriteUrl: cloudfront.experimental.EdgeFunction | undefined;
+    if (props.rewriteUrls) {
+      rewriteUrl = new cloudfront.experimental.EdgeFunction(this, "RewriteFn", {
+        runtime: lambda.Runtime.NODEJS_LATEST,
+        handler: "rewrite-urls.handler",
+        code: lambda.Code.fromAsset(path.resolve("edge-functions")),
+      });
+    }
+
     // Configure our CloudFront distribution.
     const distribution = new cloudfront.Distribution(this, "Distribution", {
       domainNames: [props.domain],
@@ -1567,6 +1596,15 @@ export class Stack extends cdk.Stack {
         }),
         // Redirect users from HTTP to HTTPs.
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        edgeLambdas:
+          rewriteUrl !== undefined
+            ? [
+                {
+                  functionVersion: rewriteUrl.currentVersion,
+                  eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST,
+                },
+              ]
+            : undefined,
       },
       // Set up redirects when a user hits a 404 or 403.
       errorResponses: [
@@ -1596,9 +1634,49 @@ export class Stack extends cdk.Stack {
       distribution,
       distributionPaths: ["/", `/${props.index}`],
     });
+
+    // Set up our DNS records that points to our CloudFront distribution.
+    const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
+      domainName: props.hostedZone,
+    });
+
+    new route53.ARecord(this, "Alias", {
+      zone: hostedZone,
+      recordName: props.domain,
+      target: route53.RecordTarget.fromAlias(
+        new route53Targets.CloudFrontTarget(distribution)
+      ),
+    });
+
+    // Make www redirect to the root domain.
+    new route53Patterns.HttpsRedirect(this, "Redirect", {
+      zone: hostedZone,
+      recordNames: [`www.${props.domain}`],
+      targetDomain: props.domain,
+    });
   }
 }
 ```
+
+And our Lambda@Edge function to rewrite urls is defined in `edge-functions/rewrite-urls.ts`:
+
+```typescript
+function handler(event) {
+  var request = event.request;
+  var uri = request.uri;
+
+  // Check whether the URI is missing a file name.
+  if (uri.endsWith("/")) {
+    request.uri += "index.html";
+  } else if (!uri.includes(".")) {
+    // Check whether the URI is missing a file extension.
+    request.uri += "/index.html";
+  }
+
+  return request;
+}
+```
+
 
 There is quite a bit going on here. A rough overview of what is happening:
 
@@ -1606,6 +1684,7 @@ There is quite a bit going on here. A rough overview of what is happening:
 - The S3 Bucket will be configured to with encryption and to block public read access.
 - We create a CloudFront distribution, which will serve our assets.
 - The CloudFront distribution will also redirect HTTP to HTTPS, use our domain name and certificate, as well as support HTTP 2 and 3.
+- If enabled via `rewriteUrls`, we will also set up a Lambda@Edge function that will rewrite URLs to `/folder/` -> `/folder/index.html`. This is necessary to support the way Next.js generates its files.
 
 And that's it! Your `ui-app` will now live at the root of your domain, e.g. `app.example.com`, and `ui-internal` will live at the subdomain `internal` e.g. `internal.app.example.com`.
 
