@@ -1572,12 +1572,12 @@ export class Stack extends cdk.Stack {
       errorResponses: [
         {
           httpStatus: 403,
-          responsePagePath: props.error,
+          responsePagePath: `/${props.error}`,
           responseHttpStatus: 200,
         },
         {
           httpStatus: 404,
-          responsePagePath: props.error,
+          responsePagePath: `/${props.error}`,
           responseHttpStatus: 200,
         },
       ],
