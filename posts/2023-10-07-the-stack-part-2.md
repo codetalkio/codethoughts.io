@@ -314,7 +314,7 @@ Our deployment flow gets a bit more complicated. We're building for the future h
 We will be building up the following flow, illustrated in the diagram below:
 
 <div style="text-align:center;">
-<a href="/resources/images/the-stack-part-2-deployment-flow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-deployment-flow.png" loading="lazy" alt="Deployment flow" title="Deployment flow" width="100%%" /></a>
+<a href="/resources/images/the-stack-part-2-deployment-flow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-deployment-flow.png" loading="lazy" alt="Deployment flow" title="Deployment flow" width="100%" /></a>
 </div>
 
 This is what is called a "staggered deployment", but across our environments:
@@ -436,7 +436,7 @@ We could have been using using build `matrix`'s again, but that would mean that 
 Voila 🎉 We've now set the skeleton for the deployment flow we pictured earlier:
 
 <div style="text-align:center;">
-<a href="/resources/images/the-stack-part-2-deployment-flow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-deployment-flow.png" loading="lazy" alt="Deployment flow" title="Deployment flow" width="100%%" /></a>
+<a href="/resources/images/the-stack-part-2-deployment-flow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-deployment-flow.png" loading="lazy" alt="Deployment flow" title="Deployment flow" width="100%" /></a>
 </div>
 
 **Part 2: Reuseable workflow**
@@ -532,7 +532,7 @@ Push your project to GitHub. You now have access to the workflows and can trigge
 If you haven't done it already, let's run the `Deployment: Bootstrap` workflow first, to set up CDK on all accounts. Alternatively, jump to the section [Manual alternative: Bootstrapping our Accounts](#manual-alternative-bootstrapping-our-accounts) for how to do this manually.
 
 <div style="text-align:center;">
-<a href="/resources/images/the-stack-part-2-trigger-bootstrap-workflow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-trigger-bootstrap-workflow.thumbnail.png" loading="lazy" alt="Manually trigger the bootstrap workflow" title="Manually trigger the bootstrap workflow" width="80%%" /></a>
+<a href="/resources/images/the-stack-part-2-trigger-bootstrap-workflow.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-2-trigger-bootstrap-workflow.thumbnail.png" loading="lazy" alt="Manually trigger the bootstrap workflow" title="Manually trigger the bootstrap workflow" width="80%" /></a>
 </div>
 
 Next up, before we initiate the deployment it's recommended to be logged into your Domain Registrar that controls the DNS of your domain, so that you can quickly update your name servers to point to the Hosted Zone that we will be creating. This is necessary to DNS validate our ACM certificates.
