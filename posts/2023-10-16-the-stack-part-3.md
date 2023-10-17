@@ -1,6 +1,6 @@
 ---
 title: "The Stack Part 3: Building a Frontend"
-tags: aws, cloud, infrastructure, cdk
+tags: rust, typescript, wasm, nextjs, leptos, aws, cloud, infrastructure, cdk, ci
 ---
 
 In [the last post](/posts/2023-10-07-the-stack-part-2.html) we set up our deployment, fully automated on merge to our `main` branch. In this post we will be building our UI (Frontend) applications. See the full overview of posts [here](/posts/2023-01-29-the-stack.html#what-will-we-be-covering).

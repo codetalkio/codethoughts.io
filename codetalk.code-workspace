@@ -1,12 +1,12 @@
 {
   "folders": [
     {
-      "name": "posts",
-      "path": "posts"
-    },
-    {
       "name": "drafts",
       "path": "posts-draft"
+    },
+    {
+      "name": "posts",
+      "path": "posts"
     },
     {
       "name": "images",
