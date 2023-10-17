@@ -89,5 +89,26 @@
         }
       }
     }
+
+    #archives {
+      padding: 30px 30px 15px 30px;
+      @include center-content();
+
+      table {
+        color: $color-white;
+        tbody {
+          tr {
+            &:nth-child(odd) {
+              background: #1c1c1c;
+            }
+            td {
+              a {
+                color: $link-color;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
