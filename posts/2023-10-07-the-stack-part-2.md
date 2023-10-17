@@ -21,14 +21,13 @@ Otherwise, let's jump in!
 - [AWS: Seting up Credentials](#aws-seting-up-credentials)
 - [GitHub: Setting up Environments](#github-setting-up-environments)
 - [CDK: Infrastructure as Code](#cdk-infrastructure-as-code)
-  - [Explanation: CDK Stack](#explanation-cdk-stack)
-  - [Explanation: Automated Deployments via GitHub Actions](#explanation-automated-deployments-via-github-actions)
-    - [Boostrap Workflow](#boostrap-workflow)
-    - [Deployment Workflow](#deployment-workflow)
+- [Automated Deployments via GitHub Actions](#automated-deployments-via-github-actions)
+  - [Boostrap Workflow](#boostrap-workflow)
+  - [Deployment Workflow](#deployment-workflow)
   - [Trigger the Workflows](#trigger-the-workflows)
-  - [Manual alternative: Bootstrapping our Accounts](#manual-alternative-bootstrapping-our-accounts)
-  - [Manual alternative: Deployments](#manual-alternative-deployments)
-- [Bonus: Just](#bonus-just)
+- [Manual alternative: Bootstrapping our Accounts](#manual-alternative-bootstrapping-our-accounts)
+- [Manual alternative: Deployments](#manual-alternative-deployments)
+- [Bonus: Justfile and just](#bonus-justfile-and-just)
 - [Next Steps](#next-steps)
 
 
@@ -97,6 +96,7 @@ And each environment will roughly look like this:
 </div>
 
 ## CDK: Infrastructure as Code
+
 [CDK](https://github.com/aws/aws-cdk) is our tool of choice for Infrastructure as Code. We'll start from the default template and adjust it to use [Bun](https://bun.sh/) which simplifies the process of running CDK commands while using TypeScript.
 
 Instead of setting this up from scratch, start from the template for this step in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments). We'll go through what this contains in the next two sections.
@@ -108,8 +108,6 @@ Our overall aim is to structure our CDK into three main groupings:
 - `Services`: Lambdas, API Gateway, etc
 
 This split is based on the frequency something changes, and allows us to deploy freqeuently changing stacks without having to also look at things that very rarely change. In this part of the series we will set up the `Cloud` stack.
-
-### Explanation: CDK Stack
 
 As you can see in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments), we structure our CDK stack as follows:
 
@@ -216,7 +214,7 @@ export class Stack extends cdk.Stack {
 
 This sets up a Hosted Zone and an ACM certificate for our domain, and configures it to validate the Certificate via DNS validation.
 
-### Explanation: Automated Deployments via GitHub Actions
+## Automated Deployments via GitHub Actions
 
 As you can see in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments), we have two workflows to deploy things. They share much of the same logic, so let's focus on the commonalities first.
 
@@ -229,7 +227,7 @@ Both of them do a few things:
 
 The GitHub Actions YAML might feel a bit verbose, so let's break it down a bit. We'll first focus on `cd-bootstrap` which Bootstraps AWS Accounts for CDK.
 
-#### Boostrap Workflow
+### Boostrap Workflow
 
 We first define our name and the trigger. Because we only want this to be triggered manually (bootstrapping just needs to run once) we can use `workflow_dispatch` which allows us to trigger it from the GitHub Actions UI ([docs here](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch)):
 
@@ -308,7 +306,7 @@ We pull in what we need, and then run the `cdk bootstrap` command via bun:
         run: bun run cdk bootstrap
 ```
 
-#### Deployment Workflow
+### Deployment Workflow
 
 Our deployment flow gets a bit more complicated. We're building for the future here, so we want to put in place a few checks to make sure we don't accidentally deploy something broken. Or, if we do, we can at least stop early before it affects our users.
 
@@ -563,7 +561,7 @@ You can go and see the generated CloudFormation stacks in the [AWS Console -> Cl
 
 We've now set up the foundation for all of our future deployments of applications and services 🥳
 
-### Manual alternative: Bootstrapping our Accounts
+## Manual alternative: Bootstrapping our Accounts
 
 Once you've cloned the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments) (or made your own version of it), set up bun:
 
@@ -589,7 +587,7 @@ $ bun run cdk bootstrap
 
 This is essentially what the [cd-bootstrap](/.github/workflows/cd-bootstrap.yml) workflow does for you, across all the environments you've specified (you can adjust the list in the build matrix).
 
-### Manual alternative: Deployments
+## Manual alternative: Deployments
 
 Now that we have bootstrapped our accounts, we can deploy our CDK stacks.
 
@@ -612,7 +610,7 @@ $ DOMAIN="app.example.com" bun run cdk deploy --concurrency 4 'Cloud' 'Cloud/**'
 The `DOMAIN` environment variable is required here, since we need to know what domain we should use for the Hosted Zone.
 
 
-## Bonus: Just
+## Bonus: Justfile and just
 
 It might seem overkill right now, but we will eventually have many different commands across many folder locations in our mono-repo setup. To make this a bit easier to work with, we can use the tool [Just](https://github.com/casey/just) to help us out.
 

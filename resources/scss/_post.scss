@@ -131,38 +131,35 @@
       }
     }
     h2 {
-      &::before {
-        content: "# ";
-        /* margin-left: -31px; */
-        margin-left: -31px;
-      }
+      // &::before {
+      //   content: "# ";
+      //   margin-left: -31px;
+      // }
+      padding-bottom: .3em;
+      border-bottom: 1px solid rgb(216, 222, 228);
     }
     h3 {
       &::before {
-        content: "## ";
-        /* margin-left: -27px; */
-        margin-left: -44px;
+        // content: "## ";
+        // margin-left: -44px;
       }
     }
     h4 {
       &::before {
-        content: "### ";
-        /* margin-left: -24px; */
-        margin-left: -56px;
+        // content: "### ";
+        // margin-left: -56px;
       }
     }
     h5 {
       &::before {
-        content: "#### ";
-        /* margin-left: -19px; */
-        margin-left: -56px;
+        // content: "#### ";
+        // margin-left: -56px;
       }
     }
     h6 {
       &::before {
-        content: "##### ";
-        /* margin-left: -14px; */
-        margin-left: -52px;
+        // content: "##### ";
+        // margin-left: -52px;
       }
     }
   }
@@ -170,7 +167,7 @@
   div.callout {
     @include center-content();
     display: flex;
-    background-color: #f9f9fa;
+    background-color: $callout-background;
     padding: $spacing $spacing $spacing $spacing;
     margin-top: $spacing;
     div.callout-bulb {

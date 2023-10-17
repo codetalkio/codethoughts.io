@@ -20,5 +20,13 @@
 // - pandoc-syntax-highlighting-spacemacs-dark
 @import 'pandoc-syntax-highlighting-spacemacs';
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    @import 'pandoc-syntax-highlighting-spacemacs-dark';
+  }
+}
+
 // Media queries and responsive elements.
 @import 'media';
+
+@import 'dark-mode';
