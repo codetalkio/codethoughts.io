@@ -1,9 +1,10 @@
 {
-    "editor.formatOnSave": true,
-    "[yaml]": {
-        "editor.formatOnSave": false
-    },
-    "[markdown]": {
-        "editor.formatOnSave": false
-    }
+  "editor.formatOnSave": true,
+  "[yaml]": {
+    "editor.formatOnSave": false
+  },
+  "[markdown]": {
+    "editor.formatOnSave": false
+  },
+  "workspaceKeybindings.codetalk.optimize-images.enabled": true
 }
