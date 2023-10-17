@@ -689,4 +689,4 @@ $ just deploy # or just deploy Cloud
 
 ## Next Steps
 
-Next up is to add our first Frontend! Follow along in Part 3 of the series (will be posted soon).
+Next up is to add our first Frontend! Follow along in [Part 3 of the series](/posts/2023-10-16-the-stack-part-3.html).

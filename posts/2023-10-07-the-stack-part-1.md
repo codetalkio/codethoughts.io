@@ -11,6 +11,7 @@ As a reminder, here is the structure we are aiming for:
 - **Production Multi-tenant**: Your primary production account for multi-tenant setup, and most likely were the majority of users will be
 - **Production Single-tenant**: While desirable to avoid the operation overhead for single-tenant setups, its good to think in this from the get-go
 - **Integration Test**: This will be the account that IaC deployments get tested on to ensure rollout works
+- **Preview**: This will be used to spin up Preview Environments later on
 - **Individual Developer**: Individual developer accounts to allow easy testing of IaC testing and exploration
 - **Monitoring**: Centralize monitoring and observability into one account, allowing access to insights without access to sensitive logs or infrastructure from the other accounts
 - **Logs**: Centralized storage of logs, which may require different access considerations than metrics and traces
@@ -28,6 +29,7 @@ graph TD
   ControlTower-->AWSProdMultiTenantAccount
   ControlTower-->AWSProdSingleTenantAccount
   ControlTower-->AWSIntegrationTestAccount
+  ControlTower-->AWSPreviewAccount
   ControlTower-->AWSIndividualDeveloperAccount
   ControlTower-->AWSMonitoringAccount
   ControlTower-->AWSLogsAccount
@@ -44,6 +46,10 @@ graph TD
     AccountFillerIntegrationTest[...]
   end
 
+  subgraph AWSPreviewAccount[AWS: Preview]
+    AccountFillerPreview[...]
+  end
+
   subgraph AWSIndividualDeveloperAccount[AWS: Individual Developer]
     AccountFillerIndividualDeveloper[...]
   end
@@ -58,6 +64,9 @@ graph TD
   subgraph AWSLogsAccount[AWS: Logs]
     CloudWatchLogs[CloudWatch Logs]
   end
+
+  classDef container stroke:#333,stroke-width:2px,fill:transparent,padding:8px
+  class ControlTower,AWSProdMultiTenantAccount,AWSProdSingleTenantAccount,AWSIntegrationTestAccount,AWSPreviewAccount,AWSIndividualDeveloperAccount,AWSMonitoringAccount,AWSLogsAccount container;
 </pre>
 
 Let's jump into it, you can see the different sections here:
@@ -262,6 +271,7 @@ Once you're logged into the Control Tower account using the portal, jump into th
 We'll be creating the following accounts:
 
 - `Integration Test` in our Development OU
+- `Preview` in our Development OU
 - `Production Multi-tenant` in our Production OU
 - `Production Single-tenant` in our Production OU
 - `Monitoring` in our Production OU
@@ -275,7 +285,9 @@ For each account, in the **Create account** process, fill in:
 - **IAM Identity Center user first name**: The first name of the user that will be the administrator of the account, e.g. `Integration`
 - **IAM Identity Center user last name**: The last name of the user that will be the administrator of the account, e.g. `Test`
 
-Pick the appropriate Organizational unit according to the list above, and click **Create account**. You should end up with an overall structure like the following:
+Pick the appropriate Organizational unit according to the list above, and click **Create account**.
+
+You should end up with an overall structure like the following (Preview environment missing, but should be in the Development OU):
 
 <div style="text-align:center;">
 <a href="/resources/images/the-stack-part-1-account-overview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-1-account-overview.thumbnail.png" loading="lazy" alt="Account overview" title="Account overview" width="40%" /></a>

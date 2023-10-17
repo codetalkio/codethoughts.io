@@ -9,6 +9,9 @@ import Site.Feed (feedConfiguration)
 postPatterns :: Pattern
 postPatterns = "posts/*.md" .||. "posts/*.html"
 
+draftsPatterns :: Pattern
+draftsPatterns = "drafts/*.md" .||. "drafts/*.html"
+
 -- | Define the rules for the site/hakyll compiler
 main :: IO ()
 main = hakyll $ do
@@ -99,6 +102,20 @@ main = hakyll $ do
 
   -- | Posts: The post as an HTML page
   match postPatterns $ do
+    route   $ setExtension "html"
+    compile $ pandocCompiler
+      -- Create snapshots of the raw post, before any templates are applied. We can get this
+      -- later by loading the snapshot from `raw-post-content`.
+      >>= saveSnapshot "raw-post-content"
+      >>= loadAndApplyTemplate "templates/post.html"    (postCtx tags)
+      -- Create snapshots of the processed post, before any the final templates is applied. We can get this
+      -- later by loading the snapshot from `postContent`.
+      >>= saveSnapshot "processed-post-content"
+      >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
+      >>= relativizeUrls
+
+  -- | Drafts: The draft posts as an HTML page
+  match draftsPatterns $ do
     route   $ setExtension "html"
     compile $ pandocCompiler
       -- Create snapshots of the raw post, before any templates are applied. We can get this

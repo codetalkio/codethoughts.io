@@ -1,5 +1,5 @@
 ---
-title: Your AWS Bill Tells a Story
+title: "Your AWS Bill Tells a Story"
 tags: aws, cloud, infrastructure
 ---
 
