@@ -18,8 +18,8 @@ There is quite a lot to cover. My recommendation is to clone down the Part 3 bra
 <div></div><!--more-->
 
 - [Prelude: Static Site Generation](#prelude-static-site-generation)
-- [Next.js](#nextjs)
-    - [Setting up our Next.js App](#setting-up-our-nextjs-app)
+- [Next.js](#next.js)
+    - [Setting up our Next.js App](#setting-up-our-next.js-app)
     - [Building Static Files](#building-static-files)
     - [Setting up Localization](#setting-up-localization)
 - [Leptos (Rust/WASM)](#leptos-rustwasm)
@@ -30,7 +30,7 @@ There is quite a lot to cover. My recommendation is to clone down the Part 3 bra
 - [Bonus: DevEx Improvements](#bonus-devex-improvements)
 - [Automating Deployments via CDK](#automating-deployments-via-cdk)
     - [Building artifacts in CI](#building-artifacts-in-ci)
-    - [Deploying to S3 + CloudFront](#deploying-to-s3--cloudfront)
+    - [Deploying to S3 + CloudFront](#deploying-to-s3-cloudfront)
 - [Next Steps](#next-steps)
 
 

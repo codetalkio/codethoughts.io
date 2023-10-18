@@ -5,6 +5,18 @@ tags: aws, cloud, infrastructure
 
 In [the last post](/posts/2023-01-29-the-stack.html) we went over the overall goals of "The Stack" and what we will be building. In this post we'll be setting up our AWS Account structure. See the full overview of posts [here](/posts/2023-01-29-the-stack.html#what-will-we-be-covering).
 
+- [Set up Control Tower](#set-up-control-tower)
+    - [Step 1](#step-1)
+    - [Step 2](#step-2)
+    - [Step 3](#step-3)
+    - [Step 4](#step-4)
+    - [Step 5](#step-5)
+    - [Cleanup](#cleanup)
+- [Adjusting Account Factory defaults](#adjusting-account-factory-defaults)
+- [Set up our Development Organizational Unit](#set-up-our-development-organizational-unit)
+- [Set up our AWS Accounts](#set-up-our-aws-accounts)
+- [Next Steps](#next-steps)
+
 As a reminder, here is the structure we are aiming for:
 
 - **Control Tower**: This is your central place to control access and policies for all accounts in your organization
@@ -69,19 +81,7 @@ graph TD
   class ControlTower,AWSProdMultiTenantAccount,AWSProdSingleTenantAccount,AWSIntegrationTestAccount,AWSPreviewAccount,AWSIndividualDeveloperAccount,AWSMonitoringAccount,AWSLogsAccount container;
 </pre>
 
-Let's jump into it, you can see the different sections here:
-
-- [Set up Control Tower](#set-up-control-tower)
-    - [Step 1](#step-1)
-    - [Step 2](#step-2)
-    - [Step 3](#step-3)
-    - [Step 4](#step-4)
-    - [Step 5](#step-5)
-    - [Cleanup](#cleanup)
-- [Adjusting Account Factory defaults](#adjusting-account-factory-defaults)
-- [Set up our Development Organizational Unit](#set-up-our-development-organizational-unit)
-- [Set up our AWS Accounts](#set-up-our-aws-accounts)
-- [Next Steps](#next-steps)
+Let's jump into it!
 
 ## Set up Control Tower
 
