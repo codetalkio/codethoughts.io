@@ -33,7 +33,7 @@ _install-tooling-all-platforms:
   command -v sass >/dev/null 2>&1 || npm i -g sass
 
 # Setup dependencies and build the hakyll executable.
-setup project:
+setup:
   stack build
 
 # Deploy the blog to S3 and invalidate CloudFront cache.
@@ -50,7 +50,7 @@ deploy:
       --data '{"purge_everything":true}'
 
 # Run hakyll development server in watch mode.
-dev project:
+dev:
   stack exec -- hakyll-site watch
 
 # Build blog artifacts and static files.
