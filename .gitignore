@@ -28,3 +28,4 @@ _store
 _site
 .sass-cache
 .devenv*
+.env
