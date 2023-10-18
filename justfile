@@ -13,22 +13,24 @@ code:
 install-tooling:
   @ just _install-tooling-all-platforms
   # Install imagemagick for mogrify.
-  sudo apt install imagemagick
+  command -v mogrify >/dev/null 2>&1 || sudo apt install imagemagick
+  gh release download --clobber --pattern "hakyll-site" --dir ./dist
+  chmod +x ./dist/hakyll-site
 
 # Install tooling for working with the codetalk blog.
 [macos]
 install-tooling:
   @ just _install-tooling-all-platforms
   # Install imagemagick for mogrify.
-  brew install imagemagick
+  command -v mogrify >/dev/null 2>&1 || brew install imagemagick
 
 _install-tooling-all-platforms:
   # Install stack.
-  curl -sSL https://get.haskellstack.org/ | sh
+  command -v stack >/dev/null 2>&1 || curl -sSL https://get.haskellstack.org/ | sh
   # Install ghcup.
-  curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+  command -v ghcup >/dev/null 2>&1 || curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
   # Install sass.
-  npm i -g sass
+  command -v sass >/dev/null 2>&1 || npm i -g sass
 
 # Setup dependencies and build the hakyll executable.
 setup project:
