@@ -260,7 +260,7 @@ We could imagine later on, once our translation file becomes massive, that we sp
 
 As the final piece of this puzzle, we need a way to let Next.js know where it should route to by default, since we removed the default root pages.
 
-We unfortunately cannot use [middleware's](https://next-intl-docs.vercel.app/docs/routing/middleware) when statically exporting our site, so we will instead redirect the user upon loading the page. Create a `src/app/page.tsx` file with the following:
+We unfortunately cannot use [middlewares](https://next-intl-docs.vercel.app/docs/routing/middleware) when statically exporting our site, so we will instead redirect the user upon loading the page. Create a `src/app/page.tsx` file with the following:
 
 ```typescript
 import { redirect } from "next/navigation";
