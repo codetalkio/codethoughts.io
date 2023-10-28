@@ -988,22 +988,13 @@ e2e project:
   just _e2e-{{project}}
 
 _e2e-deployment:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-  cd deployment/end2end
-  bun run e2e
+  cd deployment/end2end && bun run e2e
 
 _e2e-ui-app:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-  cd ui-app/end2end
-  bun run e2e
+  cd ui-app/end2end && bun run e2e
 
 _e2e-ui-internal:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-  cd ui-internal/end2end
-  bun run e2e
+  cd ui-internal/end2end && bun run e2e
 ```
 
 And we'll also update our `_setup-project` commands to setup the Playwright dependencies:
@@ -1087,15 +1078,6 @@ And then add this to your settings:
 ```
 
 ## Automating Deployments via CDK
-
-- Build artifact
-  - [x] Split ui-app/ui-internal build into a workflow
-  - [x] Pass optional argument to upload artifact
-  - [x] Pass optional argument for release build
-  - [x] Run builds in cd-deploy to upload artifacts
-  - [x] Fetch artifacts in wf-deploy
-- [ ] Publish to S3 + CloudFront
-- [ ] Configure API route proxy on CloudFront already?
 
 Since we are now generating artifacts that we want to deploy, from multiple projects, we need to restructure our existing deployment pipeline slightly.
 
