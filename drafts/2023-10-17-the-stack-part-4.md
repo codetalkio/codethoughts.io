@@ -153,6 +153,81 @@ We will start from our building blocks, which will be our subgraphs, and then bu
 The Router needs an HTTP endpoint, we will use [AWS Lambda Function URLs](https://aws.amazon.com/blogs/aws/announcing-aws-lambda-function-urls-built-in-https-endpoints-for-single-function-microservices/).
 
 
+Price per 1ms (eu-west-1):
+- 128MB = $0.0000000017
+- 512MB = $0.0000000067
+- 1024MB = $0.0000000133
+- 1536MB = $0.0000000200
+- 2048MB = $0.0000000267
+
+Cold-start:
+- ms-gql-reviews
+  - Memory: 128MB
+  - Billed Duration: 67ms
+  - Total time: 257ms
+  - Init:
+  - Invocation:
+- ms-gql-users
+  - Memory: 128MB
+  - Billed Duration: 57ms
+  - Total time: 210ms
+  - Init:
+  - Invocation:
+- ms-gql-products
+  - Memory: 128MB
+  - Billed Duration: 53ms
+  - Total time: 164ms
+  - Init:
+  - Invocation:
+
+Warm-start:
+- ms-gql-reviews
+  - Memory: 128MB
+  - Billed Duration: 2ms
+  - Total time: 7ms
+- ms-gql-users
+  - Memory: 128MB
+  - Billed Duration: 1ms
+  - Total time: 6ms
+- ms-gql-products
+  - Memory: 128MB
+  - Billed Duration: 2ms
+  - Total time: 6ms
+
+
+Cold-start:
+- ms-gql-reviews
+  - Memory: 1024MB
+  - Billed Duration: 45ms
+  - Total time: 226ms
+  - Init: 39ms
+  - Invocation: 1ms
+- ms-gql-users
+  - Memory: 1024MB
+  - Billed Duration: 44ms
+  - Total time: 201ms
+  - Init: 38ms
+  - Invocation: 4ms
+- ms-gql-products
+  - Memory: 1024MB
+  - Billed Duration: 43ms
+  - Total time: 202ms
+  - Init: 39ms
+  - Invocation: 1ms
+
+Warm-start:
+- ms-gql-reviews
+  - Memory: 1024MB
+  - Billed Duration: 2ms
+  - Total time: 6ms
+- ms-gql-users
+  - Memory: 1024MB
+  - Billed Duration: 2ms
+  - Total time: 8ms
+- ms-gql-products
+  - Memory: 1024MB
+  - Billed Duration: 2ms
+  - Total time: 6ms
 
 ## DynamoDB: A database for our services
 

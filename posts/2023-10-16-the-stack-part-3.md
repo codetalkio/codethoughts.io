@@ -123,7 +123,7 @@ Let's start by adding the dependency:
 $ bun add next-intl
 ```
 
-We'll also create a folder that will contain our localization files, which we'll call `locales/` in the root of the `ui-app/` project:
+We'll also create a folder that will contain our localization files, which we'll call `messages/` in the root of the `ui-app/` project:
 
 ```bash
 $ mkdir messages
