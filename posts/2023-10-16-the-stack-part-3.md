@@ -1437,7 +1437,7 @@ export class Stack extends cdk.Stack {
     super(scope, id, props);
 
     // Set up our s3 website for ui-app.
-    new s3Website.Stack(this, "WebsiteUiApp", {
+    new s3Website.Stack(this, "UiApp", {
       ...props,
       assets: "artifacts/ui-app",
       index: "index.html",
@@ -1450,7 +1450,7 @@ export class Stack extends cdk.Stack {
     });
 
     // Set up our s3 website for ui-internal.
-    new s3Website.Stack(this, "WebsiteUiInternal", {
+    new s3Website.Stack(this, "UiInternal", {
       ...props,
       assets: "artifacts/ui-internal",
       index: "index.html",
