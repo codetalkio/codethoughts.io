@@ -51,7 +51,7 @@ deploy:
 
 # Run hakyll development server in watch mode.
 dev:
-  stack exec -- hakyll-site watch
+  stack exec -- hakyll-site watch --port 4566
 
 # Build blog artifacts and static files.
 build:
