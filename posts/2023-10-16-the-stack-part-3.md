@@ -1318,18 +1318,249 @@ deploy-validate-artifacts:
 
 If we remember our three groupings, we see that `ui-app` and `ui-internal` would fit into `Services`:
 
-- `Cloud`: Hosted Zones, VPC, Certificates, infrequently changing things
+- `Global`: "Global" (often `us-east-1`) specific things such as ACM Certificates for CloudFront, and we'll also put Hosted Zones here
+- `Cloud`: Region specific infrequently changing things such as VPC, Region-specific Certificates, etc
 - `Platform`: DynamoDB, Cache, SQS
 - `Services`: Lambdas, API Gateway, etc
 
-So let's get our `Services` stack set up!
+##### Preparing for CloudFront
+
+We'd like our CloudFront distribution to use its own domain name and HTTPS, and to do this requires a bit of extra work on our end, since CloudFront needs our ACM Certificate to live in `us-east-1` specifically.
+
+This means that it will fit into our `Global` stack. Cross-stack references in CDK/CloudFormation is a bit finicky, and we generally want to avoid relying on `Exports` which are incredibly frustrating to work with and often gets you into sticky situations where you have to carefully destroy or update your stacks in a certain order. Once an export is used, it cannot change, leading to very tight coupling between stacks.
+
+<div class="callout">
+  <div class="callout-bulb">💡</div>
+  Some examples of issues/annoyances and workarounds with `Exports`: [Here](https://github.com/aws/aws-cdk/issues/17741), [here](https://chariotsolutions.com/blog/post/limiting-cross-stack-references-in-cdk/), [here](https://github.com/aws/aws-cdk/issues/5304), and [here](https://www.endoflineblog.com/cdk-tips-03-how-to-unblock-cross-stack-references).
+</div>
+
+Instead, we will rely on the approach outlined in this nice article from AWS on how to [Read parameters across AWS Regions with AWS CloudFormation custom resources](https://aws.amazon.com/blogs/infrastructure-and-automation/read-parameters-across-aws-regions-with-aws-cloudformation-custom-resources/).
+
+We will essentially:
+
+- Store the Certificate ARN in the SSM Parameter Store in `us-east-1`.
+- Set up a new construct via `AwsCustomResource` and `AwsSdkCall` that can read parameters from a specific region.
+- Use this construct in our `Services` stack to read the Certificate ARN from `us-east-1`.
+
+Let's set up our new Certificate first. We'll adjust the existing `GlobalStack` slightly in `bin/deployment.ts`:
+
+```typescript
+/**
+ * SSM Parameter name for the global certificate ARN used by CloudFront.
+ */
+const GLOBAL_CERTIFICATE_SSM = "/global/acm/certificate/arn";
+
+/**
+ * Define our 'Global' stack that provisions the infrastructure for our application, such
+ * as domain names, certificates, and other resources that are shared across all regions.
+ *
+ * ```bash
+ * bun run cdk deploy --concurrency 6 'Global/**'
+ * ```
+ */
+const globalStackName = "Global";
+if (matchesStack(app, globalStackName)) {
+  // Some of our global resources need to live in us-east-1 (e.g. CloudFront certificates),
+  // so we set that as the region for all global resources.
+  new GlobalStack(app, globalStackName, {
+    env: {
+      account: process.env.AWS_ACCOUNT_ID || process.env.CDK_DEFAULT_ACCOUNT,
+      region: "us-east-1",
+    },
+    domain: validateEnv("DOMAIN", globalStackName),
+    certificateArnSsm: GLOBAL_CERTIFICATE_SSM,
+  });
+}
+```
+
+We've introduced `GLOBAL_CERTIFICATE_SSM` which will be how we share the name of the parameter across stacks, and `certificateArnSsm` as a property to our `GlobalStack`.
+
+Let's set up the certificate before we stitch it into our `GlobalStack`. We'll create a new file `lib/global/certificate.ts`:
+
+```typescript
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as route53 from 'aws-cdk-lib/aws-route53';
+import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+
+export interface StackProps extends cdk.StackProps {
+  /**
+   * The domain name the application is hosted under.
+   */
+  readonly domain: string;
+
+  /**
+   * SSM Parameter name for the global certificate ARN used by CloudFront.
+   */
+  readonly certificateArnSsm: string;
+}
+
+export class Stack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: StackProps) {
+    super(scope, id, props);
+
+    const hostedZone = route53.HostedZone.fromLookup(this, 'HostedZone', {
+      domainName: props.domain,
+    });
+
+    //  Set up an ACM certificate for the domain + subdomains, and validate it using DNS.
+    // NOTE: This has to live in us-east-1 for CloudFront to be able to use it with CloudFront.
+    const cert = new acm.Certificate(this, 'Certificate', {
+      domainName: props.domain,
+      subjectAlternativeNames: [`*.${props.domain}`],
+      validation: acm.CertificateValidation.fromDns(hostedZone),
+    });
+
+    new cdk.CfnOutput(this, `CertificateArn`, {
+      value: cert.certificateArn,
+      description: 'The ARN of the ACM Certificate to be used with CloudFront.',
+    });
+
+    // Store the Certificate ARN in SSM so that we can reference it from other regions
+    // without creating cross-stack references.
+    new ssm.StringParameter(this, 'CertificateARN', {
+      parameterName: props.certificateArnSsm,
+      description: 'Certificate ARN to be used with Cloudfront',
+      stringValue: cert.certificateArn,
+    });
+  }
+}
+```
+
+The last step in the stack stores the `certificateArn` in the SSM Parameter Store.
+
+Finally, we adjust `lib/global/stack.ts` to now look like:
+
+```typescript
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as domain from './domain';
+import * as certificate from './certificate';
+
+interface StackProps extends cdk.StackProps, domain.StackProps, certificate.StackProps {}
+
+export class Stack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: StackProps) {
+    super(scope, id, props);
+
+    // Set up our domain stack.
+    const domainStack = new domain.Stack(this, 'Domain', props);
+
+    // Set up our Certificate stack.
+    const certificateStack = new certificate.Stack(this, 'Certificate', props);
+    certificateStack.addDependency(domainStack);
+  }
+}
+```
+
+Instead of passing the Hosted Zone into the certificate stack, we explicitly mark the certificate as dependent on the domain stack to ensure the hosted zone exists before we try to access it. Again, avoiding exports.
+
+Normally SSM doesn't take the region as a parameter, so to access the parameter from `us-east-1` we'll set up a new construct in `lib/services/ssm-global.ts`:
+
+```typescript
+import { Arn, Stack } from 'aws-cdk-lib';
+import * as CustomResource from 'aws-cdk-lib/custom-resources';
+import { Construct } from 'constructs';
+
+interface SsmGlobalProps {
+  /**
+   * The name of the parameter to retrieve.
+   */
+  parameterName: string;
+
+  /**
+   * The region the parameter is stored in, when it was created.
+   */
+  region: string;
+}
+
+/**
+ * Remove any leading slashes from the resource `parameterName`.
+ */
+const removeLeadingSlash = (parameterName: string): string =>
+  parameterName.slice(0, 1) == '/' ? parameterName.slice(1) : parameterName;
+
+/**
+ * Custom resource to retrieve a global SSM parameter. See https://aws.amazon.com/blogs/infrastructure-and-automation/read-parameters-across-aws-regions-with-aws-cloudformation-custom-resources/ for more information.
+ *
+ * You store your SSM Parameter as normal in any region:
+ * ```ts
+ * import { StringParameter } from 'aws-cdk-lib/aws-ssm';
+ *
+ * const cert = ...
+ *
+ * new StringParameter(this, 'CertificateARN', {
+ *   parameterName: 'CloudFrontCertificateArn',
+ *   description: 'Certificate ARN to be used with Cloudfront',
+ *   stringValue: cert.certificateArn,
+ * });
+ * ```
+ *
+ * Example of retrieving it from another region:
+ * ```ts
+ * import { SsmGlobal } from './ssm-global';
+ *
+ * const certificateArnReader = new SsmGlobal(this, 'SsmCertificateArn', {
+ *   parameterName: "CloudFrontCertificateArn",
+ *   region: 'us-east-1'
+ * });
+ *
+ * // Get the value itself.
+ * certificateArnReader.value();
+ * ```
+ */
+export class SsmGlobal extends CustomResource.AwsCustomResource {
+  constructor(scope: Construct, name: string, props: SsmGlobalProps) {
+    const { parameterName, region } = props;
+
+    const ssmAwsSdkCall: CustomResource.AwsSdkCall = {
+      service: 'SSM',
+      action: 'getParameter',
+      parameters: {
+        Name: parameterName,
+      },
+      region,
+      physicalResourceId: CustomResource.PhysicalResourceId.of(Date.now().toString()),
+    };
+
+    const ssmCrPolicy = CustomResource.AwsCustomResourcePolicy.fromSdkCalls({
+      resources: [
+        Arn.format(
+          {
+            service: 'ssm',
+            region: props.region,
+            resource: 'parameter',
+            resourceName: removeLeadingSlash(parameterName),
+          },
+          Stack.of(scope),
+        ),
+      ],
+    });
+
+    super(scope, name, { onUpdate: ssmAwsSdkCall, policy: ssmCrPolicy });
+  }
+
+  /**
+   * Get the parameter value from the store.
+   */
+  public value(): string {
+    return this.getResponseField('Parameter.Value').toString();
+  }
+}
+```
+
+We now have everything we need to create our services.
+
+##### Services
+
+Now we are ready to get our `Services` stack set up!
 
 All files will live in the `deployment/` folder. We'll first adjust our `bin/deployment.ts`, adding our `Services` stack. Append the following at the end:
 
 ```typescript
 // ...
 import { Stack as ServicesStack } from "../lib/services/stack";
-import { Stack as ServicesCertificateStack } from "../lib/services/stack-certificate";
 // ...
 
 /**
@@ -1337,24 +1568,11 @@ import { Stack as ServicesCertificateStack } from "../lib/services/stack-certifi
  * UI applications and APIs.
  *
  * ```bash
- * bun run cdk deploy --concurrency 4 'Services' 'Services/**'
+ * bun run cdk deploy --concurrency 6 'Services/**'
  * ```
  */
 const servicesStackName = "Services";
 if (matchesStack(app, servicesStackName)) {
-  // Set up our us-east-1 specific resources.
-  const certificateStack = new ServicesCertificateStack(
-    app,
-    `${servicesStackName}Certificate`,
-    {
-      env: {
-        account: process.env.AWS_ACCOUNT_ID || process.env.CDK_DEFAULT_ACCOUNT,
-        region: "us-east-1",
-      },
-      crossRegionReferences: true,
-      domain: validateEnv("DOMAIN", `${servicesStackName}Certificate`),
-    }
-  );
   // Set up our service resources.
   new ServicesStack(app, servicesStackName, {
     env: {
@@ -1364,51 +1582,9 @@ if (matchesStack(app, servicesStackName)) {
         process.env.AWS_DEFAULT_REGION ||
         process.env.CDK_DEFAULT_REGION,
     },
-    crossRegionReferences: true,
     domain: validateEnv("DOMAIN", servicesStackName),
-    certificate: certificateStack.certificate,
+    certificateArnSsm: GLOBAL_CERTIFICATE_SSM,
   });
-}
-```
-
-We need to do a bit of a cross-region stack dance here, since CloudFront certificates can only live in `us-east-1`, but our actual services are defined in a different region. We split these two up into two different stacks, and then pass the certificate from the `ServicesCertificateStack` to the `ServicesStack`.
-
-Additionally, we need to enable `crossRegionReferences` down through all of our stacks that might access cross-region resources ([docs here](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib-readme.html#accessing-resources-in-a-different-stack-and-region)).
-
-Our `ServicesCertificateStack` points to our new stack which we will set up in `lib/services/stack-certificate.ts`:
-
-```typescript
-import * as cdk from "aws-cdk-lib";
-import { Construct } from "constructs";
-import * as route53 from "aws-cdk-lib/aws-route53";
-import * as acm from "aws-cdk-lib/aws-certificatemanager";
-
-interface StackProps extends cdk.StackProps {
-  /**
-   * The domain name the application is hosted under.
-   */
-  readonly domain: string;
-}
-
-export class Stack extends cdk.Stack {
-  public readonly certificate: acm.Certificate;
-
-  constructor(scope: Construct, id: string, props: StackProps) {
-    super(scope, id, props);
-
-    const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
-      domainName: props.domain,
-    });
-
-    // Importantly this has to live in us-east-1 for CloudFront to be able to use it.
-    // Set up an ACM certificate for the domain + subdomains, and validate it using DNS.
-    const cert = new acm.Certificate(this, "Certificate", {
-      domainName: props.domain,
-      subjectAlternativeNames: [`*.${props.domain}`],
-      validation: acm.CertificateValidation.fromDns(hostedZone),
-    });
-    this.certificate = cert;
-  }
 }
 ```
 
@@ -1417,8 +1593,9 @@ And our `ServicesStack` is defined in `lib/services/stack.ts`:
 ```typescript
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
+
 import * as s3Website from "./s3-website";
-import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import { SsmGlobal } from './ssm-global';
 
 interface StackProps extends cdk.StackProps {
   /**
@@ -1436,6 +1613,13 @@ export class Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: StackProps) {
     super(scope, id, props);
 
+    // Fetch the ARN of our CloudFront ACM Certificate from us-east-1.
+    const certificateArnReader = new SsmGlobal(this, 'SsmCertificateArn', {
+      parameterName: props.certificateArnSsm,
+      region: 'us-east-1',
+    });
+    const certificateArn = certificateArnReader.value();
+
     // Set up our s3 website for ui-app.
     new s3Website.Stack(this, "UiApp", {
       ...props,
@@ -1444,9 +1628,9 @@ export class Stack extends cdk.Stack {
       error: "404.html",
       domain: props.domain,
       hostedZone: props.domain,
-      certificateArn: props.certificate.certificateArn,
       billingGroup: "ui-app",
       rewriteUrls: true,
+      certificateArn: certificateArn,
     });
 
     // Set up our s3 website for ui-internal.
@@ -1457,8 +1641,8 @@ export class Stack extends cdk.Stack {
       error: "index.html",
       domain: `internal.${props.domain}`,
       hostedZone: props.domain,
-      certificateArn: props.certificate.certificateArn,
       billingGroup: "ui-internal",
+      certificateArn: certificateArn,
     });
   }
 }
@@ -1472,7 +1656,6 @@ This brings us to our final part, which is the most lengthy, our `lib/services/s
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as route53 from "aws-cdk-lib/aws-route53";
-import * as route53Patterns from "aws-cdk-lib/aws-route53-patterns";
 import * as route53Targets from "aws-cdk-lib/aws-route53-targets";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import * as lambda from "aws-cdk-lib/aws-lambda";
@@ -1628,13 +1811,6 @@ export class Stack extends cdk.Stack {
       target: route53.RecordTarget.fromAlias(
         new route53Targets.CloudFrontTarget(distribution)
       ),
-    });
-
-    // Make www redirect to the root domain.
-    new route53Patterns.HttpsRedirect(this, "Redirect", {
-      zone: hostedZone,
-      recordNames: [`www.${props.domain}`],
-      targetDomain: props.domain,
     });
   }
 }

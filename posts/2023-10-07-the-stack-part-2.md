@@ -103,11 +103,12 @@ Instead of setting this up from scratch, start from the template for this step i
 
 Our overall aim is to structure our CDK into three main groupings:
 
-- `Cloud`: Hosted Zones, VPC, Certificates, infrequently changing things
+- `Global`: "Global" (often `us-east-1`) specific things such as ACM Certificates for CloudFront, and we'll also put Hosted Zones here
+- `Cloud`: Region specific infrequently changing things such as VPC, Region-specific Certificates, etc
 - `Platform`: DynamoDB, Cache, SQS
 - `Services`: Lambdas, API Gateway, etc
 
-This split is based on the frequency something changes, and allows us to deploy freqeuently changing stacks without having to also look at things that very rarely change. In this part of the series we will set up the `Cloud` stack.
+This split is based on the frequency something changes, and allows us to deploy freqeuently changing stacks without having to also look at things that very rarely change. In this part of the series we will set up the `Global` stack.
 
 As you can see in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments), we structure our CDK stack as follows:
 
@@ -116,45 +117,47 @@ As you can see in the [GitHub repository](https://github.com/codetalkio/the-stac
     - `deployment.ts`: Our "executable" that CDK run run (defined in `cdk.json`)
     - `helpers.ts`: Helper functions to make our CDK code more readable and safe to run
   - `lib/`: The actual logic of our CDK stacks
-    - `cloud/`: Our 'Cloud' layer containing all the resources that are shared across all stacks
-      - `stack.ts`: Gathers all of our 'Cloud' stacks into one stack
+    - `global/`: Our 'Global' layer containing all the resources that are shared across all stacks
+      - `stack.ts`: Gathers all of our 'Global' stacks into one stack
       - `domain.ts`: Sets up our Hosted Zone and ACM certificates
 
 This might seem like overkill right now, but will benefit us quite quickly as we start adding more stacks to our project.
 
-In `deployment.ts` you'll see the root of our CDK stack. This is where we will define the three layers we mentioned earlier, `Cloud`, `Platform`, and `Services`. In CDK terminilogy these are called `Stack`s.
+In `deployment.ts` you'll see the root of our CDK stack. This is where we will define the three layers we mentioned earlier, `Global`, `Cloud`, `Platform`, and `Services`. In CDK terminilogy these are called `Stack`s.
 
-For now, we will only define the `Cloud` layer:
+For now, we will only define the `Global` layer:
 
 ```typescript
 // ...imports
 const app = new cdk.App();
 
 /**
- * Define our 'Cloud' stack that provisions the infrastructure for our application, such
- * as domain names, certificates, and other resources that are shared across all.
+ * Define our 'Global' stack that provisions the infrastructure for our application, such
+ * as domain names, certificates, and other resources that are shared across all regions.
  *
  * ```bash
- * bun run cdk deploy --concurrency 4 'Cloud' 'Cloud/**'
+ * bun run cdk deploy --concurrency 6 'Global/**'
  * ```
  */
-const cloudStackName = "Cloud";
-if (matchesStack(app, cloudStackName)) {
-  new CloudStack(app, cloudStackName, {
+const globalStackName = "Global";
+if (matchesStack(app, globalStackName)) {
+  // Some of our global resources need to live in us-east-1 (e.g. CloudFront certificates),
+  // so we set that as the region for all global resources.
+  new GlobalStack(app, globalStackName, {
     env: {
-      account: process.env.CDK_DEFAULT_ACCOUNT || process.env.AWS_ACCOUNT_ID,
-      region: process.env.CDK_DEFAULT_REGION || process.env.AWS_REGION,
+      account: process.env.AWS_ACCOUNT_ID || process.env.CDK_DEFAULT_ACCOUNT,
+      region: "us-east-1",
     },
-    domain: validateEnv("DOMAIN", cloudStackName),
+    domain: validateEnv("DOMAIN", globalStackName)
   });
 }
 ```
 
 We've set up some conveniences to easily run a single stack, via `matchesStack`, and to validate our environment variables, via `validateEnv`.
 
-Our `CloudStack` is then defined in `lib/cloud/stack.ts`, and more or less just pieces together the types and the sub-stacks in the `cloud/` directory.
+Our `GlobalStack` is then defined in `lib/global/stack.ts`, and more or less just pieces together the types and the sub-stacks in the `global/` directory.
 
-The interesting bit here is the call to `new domain.Stack` which is what actually kicks off the provisioning of resources, which are defined inside the `lib/cloud/domain.ts` file on layer deeper:
+The interesting bit here is the call to `new domain.Stack` which is what actually kicks off the provisioning of resources, which are defined inside the `lib/global/domain.ts` file on layer deeper:
 
 ```typescript
 // ...imports
@@ -170,7 +173,7 @@ export class Stack extends cdk.Stack {
 }
 ```
 
-And finally we get to the interesting part of it all in `lib/cloud/domain.ts`. This is the first place we are actually defining resources that will be deployed to AWS, by calling the CDK `Construct`s that are available to us. `Construct` is the CDK terminology for the actual resources we create, i.e. our building blocks.
+And finally we get to the interesting part of it all in `lib/global/domain.ts`. This is the first place we are actually defining resources that will be deployed to AWS, by calling the CDK `Construct`s that are available to us. `Construct` is the CDK terminology for the actual resources we create, i.e. our building blocks.
 
 We create our Hosted Zone via `new route53.HostedZone` and our ACM certificate via `new acm.Certificate`. You can find out more about each of these in the CDK docs:
 
@@ -646,7 +649,7 @@ _setup-deployment:
   cd deployment
   bun install
 
-# Deploy the specified <stack>, e.g. `just deploy Cloud`, defaulting to --all.
+# Deploy the specified <stack>, e.g. `just deploy 'Global/**'`, defaulting to --all.
 deploy stack='--all':
   #!/usr/bin/env bash
   set -euxo pipefail
@@ -680,7 +683,7 @@ $ just test deployment
 # Synthesize our CDK stack:
 $ just test synth
 # Deploy our CDK stack:
-$ just deploy # or just deploy Cloud
+$ just deploy # or just deploy Global
 ```
 
 
