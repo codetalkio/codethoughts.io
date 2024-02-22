@@ -1,6 +1,7 @@
 ---
 title: Briefly on the purpose of Functors, Applicatives and Monads
 tags: haskell
+date: 2015-11-28
 ---
 
 In a recent thread on [/r/haskell](https://www.reddit.com/r/haskell/) about how

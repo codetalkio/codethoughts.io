@@ -1,6 +1,7 @@
 ---
 title: Visual Studio Code on iPad
 tags: vscode, ipad, digital nomad
+date: 2020-03-20
 versions:
 - '`code-server` version 3.4.1'
 - 'Ubuntu 18.04 (should fit with most distros)'

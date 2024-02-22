@@ -1,6 +1,7 @@
 ---
 title: "API Migration & Modernization: Getting Creative"
 tags: migration, api, graphql, rest
+date: 2022-01-01
 ---
 
 

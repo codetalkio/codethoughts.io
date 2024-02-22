@@ -1,6 +1,7 @@
 ---
 title: S3 bucket specific policy
 tags: aws
+date: 2015-11-18
 ---
 
 I have recently started caring a bit more about security on my AWS

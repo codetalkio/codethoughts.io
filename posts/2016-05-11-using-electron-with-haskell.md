@@ -1,6 +1,7 @@
 ---
 title: Using Electron with Haskell
 tags: haskell, electron
+date: 2016-05-11
 versions:
 - 'Electron 1.0.1'
 - 'Stackage LTS 5.15'

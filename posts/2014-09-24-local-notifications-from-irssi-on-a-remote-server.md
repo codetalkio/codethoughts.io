@@ -1,6 +1,7 @@
 ---
 title: Local notifications from irssi on a remote server
 tags: irssi
+date: 2014-09-24
 versions:
 - OS X 10.9 Mavericks (should work on all, unless they change launchtl plists)
 - irssi v0.8.15

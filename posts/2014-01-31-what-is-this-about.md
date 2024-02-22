@@ -1,6 +1,7 @@
 ---
 title: What is this about?
 tags: ramblings
+date: 2014-01-31
 ---
 
 This blog will mostly serve as a personal memory pad. I often discover a process, learn something new or just am plain forgetful. Therefore I'll try to write down various things that I learn during my journey as a programmer and enthusiast on all things technical.

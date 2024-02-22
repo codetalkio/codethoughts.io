@@ -1,6 +1,7 @@
 ---
 title: Setting up UnrealIRCd and Anope IRC Services on EC2
 tags: irc, aws, unrealircd, anope
+date: 2015-11-18
 versions:
 - UnrealIRCd 4.0.0-rc3
 - Anope 2.0.2

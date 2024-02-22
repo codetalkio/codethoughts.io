@@ -1,6 +1,7 @@
 ---
 title: Live Migration of DynamoDB Tables
 tags: aws, dynamodb, sqs, migration
+date: 2020-03-19
 ---
 
 Recently I was faced with the challenge of having to migrate a set of AWS DynamoDB tables to completely new tables. We wanted to achieve this without affecting any of our users, and without having a maintenance window while migrating data from the old table to the new ones.

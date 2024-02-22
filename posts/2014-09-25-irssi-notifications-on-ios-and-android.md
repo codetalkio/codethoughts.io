@@ -1,6 +1,7 @@
 ---
 title: Irssi notifications on iOS and Android
 tags: irssi
+date: 2014-09-25
 ---
 
 Or really anywhere that [https://pushover.net](https://pushover.net) supports.

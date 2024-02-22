@@ -1,6 +1,7 @@
 ---
 title: "Your AWS Bill Tells a Story"
 tags: aws, cloud, infrastructure
+date: 2022-01-01
 ---
 
 What are we looking for?

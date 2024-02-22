@@ -1,6 +1,7 @@
 ---
 title: Common JSON patterns in Haskell, Rust, and TypeScript
 tags: haskell, lens, javascript, typescript, rust, records, serde, aeson
+date: 2020-04-05
 ---
 
 A lot of web development is transforming JSON one way or another. In TypeScript/JavaScript, this is straightforward, since JSON is built into the language. But can we also achieve good ergonomics in Haskell and Rust?

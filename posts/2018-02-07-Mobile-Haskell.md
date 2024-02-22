@@ -1,6 +1,7 @@
 ---
 title: Mobile Haskell (iOS)
 tags: haskell, mobile, iOS
+date: 2018-02-07
 versions:
 - 'Xcode Version 9.2 (9C40b)'
 - 'Cabal HEAD (commit [94a7374](https://github.com/haskell/cabal/commit/94a7374d7b1a9b55454209e92d5057ba81be7d6a){target="_blank" rel="noopener noreferrer"})'

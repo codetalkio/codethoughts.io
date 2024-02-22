@@ -1,6 +1,7 @@
 ---
 title: Compiling SCSS and JavaScript in Hakyll
 tags: haskell, hakyll
+date: 2016-05-10
 versions:
 - Hakyll 4.8.3.0
 - hjsmin 0.2.0.1

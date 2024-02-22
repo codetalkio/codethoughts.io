@@ -1,6 +1,7 @@
 ---
 title: Deploying with Vagrant
 tags: vagrant
+date: 2014-02-13
 versions:
 - Vagrant 1.4.3
 ---

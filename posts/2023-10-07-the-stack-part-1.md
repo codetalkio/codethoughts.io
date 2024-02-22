@@ -1,6 +1,7 @@
 ---
 title: "The Stack Part 1: Setting up your AWS Account Structure"
 tags: aws, cloud, infrastructure
+date: 2023-10-07
 ---
 
 In [the last post](/posts/2023-01-29-the-stack.html) we went over the overall goals of "The Stack" and what we will be building. In this post we'll be setting up our AWS Account structure. See the full overview of posts [here](/posts/2023-01-29-the-stack.html#what-will-we-be-covering).
