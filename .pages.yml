@@ -1,0 +1,43 @@
+media:
+  input: resources/images
+  output: /resources/images
+
+content:
+  - name: posts
+    label: Posts
+    path: posts
+    type: collection
+    filename: '{year}-{month}-{day}-{primary}.md'
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: tags
+        label: Tags
+        type: string
+        required: true
+      - name: versions
+        label: Versions
+        type: string
+        list: true
+        required: false
+  - name: drafts
+    label: Drafts
+    path: drafts
+    type: collection
+    filename: '{year}-{month}-{day}-{primary}.md'
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: tags
+        label: Tags
+        type: string
+        required: true
+      - name: versions
+        label: Versions
+        type: string
+        list: true
+        required: false
