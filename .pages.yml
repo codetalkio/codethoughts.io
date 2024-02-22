@@ -11,11 +11,7 @@ content:
     view:
       fields: [ title, tags, versions ]
       primary: title
-      sort: [ title ]
-      default:
-        search: ''
-        sort: title
-        order: desc
+      sort: [ date, title ]
     fields:
       - name: title
         label: Title
@@ -38,11 +34,7 @@ content:
     view:
       fields: [ title, tags, versions ]
       primary: title
-      sort: [ title ]
-      default:
-        search: ''
-        sort: title
-        order: desc
+      sort: [ date, title ]
     fields:
       - name: title
         label: Title
