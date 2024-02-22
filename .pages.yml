@@ -20,6 +20,7 @@ content:
       - name: tags
         label: Tags
         type: string
+        description: Comma-separated list of tags
         required: true
       - name: date
         label: Date
@@ -30,6 +31,7 @@ content:
       - name: versions
         label: Versions
         type: string
+        description: A list of relevant tool/software versions or commits used in the blog post
         list: true
         required: false
       - name: body
@@ -55,6 +57,7 @@ content:
       - name: tags
         label: Tags
         type: string
+        description: Comma-separated list of tags
         required: true
       - name: date
         label: Date
@@ -66,6 +69,7 @@ content:
         label: Versions
         type: string
         list: true
+        description: A list of relevant tool/software versions or commits used in the blog post
         required: false
       - name: body
         label: Body
