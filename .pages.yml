@@ -21,6 +21,12 @@ content:
         label: Tags
         type: string
         required: true
+      - name: date
+        label: Date
+        type: date
+        options:
+          format: YYYY-MM-DD
+        required: false
       - name: versions
         label: Versions
         type: string
@@ -44,6 +50,12 @@ content:
         label: Tags
         type: string
         required: true
+      - name: date
+        label: Date
+        type: date
+        options:
+          format: YYYY-MM-DD
+        required: false
       - name: versions
         label: Versions
         type: string
