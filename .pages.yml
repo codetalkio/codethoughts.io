@@ -8,6 +8,14 @@ content:
     path: posts
     type: collection
     filename: '{year}-{month}-{day}-{primary}.md'
+    view:
+      fields: [ title, tags, versions ]
+      primary: title
+      sort: [ title ]
+      default:
+        search: ''
+        sort: title
+        order: desc
     fields:
       - name: title
         label: Title
@@ -27,6 +35,14 @@ content:
     path: drafts
     type: collection
     filename: '{year}-{month}-{day}-{primary}.md'
+    view:
+      fields: [ title, tags, versions ]
+      primary: title
+      sort: [ title ]
+      default:
+        search: ''
+        sort: title
+        order: desc
     fields:
       - name: title
         label: Title
