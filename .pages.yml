@@ -32,6 +32,12 @@ content:
         type: string
         list: true
         required: false
+      - name: body
+        label: Body
+        type: rich-text
+        options:
+          format: markdown
+        required: true
   - name: drafts
     label: Drafts
     path: drafts
@@ -61,3 +67,9 @@ content:
         type: string
         list: true
         required: false
+      - name: body
+        label: Body
+        type: rich-text
+        options:
+          format: markdown
+        required: true
