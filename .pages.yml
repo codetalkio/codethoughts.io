@@ -9,7 +9,7 @@ content:
     type: collection
     filename: '{year}-{month}-{day}-{primary}.md'
     view:
-      fields: [ title, tags, versions ]
+      fields: [ title, tags, date ]
       primary: title
       sort: [ date, title ]
     fields:
@@ -38,7 +38,7 @@ content:
     type: collection
     filename: '{year}-{month}-{day}-{primary}.md'
     view:
-      fields: [ title, tags, versions ]
+      fields: [ title, tags, date ]
       primary: title
       sort: [ date, title ]
     fields:
