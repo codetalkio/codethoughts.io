@@ -479,7 +479,7 @@ export const setupSupergraph = <N extends Supergraph['service'], R extends Super
   supergraphRoutes: { [key: string]: string },
   stackFn: (additionalConfig?: Specific<Supergraph, { service: N; runtime: R }>) => string,
 ) => {
-  const isMainSupergraph = config.supergraph.service === name;
+  const isMainSupergraph = config.supergraph.service === name && config.supergraph.runtime === runtime;
   // We cast our result to `undefined | Specific` to narrow down the type.
   const additionalSupergraphConfig = config.experimental?.additionalSupergraphs?.find(
     (s) => s.service === name && s.runtime === runtime,
