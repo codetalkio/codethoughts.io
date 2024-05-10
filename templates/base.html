@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>codethoughts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="{{ get_url(path="styles/output.css", cachebust=true) | safe }}" rel="stylesheet" />
+    <link href="/styles/output.css?h={{ get_hash(path="/styles/output.css") }}"" rel="stylesheet" />
     <link
       rel="apple-touch-icon-precomposed"
       sizes="57x57"

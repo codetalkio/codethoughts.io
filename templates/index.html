@@ -2,21 +2,47 @@
 
 {% block content %}
 
-<div class="grid grid-cols-1">
-  <div class="flex justify-center">
-    {% set image = resize_image(path="logo/codethoughts logo (dark).png", width=200, height=5000, op="fit") %}
-    <img alt="codethoughts logo" src="{{ image.url | safe }}" />
+<div class="min-h-screen flex flex-col justify-between">
+  <div>
+    <div class="grid grid-cols-1 md:mt-20 mt-6 md:mb-20 mb-12">
+      <div class="flex justify-center">
+        {% set image = resize_image(path="logo/codethoughts logo (dark).png", width=200, height=5000, op="fit") %}
+        {# NOTE: We use the regex to remove the "static/" part in the path, and avoid using .url since that contains an absolute path which includes the domain name. #}
+        <img alt="codethoughts logo" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" />
+      </div>
+
+      <div class="flex justify-center">
+        <p>Christian Kjær Laustsen - <a href="https://github.com/Tehnix" target="_blank" rel="noopener nofollow noreferrer">GitHub</a> - <a href="https://www.linkedin.com/in/christian-kjaer-laustsen" target="_blank" rel="noopener nofollow noreferrer">LinkedIn</a></p>
+      </div>
+
+      <div class="flex justify-center">
+        <p>Want to reach me? 👇 <a href="#footer">Scroll to the bottom of this page to find out more!</a></p>
+      </div>
+    </div>
+
+    <div>
+      <p>
+        Click <a href="{{ get_url(path='@/blog/_index.md') }}">here</a> to see my
+        posts.
+      </p>
+
+      {% if paginator %}
+        <ul>
+          {% for page in paginator.pages %}
+          <li>
+            <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+            {# {{ page.summary | safe }}
+            <a href="{{ page.permalink }}#continue-reading">Continue Reading</a> #}
+          </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
   </div>
 
-  <div class="flex justify-center">
-    <h1 class="title">This is my blog made with Zola.</h1>
+  <div id="footer">
+    Footer content
   </div>
 </div>
 
-<div>
-  <p>
-    Click <a href="{{ get_url(path='@/blog/_index.md') }}">here</a> to see my
-    posts.
-  </p>
-</div>
 {% endblock content %}

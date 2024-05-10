@@ -554,9 +554,21 @@ video {
   --tw-contain-style:  ;
 }
 
+.absolute {
+  position: absolute;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
 }
 
 .block {
@@ -571,6 +583,10 @@ video {
   display: grid;
 }
 
+.min-h-screen {
+  min-height: 100vh;
+}
+
 .max-w-screen-md {
   max-width: 768px;
 }
@@ -579,8 +595,16 @@ video {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .justify-center {
   justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
 }
 
 :root {
@@ -598,4 +622,14 @@ video {
 body {
   color: var(--foreground);
   background: var(--background);
+}
+
+@media (min-width: 768px) {
+  .md\:mb-20 {
+    margin-bottom: 5rem;
+  }
+
+  .md\:mt-20 {
+    margin-top: 5rem;
+  }
 }
