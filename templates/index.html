@@ -1,0 +1,13 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+{% set image = resize_image(path="logo/codethoughts logo (dark).png", width=200, height=5000, op="fit") %}
+<img alt="codethoughts logo" src="{{ image.url | safe }}" />
+
+<h1 class="title">This is my blog made with Zola.</h1>
+<p>
+  Click <a href="{{ get_url(path='@/blog/_index.md') }}">here</a> to see my
+  posts.
+</p>
+{% endblock content %}

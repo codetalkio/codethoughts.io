@@ -1,53 +1,39 @@
 {
   "folders": [
     {
-      "name": "drafts",
-      "path": "drafts"
-    },
-    {
-      "name": "posts",
-      "path": "posts"
-    },
-    {
-      "name": "images",
-      "path": "resources/images"
-    },
-    {
-      "name": "thumbnails",
-      "path": "resources/images/unoptimized"
-    },
-    {
       "name": "project",
       "path": "."
+    },
+    {
+      "name": "legacy",
+      "path": "legacy"
     }
   ],
   "settings": {
     "editor.formatOnSave": true,
     "[yaml]": {
-      "editor.formatOnSave": false
+      "editor.formatOnSave": true
     },
     "[markdown]": {
+      "editor.formatOnSave": true
+    },
+    "[html]": {
       "editor.formatOnSave": false
     },
-    "workspaceKeybindings.codetalk.optimize-images.enabled": true
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/.ruby-lsp": true,
+      "_dist": true,
+      "legacy": true
+    }
   },
   "tasks": {
     "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Optimize Images",
-        "type": "shell",
-        // First install brew install rename. Then drop a file in resources/images/unoptimized and run this task.
-        // - Copy all PNG/JPG files to ./thumbnails
-        // - Move all PNG/JPG files to the images folder at ../
-        // - Rename all PNG/JPG files in ./thumbnails to have a .thumbnail.png/.thumbnail.jpg extension
-        // - Resize all PNG/JPG files in ./thumbnails to 70% of their original size
-        // - Move all PNG/JPG files in ./thumbnails to the images folder at ../../
-        "command": "(cp *.png ./thumbnails || true) && (cp *.jpg ./thumbnails || true) && (mv *.png ../ || true) && (mv *.jpg ../ || true) && cd ./thumbnails && ls && (rename 's/.png/.thumbnail.png/' *.png || true) && (rename 's/.jpg/.thumbnail.jpg/' *.jpg || true) && (mogrify -resize 70% *.thumbnail.png || true) && (mogrify -resize 70% *.thumbnail.jpg || true) && (mv *.png ../../ || true) && (mv *.jpg ../../ || true)",
-        "options": {
-          "cwd": "${workspaceFolder}/../resources/images/unoptimized"
-        }
-      }
-    ]
+    "tasks": []
   }
 }

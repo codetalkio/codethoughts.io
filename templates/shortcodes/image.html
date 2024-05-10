@@ -1,0 +1,8 @@
+{% set image = resize_image(path=page.colocated_path ~ path, width=width, height=5000, op="fit") %}
+{%- if path is matching("[.](jpg|png)$") -%}
+  <a href="{{ get_url(path=page.colocated_path ~ path) }}" target="_blank">
+    <img alt="{{ alt }}" src="{{ image.url | safe }}" />
+  </a>
+{%- else -%}
+  <img alt="{{ alt }}" src="{{ image.url | safe }}" />
+{%- endif %}
