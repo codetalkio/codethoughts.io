@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% import "macros/post.html" as macros %}
+
+{% block content %}
+<h1 class="title">{{ page.title }}</h1>
+
+<p class="subtitle">
+  <strong>
+    {{ page.author | default(value=config.author) }}
+    {{ page.date | date(format="%-e. %B %Y")  }}
+  </strong>
+</p>
+
+{% if page.taxonomies.tags %}
+  <p>
+    {% for tag in page.taxonomies.tags %}
+      <a href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}" itemprop="url">{{ tag }}</a>
+      {# Add comma in between tags. #}
+      {% if page.taxonomies.tags | length > 1 %}
+        {% if loop.index != page.taxonomies.tags | length %},{% endif %}
+      {% endif %}
+    {% endfor %}
+  </p>
+{% endif %}
+
+{{ macros::preprocess_post(resource=page) }}
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{# Macros inspired from https://zola.discourse.group/t/choose-table-of-content-position/506/2 #}
+{# ========================= #}
+{# === Table of contents === #}
+{# ========================= #}
+{%- macro toc(toc, level, depth) %}
+{%- if level == 1 %}
+  <div class="toc">
+{%- endif %}
+{%- if level != 1 %}
+  <ol class="h{{ level }}">
+{%- endif %}
+  {%- for h in toc %}
+    {%- if level != 1 %}
+      <li>
+        <a href="{{ h.permalink | safe }}">{{ h.title }}</a>
+    {%- endif %}
+    {% if h.children and level <= depth -%}
+        {{ self::toc(toc=h.children, level=level+1, depth=depth, heading=false) }}
+    {%- endif %}
+    {%- if level != 1 %}
+      </li>
+    {%- endif %}
+  {%- endfor %}
+{%- if level != 1 %}
+  </ol>
+{%- endif %}
+{%- if level == 1 %}
+  </div>
+{%- endif %}
+{%- endmacro %}
+
+{# =============================== #}
+{# === Preprocess the resource === #}
+{# =============================== #}
+{%- macro preprocess_post(resource) %}
+	{%- set content = resource.content %}
+	{%- if content is containing("<!-- toc -->") %}
+		{%- set content = content | replace(from="<!-- toc -->", to=self::toc(toc=resource.toc, level=1, depth=resource.extra.toc_depth | default(value=6))) %}
+	{%- endif -%}
+	{{ content | safe }}
+{%- endmacro %}

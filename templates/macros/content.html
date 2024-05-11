@@ -1,0 +1,25 @@
+{%- macro archive(resource) %}
+{# Fetch the section of the blog to access its pages. #}
+{% set section = get_section(path="posts/_index.md") %}
+{# Generate the archive overview. #}
+{% for year, posts in section.pages | group_by(attribute="year") %}
+    <h2>{{ year }}</h2>
+
+    <ul>
+    {% for post in posts %}
+        <li><a href="{{ post.permalink }}">{{ post.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% endfor %}
+{%- endmacro %}
+
+{# =============================== #}
+{# === Preprocess the resource === #}
+{# =============================== #}
+{%- macro preprocess_content(resource) %}
+	{%- set content = resource.content %}
+	{%- if content is containing("<!-- archive -->") %}
+		{%- set content = content | replace(from="<!-- archive -->", to=self::archive(resource=resource)) %}
+	{%- endif -%}
+	{{ content | safe }}
+{%- endmacro %}

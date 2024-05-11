@@ -1,8 +1,11 @@
 {% set image = resize_image(path=page.colocated_path ~ path, width=width, height=5000, op="fit") %}
+{# NOTE: We use the regex to remove the "static/" part in the path, and avoid using .url since that contains an absolute path which includes the domain name. #}
 {%- if path is matching("[.](jpg|png)$") -%}
   <a href="/{{ page.colocated_path ~ path }}" target="_blank">
-    <img alt="{{ alt }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" />
+    {# <img alt="{{ alt }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" /> #}
+    <img alt="{{ alt }}" src="/{{ image.url | safe }}" />
   </a>
 {%- else -%}
-  <img alt="{{ alt }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" />
+  {# <img alt="{{ alt }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" /> #}
+  <img alt="{{ alt }}" src="/{{ image.url | safe }}" />
 {%- endif %}
