@@ -6,8 +6,10 @@
   <div>
     <div class="grid grid-cols-1 md:mt-20 mt-6 md:mb-20 mb-12">
       <div class="flex justify-center">
-          {# <img alt="codethoughts logo" src="/logo/codethoughts logo (dark).svg" width="200px" height="200px" /> #}
-          <img alt="codethoughts logo" src="{{ get_url(path='logo/codethoughts logo (dark).svg') }}" width="200px" height="200px" />
+          {# Light mode #}
+          <img class="dark:hidden" alt="codethoughts logo (light)" src="{{ get_url(path='logo/codethoughts logo (transparent light).svg') }}" width="200px" height="200px" />
+          {# Dark mode #}
+          <img class="hidden dark:block" alt="codethoughts logo (dark)" src="{{ get_url(path='logo/codethoughts logo (transparent dark).svg') }}" width="200px" height="200px" />
       </div>
 
       <div class="flex justify-center">

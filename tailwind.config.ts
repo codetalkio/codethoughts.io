@@ -3,6 +3,7 @@ module.exports = {
   content: {
     files: ["./templates/**/*.html", "./theme/**/*.html"],
   },
+  darkMode: "selector",
   theme: {
     colors: {
       transparent: "transparent",
