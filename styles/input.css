@@ -3,18 +3,47 @@
 @tailwind utilities;
 
 :root {
-  --foreground: #3A373E;
-  --background: #F7F7F8;
+  --text-primary: theme("colors.light.text");
+  --foreground: var(--text-primary);
+  --background: theme("colors.light.background");
+  --link-color: theme("colors.blue.700");
+  --link-color-hover: theme("colors.blue.700");
+  --link-color-visited: theme("colors.blue.700");
+  --text-subtle: theme("colors.light.subtleText");
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: #F7F7F8;
-    --background: #0E1116;
+    --text-primary: theme("colors.dark.text");
+    --foreground: var(--text-primary);
+    --background: theme("colors.dark.background");
+    --link-color: theme("colors.blue.400");
+    --link-color-hover: theme("colors.blue.300");
+    --link-color-visited: theme("colors.blue.500");
+    --text-subtle: theme("colors.dark.subtleText");
   }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
+  a {
+    color: var(--link-color);
+    &:visited {
+      color: var(--link-color);
+    }
+    &:hover {
+      color: var(--link-color-hover);
+    }
+  }
+
+  a.text-subtle {
+    color: var(--text-subtle);
+    &:visited {
+      color: var(--text-subtle);
+    }
+    &:hover {
+      color: var(--link-color-hover);
+    }
+  }
 }

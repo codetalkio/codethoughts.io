@@ -4,7 +4,7 @@
 
 <div class="min-h-screen flex flex-col justify-between">
   <div>
-    <div class="grid grid-cols-1 md:mt-20 mt-6 md:mb-20 mb-12">
+    <div class="grid grid-cols-1 md:mt-20 mt-6 md:mb-20 mb-8">
       <div class="flex justify-center">
           {# Light mode #}
           <img class="dark:hidden" alt="codethoughts logo (light)" src="{{ get_url(path='logo/codethoughts logo (transparent light).svg') }}" width="200px" height="200px" />
@@ -13,35 +13,38 @@
       </div>
 
       <div class="flex justify-center">
-        <p>Christian Kjær Laustsen - <a href="https://github.com/Tehnix" target="_blank" rel="noopener nofollow noreferrer">GitHub</a> - <a href="https://www.linkedin.com/in/christian-kjaer-laustsen" target="_blank" rel="noopener nofollow noreferrer">LinkedIn</a></p>
+        <p class="text-base">Christian Kjær Laustsen — <a href="https://github.com/Tehnix" target="_blank" rel="noopener nofollow noreferrer">GitHub</a> — <a href="https://www.linkedin.com/in/christian-kjaer-laustsen" target="_blank" rel="noopener nofollow noreferrer">LinkedIn</a></p>
       </div>
 
       <div class="flex justify-center">
-        <p>Want to reach me? 👇 <a href="#footer">Scroll to the bottom of this page to find out more!</a></p>
+        <p class="text-subtle text-xs font-light pt-6">Want to reach me? 👇 <a class="text-subtle" href="#footer">Scroll to the bottom of this page to find out more!</a></p>
       </div>
     </div>
 
+    <div class="flex border-t border-t-solid border-black-50 md:mb-10 mb-4 md:mx-0 mx-4"></div>
+
     <div>
-      <p>
-        Click <a href="{{ get_url(path='@/posts/_index.md') }}">here</a> to see my
-        posts.
-      </p>
+      <a href="{{ get_url(path='@/posts/_index.md') }}">Recent posts</a> on the blog
 
       {% if paginator %}
-        <ul>
+        <ul class="list-none list-inside [&>*:nth-child(1)]:mt-4">
           {% for page in paginator.pages %}
-          <li>
-            <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+          <li class="ml-6">
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ page.permalink | safe }}">{{ page.title }}</a>
             {# {{ page.summary | safe }}
             <a href="{{ page.permalink }}#continue-reading">Continue Reading</a> #}
           </li>
           {% endfor %}
+          <li class="ml-6">
+            <a href="{{ get_url(path='@/posts/_index.md') }}">View more...</a>
+          </li>
         </ul>
       {% endif %}
     </div>
   </div>
 
-  <div id="footer">
+  <div id="footer" class="md:mt-16 mt-8 mb-8">
+    <div class="flex border-t border-t-solid border-black-50 md:mx-0 mx-4 mb-2"></div>
     <p>
       <a href="{{ get_url(path='@/pages/about.md') }}">about</a> the site
       <br />
