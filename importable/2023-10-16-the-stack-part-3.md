@@ -53,7 +53,7 @@ Next.js is one of the most popular React frameworks at the moment, and supports 
 
 We'll once again use [Bun](https://bun.sh/), which you can install via:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (1).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(1).sh
 
 While [bun unfortunately doesn't fully support the Next.js App Router yet](https://bun.sh/guides/ecosystem/nextjs) we will still rely on it for installing dependencies and being our general go-to tool for running anything JS related.
 
@@ -61,11 +61,11 @@ While [bun unfortunately doesn't fully support the Next.js App Router yet](https
 
 Let's get our Next.js app set up, which we will call `ui-app`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (2).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(2).sh
 
 This gets us quite far, we now have an App we can run, Tailwind CSS is already set up, and we got a lot of the structure set up for us:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (3).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(3).sh
 
 Voila, we've got a little Hello World Next.js app!
 
@@ -73,7 +73,7 @@ Voila, we've got a little Hello World Next.js app!
 
 We need to do just one small change to our Next.js setup to make it output static files for us. We'll do this by adding `output: "export"` to our `next.config.js` file at the root of `ui-app/`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=next.config.js.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=next.config.js
 
 We also enabled `trailingSlash` ([docs here](https://nextjs.org/docs/pages/api-reference/next-config-js/trailingSlash)) to make Next.js work nicely with CloudFront.
 
@@ -87,23 +87,23 @@ As our customer-base grows, we will inevitably run into the need to localization
 
 Let's start by adding the dependency:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (5).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(5).sh
 
 We'll also create a folder that will contain our localization files, which we'll call `messages/` in the root of the `ui-app/` project:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (6).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(6).sh
 
 This allows us to set up some text for our first languages. Create an English locale, `messages/en.json`, with the following:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=messages\en.json.json"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=messages%5Cen.json
 
 And also a French locale, in `messages/fr.json`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=messages\fr.json.json"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=messages%5Cfr.json
 
 To make this a bit nicer to work with, we'll also [add typesafety](https://next-intl-docs.vercel.app/docs/workflows/typescript) by letting TypeScript know what keys we support in our localization function. Create a `ui-app/global.d.ts` file with the following:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-app\global.d.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-app%5Cglobal.d.ts
 
 This ensures that if we misspell a key, or even remove one later on, we will be highlighted of the incorrect usage by TypeScript.
 
@@ -111,17 +111,17 @@ We can now set up a route using the App Router to pick up our locale. We'll want
 
 First we will create a folder where our localized pages will live in, and also clean up the default files that Next.js created for us:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (10).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(10).sh
 
 Let's create a simply page in here at `src/app/[locale]/page.tsx`, and get our welcome text from the localization file:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=src\app\[locale]\page.tsx.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=src%5Capp%5C%5Blocale%5D%5Cpage.tsx
 
 We'll need to mark the component as `'use client'` for now, while [next-intl is working on server-side support](https://next-intl-docs.vercel.app/docs/getting-started/app-router-server-components).
 
 Since we removed existing layout file, we need to define a new one that also handles setting up our localization at the root of our components. We'll create a `src/app/[locale]/layout.tsx` file with the following:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=src\app\[locale]\layout.tsx.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=src%5Capp%5C%5Blocale%5D%5Clayout.tsx
 
 To avoid needing to maintain a hardcoded list of locales, we dynamically find all the locales defined in our `messages/` folder during build time, and construct a list of supported locales from this. We then pass the contents of this into `NextIntlClientProvider`.
 
@@ -131,19 +131,19 @@ As the final piece of this puzzle, we need a way to let Next.js know where it sh
 
 We unfortunately cannot use [middlewares](https://next-intl-docs.vercel.app/docs/routing/middleware) when statically exporting our site, so we will instead redirect the user upon loading the page. Create a `src/app/page.tsx` file with the following:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=src\app\page.tsx.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=src%5Capp%5Cpage.tsx
 
 Along with a root layout file at `src/app/layout.tsx`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=14.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=14.ts
 
 You should now have a structure that looks like this:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (15).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(15).sh
 
 And that's it! We're now able to run our app and check it out in the browser:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (16).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(16).sh
 
 <div style="text-align:center;">
 <a href="/resources/images/the-stack-part-3-ui-app-skeleton.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-3-ui-app-skeleton.thumbnail.png" loading="lazy" alt="Screenshot of our ui-app" title="Screenshot of our ui-app" width="60%" /></a>
@@ -153,11 +153,11 @@ It may not look like much, but we've implemented a lot of the core functionality
 
 As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile.makefile"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile
 
 We'll also set up a new command for running our development server:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile.makefile"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Setting%20up%20Localization)
 
 ## Leptos (Rust/WASM)
 
@@ -169,35 +169,35 @@ Leptos should feel somewhat familiar, although it is more closely related to som
 
 We will be using Trunk for developing and building our Leptos App. Trunk is a great tool for developing Rust/WASM Apps, and is very similar to Bun (in a sense) in that it is a wrapper around the underlying tools. Let's install it first:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (19).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(19).sh
 
 We can then set up our project, which we'll call `ui-internal`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (20).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(20).sh
 
 We'll immediately adjust our `Cargo.toml` file with the dependencies we'll need, as well as a few common WASM optimizations for our release builds:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\Cargo.toml.toml"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5CCargo.toml
 
 And finally, we'll use Rust Nightly to develop our App, which gives us a few better ergonomics:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (22).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(22).sh
 
 Let's create a quick `index.html` file in the root of the `ui-internal/` folder, just to get started:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\index.html.html"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Cindex.html
 
 And replace the contents of our `src/main.rs`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\src\main.rs.rs"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Cmain.rs
 
 We'll also create a `src/app.rs` file with the following (we'll update this file later):
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\src\app.rs.rs"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs
 
 We can now run our App using Trunk:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (26).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(26).sh
 
 Voila, we've got a little Hello World Leptos app!
 
@@ -205,25 +205,25 @@ Voila, we've got a little Hello World Leptos app!
 
 Let's configure Tailwind CSS for our Leptos App. First, we need to tell Tailwind where to look for files that might contain our CSS classes. Create a `ui-internal/tailwind.config.ts` file with the following:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\tailwind.config.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Ctailwind.config.ts
 
 We also need to tell `trunk` to build Tailwind CSS as part of its build process. We can do this by creating a `ui-internal/Trunk.toml` file:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\Trunk.toml.toml"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5CTrunk.toml
 
 This let's `trunk` know that before it builds our WASM App, it should run the `bunx tailwindcss ...` command, which will generate our Tailwind CSS file, which it puts into `public/output.css`.
 
 Now, you might have noticed we also have an input file. Let's get that set up, along with a `resources/` folder:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (29).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(29).sh
 
 We'll then create our base Tailwind CSS file at `ui-internal/resources/input.css`, mimicing our Next.js setup:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\resources\input.css.css"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Cresources%5Cinput.css
 
 Final step, we need to pull in our Tailwind CSS file in our `index.html`. Update the contents to the following:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\index.html.html"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Cindex.html%20(Setting%20up%20Tailwind%20CSS)
 
 And that's it! We've now integrated Tailwind CSS into our Leptos App.
 
@@ -233,25 +233,25 @@ We're using [leptos_i18n](https://github.com/Baptistemontan/leptos_i18n) for loc
 
 We'll create a `ui-internal/messages/` folder where our locales will live:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (32).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(32).sh
 
 We'll define our first locale, English, in a `messages/en.json` file:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\messages\en.json.json"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Cmessages%5Cen.json
 
 And also a French locale, in a `messages/fr.json` file:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\messages\fr.json.json"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Cmessages%5Cfr.json
 
 [leptos_i18n](https://github.com/Baptistemontan/leptos_i18n#loading-the-locales) exposes a macro `load_locales!()` that looks for our configuration and generates code specific for our project that we can load in our App.
 
 Let's update `src/main.rs`, and also pull in a new module `home` in anticipation of creating splitting our code out from the current `app.rs` file:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\src\main.rs.rs"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Cmain.rs%20(Setting%20up%20Localization)
 
 Let's create a `src/home.rs` in which will use our locales:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\src\home.rs.rs"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Chome.rs
 
 The magic here comes from the `crate::i18n::*` which got generated by `leptos_i18n::load_locales!()`, and the `use_i18n` hook that we now got access to. Very similar to our Next.js App, we then call the macro `t!` to get the correct translation for the current locale, given a JSON key.
 
@@ -259,7 +259,7 @@ We're not entirely done yet, we need to tell our Leptos App about the `I18nConte
 
 Let's update `src/app.rs` to do this:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\src\app.rs.rs"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(Setting%20up%20Localization)
 
 There's a lot to unpack here, so let's go through it step by step.
 
@@ -271,22 +271,22 @@ The last part is the most interesting, so let's break down what we are doing ins
 
 First we get the current parameters, which we know will contain a `locale` key:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\src\app.rs.rs"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(38)
 
 We then create an effect that will run every time the parameters change, which will be every time the path changes:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal\src\app.rs.rs"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(39)
 
 The thing that makes our effect rerun is our usage of `i18n()` which subscribes us to the signal, and thus reruns the effect every time the locale changes.
 
 
 You should now have a structure that looks like this:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (40).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(40).sh
 
 And that's it! We're now able to run our app and check it out in the browser:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (41).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(41).sh
 
 <div style="text-align:center;">
 <a href="/resources/images/the-stack-part-3-ui-internal-skeleton.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/the-stack-part-3-ui-internal-skeleton.thumbnail.png" loading="lazy" alt="Screenshot of our ui-internal" title="Screenshot of our ui-internal" width="60%" /></a>
@@ -296,7 +296,7 @@ Again, it may not look like much, but we've implemented a lot of the core functi
 
 As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile.makefile"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(42)
 
 ## Bonus: End-to-End Tests
 
@@ -310,7 +310,7 @@ We want three different test suites to cover:
 
 Let's start by setting up our folder structure. Many of our configuration files will be the same across all three test suites, let's create an `end2end` folder for our projects:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (43).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(43).sh
 
 We intentionally make a distinction between `end2end/` and unit/integration tests which will live in `tests/`. These have very different requirements for how to run them, and we often want to run them at different times.
 
@@ -318,11 +318,11 @@ Before we can run anything, we will need a couple of other files to set up Playw
 
 Let's create a `tsconfig.json` for all for all three projects (`ui-app`, `ui-internal`, and `deployment`). We'll place it at `<project>/end2end/tsconfig.json`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=<project>\end2end\tsconfig.json.json"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=%3Cproject%3E%5Cend2end%5Ctsconfig.json
 
 Now, let's configure Playwright for all for all three projects (`ui-app`, `ui-internal`, and `deployment`). We'll place it at `<project>/end2end/playwright.config.ts`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=<project>\end2end\playwright.config.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=%3Cproject%3E%5Cend2end%5Cplaywright.config.ts
 
 There are some minor adjustments we want to do in the above configuration for each project:
 
@@ -333,35 +333,35 @@ There are some minor adjustments we want to do in the above configuration for ea
 
 And a `package.json` in `<project>/end2end/package.json`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=<project>\end2end\package.json.json"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=%3Cproject%3E%5Cend2end%5Cpackage.json
 
 We are now ready to add our first test! Since we have just added localization, let's make sure that it works and doesn't regress.
 
 For all three projects `ui-app`, `deployment`, and `ui-internal` we'll create a test in `<project>/end2end/tests/localization.spec.ts`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=<project>\end2end\tests\localization.spec.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=%3Cproject%3E%5Cend2end%5Ctests%5Clocalization.spec.ts
 
 This same test works for both apps since we've set them up with the same functionality.
 
 Let's try and run them:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (48).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(48).sh
 
 And for `deployment` we can test it locally by starting up `just dev ui-app` in another terminal, and then running:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (49).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(49).sh
 
 NOTE: You might want to add the following to your `.gitignore`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=50.name=.gitignore"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=50.name%3D.gitignore
 
 And that's it! We've now got an easy way to run End-to-End tests. Let's do our final step and add this to our `justfile`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile.makefile"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Bonus%3A%20End-to-End%20Tests)
 
 And we'll also update our `_setup-project` commands to setup the Playwright dependencies:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile.makefile"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(52)
 
 ## Bonus: DevEx Improvements
 
@@ -369,17 +369,17 @@ There are a few Editor improvements [that are recommended](https://leptos-rs.git
 
 Add to your settings:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.vscode\settings.json.json"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.vscode%5Csettings.json
 
 Another nice tool is [leptosfmt](https://github.com/bram209/leptosfmt), which helps keep our Leptos View macro code nicely formatted.
 
 You can install it via:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal (54).sh"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal%20(54).sh
 
 And then add this to your settings:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.vscode\settings.json.json"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.vscode%5Csettings.json%20(Bonus%3A%20DevEx%20Improvements)
 
 ## Automating Deployments via CDK
 
@@ -405,11 +405,11 @@ In this part we will be doing the following:
 
 Let's start with our `wf-build-ui-app.yml` workflow:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github\workflows\wf-build-ui-app.yml.yaml"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github%5Cworkflows%5Cwf-build-ui-app.yml
 
 And our `wf-build-ui-internal.yml` workflow:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github\workflows\wf-build-ui-internal.yml.yaml"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github%5Cworkflows%5Cwf-build-ui-internal.yml
 
 Both of these workflows take two optional arguments:
 
@@ -424,17 +424,17 @@ This means we can easily reuse these builds from our CI workflows. Once our jobs
 
 With these in place we can now stitch them together in a `wf-build.yml`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github\workflows\wf-build.yml.yaml"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github%5Cworkflows%5Cwf-build.yml
 
 Not much going on here, we are simply calling our previously defined reuseable workflows.
 
 We can now update our `cd-deploy.yml` workflow to call our new `wf-build.yml` workflow. To do this, we extend the existing file by adding a `build-artifacts` job as well as mark our `stage-1` job as `needs: [build-artifacts]`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github\workflows\cd-deploy.yml.yaml"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github%5Cworkflows%5Ccd-deploy.yml
 
 The final change we need to make is to make our `wf-deploy.yml` workflow download the artifacts we just built:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github\workflows\wf-deploy.yml.yaml"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.github%5Cworkflows%5Cwf-deploy.yml
 
 The new additions here are the steps:
 
@@ -446,7 +446,7 @@ The new additions here are the steps:
 
 The `deploy-validate-artifacts` command is defined in our `justfile`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile.makefile"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Building%20artifacts%20in%20CI)
 
 
 #### Deploying to S3 + CloudFront
@@ -479,25 +479,25 @@ We will essentially:
 
 Let's set up our new Certificate first. We'll adjust the existing `GlobalStack` slightly in `bin/deployment.ts`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments\bin\deployment.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Cbin%5Cdeployment.ts
 
 We've introduced `GLOBAL_CERTIFICATE_SSM` which will be how we share the name of the parameter across stacks, and `certificateArnSsm` as a property to our `GlobalStack`.
 
 Let's set up the certificate before we stitch it into our `GlobalStack`. We'll create a new file `lib/global/certificate.ts`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments\lib\global\certificate.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Clib%5Cglobal%5Ccertificate.ts
 
 The last step in the stack stores the `certificateArn` in the SSM Parameter Store.
 
 Finally, we adjust `lib/global/stack.ts` to now look like:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments\lib\global\stack.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Clib%5Cglobal%5Cstack.ts
 
 Instead of passing the Hosted Zone into the certificate stack, we explicitly mark the certificate as dependent on the domain stack to ensure the hosted zone exists before we try to access it. Again, avoiding exports.
 
 Normally SSM doesn't take the region as a parameter, so to access the parameter from `us-east-1` we'll set up a new construct in `lib/services/ssm-global.ts`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments\lib\services\ssm-global.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Clib%5Cservices%5Cssm-global.ts
 
 We now have everything we need to create our services.
 
@@ -507,21 +507,21 @@ Now we are ready to get our `Services` stack set up!
 
 All files will live in the `deployment/` folder. We'll first adjust our `bin/deployment.ts`, adding our `Services` stack. Append the following at the end:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments\bin\deployment.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Cbin%5Cdeployment.ts%20(Services)
 
 And our `ServicesStack` is defined in `lib/services/stack.ts`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments\lib\services\stack.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Clib%5Cservices%5Cstack.ts
 
 In here we deploy both `ui-app` and `ui-internal` the same way, but do some minor adjustments to the props we pass on to the stack to ensure it gets the right assets and also the right domain.
 
 This brings us to our final part, which is the most lengthy, our `lib/services/s3-website.ts`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments\lib\services\s3-website.ts.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Clib%5Cservices%5Cs3-website.ts
 
 And our Lambda@Edge function to rewrite urls is defined in `edge-functions/rewrite-urls.js`:
 
-<script src="https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments\edge-functions\rewrite-urls.js.ts"></script>
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Cedge-functions%5Crewrite-urls.js
 
 
 There is quite a bit going on here. A rough overview of what is happening:
