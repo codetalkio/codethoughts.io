@@ -271,11 +271,11 @@ The last part is the most interesting, so let's break down what we are doing ins
 
 First we get the current parameters, which we know will contain a `locale` key:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(Setting%20up%20Localization).rs
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(38).rs
 
 We then create an effect that will run every time the parameters change, which will be every time the path changes:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(Setting%20up%20Localization).rs
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(39).rs
 
 The thing that makes our effect rerun is our usage of `i18n()` which subscribes us to the signal, and thus reruns the effect every time the locale changes.
 
@@ -296,7 +296,7 @@ Again, it may not look like much, but we've implemented a lot of the core functi
 
 As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Setting%20up%20Localization).makefile
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(42).makefile
 
 ## Bonus: End-to-End Tests
 
@@ -361,7 +361,7 @@ https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile
 
 And we'll also update our `_setup-project` commands to setup the Playwright dependencies:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Bonus%3A%20End-to-End%20Tests).makefile
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(52).makefile
 
 ## Bonus: DevEx Improvements
 

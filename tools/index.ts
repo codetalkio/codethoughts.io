@@ -36,7 +36,7 @@ const octokit = new Octokit({ auth: GITHUB_TOKEN });
 const createGist = async (
   filename: string,
   codeBlocks: CodeBlock[]
-): GistMetadata => {
+): Promise<GistMetadata> => {
   // Convert our codeblocks to files.
   const files: GistFiles = {};
   let i = 0;
@@ -64,17 +64,19 @@ const createGist = async (
     const gistMetadata = await file.json();
     console.log(`Updating gist ${gistMetadata.id} (${gistMetadata.url})`);
 
-    // Check if we need to remove any old files and set their filename to an
-    // empty object.
-    const existingGist = await octokit.rest.gists.get({
-      gist_id: gistMetadata.id,
-    });
-    const oldFiles = Object.keys(existingGist.data.files ?? {});
-    oldFiles.forEach((oldFilename) => {
-      if (!(oldFilename in files)) {
-        files[oldFilename] = {} as any;
-      }
-    });
+    // NOTE: We've disabled this for now, to avoid making already migrated posts
+    // contain broken links.
+    // // Check if we need to remove any old files and set their filename to an
+    // // empty object.
+    // const existingGist = await octokit.rest.gists.get({
+    //   gist_id: gistMetadata.id,
+    // });
+    // const oldFiles = Object.keys(existingGist.data.files ?? {});
+    // oldFiles.forEach((oldFilename) => {
+    //   if (!(oldFilename in files)) {
+    //     files[oldFilename] = {} as any;
+    //   }
+    // });
 
     const response = await octokit.rest.gists.update({
       gist_id: gistMetadata.id,
