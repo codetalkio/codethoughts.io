@@ -4,7 +4,7 @@ tags: rust, wasm, leptos, mobile, capacitor, swift, xcode
 date: 2024-06-25
 ---
 
-After having spent the better part of two months deep in the trenches of iOS development with Swift, I can comfortably say: Web Development simple is more mature.
+After having spent the better part of two months deep in the trenches of iOS development with Swift, I can comfortably say: Web Development simply is more mature.
 
 Let’s just run over a few things I ran into that’s bad, broken, or made for a poor experience:
 
