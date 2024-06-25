@@ -57,7 +57,7 @@ pub mod plugins;
 
 And finally, let’s update our dependencies of the Rust project in `./capacitor-rs/Cargo.toml`:
 
-```toml name=capacitor-rs/Cargo.toml
+```toml
 [package]
 name = "capacitor-rs"
 version = "0.1.0"
