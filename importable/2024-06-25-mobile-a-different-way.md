@@ -178,7 +178,7 @@ In the Android Simulator:
 Same application on the Web:
 
 <div style="text-align:center;">
-<a href="/resources/images/mobile-a-different-way-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-web.png" loading="lazy" alt="Final result on the Web" title="Final result on the Web" width="35%" /></a>
+<a href="/resources/images/mobile-a-different-way-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-web.png" loading="lazy" alt="Final result on the Web" title="Final result on the Web" width="80%" /></a>
 </div>
 
 The Widget Extension in the XCode Preview:
