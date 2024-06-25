@@ -176,23 +176,23 @@ A neat way to "do the same thing" over a set of different things is to utilize t
 
 This is what the `strategy` section does, and it then feeds this into the `environment` which tells GitHub Actions which environment variables and secrets are available, as well as automatically tracks our deployments in the GitHub UI:
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(Boostrap%20Workflow)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(Boostrap%20Workflow).yaml
 
 Now, what would happen if we ran this multiple times in parallel on the same environment? Probably not something we'd like to find out.
 
 To prevent this, we can tell GitHub to only allow one job to run at a time, given a group identifier. We do this by adding a `concurrency` control to our workflow ([docs here](https://docs.github.com/en/actions/using-jobs/using-concurrency)):
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(6)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(Boostrap%20Workflow).yaml
 
 And finally, we get to the actual steps of logic we are performing. First we'll checkout our code, set up bun, and then use bun to install our dependencies:
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(7)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(Boostrap%20Workflow).yaml
 
 Now we're ready to bootstrap! We use the variables and secrets we defined previously. Since we told GitHub which environment we are running in, it will automatically know where to pull this from. This saves us the headache of weird hacks such as `AWS_ACCESS_KEY_ID_FOR_INTEGRATION_TEST` or something similar.
 
 We pull in what we need, and then run the `cdk bootstrap` command via bun:
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(8)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(Boostrap%20Workflow).yaml
 
 ### Deployment Workflow
 
@@ -223,23 +223,23 @@ https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%
 
 All good and well, so let's start defining our jobs. Ignore the `uses` for now, that's a reuseable workflow which we'll get back to later in **Part 2** of this section:
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(Deployment%20Workflow)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(Deployment%20Workflow).yaml
 
 We first initiate our **Stage 1** deployment, specifying that it's the `Integration Test` environment. We also allow the the reuseable workflow (defined in `wf-deploy.yml`) to inherit all secrets from the caller.
 
 Next, we want to run our checks, but only after our **Stage 1** job has finished running successfully. To do this we use `needs` to define a dependency on a previous job ([docs here](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds)).
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(11)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(Deployment%20Workflow).yaml
 
 We aren't doing much interesting for now in our test job, since we are only deploying a Domain, but this will be helpful later on when we start setting up our Frontend and APIs.
 
 Similarly, we use `needs` again to specify how we move into **Stage 2**. We first set up `Production Single-tenant`:
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(12)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(Deployment%20Workflow).yaml
 
 And do the same for our `Production Multi-tenant` environment:
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(13)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(Deployment%20Workflow).yaml
 
 We could have been using using build `matrix`'s again, but that would mean that the checks for **Stage 2** would only proceed after *both* of the Jobs completed. We would prefer that they check *immediately* once the deployment is done, so instead we split up these two into their own Jobs manually.
 
@@ -263,15 +263,15 @@ Here we simply specify that we require an `environment` to be passed along. We w
 
 We can now proceed to the logic, which resembles the `cd-bootstrap` workflow we looked at earlier. We first set up our environment, concurrency group, and then install our dependencies:
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml%20(Deployment%20Workflow)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml%20(Deployment%20Workflow).yaml
 
 Before we proceed to actually deploying anything, we want to sanity check that our deployment looks valid. We do this by trying to first synthesize the whole deployment ([some info on synth here](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)), and then run whatever test suite we have:
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml%20(16)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml%20(Deployment%20Workflow).yaml
 
 Everything should now be good, so let's run our actual deployment:
 
-https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml%20(17)
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml%20(Deployment%20Workflow).yaml
 
 And there we go! We've now automated our deployment flow, and no longer have to worry about manually deploying things to our environments.
 

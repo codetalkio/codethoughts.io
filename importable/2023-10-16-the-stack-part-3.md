@@ -157,7 +157,7 @@ https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile
 
 We'll also set up a new command for running our development server:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Setting%20up%20Localization)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Setting%20up%20Localization).makefile
 
 ## Leptos (Rust/WASM)
 
@@ -223,7 +223,7 @@ https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-inter
 
 Final step, we need to pull in our Tailwind CSS file in our `index.html`. Update the contents to the following:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Cindex.html%20(Setting%20up%20Tailwind%20CSS)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Cindex.html%20(Setting%20up%20Tailwind%20CSS).html
 
 And that's it! We've now integrated Tailwind CSS into our Leptos App.
 
@@ -247,7 +247,7 @@ https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-inter
 
 Let's update `src/main.rs`, and also pull in a new module `home` in anticipation of creating splitting our code out from the current `app.rs` file:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Cmain.rs%20(Setting%20up%20Localization)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Cmain.rs%20(Setting%20up%20Localization).rs
 
 Let's create a `src/home.rs` in which will use our locales:
 
@@ -259,7 +259,7 @@ We're not entirely done yet, we need to tell our Leptos App about the `I18nConte
 
 Let's update `src/app.rs` to do this:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(Setting%20up%20Localization)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(Setting%20up%20Localization).rs
 
 There's a lot to unpack here, so let's go through it step by step.
 
@@ -271,11 +271,11 @@ The last part is the most interesting, so let's break down what we are doing ins
 
 First we get the current parameters, which we know will contain a `locale` key:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(38)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(Setting%20up%20Localization).rs
 
 We then create an effect that will run every time the parameters change, which will be every time the path changes:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(39)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=ui-internal%5Csrc%5Capp.rs%20(Setting%20up%20Localization).rs
 
 The thing that makes our effect rerun is our usage of `i18n()` which subscribes us to the signal, and thus reruns the effect every time the locale changes.
 
@@ -296,7 +296,7 @@ Again, it may not look like much, but we've implemented a lot of the core functi
 
 As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(42)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Setting%20up%20Localization).makefile
 
 ## Bonus: End-to-End Tests
 
@@ -357,11 +357,11 @@ https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=50.name%
 
 And that's it! We've now got an easy way to run End-to-End tests. Let's do our final step and add this to our `justfile`:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Bonus%3A%20End-to-End%20Tests)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Bonus%3A%20End-to-End%20Tests).makefile
 
 And we'll also update our `_setup-project` commands to setup the Playwright dependencies:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(52)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Bonus%3A%20End-to-End%20Tests).makefile
 
 ## Bonus: DevEx Improvements
 
@@ -379,7 +379,7 @@ https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=terminal
 
 And then add this to your settings:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.vscode%5Csettings.json%20(Bonus%3A%20DevEx%20Improvements)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=.vscode%5Csettings.json%20(Bonus%3A%20DevEx%20Improvements).json
 
 ## Automating Deployments via CDK
 
@@ -446,7 +446,7 @@ The new additions here are the steps:
 
 The `deploy-validate-artifacts` command is defined in our `justfile`:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Building%20artifacts%20in%20CI)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=justfile%20(Building%20artifacts%20in%20CI).makefile
 
 
 #### Deploying to S3 + CloudFront
@@ -507,7 +507,7 @@ Now we are ready to get our `Services` stack set up!
 
 All files will live in the `deployment/` folder. We'll first adjust our `bin/deployment.ts`, adding our `Services` stack. Append the following at the end:
 
-https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Cbin%5Cdeployment.ts%20(Services)
+https://gist.github.com/Tehnix/1bba1d79dd4c917a901e93bd588be471.js?file=deployments%5Cbin%5Cdeployment.ts%20(Services).ts
 
 And our `ServicesStack` is defined in `lib/services/stack.ts`:
 
