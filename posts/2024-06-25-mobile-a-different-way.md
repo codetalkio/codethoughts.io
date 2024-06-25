@@ -4,7 +4,7 @@ tags: rust, wasm, leptos, mobile, capacitor, swift, xcode
 date: 2024-06-25
 ---
 
-After having spent the better part of two months deep in the trenches of iOS development with Swift, I can comfortably say: Web Development simple is more mature.
+After having spent the better part of two months deep in the trenches of iOS development with Swift, I can comfortably say: Web Development simply is more mature.
 
 Let’s just run over a few things I ran into that’s bad, broken, or made for a poor experience:
 
@@ -19,7 +19,7 @@ Let’s just run over a few things I ran into that’s bad, broken, or made for 
 - UI performance issues are very easy to sneak in, and very hard to track down
 - Apple’s frameworks sure do have a lot of bugs and you’ll commonly see stuff being broken almost permanently
 
-Admittedly, these might be trivial grips for someone that has spent years in the Mobile ecosystem, but they certainly didn’t make me fall in love with it. More importantly, it wasn’t really providing a great user experience either.
+Admittedly, these might be trivial gripes for someone that has spent years in the Mobile ecosystem, but they certainly didn’t make me fall in love with it. More importantly, it wasn’t really providing a great user experience either.
 
 ….so what’s the alternative?
 
