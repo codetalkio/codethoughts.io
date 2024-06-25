@@ -172,40 +172,7 @@ To avoid this:
 
 Replace `AWS_REGION`, `AWS_ACCOUNT_ID`, and `KMS_KEY_ID` and insert the following:
 
-```json name=policy
-{
-    "Sid": "Allow Config to use KMS for encryption",
-    "Effect": "Allow",
-    "Principal": {
-        "Service": "config.amazonaws.com"
-    },
-    "Action": [
-        "kms:Decrypt",
-        "kms:GenerateDataKey"
-    ],
-    "Resource": "arn:aws:kms:AWS_REGION:AWS_ACCOUNT_ID:key/KMS_KEY_ID"
-},
-{
-    "Sid": "Allow CloudTrail to use KMS for encryption",
-    "Effect": "Allow",
-    "Principal": {
-        "Service": "cloudtrail.amazonaws.com"
-    },
-    "Action": [
-        "kms:GenerateDataKey*",
-        "kms:Decrypt"
-    ],
-    "Resource": "arn:aws:kms:AWS_REGION:AWS_ACCOUNT_ID:key/KMS_KEY_ID",
-    "Condition": {
-        "StringEquals": {
-            "aws:SourceArn": "arn:aws:cloudtrail:AWS_REGION:AWS_ACCOUNT_ID:trail/aws-controltower-BaselineCloudTrail"
-        },
-        "StringLike": {
-            "kms:EncryptionContext:aws:cloudtrail:arn": "arn:aws:cloudtrail:*:AWS_ACCOUNT_ID:trail/*"
-        }
-    }
-}
-```
+<script src="https://gist.github.com/Tehnix/7746c4a8f2340d563890a0db519d8d84.js?file=policy.json"></script>
 
 This ensures that both Config and CloudTrail can use the key for encryption and decryption.
 
