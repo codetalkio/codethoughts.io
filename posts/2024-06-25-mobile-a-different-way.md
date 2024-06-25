@@ -77,7 +77,9 @@ If you want to develop an iOS Widget ([those little things](https://support.appl
 
 Here’s an example of a Widget for a Todo App, providing interactivity from the Home Screen:
 
+<div style="text-align:center;">
 <a href="/resources/images/mobile-a-different-way-widget-screenshot.jpeg" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-widget-screenshot.thumbnail.jpeg" loading="lazy" alt="Screenshot of Capacitor an iOS Widget" title="Screenshot of Capacitor an iOS Widget" width="100%" /></a>
+</div>
 
 This seemingly innocuous example is also where most of our options get limited and we’ll have to get a bit creative with how we solve it.
 
@@ -106,7 +108,9 @@ Luckily, for Capacitor, that’s not entirely the case. We can open XCode and ad
 
 That looks like this in XCode:
 
+<div style="text-align:center;">
 <a href="/resources/images/mobile-a-different-way-xcode-adding-targets.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-xcode-adding-targets.thumbnail.png" loading="lazy" alt="Adding additional Targets in Xcode" title="Adding additional Targets in Xcode" width="100%" /></a>
+</div>
 
 The limitation here is that these additional targets only support native code (i.e. Swift), which neatly brings us onto our next section.
 
@@ -148,7 +152,7 @@ Once you’ve done the initial project setup (for building the targets and gener
 
 Let’s make a small example of code using `uniffi` would look like:
 
-```rust name=uniffi-example.rs
+```rust
 uniffi::setup_scaffolding!();
 
 #[derive(uniffi::Enum)]
@@ -170,39 +174,47 @@ pub fn eat_fruit(fruit: Fruits) -> String {
 
 How do we call the generated code? As you would any other Swift code!
 
-```swift name=Example.swift
+```swift
 // Calling our Rust function with our Rust enum as an argument.
 eatFruit(fruit: Fruits.watermelon)
 ```
 
-```swift name=Example.swift
+```swift
 // It'll work everywhere you'd expect it to, e.g. in String interpolation here.
 Text("Ready? \(eatFruit(fruit: Fruits.watermelon))")
 ```
 
 Final result in the iOS Simulator, running our Web App as a Mobile App:
 
-<a href="/resources/images/mobile-a-different-way-ios-simulator.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-ios-simulator.thumbnail.png" loading="lazy" alt="Final result in the iOS Simulator" title="Final result in the iOS Simulator" width="100%" /></a>
+Final result in the iOS Simulator, running our Web App as a Mobile App:
+
+
+<div style="text-align:center;">
+<a href="/resources/images/mobile-a-different-way-ios-simulator.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-ios-simulator.thumbnail.png" loading="lazy" alt="Final result in the iOS Simulator" title="Final result in the iOS Simulator" width="35%" /></a>
+</div>
 
 In the Android Simulator:
 
-<a href="/resources/images/mobile-a-different-way-android-simulator.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-android-simulator.thumbnail.png" loading="lazy" alt="Final result in the Android Simulator" title="Final result in the Android Simulator" width="100%" /></a>
+<div style="text-align:center;">
+<a href="/resources/images/mobile-a-different-way-android-simulator.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-android-simulator.thumbnail.png" loading="lazy" alt="Final result in the Android Simulator" title="Final result in the Android Simulator" width="35%" /></a>
+</div>
 
 Same application on the Web:
 
-  <a href="/resources/images/mobile-a-different-way-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-web.thumbnail.png" loading="lazy" alt="Final result on the Web" title="Final result on the Web" width="100%" /></a>
+<div style="text-align:center;">
+<a href="/resources/images/mobile-a-different-way-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-web.thumbnail.png" loading="lazy" alt="Final result on the Web" title="Final result on the Web" width="35%" /></a>
+</div>
 
 The Widget Extension in the XCode Preview:
 
+<div style="text-align:center;">
 <a href="/resources/images/mobile-a-different-way-widget-preview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-widget-preview.thumbnail.png" loading="lazy" alt="Final result as a Widget Preview in Xcode" title="Final result as a Widget Preview in Xcode" width="100%" /></a>
+</div>
 
 The watchOS App in the XCode Preview:
 
+<div style="text-align:center;">
 <a href="/resources/images/mobile-a-different-way-watchos-preview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-watchos-preview.thumbnail.png" loading="lazy" alt="Final result as a watchOS Preview in Xcode" title="Final result as a watchOS Preview in Xcode" width="100%" /></a>
-
-<div class="callout">
-  <div class="callout-bulb">💡</div>
-  Remember to change your Target in the Run Bar (Top Bar) in XCode to get the Preview to compile. Goes for both the Widget Extension and the watchOS App.
 </div>
 
 **Choice**: Rust with [UniFFI](https://mozilla.github.io/uniffi-rs/latest/)
