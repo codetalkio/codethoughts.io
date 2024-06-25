@@ -106,9 +106,9 @@ export const codeblocks = (src: string, lang: string): CodeBlock[] => {
         if (!usedFilenames.includes(sanitizedName)) {
           name = `${sanitizedName}`;
         } else if (!usedFilenames.includes(alternativeName)) {
-          name = `${alternativeName}`;
+          name = `${alternativeName}.${fileExtension}`;
         } else {
-          name = `${sanitizedName} (${codeblocks.length + 1})`;
+          name = `${sanitizedName} (${codeblocks.length + 1}).${fileExtension}`;
         }
         usedFilenames.push(name);
         break;

@@ -172,7 +172,7 @@ To avoid this:
 
 Replace `AWS_REGION`, `AWS_ACCOUNT_ID`, and `KMS_KEY_ID` and insert the following:
 
-<script src="https://gist.github.com/Tehnix/7746c4a8f2340d563890a0db519d8d84.js?file=policy.json"></script>
+https://gist.github.com/Tehnix/7746c4a8f2340d563890a0db519d8d84.js?file=policy.json
 
 This ensures that both Config and CloudTrail can use the key for encryption and decryption.
 

@@ -128,7 +128,7 @@ In `deployment.ts` you'll see the root of our CDK stack. This is where we will d
 
 For now, we will only define the `Global` layer:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=deployment\bin\deployment.ts"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=deployment%5Cbin%5Cdeployment.ts
 
 We've set up some conveniences to easily run a single stack, via `matchesStack`, and to validate our environment variables, via `validateEnv`.
 
@@ -136,7 +136,7 @@ Our `GlobalStack` is then defined in `lib/global/stack.ts`, and more or less jus
 
 The interesting bit here is the call to `new domain.Stack` which is what actually kicks off the provisioning of resources, which are defined inside the `lib/global/domain.ts` file on layer deeper:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=deployment\lib\global\domain.ts"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=deployment%5Clib%5Cglobal%5Cdomain.ts
 
 And finally we get to the interesting part of it all in `lib/global/domain.ts`. This is the first place we are actually defining resources that will be deployed to AWS, by calling the CDK `Construct`s that are available to us. `Construct` is the CDK terminology for the actual resources we create, i.e. our building blocks.
 
@@ -147,7 +147,7 @@ We create our Hosted Zone via `new route53.HostedZone` and our ACM certificate v
 
 Let's get our resources defined:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=lib\global\domain.ts"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=lib%5Cglobal%5Cdomain.ts
 
 This sets up a Hosted Zone and an ACM certificate for our domain, and configures it to validate the Certificate via DNS validation.
 
@@ -168,7 +168,7 @@ The GitHub Actions YAML might feel a bit verbose, so let's break it down a bit. 
 
 We first define our name and the trigger. Because we only want this to be triggered manually (bootstrapping just needs to run once) we can use `workflow_dispatch` which allows us to trigger it from the GitHub Actions UI ([docs here](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch)):
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-bootstrap.yml"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml
 
 With that in place, let's take a look at the logic we are running.
 
@@ -176,23 +176,23 @@ A neat way to "do the same thing" over a set of different things is to utilize t
 
 This is what the `strategy` section does, and it then feeds this into the `environment` which tells GitHub Actions which environment variables and secrets are available, as well as automatically tracks our deployments in the GitHub UI:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-bootstrap.yml (Boostrap Workflow)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(Boostrap%20Workflow).yaml
 
 Now, what would happen if we ran this multiple times in parallel on the same environment? Probably not something we'd like to find out.
 
 To prevent this, we can tell GitHub to only allow one job to run at a time, given a group identifier. We do this by adding a `concurrency` control to our workflow ([docs here](https://docs.github.com/en/actions/using-jobs/using-concurrency)):
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-bootstrap.yml (6)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(Boostrap%20Workflow).yaml
 
 And finally, we get to the actual steps of logic we are performing. First we'll checkout our code, set up bun, and then use bun to install our dependencies:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-bootstrap.yml (7)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(Boostrap%20Workflow).yaml
 
 Now we're ready to bootstrap! We use the variables and secrets we defined previously. Since we told GitHub which environment we are running in, it will automatically know where to pull this from. This saves us the headache of weird hacks such as `AWS_ACCESS_KEY_ID_FOR_INTEGRATION_TEST` or something similar.
 
 We pull in what we need, and then run the `cdk bootstrap` command via bun:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-bootstrap.yml (8)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-bootstrap.yml%20(Boostrap%20Workflow).yaml
 
 ### Deployment Workflow
 
@@ -219,27 +219,27 @@ This helps us build confidence that our deployments work, since our aim is to de
 
 Let's take a look at how we do this. First, we'll set up our triggers. We want to both allow manually triggering a deployment, again via `workflow_dispatch`, but we also want to immediately deploy when changes are merged to our `main` branch:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-deploy.yml"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml
 
 All good and well, so let's start defining our jobs. Ignore the `uses` for now, that's a reuseable workflow which we'll get back to later in **Part 2** of this section:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-deploy.yml (Deployment Workflow)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(Deployment%20Workflow).yaml
 
 We first initiate our **Stage 1** deployment, specifying that it's the `Integration Test` environment. We also allow the the reuseable workflow (defined in `wf-deploy.yml`) to inherit all secrets from the caller.
 
 Next, we want to run our checks, but only after our **Stage 1** job has finished running successfully. To do this we use `needs` to define a dependency on a previous job ([docs here](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds)).
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-deploy.yml (11)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(Deployment%20Workflow).yaml
 
 We aren't doing much interesting for now in our test job, since we are only deploying a Domain, but this will be helpful later on when we start setting up our Frontend and APIs.
 
 Similarly, we use `needs` again to specify how we move into **Stage 2**. We first set up `Production Single-tenant`:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-deploy.yml (12)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(Deployment%20Workflow).yaml
 
 And do the same for our `Production Multi-tenant` environment:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\cd-deploy.yml (13)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Ccd-deploy.yml%20(Deployment%20Workflow).yaml
 
 We could have been using using build `matrix`'s again, but that would mean that the checks for **Stage 2** would only proceed after *both* of the Jobs completed. We would prefer that they check *immediately* once the deployment is done, so instead we split up these two into their own Jobs manually.
 
@@ -257,21 +257,21 @@ We've done this in our `wf-deploy.yml` workflow, which we use in our `stage-1`, 
 
 First, we will need to define which inputs this workflow takes. Remember the `with` and `secrets` that we used earlier? That's how we pass information to our resuseable workflow. We define these in the `inputs` section:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\wf-deploy.yml"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml
 
 Here we simply specify that we require an `environment` to be passed along. We will automatically inherit the `secrets`, but we would otherwise specify those explicitly as well.
 
 We can now proceed to the logic, which resembles the `cd-bootstrap` workflow we looked at earlier. We first set up our environment, concurrency group, and then install our dependencies:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\wf-deploy.yml (Deployment Workflow)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml%20(Deployment%20Workflow).yaml
 
 Before we proceed to actually deploying anything, we want to sanity check that our deployment looks valid. We do this by trying to first synthesize the whole deployment ([some info on synth here](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)), and then run whatever test suite we have:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\wf-deploy.yml (16)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml%20(Deployment%20Workflow).yaml
 
 Everything should now be good, so let's run our actual deployment:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github\workflows\wf-deploy.yml (17)"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=.github%5Cworkflows%5Cwf-deploy.yml%20(Deployment%20Workflow).yaml
 
 And there we go! We've now automated our deployment flow, and no longer have to worry about manually deploying things to our environments.
 
@@ -316,17 +316,17 @@ We've now set up the foundation for all of our future deployments of application
 
 Once you've cloned the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-2-automatic-deployments) (or made your own version of it), set up bun:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal (18).sh"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal%20(18).sh
 
 Then we can install all of our dependencies for our CDK stack:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal (19).sh"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal%20(19).sh
 
 We’ll be setting up CDK on each of our accounts, so that we can start using it for deployments.
 
 Assuming that you have already switched your CLI environment to point to the AWS account that you want to bootstrap:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal (20).sh"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal%20(20).sh
 
 This is essentially what the [cd-bootstrap](/.github/workflows/cd-bootstrap.yml) workflow does for you, across all the environments you've specified (you can adjust the list in the build matrix).
 
@@ -346,7 +346,7 @@ Our process will go:
 
 Assuming you are ready for step 3., we can start the deployment. We'll assume that you are still in the deployment folder and that you have switched your CLI environment to point to the AWS account that you want to deploy to:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal (21).sh"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal%20(21).sh
 
 The `DOMAIN` environment variable is required here, since we need to know what domain we should use for the Hosted Zone.
 
@@ -361,15 +361,15 @@ From `just`'s README:
 
 From [the installation instructions](https://github.com/casey/just#packages) we can install it via:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal (22).sh"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal%20(22).sh
 
 This allows us to set up a `justfile` in the root of our project, which we can then use to define shortcuts to our commands. For example, we can define a shortcut to run our CDK commands:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=justfile"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=justfile
 
 We can now run our commands via `just`:
 
-<script src="https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal (24).sh"></script>
+https://gist.github.com/Tehnix/0a8a1cf98a03dc6b597d6c6fe772b2ba.js?file=terminal%20(24).sh
 
 
 

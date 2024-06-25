@@ -8,6 +8,7 @@ import { Octokit } from "octokit";
 import type { CodeBlock } from "./codeblock";
 import { codeblocks } from "./codeblock";
 
+const GENERATE_SCRIPT_TAGS = false;
 const { GITHUB_TOKEN } = process.env;
 const RELATIVE_DIRECTORY = "../legacy/posts";
 
@@ -32,7 +33,10 @@ const octokit = new Octokit({ auth: GITHUB_TOKEN });
  *
  * https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28
  */
-const createGist = async (filename: string, codeBlocks: CodeBlock[]) => {
+const createGist = async (
+  filename: string,
+  codeBlocks: CodeBlock[]
+): GistMetadata => {
   // Convert our codeblocks to files.
   const files: GistFiles = {};
   let i = 0;
@@ -83,7 +87,7 @@ const createGist = async (filename: string, codeBlocks: CodeBlock[]) => {
     const embeds = Object.keys(files).map(
       (filename) => `${gistUrl}.js?file=${filename}`
     );
-    const updatedGistMetadata = { id: gistId, url: gistUrl, embeds };
+    const updatedGistMetadata = { id: gistId!, url: gistUrl!, embeds };
     await Bun.write(filepath, JSON.stringify(updatedGistMetadata));
     return updatedGistMetadata;
   } else {
@@ -98,7 +102,7 @@ const createGist = async (filename: string, codeBlocks: CodeBlock[]) => {
     const embeds = Object.keys(files).map(
       (filename) => `${gistUrl}.js?file=${filename}`
     );
-    const gistMetadata = { id: gistId, url: gistUrl, embeds };
+    const gistMetadata = { id: gistId!, url: gistUrl!, embeds };
     await Bun.write(filepath, JSON.stringify(gistMetadata));
     return gistMetadata;
   }
@@ -152,7 +156,9 @@ const generateGistPost = async (
     // NOTE: It's important to not use a global replace, but instead replace the first occurence.
     // This is because we might have multiple codeblocks with the same content, so by going through them
     // in order of the parsed codeblocks, we ensure each link to its corresponding Gist.
-    const replace = `<script src="${metadata.url}.js?file=${block.name}"></script>`;
+    const replace = GENERATE_SCRIPT_TAGS
+      ? `<script src="${metadata.url}.js?file=${block.name}"></script>`
+      : `${metadata.url}.js?file=${encodeURIComponent(block.name)}`;
     newContent = newContent.replace(block.original, replace);
   }
 
