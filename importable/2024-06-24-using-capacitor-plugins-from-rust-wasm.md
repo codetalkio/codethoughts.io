@@ -78,7 +78,7 @@ https://gist.github.com/Tehnix/3d5c588437210239743244db0b34aa0c.js?file=capacito
 
 We’re now ready to use it in our App by adding the new `capacitor-rs` crate to our dependencies in our WASM app:
 
-https://gist.github.com/Tehnix/3d5c588437210239743244db0b34aa0c.js?file=capacitor-rs%5CCargo.toml%20(title%3A%20%22Using%20Capacitor%20Plugins%20from%20Rust%5CWASM%22%0Atags%3A%20rust%2C%20wasm%2C%20leptos%2C%20mobile%0Adate%3A%202024-06-24).toml
+https://gist.github.com/Tehnix/3d5c588437210239743244db0b34aa0c.js?file=capacitor-rs%5CCargo.toml%20(10).toml
 
 And then using it like you like a normal Rust function:
 
@@ -89,7 +89,7 @@ And that’s it!
 Since I can’t exactly screenshot a haptic vibration, here’s an example where we use the [Capacitor](https://capacitorjs.com/docs/basics/utilities) utility function to determine which platform we are on, set up in the same way:
 
 <div class="clear two-images">
-  <a href="/resources/images/using-capacitor-plugins-from-rust-wasm-iphone.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/using-capacitor-plugins-from-rust-wasm-iphone.png" loading="lazy" alt="Screenshot of Capacitor running on iPhone" title="Screenshot of Capacitor running on iPhone" style="margin-right: 1%; width: 49%;" /></a>
-  <a href="/resources/images/using-capacitor-plugins-from-rust-wasm-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/using-capacitor-plugins-from-rust-wasm-web.png" loading="lazy" alt="Screenshot of Capacitor running in Web" title="Screenshot of Capacitor running in Web" style="margin-left: 1%; width: 49%;" /></a>
+  <a href="/resources/images/using-capacitor-plugins-from-rust-wasm-iphone.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/using-capacitor-plugins-from-rust-wasm-iphone.thumbnail.png" loading="lazy" alt="Screenshot of Capacitor running on iPhone" title="Screenshot of Capacitor running on iPhone" style="margin-right: 1%; width: 49%;" /></a>
+  <a href="/resources/images/using-capacitor-plugins-from-rust-wasm-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/using-capacitor-plugins-from-rust-wasm-web.thumbnail.png" loading="lazy" alt="Screenshot of Capacitor running in Web" title="Screenshot of Capacitor running in Web" style="margin-left: 1%; width: 49%;" /></a>
 </div>
 <div class="clear"></div>
