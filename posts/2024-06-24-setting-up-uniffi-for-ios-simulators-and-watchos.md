@@ -198,4 +198,4 @@ cp target/iOS-sim/release/libmobile.a ios/Shared.xcframework/ios-arm64-simulator
 
 Done!
 
-As the final step we drag-n-drop ./ios/Shared.xcframework and ./bindings/shared.swift into the XCode project whereever you want them. I personally like to create a new group (folder) called `Generated` for them (the `build-ios.sh` script assumes that's the case).
+As the final step we drag-n-drop `./ios/Shared.xcframework` and `./bindings/shared.swift` into the XCode project whereever you want them. I personally like to create a new group (folder) called `Generated` for them (the `build-ios.sh` script assumes that's the case)..
