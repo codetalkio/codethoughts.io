@@ -89,7 +89,7 @@ And that’s it!
 Since I can’t exactly screenshot a haptic vibration, here’s an example where we use the [Capacitor](https://capacitorjs.com/docs/basics/utilities) utility function to determine which platform we are on, set up in the same way:
 
 <div class="clear two-images">
-  <a href="/resources/images/using-capacitor-plugins-from-rust-wasm-iphone.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/using-capacitor-plugins-from-rust-wasm-iphone.thumbnail.png" loading="lazy" alt="Screenshot of Capacitor running on iPhone" title="Screenshot of Capacitor running on iPhone" style="margin-right: 1%; width: 49%;" /></a>
-  <a href="/resources/images/using-capacitor-plugins-from-rust-wasm-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/using-capacitor-plugins-from-rust-wasm-web.thumbnail.png" loading="lazy" alt="Screenshot of Capacitor running in Web" title="Screenshot of Capacitor running in Web" style="margin-left: 1%; width: 49%;" /></a>
+  <a href="/resources/images/using-capacitor-plugins-from-rust-wasm-iphone.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/using-capacitor-plugins-from-rust-wasm-iphone.png" loading="lazy" alt="Screenshot of Capacitor running on iPhone" title="Screenshot of Capacitor running on iPhone" style="margin-right: 1%; width: 49%;" /></a>
+  <a href="/resources/images/using-capacitor-plugins-from-rust-wasm-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/using-capacitor-plugins-from-rust-wasm-web.png" loading="lazy" alt="Screenshot of Capacitor running in Web" title="Screenshot of Capacitor running in Web" style="margin-left: 1%; width: 49%;" /></a>
 </div>
 <div class="clear"></div>
