@@ -185,6 +185,11 @@
     max-width: $max-content-width - 20;
   }
 
+  table {
+    margin: auto;
+    max-width: $max-content-width;
+  }
+
   a {
     sup {
       // Avoid footnotes increasing the line-height.
