@@ -4,7 +4,7 @@ tags: rust, wasm, leptos, mobile
 date: 2024-06-24
 ---
 
-This is a part of the post [Mobile: A different way?](/posts/2024-06-25-mobile-a-different-way.html).
+This is a part of the post [Mobile: A different way using Rust?](/posts/2024-06-25-mobile-a-different-way.html).
 
 There are some great resources out there on UniFFI already such as [this post](https://forgen.tech/en/blog/post/building-an-ios-app-with-rust-using-uniffi), but it doesn’t cover watchOS, so let’s take a quick tour through what I’ve set up in the example repository [https://github.com/Tehnix/template-mobile-wasm](https://github.com/Tehnix/template-mobile-wasm)[.](https://github.com/Tehnix/playground-mobile-wasm?tab=readme-ov-file)
 

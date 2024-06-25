@@ -4,7 +4,7 @@ tags: rust, wasm, leptos, mobile
 date: 2024-06-24
 ---
 
-This is a part of the post [Mobile: A different way?](/posts/2024-06-25-mobile-a-different-way.html).
+This is a part of the post [Mobile: A different way using Rust?](/posts/2024-06-25-mobile-a-different-way.html).
 
 Capacitor is normally used in combination with JavaScript projects, so there is little help available if you want to use it in a Rust/WASM project. Worry not! That's exactly what we'll take a look at in this post.
 
