@@ -51,7 +51,7 @@ mkdir src/plugins
 
 Let’s set up our `capacitor-rs/src/lib.rs` to expose the plugins folder:
 
-```rust name=src/lib.rs
+```rust
 pub mod plugins;
 ```
 
@@ -84,7 +84,7 @@ Our approach will be:
 
 Let’s add the TypeScript side of things in `./js/haptics.ts` which quite simply just wraps and exposes the Capacitor functionality:
 
-```tsx name=capacitor-rs/js/haptics.ts
+```tsx
 /**
  * https://capacitorjs.com/docs/apis/haptics
  */
@@ -130,7 +130,7 @@ Which gives us a corresponding bundled file in `js-dist/haptics.js` that we can 
 
 As the final step, we’ll bridge this into our Rust code by setting up `src/plugins/haptics.rs`:
 
-```rust name=capacitor-rs/src/plugins/haptics.rs
+```rust
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -216,13 +216,13 @@ Let’s break down what’s going on here:
 
 We also need to add a `src/plugins/mod.rs` file to expose our new plugin:
 
-```rust name=capacitor-rs/src/plugins/mod.rs
+```rust
 pub mod haptics;
 ```
 
 We’re now ready to use it in our App by adding the new `capacitor-rs` crate to our dependencies in our WASM app:
 
-```toml name=capacitor-rs/Cargo.toml
+```toml
 # ...
 [dependencies]
 capacitor-rs = { version = "0.1.0", path = "../capacitor-rs" }
@@ -231,7 +231,7 @@ capacitor-rs = { version = "0.1.0", path = "../capacitor-rs" }
 
 And then using it like you like a normal Rust function:
 
-```rust name=example-component.rs
+```rust
 use log::info;
 use capacitor_rs::plugins::haptics;
 use leptos::*;
