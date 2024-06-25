@@ -95,7 +95,8 @@ export const codeblocks = (src: string, lang: string): CodeBlock[] => {
           // Remove the attribute marker.
           .replace("name=", "")
           // Gists can't have slashes (/) in their name so we replace all slashes with backslashes.
-          .replace(findSlashes, "\\");
+          .replace(findSlashes, "\\")
+          .trim();
         const alternativeName = `${sanitizedName} (${currentHeading})`.replace(
           findSlashes,
           "\\"
@@ -103,12 +104,13 @@ export const codeblocks = (src: string, lang: string): CodeBlock[] => {
         // If the name hasn't been used, we try to just give it that name. This simplifies
         // moving codeblocks around without needing to update the Gist URLs.
         if (!usedFilenames.includes(sanitizedName)) {
-          name = `${sanitizedName}.${fileExtension}`;
+          name = `${sanitizedName}`;
         } else if (!usedFilenames.includes(alternativeName)) {
-          name = `${alternativeName}.${fileExtension}`;
+          name = `${alternativeName}`;
         } else {
-          name = `${sanitizedName} (${codeblocks.length + 1}).${fileExtension}`;
+          name = `${sanitizedName} (${codeblocks.length + 1})`;
         }
+        usedFilenames.push(name);
         break;
       }
     }

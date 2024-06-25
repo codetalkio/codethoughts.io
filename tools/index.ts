@@ -72,13 +72,20 @@ const createGist = async (filename: string, codeBlocks: CodeBlock[]) => {
       }
     });
 
-    await octokit.rest.gists.update({
+    const response = await octokit.rest.gists.update({
       gist_id: gistMetadata.id,
       description,
       files,
       public: false,
     });
-    return gistMetadata;
+    const gistId = response.data.id;
+    const gistUrl = response.data.html_url;
+    const embeds = Object.keys(files).map(
+      (filename) => `${gistUrl}.js?file=${filename}`
+    );
+    const updatedGistMetadata = { id: gistId, url: gistUrl, embeds };
+    await Bun.write(filepath, JSON.stringify(updatedGistMetadata));
+    return updatedGistMetadata;
   } else {
     // Otherwise, create a new Gist.
     const response = await octokit.rest.gists.create({

@@ -172,7 +172,7 @@ To avoid this:
 
 Replace `AWS_REGION`, `AWS_ACCOUNT_ID`, and `KMS_KEY_ID` and insert the following:
 
-```json name=policy
+```json name=policy.json
 {
     "Sid": "Allow Config to use KMS for encryption",
     "Effect": "Allow",
