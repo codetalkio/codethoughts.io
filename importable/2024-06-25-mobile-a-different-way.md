@@ -77,10 +77,7 @@ If you want to develop an iOS Widget ([those little things](https://support.appl
 
 Here’s an example of a Widget for a Todo App, providing interactivity from the Home Screen:
 
-<div class="clear">
-  <a href="/resources/images/mobile-a-different-way-widget-screenshot.jpeg" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-widget-screenshot.thumbnail.jpeg" loading="lazy" alt="Screenshot of Capacitor an iOS Widget" title="Screenshot of Capacitor an iOS Widget" /></a>
-</div>
-<div class="clear"></div>
+<a href="/resources/images/mobile-a-different-way-widget-screenshot.jpeg" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-widget-screenshot.thumbnail.jpeg" loading="lazy" alt="Screenshot of Capacitor an iOS Widget" title="Screenshot of Capacitor an iOS Widget" width="100%" /></a>
 
 This seemingly innocuous example is also where most of our options get limited and we’ll have to get a bit creative with how we solve it.
 
@@ -109,10 +106,7 @@ Luckily, for Capacitor, that’s not entirely the case. We can open XCode and ad
 
 That looks like this in XCode:
 
-<div class="clear">
-  <a href="/resources/images/mobile-a-different-way-xcode-adding-targets.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-xcode-adding-targets.thumbnail.png" loading="lazy" alt="Adding additional Targets in Xcode" title="Adding additional Targets in Xcode" /></a>
-</div>
-<div class="clear"></div>
+<a href="/resources/images/mobile-a-different-way-xcode-adding-targets.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-xcode-adding-targets.thumbnail.png" loading="lazy" alt="Adding additional Targets in Xcode" title="Adding additional Targets in Xcode" width="100%" /></a>
 
 The limitation here is that these additional targets only support native code (i.e. Swift), which neatly brings us onto our next section.
 
@@ -164,45 +158,25 @@ https://gist.github.com/Tehnix/2a7c3059816f04fe2ccbc5390c96e3ed.js?file=Example.
 
 Final result in the iOS Simulator, running our Web App as a Mobile App:
 
-![Screenshot 2024-06-19 at 15.07.58.png](Mobile%20A%20Different%20Way%20f58e56b6755342109efc0a11e23db437/Screenshot_2024-06-19_at_15.07.58.png)
+Final result in the iOS Simulator, running our Web App as a Mobile App:
 
-<div class="clear">
-  <a href="/resources/images/mobile-a-different-way-ios-simulator.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-ios-simulator.thumbnail.png" loading="lazy" alt="Final result in the iOS Simulator" title="Final result in the iOS Simulator" /></a>
-</div>
-<div class="clear"></div>
+<a href="/resources/images/mobile-a-different-way-ios-simulator.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-ios-simulator.thumbnail.png" loading="lazy" alt="Final result in the iOS Simulator" title="Final result in the iOS Simulator" width="100%" /></a>
 
 In the Android Simulator:
 
-<div class="clear">
-  <a href="/resources/images/mobile-a-different-way-android-simulator.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-android-simulator.thumbnail.png" loading="lazy" alt="Final result in the Android Simulator" title="Final result in the Android Simulator" /></a>
-</div>
-<div class="clear"></div>
+<a href="/resources/images/mobile-a-different-way-android-simulator.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-android-simulator.thumbnail.png" loading="lazy" alt="Final result in the Android Simulator" title="Final result in the Android Simulator" width="100%" /></a>
 
 Same application on the Web:
 
-<div class="clear">
-  <a href="/resources/images/mobile-a-different-way-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-web.thumbnail.png" loading="lazy" alt="Final result on the Web" title="Final result on the Web" /></a>
-</div>
-<div class="clear"></div>
+  <a href="/resources/images/mobile-a-different-way-web.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-web.thumbnail.png" loading="lazy" alt="Final result on the Web" title="Final result on the Web" width="100%" /></a>
 
 The Widget Extension in the XCode Preview:
 
-<div class="clear">
-  <a href="/resources/images/mobile-a-different-way-widget-preview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-widget-preview.thumbnail.png" loading="lazy" alt="Final result as a Widget Preview in Xcode" title="Final result as a Widget Preview in Xcode" /></a>
-</div>
-<div class="clear"></div>
+<a href="/resources/images/mobile-a-different-way-widget-preview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-widget-preview.thumbnail.png" loading="lazy" alt="Final result as a Widget Preview in Xcode" title="Final result as a Widget Preview in Xcode" width="100%" /></a>
 
 The watchOS App in the XCode Preview:
 
-<div class="clear">
-  <a href="/resources/images/mobile-a-different-way-watchos-preview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-watchos-preview.thumbnail.png" loading="lazy" alt="Final result as a watchOS Preview in Xcode" title="Final result as a watchOS Preview in Xcode" /></a>
-</div>
-<div class="clear"></div>
-
-<div class="callout">
-  <div class="callout-bulb">💡</div>
-  Remember to change your Target in the Run Bar (Top Bar) in XCode to get the Preview to compile. Goes for both the Widget Extension and the watchOS App.
-</div>
+<a href="/resources/images/mobile-a-different-way-watchos-preview.png" target="_blank" rel="noopener noreferrer"><img src="/resources/images/mobile-a-different-way-watchos-preview.thumbnail.png" loading="lazy" alt="Final result as a watchOS Preview in Xcode" title="Final result as a watchOS Preview in Xcode" width="100%" /></a>
 
 **Choice**: Rust with [UniFFI](https://mozilla.github.io/uniffi-rs/latest/)
 
