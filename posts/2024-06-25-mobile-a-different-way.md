@@ -1,5 +1,5 @@
 ---
-title: "Mobile: A different way?"
+title: "Mobile: A different way using Rust?"
 tags: rust, wasm, leptos, mobile, capacitor, swift, xcode
 date: 2024-06-25
 ---
