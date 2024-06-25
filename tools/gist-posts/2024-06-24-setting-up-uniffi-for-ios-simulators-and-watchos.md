@@ -80,4 +80,4 @@ https://gist.github.com/Tehnix/74dfea95fe6b38de0fdd10050b20adb3.js?file=terminal
 
 Done!
 
-As the final step we drag-n-drop ./ios/Shared.xcframework and ./bindings/shared.swift into the XCode project whereever you want them. I personally like to create a new group (folder) called `Generated` for them (the `build-ios.sh` script assumes that's the case).
+As the final step we drag-n-drop `./ios/Shared.xcframework` and `./bindings/shared.swift` into the XCode project whereever you want them. I personally like to create a new group (folder) called `Generated` for them (the `build-ios.sh` script assumes that's the case).
