@@ -33,6 +33,10 @@ build:
   bunx tailwindcss --input styles/input.css --output static/styles/output.css --minify
   zola build
 
+# Generate posts with Gists instead of code blocks.
+generate-gists:
+  cd tools && bun run index.ts
+
 # TODO: Move deployment to CloudFlare Pages?
 # Deploy the blog to S3 and invalidate CloudFront cache.
 # deploy:

@@ -13,6 +13,7 @@ const RELATIVE_DIRECTORY = "../legacy/posts";
 
 type GistFiles = {
   [key: string]: {
+    filename?: string;
     content: string;
   };
 };
@@ -58,8 +59,19 @@ const createGist = async (filename: string, codeBlocks: CodeBlock[]) => {
     // Try to update the existing file.
     const gistMetadata = await file.json();
     console.log(`Updating gist ${gistMetadata.id} (${gistMetadata.url})`);
-    // TODO: Fetch existing gist, detect if we block count is increased or decreased.
-    // Decrease: Delete blocks above the count (set the whole file to null)
+
+    // Check if we need to remove any old files and set their filename to an
+    // empty object.
+    const existingGist = await octokit.rest.gists.get({
+      gist_id: gistMetadata.id,
+    });
+    const oldFiles = Object.keys(existingGist.data.files ?? {});
+    oldFiles.forEach((oldFilename) => {
+      if (!(oldFilename in files)) {
+        files[oldFilename] = {} as any;
+      }
+    });
+
     await octokit.rest.gists.update({
       gist_id: gistMetadata.id,
       description,
