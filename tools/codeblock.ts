@@ -106,7 +106,10 @@ export const codeblocks = (src: string, lang: string): CodeBlock[] => {
         // moving codeblocks around without needing to update the Gist URLs.
         if (!usedFilenames.includes(sanitizedName)) {
           name = `${sanitizedName}`;
-        } else if (!usedFilenames.includes(alternativeName)) {
+        } else if (
+          !usedFilenames.includes(alternativeName) &&
+          !currentHeading?.startsWith("title: ")
+        ) {
           name = `${alternativeName}`;
         } else {
           name = `${sanitizedName} (${codeblocks.length + 1}).${fileExtension}`;

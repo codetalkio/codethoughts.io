@@ -78,7 +78,7 @@ https://gist.github.com/Tehnix/3d5c588437210239743244db0b34aa0c.js?file=capacito
 
 We’re now ready to use it in our App by adding the new `capacitor-rs` crate to our dependencies in our WASM app:
 
-https://gist.github.com/Tehnix/3d5c588437210239743244db0b34aa0c.js?file=capacitor-rs%5CCargo.toml%20(title%3A%20%22Using%20Capacitor%20Plugins%20from%20Rust%5CWASM%22%0Atags%3A%20rust%2C%20wasm%2C%20leptos%2C%20mobile%0Adate%3A%202024-06-24).toml
+https://gist.github.com/Tehnix/3d5c588437210239743244db0b34aa0c.js?file=capacitor-rs%5CCargo.toml%20(10).toml
 
 And then using it like you like a normal Rust function:
 
