@@ -6,6 +6,8 @@ on:
   push:
     paths:
       - "posts/**"
+      - "importable/**"
+      - "drafts/**"
       - "resources/**"
       - "src/**"
       - "templates/**"
