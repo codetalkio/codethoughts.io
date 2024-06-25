@@ -9,6 +9,10 @@
       "path": "posts"
     },
     {
+      "name": "importable",
+      "path": "importable"
+    },
+    {
       "name": "images",
       "path": "resources/images"
     },
