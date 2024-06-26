@@ -20,7 +20,7 @@ I’ve personally landed in the camp of: Structure is valuable, even crucial, bu
 
 <div></div><!--more-->
 
-# What is my context?
+## What is my context?
 
 Not every way will fit everyone. That’s actually one of the most important lessons of implementing processes: Make it fit to your reality.
 
@@ -39,7 +39,7 @@ In other words:
 - I will inherently discover work as I am going through a project
 - I want my approach to easily scale up to many people, without being a burden while I’m just myself
 
-# How do I structure my work?
+## How do I structure my work?
 
 There are many systems you can do this in, and this is entirely up to your preference. I’ve settled on Linear as my go-to Project Management tool, with GitHub for everything code, and Notion for long-term knowledge base. So for this post here, we’ll focus on the Linear bit.
 
@@ -130,7 +130,7 @@ That’s a bit more related to my style of working, where I prefer to need as li
 
 For Engineering work, I’d recommend it to everyone, as it makes you think through your plan of attack before just diving in and wasting hours of work on something you could have skipped or will need to rework to fit with a later functionality.
 
-# Is this a bit overkill?
+## Is this a bit overkill?
 
 Haha, perhaps! Writing it out in this detail certainly makes it seem like more work than it is!
 
@@ -144,7 +144,7 @@ And that’s really all there is to it when you boil it down to the essentials!
 
 The great thing though, is that once I grow beyond just myself, I have all the processes and structure in place to get someone else immediately started helping out with projects and following a similar structure.
 
-# What other systems could I use?
+## What other systems could I use?
 
 Honestly, most things would work, and you can even just do it with pen-and-paper. I personally prefer things digitally so that I can add or edit something from my phone on-the-go. E.g. I might have an idea randomly while I’m grocery shopping because my mind wanders, and I don’t have my notebook with me there, but I do always have my phone with me.
 
