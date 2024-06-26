@@ -148,4 +148,4 @@ Honestly, most things would work, and you can even just do it with pen-and-paper
 
 As an alternative to Linear, I’d probably recommend Notion. You will need to set up the structure more yourself, but you can wrangle their [Projects](https://www.notion.so/product/projects) functionality into something that will allow you a very similar setup.
 
-I always love to get inspiration, so I’d love to hear from you about your own preferred way of organizing yourself.
+I always love to get inspiration, so I’d love to hear from you about your own preferred way of organizing yourself. [Let me know what you think over on Medium.](https://codethoughts.medium.com/how-i-structure-work-as-a-solo-founder-4944afcfc2f2)
