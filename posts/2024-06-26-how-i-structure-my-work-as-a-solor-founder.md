@@ -18,6 +18,8 @@ For most Engineers, this is not actually something they’ve needed to do often,
 
 I’ve personally landed in the camp of: Structure is valuable, even crucial, but it should never get in my way. Best of both worlds sorta.
 
+<div></div><!--more-->
+
 # What is my context?
 
 Not every way will fit everyone. That’s actually one of the most important lessons of implementing processes: Make it fit to your reality.
