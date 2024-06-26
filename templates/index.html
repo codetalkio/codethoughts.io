@@ -23,42 +23,168 @@
 
     <div class="flex border-t border-t-solid border-black-50 md:mb-10 mb-4 md:mx-0 mx-4"></div>
 
-    <div>
-      <a href="{{ get_url(path='@/posts/_index.md') }}">Recent posts</a> on the blog
+    <div class="flex flex-row md:pr-0 md:pl-0 pr-8 pl-8">
 
-      {% if paginator %}
+      <div class="md:basis-3/4 basis-1/2">
+        <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ get_url(path='@/posts/_index.md') }}">Recent posts</a><span class="text-subtle visited:text-subtle"> on the blog</span>
+
+        {% if paginator %}
+          <ul class="list-none list-inside [&>*:nth-child(1)]:mt-4">
+            {% for page in paginator.pages %}
+            <li class="ml-6 pr-16">
+              <a class="text-headline visited:text-headline hover:text-link-hover" href="{{ page.permalink | safe }}">{{ page.title }}</a>
+
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm cursor-pointer" onclick="location.href='{{ page.permalink | safe }}';">
+                {{ page.summary | safe }}
+              </aside>
+              {# <a href="{{ page.permalink }}#continue-reading">Continue Reading</a> #}
+            </li>
+            {% endfor %}
+            <li class="ml-6">
+              <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ get_url(path='@/posts/_index.md') }}">View more...</a>
+            </li>
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="md:basis-5/12 basis-1/2 md:pl-0 pl-8">
+        <div class="text-right">
+          <span class="text-subtle visited:text-subtle">Interesting </span><a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix" alt="Check out my GitHub profile for more, if you are interested" title="Check out my GitHub profile for more, if you are interested">projects</a>
+        </div>
+
         <ul class="list-none list-inside [&>*:nth-child(1)]:mt-4">
-          {% for page in paginator.pages %}
-          <li class="ml-6">
-            <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ page.permalink | safe }}">{{ page.title }}</a>
-            {# {{ page.summary | safe }}
-            <a href="{{ page.permalink }}#continue-reading">Continue Reading</a> #}
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/template-mobile-wasm" target="_blank" rel="noopener noreferrer" alt="Template project for building a Rust application that can be run on Web, iOS and Android using Leptos, Capacitor and UniFFI."
+              title="Template project for building a Rust application that can be run on Web, iOS and Android using Leptos, Capacitor and UniFFI.">Rust on Mobile with WASM</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                Template project for building a Rust application that can be run on Web, iOS and Android using Leptos, Capacitor and UniFFI
+              </aside>
           </li>
-          {% endfor %}
-          <li class="ml-6">
-            <a href="{{ get_url(path='@/posts/_index.md') }}">View more...</a>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/codetalkio/serverless-federated-graphql" target="_blank" rel="noopener noreferrer" alt="Comparison of Federated GraphQL solutions for serverless, featuring a minimal build of Apollo Router built for Lambda via Amazon Linux 2, and comparison to other alternatives (Cosmo, Mesh, Gateway)"
+              title="Comparison of Federated GraphQL solutions for serverless, featuring a minimal build of Apollo Router built for Lambda via Amazon Linux 2, and comparison to other alternatives (Cosmo, Mesh, Gateway)">Serverless Federated GraphQL</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                Comparison of Federated GraphQL solutions for serverless, featuring a minimal build of Apollo Router built for Lambda via Amazon Linux 2, and comparison to other alternatives (Cosmo, Mesh, Gateway)
+              </aside>
           </li>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/codetalkio/patterns-serverless-rust-minimal" target="_blank" rel="noopener noreferrer" alt="Minimal setup for starting with serverless Rust on AWS Lambda using AWS CDK for deployment"
+              title="Minimal setup for starting with serverless Rust on AWS Lambda using AWS CDK for deployment">Serverless Rust</a> / <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/codetalkio/patterns-serverless-rust" target="_blank" rel="noopener noreferrer" alt="Setup for starting with serverless Rust + GraphQL + DynamoDB on AWS Lambda using AWS CDK for deployment"
+              title="Setup for starting with serverless Rust + GraphQL + DynamoDB on AWS Lambda using AWS CDK for deployment">...+ Graphql</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                Setup for starting with serverless Rust + GraphQL + DynamoDB on AWS Lambda using AWS CDK for deployment
+              </aside>
+          </li>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/codetalkio/patterns-serverless-scala-minimal" target="_blank" rel="noopener noreferrer" alt="Minimal setup for starting with serverless Scala on AWS Lambda using AWS CDK for deployment"
+              title="Minimal setup for starting with serverless Scala on AWS Lambda using AWS CDK for deployment">Serverless Scala</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                Minimal setup for starting with serverless Scala on AWS Lambda using AWS CDK for deployment
+              </aside>
+          </li>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/spaceneovim" target="_blank" rel="noopener noreferrer" alt="Spaceneovim is a Spacemacs inspired distribution for Neovim"
+              title="Spaceneovim is a Spacemacs inspired distribution for Neovim">SpaceNeovim</a> /
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/spaceneovim-layers" target="_blank" rel="noopener noreferrer" alt="the accompanying layers for Spaceneovim"
+              title="the accompanying layers for Spaceneovim">...+ Layers</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                Spaceneovim is a Spacemacs inspired distribution for Neovim
+              </aside>
+          </li>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/MobileHaskellFun" target="_blank" rel="noopener noreferrer" alt="Toy project for testing out Haskell on iOS"
+              title="Toy project for testing out Haskell on iOS">Mobile Haskell</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                Toy project for testing out Haskell on iOS
+              </aside>
+          </li>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/vscode-tidymarkdown" target="_blank" rel="noopener noreferrer" alt="VS Code extension for format Markdown with the tidy-markdown tool"
+              title="VS Code extension for format Markdown with the tidy-markdown tool">vscode-tidymarkdown</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                VS Code extension for format Markdown with the tidy-markdown tool
+              </aside>
+          </li>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/rfplusone-app" target="_blank" rel="noopener noreferrer" alt="Mobile app (React Native) helping people meetup for concerts, develop for Roskilde Festival"
+              title="Mobile app (React Native) helping people meetup for concerts, develop for Roskilde Festival">RF+1 App</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-1 text-sm">
+                Mobile app (React Native) helping people meetup for concerts, develop for Roskilde Festival
+              </aside>
+          </li>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/codetalkio/Haskell-Electron-app" target="_blank" rel="noopener noreferrer" alt="Small example app demonstrating the use of Haskell in Electron with a Servant server"
+              title="Small example app demonstrating the use of Haskell in Electron with a Servant server">Haskell Electron App</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                Small example app demonstrating the use of Haskell in Electron with a Servant server
+              </aside>
+          </li>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/HsCMS" target="_blank" rel="noopener noreferrer" alt="A CMS implemented in Haskell using the Yesod framework"
+              title="A CMS implemented in Haskell using the Yesod framework">HsCMS</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                A CMS implemented in Haskell using the Yesod framework
+              </aside>
+          </li>
+          <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/TowerOfPower" target="_blank" rel="noopener noreferrer" alt="A small fun Unity3D game in Pokémon style 2D graphics"
+              title="A small fun Unity3D game in Pokémon style 2D graphics">TowerOfPower</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                A small fun Unity3D game in Pokémon style 2D graphics
+              </aside>
+          </li>
+          {# <li>
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/atom-haskell" target="_blank" rel="noopener noreferrer" alt="A curated set of packages for Haskell development using Atom"
+              title="A curated set of packages for Haskell development using Atom">atom-haskell</a> /
+            <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix/ide-haskell-hie" target="_blank" rel="noopener noreferrer" alte="A language server client for Atom, using the Haskell LSP HIE"
+              title="A language server client for Atom, using the Haskell LSP HIE">ide-haskell-hie</a>
+              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-sm">
+                A curated set of packages for Haskell development using Atom
+              </aside>
+          </li> #}
         </ul>
-      {% endif %}
+      </div>
+
+    </div>
+
+    <div class="mt-16">
+      <span class="text-subtle">Getting </span>a hold of me
+      <p class="mt-4">
+        I can be found many places! Say
+        "Hi!" <s>on
+        <a href="https://webchat.freenode.net" alt="Hey, I'm not saying that you shouldn't use an actual IRC client, this just seemed convenient"
+          title="Hey, I'm not saying that you shouldn't use an actual IRC client, this just seemed convenient" target="_blank"
+          rel="noopener noreferrer">Freenode</a> to Tehnix</s>; hit me up on twitter at
+        <a href="https://twitter.com/codetalkio" target="_blank" rel="noopener noreferrer" alt="Amazingly low activity, I use it mostly for following others"
+          title="Amazingly low activity, I use it mostly for following others">@codetalkio</a> or <a rel="me noopener noreferrer" target="_blank" href="https://hachyderm.io/@codetalkio">Mastodon</a>; tag me in an issue on GitHub with
+        <a href="https://github.com/Tehnix" target="_blank" rel="noopener noreferrer" alt="Yet another link to my GitHub profile"
+          title="Yet another link to my GitHub profile">@Tehnix</a>; or simply shoot me an email to contact AT codetalk DOT io
+      </p>
     </div>
   </div>
 
-  <div id="footer" class="md:mt-16 mt-8 mb-8">
+  <div id="footer" class="md:mt-16 mt-8 mb-8 text-sm">
     <div class="flex border-t border-t-solid border-black-50 md:mx-0 mx-4 mb-2"></div>
-    <p>
-      <a href="{{ get_url(path='@/pages/about.md') }}">about</a> the site
-      <br />
-      <a href="{{ get_url(path='@/pages/archive.md') }}">archive</a> of all posts
-      <br />
-      {% set tags = get_taxonomy(kind="tags") %}
-      overview of <a href="{{ tags.permalink }}">tags</a>
-    </p>
-    <p>
-      personal <a href="https://github.com/Tehnix" target="_blank" rel="noopener nofollow noreferrer">github</a> and
-      <a href="https://github.com/codetalkio" target="_blank" rel="noopener nofollow noreferrer">codetalk</a> projects
-      <br />
-      <a href="https://twitter.com/codetalkio" target="_blank" rel="noopener nofollow noreferrer">twitter</a> feed
-    </p>
+    <div class="flex flex-row md:pr-0 md:pl-0 pr-8 pl-8">
+      <div class="basis-1/2">
+        <p class="text-subtle">
+          <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ get_url(path='@/pages/about.md') }}">about</a> the site
+          <br />
+          <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ get_url(path='@/pages/archive.md') }}">archive</a> of all posts
+          <br />
+          {% set tags = get_taxonomy(kind="tags") %}
+          overview of <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ tags.permalink }}">tags</a>
+        </p>
+      </div>
+      <div class="basis-1/2 text-right">
+        <p  class="text-subtle">
+          personal <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix" target="_blank" rel="noopener nofollow noreferrer">github</a> and<br/>
+          <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/codetalkio" target="_blank" rel="noopener nofollow noreferrer">codetalk</a> projects
+          <br />
+          <a class="text-primary visited:text-primary hover:text-link-hover" href="https://twitter.com/codetalkio" target="_blank" rel="noopener nofollow noreferrer">twitter</a> feed
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 

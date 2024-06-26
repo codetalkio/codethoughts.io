@@ -1,12 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">{{ section.title }}</h1>
+
+{# Breadcrumbs #}
+<div class="md:mb-16 mb-8 mt-8 text-sm">
+  <a href="{{ get_url(path='@/_index.md') }}">Home</a>
+  › {{ section.title }}
+</div>
+
+{# <h1 class="title">{{ section.title }}</h1> #}
 
 <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
 {% for page in section.pages %}
 <div>
-  <h2><a href="{{ page.permalink | safe }}">{{ page.title }}</a></h2>
+  <h2>
+    <a class="text-headline visited:text-headline" href="{{ page.permalink | safe }}">{{ page.title }}</a>
+  </h2>
   {{ page.summary | safe }}
 </div>
 {% endfor %}

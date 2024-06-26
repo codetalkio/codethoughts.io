@@ -1,16 +1,30 @@
 {%- macro archive(resource) %}
+{# Inspiration: https://peterbabic.dev/blog/add-archive-into-zola/ #}
 {# Fetch the section of the blog to access its pages. #}
 {% set section = get_section(path="posts/_index.md") %}
 {# Generate the archive overview. #}
-{% for year, posts in section.pages | group_by(attribute="year") %}
-    <h2>{{ year }}</h2>
-
-    <ul>
-    {% for post in posts %}
-        <li><a href="{{ post.permalink }}">{{ post.title }}</a></li>
+<table class="table-fixed min-w-full">
+    <thead>
+        <tr>
+            <th class="w-3/4 text-left">Title</th>
+            <th class="w-1/4 text-left">Published</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for page in section.pages | sort(attribute="date") | reverse %}
+        <tr class="border-t border-b border-subtle cursor-pointer hover:text-link-hover" onclick="location.href='{{ page.permalink | safe }}';">
+            <td class="pb-2 pt-2">
+                <a class="text-headline visited:text-headline hover:text-link-hover" href="{{ page.permalink }}">
+                    {{ page.title }}
+                </a>
+            </td>
+            <td>
+                {{ page.date | date(format="%B %-e, %Y")  }}
+            </td>
+        </tr>
     {% endfor %}
-    </ul>
-{% endfor %}
+    </tbody>
+</table>
 {%- endmacro %}
 
 {# =============================== #}
