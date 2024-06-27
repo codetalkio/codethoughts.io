@@ -4,33 +4,20 @@
 {% block content %}
 
 {# Breadcrumbs #}
-<div class="md:mb-16 mb-8 mt-8 text-sm">
+<div class="md:mb-16 mb-8 mt-8 text-xs">
   <a href="{{ get_url(path='@/_index.md') }}">Home</a>
   › <a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
   › {{ page.title }}
 </div>
 
-<h1 class="title">{{ page.title }}</h1>
+{# Heading section #}
+{{ macros::post_heading(page=page, isLink=false) }}
 
-<p class="subtitle">
-  <strong>
-    {{ page.author | default(value=config.author) }}
-    {{ page.date | date(format="%-e. %B %Y")  }}
-  </strong>
-</p>
+{# Author and tags section. #}
+{{ macros::post_metadata(page=page) }}
 
-{% if page.taxonomies.tags %}
-  <p>
-    {% for tag in page.taxonomies.tags %}
-      <a href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}" itemprop="url">{{ tag }}</a>
-      {# Add comma in between tags. #}
-      {% if page.taxonomies.tags | length > 1 %}
-        {% if loop.index != page.taxonomies.tags | length %},{% endif %}
-      {% endif %}
-    {% endfor %}
-  </p>
-{% endif %}
-
-{{ macros::preprocess_post(resource=page) }}
+<div class="styling-full">
+  {{ macros::preprocess_post(resource=page) }}
+</div>
 
 {% endblock content %}

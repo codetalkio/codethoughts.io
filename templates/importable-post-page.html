@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "macros/post.html" as macros %}
+
+{% block content %}
+
+{# Breadcrumbs #}
+<div class="md:mb-16 mb-8 mt-8 text-xs">
+  <a href="{{ get_url(path='@/_index.md') }}">Home</a>
+  › <a href="{{ get_url(path='@/importable-posts/_index.md') }}">Importable Posts</a>
+  › {{ page.title }}
+</div>
+
+{# Heading section #}
+{{ macros::post_heading(page=page, isLink=false) }}
+
+{# Author and tags section. #}
+{{ macros::post_metadata(page=page) }}
+
+{# We intentionally don't style the importable posts #}
+<div>
+  {{ macros::preprocess_post(resource=page) }}
+</div>
+
+{% endblock content %}

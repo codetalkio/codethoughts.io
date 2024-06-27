@@ -2,31 +2,23 @@
 {# ========================= #}
 {# === Table of contents === #}
 {# ========================= #}
-{%- macro toc(toc, level, depth) %}
-{%- if level == 1 %}
-  <div class="toc">
-{%- endif %}
-{%- if level != 1 %}
-  <ol class="h{{ level }}">
-{%- endif %}
+{%- macro generate_toc(toc, level, depth) %}
+  {%- if level == 1 %}
+    <div class="toc">
+  {%- endif %}
+    <ul>
   {%- for h in toc %}
-    {%- if level != 1 %}
       <li>
         <a href="{{ h.permalink | safe }}">{{ h.title }}</a>
+    {% if h.children and level < depth -%}
+        {{ self::generate_toc(toc=h.children, level=level+1, depth=depth) }}
     {%- endif %}
-    {% if h.children and level <= depth -%}
-        {{ self::toc(toc=h.children, level=level+1, depth=depth, heading=false) }}
-    {%- endif %}
-    {%- if level != 1 %}
       </li>
-    {%- endif %}
   {%- endfor %}
-{%- if level != 1 %}
-  </ol>
-{%- endif %}
-{%- if level == 1 %}
-  </div>
-{%- endif %}
+    </ul>
+  {%- if level == 1 %}
+    </div>
+  {%- endif %}
 {%- endmacro %}
 
 {# =============================== #}
@@ -35,7 +27,70 @@
 {%- macro preprocess_post(resource) %}
 	{%- set content = resource.content %}
 	{%- if content is containing("<!-- toc -->") %}
-		{%- set content = content | replace(from="<!-- toc -->", to=self::toc(toc=resource.toc, level=1, depth=resource.extra.toc_depth | default(value=6))) %}
+		{%- set content = content | replace(from="<!-- toc -->", to=self::generate_toc(toc=resource.toc, level=1, depth=resource.extra.toc_depth | default(value=2))) %}
 	{%- endif -%}
 	{{ content | safe }}
+{%- endmacro %}
+
+{# ====================================== #}
+{# === Construct the heading section === #}
+{# ====================================== #}
+{%- macro post_heading(page, isLink) %}
+	{# Heading section #}
+  <h1 class="text-5xl mt-12 text-headline">
+    {%- if isLink %}
+      <a class="text-headline visited:text-headline" href="{{ page.permalink | safe }}">
+        {{ page.title }}
+      </a>
+    {%- else %}
+      {{ page.title }}
+    {%- endif %}
+  </h1>
+{%- endmacro %}
+
+{# ====================================== #}
+{# === Construct the metadata section === #}
+{# ====================================== #}
+{%- macro post_metadata(page) %}
+	{# Author and tags section. #}
+  <div class="flex flex-row my-4">
+    {# Author image #}
+    {% if page.authors and page.authors[0] == "Christian Kjær" or not page.authors and config.author == "Christian Kjær" %}
+      <div class="flex flex-col mr-4 place-self-center">
+        <img
+            class="rounded-full"
+            src="{{ get_url(path='images/me-casual.jpg') }}"
+            alt="Christian Kjær in a casual setting :)"
+            title="Christian Kjær in a casual setting :)"
+            width="48px"
+            height="48px"
+          />
+      </div>
+    {% endif %}
+    <div class="flex flex-col text-xs place-self-center">
+      <div>
+        {% if page.authors %}
+          {{ page.authors[0] }}
+        {%- elif config.author -%}
+          {{ config.author }}
+        {% endif %}
+      </div>
+
+      <div class="flex flex-row text-subtle">
+        {{ page.date | date(format="%-e. %B %Y")  }}
+        {% if page.taxonomies.tags %}
+        <p class="mx-1">·</p>
+          <p>
+            {% for tag in page.taxonomies.tags %}
+              <a class="text-subtle visited:text-subtle hover:text-link-hover" href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}" itemprop="url">{{ tag }}</a>
+              {# Add comma in between tags. #}
+              {% if page.taxonomies.tags | length > 1 %}
+                {% if loop.index != page.taxonomies.tags | length %},{% endif %}
+              {% endif %}
+            {% endfor %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 {%- endmacro %}

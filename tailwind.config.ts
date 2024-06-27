@@ -90,6 +90,9 @@ module.exports = {
   },
   darkMode: "selector",
   theme: {
+    // Normal: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"
+    // Title: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"
+    // Code: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace
     fontFamily: {
       sans: [
         "-apple-system",
@@ -102,6 +105,15 @@ module.exports = {
         "apple color emoji",
         "segoe ui emoji",
       ],
+      code: [
+        "ui-monospace",
+        "SFMono-Regular",
+        "SF Mono",
+        "Menlo",
+        "Consolas",
+        "Liberation Mono",
+        "monospace",
+      ],
     },
     colors: {
       transparent: "transparent",
@@ -110,8 +122,11 @@ module.exports = {
     },
     extend: {
       colors: {
+        background: "var(--background)",
+        backgroundCode: "var(--background-code)",
+        backgroundInlineCode: "var(--background-inline-code)",
         subtle: "var(--text-subtle)",
-        headline: brand["300"],
+        headline: "var(--text-headline)",
         primary: "var(--text-primary)",
         link: {
           DEFAULT: "var(--link-color)",
@@ -119,13 +134,31 @@ module.exports = {
         },
         dark: {
           background: "#0E1116",
+          // GitHub style background for code blocks (original #171B22).
+          backgroundCode: "#171B22",
+          backgroundInlineCode: "#6e768166",
           text: black["50"],
+          headline: brand["300"],
           subtleText: black["400"],
+          link: {
+            DEFAULT: blue["300"],
+            hover: blue["200"],
+            visited: blue["500"],
+          },
         },
         light: {
           background: black["50"],
+          // GitHub style background for code blocks (original #F6F8FA).
+          backgroundCode: black["100"],
+          backgroundInlineCode: "#afb8c133",
           text: black["900"],
+          headline: brand["400"],
           subtleText: black["400"],
+          link: {
+            DEFAULT: blue["700"],
+            hover: blue["700"],
+            visited: blue["700"],
+          },
         },
         brand, // Orange is the brand color.
         black,

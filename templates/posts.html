@@ -1,22 +1,28 @@
 {% extends "base.html" %}
+{% import "macros/post.html" as macros %}
 
 {% block content %}
 
 {# Breadcrumbs #}
-<div class="md:mb-16 mb-8 mt-8 text-sm">
+<div class="md:mb-8 mb-8 mt-8 text-xs">
   <a href="{{ get_url(path='@/_index.md') }}">Home</a>
   › {{ section.title }}
 </div>
 
-{# <h1 class="title">{{ section.title }}</h1> #}
-
 <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
 {% for page in section.pages %}
 <div>
-  <h2>
-    <a class="text-headline visited:text-headline" href="{{ page.permalink | safe }}">{{ page.title }}</a>
-  </h2>
-  {{ page.summary | safe }}
+  {# Heading section #}
+  {{ macros::post_heading(page=page, isLink=true) }}
+
+  {# Author and tags section. #}
+  {{ macros::post_metadata(page=page) }}
+
+
+  {# Summary section. #}
+  <div class="styling-full">
+    {{ page.summary | safe }}
+  </div>
 </div>
 {% endfor %}
 
