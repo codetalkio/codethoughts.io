@@ -56,11 +56,41 @@
       // Whenever the user explicitly chooses to respect the OS preference
       // localStorage.removeItem("theme");
     </script>
+
+    <!-- Mermaid JS -->
+    <!-- Fetched from https://cdnjs.com/libraries/mermaid. -->
+    <script async type="application/javascript" src="/resources/js/mermaid.min.js"></script>
+    <!-- End Mermaid JS -->
   </head>
 
   <body>
-    <div class="max-w-screen-md mx-auto">
+    <div class="max-w-screen-md mx-auto md:px-0 px-4">
       {% block content %} {% endblock %}
+
+      <div id="footer" class="mt-2 mb-8 text-sm">
+        <div class="separator"></div>
+        <div class="flex flex-row">
+          <div class="basis-1/2">
+            <p class="text-subtle">
+              <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ get_url(path='@/pages/about.md') }}">about</a> the site
+              <br />
+              <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ get_url(path='@/pages/archive.md') }}">archive</a> of all posts
+              <br />
+              {% set tags = get_taxonomy(kind="tags") %}
+              overview of <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ tags.permalink }}">tags</a>
+            </p>
+          </div>
+          <div class="basis-1/2 text-right">
+            <p  class="text-subtle">
+              personal <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/Tehnix" target="_blank" rel="noopener nofollow noreferrer">github</a> and<br/>
+              <a class="text-primary visited:text-primary hover:text-link-hover" href="https://github.com/codetalkio" target="_blank" rel="noopener nofollow noreferrer">codetalk</a> projects
+              <br />
+              <a class="text-primary visited:text-primary hover:text-link-hover" href="https://twitter.com/codetalkio" target="_blank" rel="noopener nofollow noreferrer">twitter</a> feed
+            </p>
+          </div>
+        </div>
+        <div class="text-subtle text-center mt-8">© copyright codetalk 2024</div>
+      </div>
     </div>
   </body>
 </html>

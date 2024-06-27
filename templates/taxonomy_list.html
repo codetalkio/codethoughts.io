@@ -6,14 +6,17 @@
 <div class="md:mb-16 mb-8 mt-8 text-xs">
   <a href="{{ get_url(path='@/_index.md') }}">Home</a>
   {% if page.extra.parent and page.extra.parent_path %} › <a href="{{ get_url(path=page.extra.parent_path) }}">{{ page.extra.parent | safe }}</a> {% endif %}
-  › <span class="capitalize">{{ taxonomy.name }}</span>
+  › <span>{{ taxonomy.name | capitalize }}</span>
 </div>
 
-<h1 class="title capitalize">{{ taxonomy.name }}</h1>
-<ul>
-  <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
-  {% for term in terms %}
-    <li><a href="{{ term.permalink | safe }}">{{ term.name }}</a></li>
-  {% endfor %}
-</ul>
+<div class="mb-16">
+  <h1 class="title">{{ taxonomy.name | capitalize }}</h1>
+  <ul>
+    <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
+    {% for term in terms %}
+      <li><a href="{{ term.permalink | safe }}">{{ term.name }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+
 {% endblock content %}

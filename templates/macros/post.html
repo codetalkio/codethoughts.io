@@ -37,15 +37,17 @@
 {# ====================================== #}
 {%- macro post_heading(page, isLink) %}
 	{# Heading section #}
-  <h1 class="text-5xl mt-12 text-headline">
-    {%- if isLink %}
+  {%- if isLink %}
+    <h1 id="{{ page.title | slugify }}" class="text-5xl mt-12 text-headline">
       <a class="text-headline visited:text-headline" href="{{ page.permalink | safe }}">
         {{ page.title }}
       </a>
+    </h1>
     {%- else %}
+    <h1 id="{{ page.title | slugify }}" class="text-5xl mt-12 text-headline">
       {{ page.title }}
+    </h1>
     {%- endif %}
-  </h1>
 {%- endmacro %}
 
 {# ====================================== #}
@@ -56,7 +58,7 @@
   <div class="flex flex-row my-4">
     {# Author image #}
     {% if page.authors and page.authors[0] == "Christian Kjær" or not page.authors and config.author == "Christian Kjær" %}
-      <div class="flex flex-col mr-4 place-self-center">
+      <div class="flex flex-col mr-4 place-self-center min-w-12">
         <img
             class="rounded-full"
             src="{{ get_url(path='images/me-casual.jpg') }}"
@@ -76,20 +78,23 @@
         {% endif %}
       </div>
 
-      <div class="flex flex-row text-subtle">
+      <div class="flex flex-row text-subtle flex-wrap">
+        {# Reading time, based on https://help.medium.com/hc/en-us/articles/214991667-Read-time #}
+        {{ page.reading_time | safe }} min read
+        <p class="mx-1">·</p>
         {{ page.date | date(format="%-e. %B %Y")  }}
         {% if page.taxonomies.tags %}
-        <p class="mx-1">·</p>
-          <p>
-            {% for tag in page.taxonomies.tags %}
-              <a class="text-subtle visited:text-subtle hover:text-link-hover" href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}" itemprop="url">{{ tag }}</a>
-              {# Add comma in between tags. #}
-              {% if page.taxonomies.tags | length > 1 %}
-                {% if loop.index != page.taxonomies.tags | length %},{% endif %}
-              {% endif %}
-            {% endfor %}
-          </p>
-        {% endif %}
+          <p class="mx-1">·</p>
+            <p>
+              {% for tag in page.taxonomies.tags %}
+                <a class="text-subtle visited:text-subtle hover:text-link-hover" href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}" itemprop="url">{{ tag }}</a>
+                {# Add comma in between tags. #}
+                {% if page.taxonomies.tags | length > 1 %}
+                  {% if loop.index != page.taxonomies.tags | length %},{% endif %}
+                {% endif %}
+              {% endfor %}
+            </p>
+          {% endif %}
       </div>
     </div>
   </div>

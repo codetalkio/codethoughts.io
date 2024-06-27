@@ -1,6 +1,7 @@
 +++
 title = "The Stack Part 3: Building a Frontend"
 date = 2023-10-16
+in_search_index = false
 [taxonomies]
 tags = ["rust", "typescript", "wasm", "nextjs", "leptos", "aws", "cloud", "infrastructure", "cdk", "ci"]
 +++

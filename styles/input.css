@@ -30,6 +30,10 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @apply antialiased;
 
@@ -55,6 +59,26 @@ body {
     }
   }
 
+  a.text-primary {
+    color: var(--text-primary);
+    &:visited {
+      color: var(--text-primary);
+    }
+    &:hover {
+      color: var(--link-color-hover);
+    }
+  }
+
+  a.text-headline {
+    color: var(--text-headline);
+    &:visited {
+      color: var(--text-headline);
+    }
+    &:hover {
+      color: var(--link-color-hover);
+    }
+  }
+
   code {
     @apply py-0.5 px-1.5 rounded-md;
     font-size: 85%;
@@ -65,6 +89,20 @@ body {
       @apply p-0;
       font-size: 100%;
       background-color: inherit;
+    }
+  }
+
+  .separator {
+    @apply flex border-t border-black-50 mb-2;
+  }
+
+  .active-toc-sidebar-item {
+    color: var(--text-headline);
+    div {
+      color: var(--text-headline);
+    }
+    span {
+      color: var(--text-headline);
     }
   }
 }

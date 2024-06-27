@@ -10,10 +10,29 @@
   › {{ term.name }}
 </div>
 
-<ul>
-  <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
-  {% for page in term.pages %}
-    <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a></li>
-  {% endfor %}
-</ul>
+<div class="mb-16">
+  <table class="table-fixed min-w-full">
+    <thead>
+        <tr>
+            <th class="w-3/4 text-left">Title</th>
+            <th class="w-1/4 text-left">Published</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for page in term.pages | sort(attribute="date") | reverse %}
+        <tr class="border-t border-b border-subtle cursor-pointer hover:text-link-hover" onclick="location.href='{{ page.permalink | safe }}';">
+            <td class="pb-2 pt-2">
+                <a class="text-headline visited:text-headline hover:text-link-hover" href="{{ page.permalink }}">
+                    {{ page.title }}
+                </a>
+            </td>
+            <td>
+                {{ page.date | date(format="%B %-e, %Y")  }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 {% endblock content %}

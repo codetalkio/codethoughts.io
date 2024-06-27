@@ -10,6 +10,8 @@
   › {{ page.title }}
 </div>
 
-{{ macros::preprocess_content(resource=page) }}
+<div class="mb-16">
+  {{ macros::preprocess_content(resource=page) }}
+</div>
 
 {% endblock content %}
