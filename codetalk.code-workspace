@@ -1,12 +1,16 @@
 {
   "folders": [
     {
-      "name": "project",
-      "path": "."
+      "name": "posts",
+      "path": "content/posts"
     },
     {
-      "name": "legacy",
-      "path": "legacy"
+      "name": "drafts",
+      "path": "content/drafts"
+    },
+    {
+      "name": "project",
+      "path": "."
     }
   ],
   "settings": {

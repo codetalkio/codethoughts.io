@@ -1,0 +1,111 @@
+name: "CI: Build and create release"
+
+# Check out https://help.github.com/en/articles/workflow-syntax-for-github-actions for documentation on Actions.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "posts/**"
+      - "importable/**"
+      - "drafts/**"
+      - "resources/**"
+      - "src/**"
+      - "templates/**"
+      - ".github/workflows/ci.yml"
+      - "stack.yaml"
+
+defaults:
+  run:
+    shell: bash # Set the default shell to bash.
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    environment:
+      name: ci
+    env:
+      GHC_VERSION: "9.2.5"
+      CABAL_VERSION: "3.6.2.0"
+      STACK_VERSION: "2.9.3"
+    steps:
+      - uses: actions/checkout@v3
+
+      # Setup tooling
+      - uses: haskell/actions/setup@v2
+        name: Setup Haskell Stack
+        id: setup-haskell-build-env
+        with:
+          ghc-version: ${{ env.GHC_VERSION }}
+          cabal-version: ${{ env.CABAL_VERSION }}
+          stack-version: ${{ env.STACK_VERSION }}
+          enable-stack: true
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install sass to compile scss
+        run: |
+          npm i -g sass
+
+      # Enable cache for cabal and stack
+      - uses: actions/cache@v3
+        name: Cache ~/.cabal/packages, ~/.cabal/store and dist-newstyle
+        with:
+          path: |
+            ${{ steps.setup-haskell-build-env.outputs.cabal-store }}
+            dist-newstyle
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store-${{ hashFiles('*.cabal') }}
+          restore-keys: ${{ runner.os }}-${{env.GHC_VERSION}}-cabal-store-
+
+      - uses: actions/cache@v3
+        name: Cache ~/.stack
+        with:
+          path: |
+            ~/.stack
+            .stack-work
+          key: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-${{ hashFiles('stack.yaml.lock') }}
+          restore-keys: ${{ runner.os }}-${{env.GHC_VERSION}}-stack-
+
+      - name: Install dependencies
+        run: |
+          stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --only-dependencies
+
+      - name: Build executable
+        run: |
+          stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --local-bin-path ./dist --copy-bins
+          ./dist/hakyll-site clean
+          ./dist/hakyll-site build
+
+      - name: Compile SCSS
+        run: |
+          sass resources/scss/app.scss:_site/app.css --style compressed
+
+      - name: Prepare build artifacts and input for release
+        id: date
+        run: |
+          echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+          tar -zcvf _site.tar.gz _site
+
+      - uses: codetalkio/release-action@v1
+        if: github.ref == 'refs/heads/master'
+        with:
+          artifacts: "./dist/hakyll-site,./_site.tar.gz"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.date.outputs.date }}
+          commit: ${{ github.sha }}
+          allowUpdates: true
+          generateReleaseNotes: true
+          artifactErrorsFailBuild: true
+
+      # Trigger the deployment workflow directly via workflow_dispatch. Alternatively, use a
+      # PAT for the release step, as suggested in https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow.
+      - name: Trigger deployment
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'cd.yml',
+              ref: 'master',
+            })
