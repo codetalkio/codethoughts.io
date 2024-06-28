@@ -1,0 +1,1 @@
+{"id":"7746c4a8f2340d563890a0db519d8d84","url":"https://gist.github.com/Tehnix/7746c4a8f2340d563890a0db519d8d84","embeds":["https://gist.github.com/Tehnix/7746c4a8f2340d563890a0db519d8d84.js?file=policy.json","https://gist.github.com/Tehnix/7746c4a8f2340d563890a0db519d8d84.js?file=....-2023-10-07-the-stack-part-1.md"]}

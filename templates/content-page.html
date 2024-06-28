@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "macros/content.html" as macros %}
+{% import "macros/general.html" as base %}
+
+{% block content %}
+
+{# Breadcrumbs #}
+{{ base::breadcrumbs(page=page, crumbs=[page.extra.parent | default(value="")]) }}
+
+<div class="mb-16">
+  {{ macros::preprocess_content(resource=page) }}
+</div>
+
+{% endblock content %}

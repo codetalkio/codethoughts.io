@@ -1,0 +1,230 @@
+{# Macros inspired from https://zola.discourse.group/t/choose-table-of-content-position/506/2 #}
+{# ========================= #}
+{# === Table of contents === #}
+{# ========================= #}
+{%- macro generate_toc(toc, level, depth) %}
+  {%- if level == 1 %}
+    <div class="toc">
+  {%- endif %}
+    <ul>
+  {%- for h in toc %}
+      <li>
+        <a href="{{ h.permalink | safe }}">{{ h.title }}</a>
+    {% if h.children and level < depth -%}
+        {{ self::generate_toc(toc=h.children, level=level+1, depth=depth) }}
+    {%- endif %}
+      </li>
+  {%- endfor %}
+    </ul>
+  {%- if level == 1 %}
+    </div>
+  {%- endif %}
+{%- endmacro %}
+
+{# =============================== #}
+{# === Preprocess the resource === #}
+{# =============================== #}
+{%- macro preprocess_post(resource) %}
+	{%- set content = resource.content %}
+	{%- if content is containing("<!-- toc -->") %}
+		{%- set content = content | replace(from="<!-- toc -->", to=self::generate_toc(toc=resource.toc, level=1, depth=resource.extra.toc_depth | default(value=2))) %}
+	{%- endif -%}
+	{{ content | safe }}
+{%- endmacro %}
+
+{# ====================================== #}
+{# === Construct the heading section === #}
+{# ====================================== #}
+{%- macro post_heading(page, isLink) %}
+	{# Heading section #}
+  {%- if isLink %}
+    <h1 id="{{ page.title | slugify }}" class="text-5xl mt-12 text-headline">
+      <a class="text-headline visited:text-headline" href="{{ page.permalink | safe }}">
+        {{ page.title }}
+      </a>
+    </h1>
+    {%- else %}
+    <h1 id="{{ page.title | slugify }}" class="text-5xl mt-12 text-headline">
+      {{ page.title }}
+    </h1>
+    {%- endif %}
+{%- endmacro %}
+
+{# ====================================== #}
+{# === Construct the metadata section === #}
+{# ====================================== #}
+{%- macro post_metadata(page) %}
+	{# Author and tags section. #}
+  <div class="flex flex-row my-4">
+    {# Author image #}
+    {% if page.authors and page.authors[0] == "Christian Kjær" or not page.authors and config.author == "Christian Kjær" %}
+      <div class="flex flex-col mr-4 place-self-center min-w-12">
+        <img
+            class="rounded-full"
+            src="{{ get_url(path='images/me-casual.jpg') }}"
+            alt="Christian Kjær in a casual setting :)"
+            title="Christian Kjær in a casual setting :)"
+            width="48px"
+            height="48px"
+          />
+      </div>
+    {% endif %}
+    <div class="flex flex-col text-xs place-self-center">
+      <div>
+        {% if page.authors %}
+          {{ page.authors[0] }}
+        {%- elif config.author -%}
+          {{ config.author }}
+        {% endif %}
+      </div>
+
+      <div class="flex flex-row text-subtle flex-wrap">
+        {# Reading time, based on https://help.medium.com/hc/en-us/articles/214991667-Read-time #}
+        {{ page.reading_time | safe }} min read
+        <p class="mx-1">·</p>
+        {{ page.date | date(format="%-e. %B %Y")  }}
+        {% if page.taxonomies.tags %}
+          <p class="mx-1">·</p>
+            <p>
+              {% for tag in page.taxonomies.tags %}
+                <a class="text-subtle visited:text-subtle hover:text-link-hover" href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}" itemprop="url">{{ tag }}</a>
+                {# Add comma in between tags. #}
+                {% if page.taxonomies.tags | length > 1 %}
+                  {% if loop.index != page.taxonomies.tags | length %},{% endif %}
+                {% endif %}
+              {% endfor %}
+            </p>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+{%- endmacro %}
+
+{# ======================================= #}
+{# === Construct the next/prev section === #}
+{# ======================================= #}
+{%- macro post_next_prev(page) %}
+	{# Next and Previous post section #}
+  <div class="flex justify-between mb-4">
+    {# Alternative: Link to the previous post #}
+    {# NOTE: Counter-intuitively, the sorting is ascending, so higher will be "older" #}
+    <div class="text-left">
+      {% if page.higher %}
+          <a class="text-headline" href="{{ page.higher.permalink }}">‹ {{ page.higher.title }}</a>
+      {% else %}
+          <a class="text-headline" href="{{ get_url(path='@/posts/_index.md') }}">‹ Back to all Posts</a>
+      {% endif %}
+    </div>
+
+    {# Link to the next post #}
+    {# NOTE: Counter-intuitively, the sorting is ascending, so lower will be "newer" #}
+    <div class="text-right">
+      {% if page.lower %}
+        <a class="text-headline" href="{{ page.lower.permalink }}">{{ page.lower.title }} ›</a>
+        {# <a href="{{ page.lower.permalink }}">Next Post ›</a> #}
+      {% endif %}
+    </div>
+  </div>
+{%- endmacro %}
+
+{# ======================================== #}
+{# === Construct ToC navigation tracker === #}
+{# ======================================== #}
+{%- macro post_toc_tracker(page) %}
+	{# Sidebar listing the table of contents #}
+  {% if page.toc %}
+    <script src="{{ get_url(path='js/toc-sidebar.min.js') }}?h={{ get_hash(path="js/toc-sidebar.min.js") }}"></script>
+
+    <button id="table-of-contents-menu" popovertarget="table-of-contents-sidebar-popover" class="min-[850px]:hidden fixed top-5 right-5 rounded-full bg-menu px-2 pt-0 pb-1 cursor-pointer text-2xl">
+      ☰
+    </button>
+
+    {# Shown on smaller screens and activated via the #table-of-contents-menu button. #}
+    <div popover id="table-of-contents-sidebar-popover" class="bg-transparent flex-col justify-center">
+      <div class="ml-2 leading-7 text-sm w-fit">
+        <div class="bg-code px-4 py-2 rounded-md border border-subtle">
+
+          {# Link to the top of the page #}
+          <div class="line-clamp-1">
+            <a class="text-primary" href="#{{ page.title | slugify }}">
+              <span class="hover:text-link-hover">{{ page.title }}</span>
+            </a>
+          </div>
+
+          {# Create a link to the 1st level ToC items #}
+          {% for h in page.toc %}
+            <div class="line-clamp-1">
+              <a class="text-primary" href="{{ h.permalink }}">
+                <span class="hover:text-link-hover">{{ h.title }}</span>
+              </a>
+            </div>
+
+            {% if h.children %}
+              {# Create a link to the 2nd level ToC items #}
+              {% for h in h.children %}
+                <div class="line-clamp-1">
+                  <a class="text-primary" href="{{ h.permalink }}">
+                    <span class="hover:text-link-hover pl-4">{{ h.title }}</span>
+                  </a>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+
+          {# Link to the bottom of the page (we only show this when menu is open) #}
+          <div class="line-clamp-1">
+            <a class="text-primary" href="#comments">
+              <span class="hover:text-link-hover">Comments</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# Shown when the screen is wide-enough, in the left side. #}
+    <div id="table-of-contents-sidebar" class="fixed z-50 left-0 h-dvh flex flex-col justify-center -mt-20 max-[850px]:hidden">
+      <div class="group w-10 ml-2 leading-7 text-sm hover:w-72 transition-[width] ease-linear duration-100">
+        <div class="group-hover:w-fit group-hover:bg-code group-hover:px-4 group-hover:py-2 group-hover:rounded-md group-hover:border group-hover:border-subtle">
+
+          {# Link to the top of the page #}
+          <div class="line-clamp-1">
+            <a class="text-subtle group-hover:text-primary" href="#{{ page.title | slugify }}">
+              <div class="block group-hover:hidden border-b-2 w-3 h-5"> </div>
+              <span class="hidden group-hover:inline hover:text-link-hover">{{ page.title }}</span>
+            </a>
+          </div>
+
+          {# Create a link to the 1st level ToC items #}
+          {% for h in page.toc %}
+            <div class="line-clamp-1">
+              <a class="text-subtle group-hover:text-primary" href="{{ h.permalink }}">
+                <div class="block group-hover:hidden border-b-2 w-3 h-5"> </div>
+                <span class="hidden group-hover:inline hover:text-link-hover">{{ h.title }}</span>
+              </a>
+            </div>
+
+            {% if h.children %}
+              {# Create a link to the 2nd level ToC items #}
+              {% for h in h.children %}
+                <div class="line-clamp-1">
+                  <a class="text-subtle group-hover:text-primary" href="{{ h.permalink }}">
+                    <div class="block group-hover:hidden border-b-2 ml-1 w-2 h-5"> </div>
+                    <span class="hidden group-hover:inline hover:text-link-hover pl-4">{{ h.title }}</span>
+                  </a>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+
+          {# Link to the bottom of the page (we only show this when menu is open) #}
+          <div class="line-clamp-1">
+            <a class="text-subtle group-hover:text-primary" href="#comments">
+              {# <div class="block group-hover:hidden border-b-2 w-3 h-5"> </div> #}
+              <span class="hidden group-hover:inline hover:text-link-hover">Comments</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{%- endmacro %}

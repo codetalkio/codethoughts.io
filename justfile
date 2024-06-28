@@ -12,49 +12,41 @@ code:
 [linux]
 install-tooling:
   @ just _install-tooling-all-platforms
-  # Install imagemagick for mogrify.
-  command -v mogrify >/dev/null 2>&1 || sudo apt install imagemagick
-  gh release download --clobber --pattern "hakyll-site" --dir ./dist
-  chmod +x ./dist/hakyll-site
+  echo "Currently unsupported, see https://www.getzola.org/documentation/getting-started/installation/ for installation instructions."
 
 # Install tooling for working with the codetalk blog.
 [macos]
 install-tooling:
   @ just _install-tooling-all-platforms
-  # Install imagemagick for mogrify.
-  command -v mogrify >/dev/null 2>&1 || brew install imagemagick
+  # Install zola.
+  brew install zola
 
 _install-tooling-all-platforms:
-  # Install stack.
-  command -v stack >/dev/null 2>&1 || curl -sSL https://get.haskellstack.org/ | sh
-  # Install ghcup.
-  command -v ghcup >/dev/null 2>&1 || curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-  # Install sass.
-  command -v sass >/dev/null 2>&1 || npm i -g sass
+  echo "Setting up tools..."
 
-# Setup dependencies and build the hakyll executable.
-setup:
-  stack build
-
-# Deploy the blog to S3 and invalidate CloudFront cache.
-deploy:
-  #!/usr/bin/env bash
-  set -euxo pipefail
-  just build
-  # Sync files to S3.
-  aws s3 sync _site s3://codetalk.io --delete
-  # Invalidate Cloudflare cache.
-  curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
-      -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
-      -H "Content-Type: application/json" \
-      --data '{"purge_everything":true}'
-
-# Run hakyll development server in watch mode.
+# Run zola development server in watch mode.
 dev:
-  stack exec -- hakyll-site watch --port 4566
+  bunx concurrently --names tailwind,zola "bunx tailwindcss --input styles/input.css --output static/styles/output.css --watch" "zola serve --port 4566"
 
 # Build blog artifacts and static files.
 build:
-  ./dist/hakyll-site clean || stack exec -- hakyll-site clean
-  ./dist/hakyll-site clean || stack exec -- hakyll-site build
-  sass resources/scss/app.scss:_site/app.css --style compressed
+  bunx tailwindcss --input styles/input.css --output static/styles/output.css --minify
+  zola build
+
+# Generate posts with Gists instead of code blocks.
+generate-gists:
+  cd tools && bun run index.ts
+
+# TODO: Move deployment to CloudFlare Pages?
+# Deploy the blog to S3 and invalidate CloudFront cache.
+# deploy:
+#   #!/usr/bin/env bash
+#   set -euxo pipefail
+#   just build
+#   # Sync files to S3.
+#   aws s3 sync _site s3://codetalk.io --delete
+#   # Invalidate Cloudflare cache.
+#   curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
+#       -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
+#       -H "Content-Type: application/json" \
+#       --data '{"purge_everything":true}'

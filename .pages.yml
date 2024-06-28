@@ -1,11 +1,11 @@
 media:
-  input: resources/images
-  output: /resources/images
+  input: static/content-images
+  output: /static/content-images
 
 content:
   - name: posts
     label: Posts
-    path: posts
+    path: content/posts
     type: collection
     filename: '{year}-{month}-{day}-{primary}.md'
     view:
@@ -42,7 +42,7 @@ content:
         required: true
   - name: drafts
     label: Drafts
-    path: drafts
+    path: content/drafts
     type: collection
     filename: '{year}-{month}-{day}-{primary}.md'
     view:

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% import "macros/post.html" as macros %}
+{% import "macros/general.html" as base %}
+
+{% block content %}
+
+{# Breadcrumbs #}
+{{ base::breadcrumbs(page=page, crumbs=['posts/_index.md']) }}
+
+{# Sidebar listing the table of contents #}
+{{ macros::post_toc_tracker(page=page) }}
+
+{# Heading section #}
+{{ macros::post_heading(page=page, isLink=false) }}
+
+{# Author and tags section. #}
+{{ macros::post_metadata(page=page) }}
+
+<div class="styling-full">
+  {{ macros::preprocess_post(resource=page) }}
+</div>
+
+{# Next and Previous post section #}
+{{ macros::post_next_prev(page=page) }}
+
+<div id="comments">
+  <script
+    id="utterances"
+    src="https://utteranc.es/client.js"
+    repo="codetalkio/codethoughts.io"
+    issue-term="url"
+    label="C-comments"
+    theme="preferred-color-scheme"
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+{# <div class="separator"></div>
+
+{% if page.backlinks %}
+  <div class="mb-4">
+    <h2 class="text-2xl">Related posts</h2>
+      <ul class="list-none list-inside">
+        {% for backlink in page.backlinks %}
+        <li class="ml-6 pr-8 first:mt-4">
+          <a class="text-headline" href="{{ backlink.permalink | safe }}">{{ backlink.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+  </div>
+{% endif %} #}
+
+{% endblock content %}

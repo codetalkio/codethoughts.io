@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% import "macros/post.html" as macros %}
+{% import "macros/general.html" as base %}
+
+{% block content %}
+
+{# Breadcrumbs #}
+{{ base::breadcrumbs(page=section, crumbs=[]) }}
+
+{# Sidebar listing the currently displayed articles #}
+<div class="fixed left-0 h-dvh flex flex-col justify-center -mt-20 max-[850px]:hidden">
+  <div class="group w-10 ml-2 leading-7 text-sm hover:w-96 transition-[width] ease-linear duration-100">
+    <div class="hover:w-fit hover:bg-code hover:px-4 hover:py-2 hover:rounded-md hover:border hover:border-subtle">
+      {% for page in section.pages %}
+        <div class="line-clamp-1">
+          <a class="text-subtle group-hover:text-primary" href="#{{ page.title | slugify }}">
+            <div class="block group-hover:hidden border-b-2 w-3 h-5"> </div>
+            <span class="hidden group-hover:inline hover:text-link-hover">{{ page.title }}</span>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
+{% for page in section.pages %}
+<div>
+  {# Heading section #}
+  {{ macros::post_heading(page=page, isLink=true) }}
+
+  {# Author and tags section. #}
+  {{ macros::post_metadata(page=page) }}
+
+
+  {# Summary section. #}
+  <div class="styling-full">
+    {{ page.summary | safe }}
+  </div>
+</div>
+{% endfor %}
+
+{% endblock content %}

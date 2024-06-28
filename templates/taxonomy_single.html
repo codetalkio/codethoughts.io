@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{# Breadcrumbs #}
+<div class="md:mb-16 mb-8 mt-8 text-xs">
+  <a href="{{ get_url(path='@/_index.md') }}">Home</a>
+  {% if page.extra.parent and page.extra.parent_path %} › <a href="{{ get_url(path=page.extra.parent_path) }}">{{ page.extra.parent | safe }}</a> {% endif %}
+  › <a class="capitalize" href="{{ get_url(path=taxonomy.name) }}">{{ taxonomy.name }}</a>
+  › {{ term.name }}
+</div>
+
+<div class="mb-16">
+  <table class="table-fixed min-w-full">
+    <thead>
+        <tr>
+            <th class="w-3/4 text-left">Title</th>
+            <th class="w-1/4 text-left">Published</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for page in term.pages | sort(attribute="date") | reverse %}
+        <tr class="border-t border-b border-subtle cursor-pointer hover:text-link-hover" onclick="location.href='{{ page.permalink | safe }}';">
+            <td class="pb-2 pt-2">
+                <a class="text-headline visited:text-headline hover:text-link-hover" href="{{ page.permalink }}">
+                    {{ page.title }}
+                </a>
+            </td>
+            <td>
+                {{ page.date | date(format="%B %-e, %Y")  }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}

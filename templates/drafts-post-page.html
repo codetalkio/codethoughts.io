@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import "macros/post.html" as macros %}
+{% import "macros/general.html" as base %}
+
+{% block content %}
+
+{# Breadcrumbs #}
+{{ base::breadcrumbs(page=page, crumbs=['drafts/_index.md']) }}
+
+{# Sidebar listing the table of contents #}
+{{ macros::post_toc_tracker(page=page) }}
+
+{# Heading section #}
+{{ macros::post_heading(page=page, isLink=false) }}
+
+{# Author and tags section. #}
+{{ macros::post_metadata(page=page) }}
+
+<div class="styling-full">
+  {{ macros::preprocess_post(resource=page) }}
+</div>
+
+{# Next and Previous post section #}
+{{ macros::post_next_prev(page=page) }}
+
+{% endblock content %}

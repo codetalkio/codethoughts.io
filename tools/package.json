@@ -1,0 +1,22 @@
+{
+  "name": "tools",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "extract-mermaid": "cp node_modules/mermaid/dist/*.js ../static/js/mermaid/ && cp node_modules/mermaid/dist/mermaid.esm.min.mjs ../static/js/mermaid/mermaid.esm.min.mjs",
+    "bundle-mermaid": "bun build --minify --outfile ../static/js/mermaid.min.js node_modules/mermaid/dist/mermaid.esm.min.mjs"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "mermaid": "^10.9.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "codedown": "^3.1.0",
+    "marked": "^13.0.1",
+    "minimatch": "^9.0.4",
+    "octokit": "^4.0.2"
+  }
+}

@@ -1,0 +1,79 @@
+# The URL the site will be built for
+base_url = "/"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = false # We use TailwindCSS instead.
+
+# When set to "true", the generated HTML files are minified.
+minify_html = true
+
+# For overriding the default output directory `public`, set it to another value (e.g.: "docs")
+output_dir = "_dist"
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+# When set to "true", a feed is automatically generated.
+generate_feed = true
+
+# The filename to use for the feed. Used as the template filename, too.
+# Defaults to "atom.xml", which has a built-in template that renders an Atom 1.0 feed.
+# There is also a built-in template "rss.xml" that renders an RSS 2.0 feed.
+feed_filename = "atom.xml"
+
+# The default author for pages
+author = "Christian Kjær"
+
+# The taxonomies to be rendered for the site and their configuration of the default languages
+# Example:
+#     taxonomies = [
+#       {name = "tags", feed = true}, # each tag will have its own feed
+#       {name = "tags"}, # you can have taxonomies with the same name in multiple languages
+#       {name = "categories", paginate_by = 5},  # 5 items per page for a term
+#       {name = "authors"}, # Basic definition: no feed or pagination
+#     ]
+#
+taxonomies = [
+  { name = "tags", feed = true }, # each tag will have its own feed
+]
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+# Use CSS for styling instead of inline styles.
+highlight_theme = "css"
+
+# Set the themes for both dark and light mode.
+highlight_themes_css = [
+  { theme = "OneHalfDark", filename = "syntax-theme-dark.css" },   # Or visual-studio-dark
+  { theme = "OneHalfLight", filename = "syntax-theme-light.css" },
+]
+
+# Whether external links are to be opened in a new tab
+# If this is true, a `rel="noopener"` will always automatically be added for security reasons
+external_links_target_blank = true
+# Whether to set rel="nofollow" for all external links
+external_links_no_follow = true
+# Whether to set rel="noreferrer" for all external links
+external_links_no_referrer = true
+
+# Whether to set decoding="async" and loading="lazy" for all images
+# When turned on, the alt text must be plain text.
+# For example, `![xx](...)` is ok but `![*x*x](...)` isn’t ok
+lazy_async_image = true
+
+# Whether footnotes are rendered in the GitHub-style (at the bottom, with back references) or plain (in the place, where they are defined)
+bottom_footnotes = true
+
+# Various slugification strategies, see below for details
+# Defaults to everything being a slug
+[slugify]
+# Whether to remove date prefixes for page path slugs.
+# For example, content/posts/2016-10-08_a-post-with-dates.md => posts/a-post-with-dates
+# When true, content/posts/2016-10-08_a-post-with-dates.md => posts/2016-10-08-a-post-with-dates
+paths_keep_dates = true
+
+[extra]
+# Put all your custom variables here

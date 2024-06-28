@@ -1,0 +1,326 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --text-primary: theme("colors.light.text");
+  --text-headline: theme("colors.light.headline");
+  --foreground: var(--text-primary);
+  --background: theme("colors.light.background.DEFAULT");
+  --background-code: theme("colors.light.background.code");
+  --background-code-highlight: theme("colors.light.background.code-highlight");
+  --background-code-highlight-border: theme(
+    "colors.light.background.code-hightlight-border"
+  );
+  --background-inline-code: theme("colors.light.background.inline-code");
+  --background-aside: theme("colors.light.background.aside");
+  --background-table: theme("colors.light.background.table");
+  --background-menu: theme("colors.light.background.menu");
+  --border-subtle: theme("colors.light.border.subtle");
+  --link-color: theme("colors.light.link.DEFAULT");
+  --link-color-hover: theme("colors.light.link.hover");
+  --link-color-visited: theme("colors.light.link.visited");
+  --text-subtle: theme("colors.light.subtleText");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: theme("colors.dark.text");
+    --text-headline: theme("colors.dark.headline");
+    --foreground: var(--text-primary);
+    --background: theme("colors.dark.background.DEFAULT");
+    --background-code: theme("colors.dark.background.code");
+    --background-code-highlight: theme("colors.dark.background.code-highlight");
+    --background-code-highlight-border: theme(
+      "colors.dark.background.code-hightlight-border"
+    );
+    --background-inline-code: theme("colors.dark.background.inline-code");
+    --background-aside: theme("colors.dark.background.aside");
+    --background-table: theme("colors.dark.background.table");
+    --background-menu: theme("colors.dark.background.menu");
+    --border-subtle: theme("colors.dark.border.subtle");
+
+    --link-color: theme("colors.dark.link.DEFAULT");
+    --link-color-hover: theme("colors.dark.link.hover");
+    --link-color-visited: theme("colors.dark.link.visited");
+    --text-subtle: theme("colors.dark.subtleText");
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased;
+
+  color: var(--foreground);
+  background: var(--background);
+}
+
+a {
+  color: var(--link-color);
+  &:visited {
+    color: var(--link-color);
+  }
+  &:hover {
+    color: var(--link-color-hover);
+  }
+}
+
+a.text-subtle {
+  color: var(--text-subtle);
+  &:visited {
+    color: var(--text-subtle);
+  }
+  &:hover {
+    color: var(--link-color-hover);
+  }
+}
+
+a.text-primary {
+  color: var(--text-primary);
+  &:visited {
+    color: var(--text-primary);
+  }
+  &:hover {
+    color: var(--link-color-hover);
+  }
+}
+
+a.text-headline {
+  color: var(--text-headline);
+  &:visited {
+    color: var(--text-headline);
+  }
+  &:hover {
+    color: var(--link-color-hover);
+  }
+}
+
+code {
+  @apply py-0.5 px-1.5 rounded-md;
+  font-size: 85%;
+  background-color: var(--background-inline-code);
+}
+pre {
+  @apply text-xs text-wrap leading-6 mt-4 mb-6 border rounded-md !important;
+  font-family: theme("fontFamily.code") !important;
+  background-color: var(--background) !important;
+  border-color: var(--background-inline-code) !important;
+
+  code {
+    @apply p-0 !important;
+    font-size: 100% !important;
+    background-color: inherit !important;
+  }
+
+  /* Target line hightlighting. */
+  mark {
+    /* Disable the default styling. */
+    @apply pl-2;
+    color: inherit;
+    background-color: var(--background-code-highlight);
+    display: block;
+    box-shadow: inset 2px 0 0 var(--background-code-highlight-border);
+  }
+}
+pre:not([data-linenos]) {
+  /* Avoid accidentally styling the line numbers column, by excluding that attribute in the selector. */
+  /* NOTE: overflow-hidden ensures the highlight box-shadow does not go beyond the rounded corners. */
+  @apply pl-2 overflow-hidden;
+  /* Target line hightlighting. */
+  mark {
+    @apply pl-2 -ml-2;
+  }
+}
+pre[data-linenos] {
+  /* Target the line number column, which is the first td. */
+  table td:nth-of-type(1) {
+    /* `select-none` makes sure line numbers don't get copied when selecting code snippets. */
+    @apply select-none text-xs text-right align-top pl-4 pr-3 pt-1.5;
+    color: var(--text-subtle);
+
+    /* Target line hightlighting. */
+    mark {
+      /* Disable the default styling. */
+      @apply pl-0;
+      color: var(--text-subtle);
+      background-color: inherit;
+      box-shadow: none;
+    }
+  }
+
+  /* Target the code column, which is the second td. */
+  table td:nth-of-type(2) {
+    @apply pl-2;
+    mark {
+      /* Disable the default styling. */
+      @apply pl-2 -ml-2;
+    }
+  }
+}
+
+.separator {
+  @apply flex border-t border-black-50 mb-2;
+}
+
+.active-toc-sidebar-item {
+  color: var(--text-headline);
+  div {
+    color: var(--text-headline);
+  }
+  span {
+    color: var(--text-headline);
+  }
+}
+
+#table-of-contents-menu {
+  anchor-name: --anchor-toc-menu;
+}
+
+#table-of-contents-sidebar-popover {
+  position: fixed;
+  position-anchor: --anchor-toc-menu;
+  bottom: anchor(right);
+  left: anchor(bottom);
+  margin-top: 55px;
+  margin-right: 20px;
+}
+
+.styling-full {
+  @apply text-base leading-7 font-normal mb-16;
+  font-family: theme("fontFamily.sans");
+
+  h1 {
+    @apply text-5xl mt-12;
+    color: var(--text-primary);
+  }
+
+  h2 {
+    @apply text-3xl mt-8 mb-6 pb-2;
+    border-bottom: 1px solid #d8dee4;
+  }
+
+  h3 {
+    @apply text-2xl mt-6 mb-2 pb-2;
+  }
+
+  h4 {
+    @apply text-lg mt-6 mb-2 pb-2;
+  }
+
+  h5,
+  h6 {
+    @apply text-base;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-medium;
+    color: var(--text-primary);
+    a {
+      color: inherit;
+    }
+  }
+
+  p {
+    @apply mt-4;
+  }
+
+  ul,
+  ol {
+    @apply list-inside ml-4 my-2;
+  }
+  ul {
+    @apply list-disc;
+    ul {
+      @apply list-[circle] ml-6 my-0;
+      ul {
+        @apply list-[square] ml-6 my-0;
+      }
+    }
+  }
+  ol {
+    @apply list-decimal;
+    ol {
+      @apply list-[lower-alpha] ml-6 my-0;
+      ol {
+        @apply list-[lower-roman] ml-6 my-0;
+      }
+    }
+  }
+
+  /* Style blockquotes like Medium */
+  blockquote {
+    @apply mt-4 pl-4 -ml-4 italic;
+    border-color: var(--text-primary);
+    box-shadow: inset 4px 0 0 var(--text-primary);
+  }
+
+  aside {
+    p {
+      display: inline;
+    }
+  }
+
+  details {
+    @apply mt-4;
+    summary {
+      @apply cursor-pointer;
+    }
+  }
+
+  > table,
+  > center > table,
+  > left > table,
+  > right > table {
+    @apply mx-auto table-auto text-sm text-wrap leading-6 mt-4 mb-6 border border-separate border-spacing-0 rounded-md;
+    background-color: var(--background);
+    border-color: var(--border-subtle);
+
+    th,
+    td {
+      @apply py-2 px-4 border-b border-r;
+      border-color: var(--border-subtle);
+    }
+    tbody tr {
+      &:nth-child(even) {
+        @apply bg-table -mt-1;
+      }
+      &:last-child {
+        td {
+          @apply border-b-0;
+        }
+      }
+      td:last-child {
+        @apply border-r-0;
+      }
+    }
+
+    /* Hide empty headers. */
+    thead:not(thead:has(th:not(:empty))) {
+      display: none;
+    }
+  }
+
+  > left > table {
+    @apply mx-0;
+  }
+  > right > table {
+    @apply mr-0 ml-auto;
+  }
+
+  .footnote-definition {
+    @apply mt-4;
+    sup {
+      @apply mr-2;
+    }
+    p {
+      @apply mt-0 inline-block text-xs;
+    }
+  }
+}
