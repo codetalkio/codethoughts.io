@@ -2,8 +2,12 @@
   "name": "tools",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "extract-mermaid": "cp node_modules/mermaid/dist/*.js ../static/js/mermaid/"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "mermaid": "^10.9.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

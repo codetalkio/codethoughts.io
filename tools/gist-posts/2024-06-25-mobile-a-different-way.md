@@ -23,7 +23,7 @@ Admittedly, these might be trivial grips for someone that has spent years in the
 
 ….so what’s the alternative?
 
-<div></div><!--more-->
+<div></div><!-- more -->
 
 <div class="callout">
   <div class="callout-bulb">💡</div>

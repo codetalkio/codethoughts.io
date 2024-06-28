@@ -108,18 +108,22 @@
   <div class="flex justify-between mb-4">
     {# Alternative: Link to the previous post #}
     {# NOTE: Counter-intuitively, the sorting is ascending, so higher will be "older" #}
-    {% if page.higher %}
-        <a class="text-headline" href="{{ page.higher.permalink }}">‹ {{ page.higher.title }}</a>
-    {% else %}
-        <a class="text-headline" href="{{ get_url(path='@/posts/_index.md') }}">‹ Back to all Posts</a>
-    {% endif %}
+    <div class="text-left">
+      {% if page.higher %}
+          <a class="text-headline" href="{{ page.higher.permalink }}">‹ {{ page.higher.title }}</a>
+      {% else %}
+          <a class="text-headline" href="{{ get_url(path='@/posts/_index.md') }}">‹ Back to all Posts</a>
+      {% endif %}
+    </div>
 
     {# Link to the next post #}
     {# NOTE: Counter-intuitively, the sorting is ascending, so lower will be "newer" #}
-    {% if page.lower %}
-      <a class="text-headline" href="{{ page.lower.permalink }}">{{ page.lower.title }} ›</a>
-      {# <a href="{{ page.lower.permalink }}">Next Post ›</a> #}
-    {% endif %}
+    <div class="text-right">
+      {% if page.lower %}
+        <a class="text-headline" href="{{ page.lower.permalink }}">{{ page.lower.title }} ›</a>
+        {# <a href="{{ page.lower.permalink }}">Next Post ›</a> #}
+      {% endif %}
+    </div>
   </div>
 {%- endmacro %}
 

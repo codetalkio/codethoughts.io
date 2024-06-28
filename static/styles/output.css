@@ -593,6 +593,11 @@ video {
   margin-bottom: 1rem;
 }
 
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
 .-mt-20 {
   margin-top: -5rem;
 }
@@ -651,10 +656,6 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mt-0 {
-  margin-top: 0px;
 }
 
 .line-clamp-1 {
@@ -881,10 +882,6 @@ video {
 
 .pl-4 {
   padding-left: 1rem;
-}
-
-.pl-8 {
-  padding-left: 2rem;
 }
 
 .pr-8 {
@@ -1385,6 +1382,11 @@ pre[data-linenos] {
     border-color: var(--text-primary);
     box-shadow: inset 4px 0 0 var(--text-primary);
   }
+  aside {
+    p {
+      display: inline;
+    }
+  }
   > table,
   > center > table,
   > left > table,
@@ -1571,6 +1573,14 @@ pre[data-linenos] {
   border-width: 1px;
 }
 
+.hover\:border-subtle:hover {
+  border-color: var(--text-subtle);
+}
+
+.hover\:bg-code:hover {
+  background-color: var(--background-code);
+}
+
 .hover\:px-4:hover {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1635,10 +1645,6 @@ pre[data-linenos] {
 }
 
 @media (min-width: 640px) {
-  .sm\:mt-8 {
-    margin-top: 2rem;
-  }
-
   .sm\:mt-0 {
     margin-top: 0px;
   }

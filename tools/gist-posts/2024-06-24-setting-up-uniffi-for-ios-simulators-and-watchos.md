@@ -17,7 +17,7 @@ We've set up four crates:
 
 I won’t go over the details to get these to play nicely with Cargo and Workspaces, check out the repository for that. Let’s instead focus on a simplified version of what `mobile` does (the rest assumes you’re in the `mobile/` directory).
 
-<div></div><!--more-->
+<div></div><!-- more -->
 
 If starting from scratch, create a new cargo project:
 

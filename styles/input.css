@@ -261,6 +261,12 @@ pre[data-linenos] {
     box-shadow: inset 4px 0 0 var(--text-primary);
   }
 
+  aside {
+    p {
+      display: inline;
+    }
+  }
+
   > table,
   > center > table,
   > left > table,

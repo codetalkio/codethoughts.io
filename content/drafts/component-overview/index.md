@@ -146,15 +146,15 @@ We'll create a `ui-internal/messages/` folder where our locales will live....
 
 Pulling in a colocated image:
 
-{{ image(path="codethoughts-logo.png", alt="codethoughts logo", width=200) }}
+{{ image(path="logo.png", alt="codethoughts logo", width=200) }}
 
 Pulling in a colocated image with caption:
 
-{{ image(path="codethoughts-logo.png", caption="codethoughts logo", width=200) }}
+{{ image(path="logo.png", caption="codethoughts", width=200) }}
 
 Showing multiple images:
 
-{{ images(images=["codethoughts-logo.png", "codethoughts-logo.png", "codethoughts-logo.png"], captions=["codethoughts logo 1", "logo 2"], widths=[100, 200, 100], defaultAlt="The default alt", defaultWidth=200) }}
+{{ images(paths=["logo.png", "logo.png", "logo.png"], captions=["codethoughts logo 1", "logo 2"], widths=[100, 200, 100], defaultAlt="The default alt", defaultWidth=200) }}
 
 ## Tables
 
@@ -233,4 +233,6 @@ And a multi-line quote:
 
 A callout:
 
-{{ aside(text="This is meant to be a tip or call out some additonal info.") }}
+{% aside() %}
+  This is meant to be a tip or `call` out some [additonal info](#).
+{% end %}

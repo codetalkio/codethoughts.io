@@ -9,20 +9,20 @@
 {% set title = title | default(value=alt) %}
 
 {# NOTE: We use the regex to remove the "static/" part in the path, and avoid using .url since that contains an absolute path which includes the domain name. #}
-<div>
+<div class="mt-6">
 {%- if path is matching("[.](jpg|png)$") -%}
   <a href="/{{ page.colocated_path ~ path }}" target="_blank">
-    <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" />
+    <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" loading="lazy" />
     {# <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.url | safe }}" /> #}
   </a>
 {%- else -%}
-  <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" />
+  <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" loading="lazy" />
   {# <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.url | safe }}" /> #}
 {%- endif %}
 </div>
 
 {% if caption %}
-  <div class="text-sm text-subtle">
+  <div class="text-sm text-subtle mt-2">
     {{ caption }}
   </div>
 {% endif %}

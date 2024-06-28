@@ -21,6 +21,7 @@ There is quite a lot to cover. My recommendation is to clone down the Part 3 bra
 
 {{ toc() }}
 
+
 ## Prelude: Static Site Generation
 
 While SSR (Server Side Rendering) is seeing a renaissance these days, we are intentionally avoiding this functionality. If you remember the architecture outlined in [our introduction to the series](/posts/2023-01-29-the-stack.html#what-will-we-be-covering), we want to be able to serve our Frontend entirely using static file hosting.
@@ -78,7 +79,7 @@ Voila, we've got a little Hello World Next.js app!
 
 We need to do just one small change to our Next.js setup to make it output static files for us. We'll do this by adding `output: "export"` to our `next.config.js` file at the root of `ui-app/`:
 
-```typescript,linenos
+```typescript name=next.config.js
 // @ts-check
 
 /** @type {import('next').NextConfig} */
@@ -118,7 +119,7 @@ $ mkdir messages
 
 This allows us to set up some text for our first languages. Create an English locale, `messages/en.json`, with the following:
 
-```json
+```json name=messages/en.json
 {
   "home": {
     "intro": "Welcome!"
@@ -128,7 +129,7 @@ This allows us to set up some text for our first languages. Create an English lo
 
 And also a French locale, in `messages/fr.json`:
 
-```json
+```json name=messages/fr.json
 {
   "home": {
     "intro": "Bienvenue!"
@@ -138,7 +139,7 @@ And also a French locale, in `messages/fr.json`:
 
 To make this a bit nicer to work with, we'll also [add typesafety](https://next-intl-docs.vercel.app/docs/workflows/typescript) by letting TypeScript know what keys we support in our localization function. Create a `ui-app/global.d.ts` file with the following:
 
-```typescript
+```typescript name=ui-app/global.d.ts
 // Use type safe message keys with `next-intl`, based on the contents/keys of
 // our default english locale.
 type Messages = typeof import("./messages/en.json");
@@ -158,7 +159,7 @@ $ rm src/app/page.tsx src/app/layout.tsx
 
 Let's create a simply page in here at `src/app/[locale]/page.tsx`, and get our welcome text from the localization file:
 
-```typescript
+```typescript name=src/app/[locale]/page.tsx
 "use client";
 
 import { useTranslations } from "next-intl";
@@ -182,7 +183,7 @@ We'll need to mark the component as `'use client'` for now, while [next-intl is 
 
 Since we removed existing layout file, we need to define a new one that also handles setting up our localization at the root of our components. We'll create a `src/app/[locale]/layout.tsx` file with the following:
 
-```typescript
+```typescript name=src/app/[locale]/layout.tsx
 import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -249,7 +250,7 @@ As the final piece of this puzzle, we need a way to let Next.js know where it sh
 
 We unfortunately cannot use [middlewares](https://next-intl-docs.vercel.app/docs/routing/middleware) when statically exporting our site, so we will instead redirect the user upon loading the page. Create a `src/app/page.tsx` file with the following:
 
-```typescript
+```typescript name=src/app/page.tsx
 import { redirect } from "next/navigation";
 
 export default function Root() {
@@ -313,7 +314,7 @@ It may not look like much, but we've implemented a lot of the core functionality
 
 As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
 
-```makefile
+```makefile name=justfile
 _setup-ui-app:
   #!/usr/bin/env bash
   set -euxo pipefail
@@ -323,7 +324,7 @@ _setup-ui-app:
 
 We'll also set up a new command for running our development server:
 
-```makefile
+```makefile name=justfile
 # Run <project> development server, e.g. `just dev ui-app`.
 dev project:
   just _dev-{{project}}
@@ -359,7 +360,7 @@ $ cd ui-internal
 
 We'll immediately adjust our `Cargo.toml` file with the dependencies we'll need, as well as a few common WASM optimizations for our release builds:
 
-```toml
+```toml name=ui-internal/Cargo.toml
 [package]
 name = "ui-internal"
 version = "0.1.0"
@@ -406,7 +407,7 @@ $ rustup target add wasm32-unknown-unknown
 
 Let's create a quick `index.html` file in the root of the `ui-internal/` folder, just to get started:
 
-```html
+```html name=ui-internal/index.html
 <!DOCTYPE html>
 <html>
   <head></head>
@@ -416,7 +417,7 @@ Let's create a quick `index.html` file in the root of the `ui-internal/` folder,
 
 And replace the contents of our `src/main.rs`:
 
-```rust
+```rust name=ui-internal/src/main.rs
 use leptos::*;
 
 mod app;
@@ -434,7 +435,7 @@ pub fn main() {
 
 We'll also create a `src/app.rs` file with the following (we'll update this file later):
 
-```rust
+```rust name=ui-internal/src/app.rs
 use leptos::*;
 
 #[component]
@@ -455,7 +456,7 @@ Voila, we've got a little Hello World Leptos app!
 
 Let's configure Tailwind CSS for our Leptos App. First, we need to tell Tailwind where to look for files that might contain our CSS classes. Create a `ui-internal/tailwind.config.ts` file with the following:
 
-```typescript
+```typescript name=ui-internal/tailwind.config.ts
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: {
@@ -470,7 +471,7 @@ module.exports = {
 
 We also need to tell `trunk` to build Tailwind CSS as part of its build process. We can do this by creating a `ui-internal/Trunk.toml` file:
 
-```toml
+```toml name=ui-internal/Trunk.toml
 [[hooks]]
 stage = "pre_build"
 command = "sh"
@@ -490,7 +491,7 @@ $ mkdir ui-internal/resources
 
 We'll then create our base Tailwind CSS file at `ui-internal/resources/input.css`, mimicing our Next.js setup:
 
-```css
+```css name=ui-internal/resources/input.css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -523,7 +524,7 @@ body {
 
 Final step, we need to pull in our Tailwind CSS file in our `index.html`. Update the contents to the following:
 
-```html
+```html name=ui-internal/index.html
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -552,7 +553,7 @@ $ mkdir ui-internal/messages
 
 We'll define our first locale, English, in a `messages/en.json` file:
 
-```json
+```json name=ui-internal/messages/en.json
 {
   "home": {
     "intro": "Welcome!"
@@ -562,7 +563,7 @@ We'll define our first locale, English, in a `messages/en.json` file:
 
 And also a French locale, in a `messages/fr.json` file:
 
-```json
+```json name=ui-internal/messages/fr.json
 {
   "home": {
     "intro": "Bienvenue!"
@@ -574,7 +575,7 @@ And also a French locale, in a `messages/fr.json` file:
 
 Let's update `src/main.rs`, and also pull in a new module `home` in anticipation of creating splitting our code out from the current `app.rs` file:
 
-```rust
+```rust name=ui-internal/src/main.rs
 use leptos::*;
 
 mod app;
@@ -596,7 +597,7 @@ pub fn main() {
 
 Let's create a `src/home.rs` in which will use our locales:
 
-```rust
+```rust name=ui-internal/src/home.rs
 use crate::i18n::*;
 use leptos::*;
 use leptos_router::*;
@@ -623,7 +624,7 @@ We're not entirely done yet, we need to tell our Leptos App about the `I18nConte
 
 Let's update `src/app.rs` to do this:
 
-```rust
+```rust name=ui-internal/src/app.rs
 use crate::i18n::*;
 use leptos::*;
 use leptos_meta::*;
@@ -701,7 +702,7 @@ The last part is the most interesting, so let's break down what we are doing ins
 
 First we get the current parameters, which we know will contain a `locale` key:
 
-```rust
+```rust name=ui-internal/src/app.rs
 // Extract the locale from the path.
 let i18n = use_i18n();
 let params = use_params::<LayoutParams>();
@@ -710,7 +711,7 @@ let chosen_locale = move || params().map(|params| params.locale).unwrap_or(DEFAU
 
 We then create an effect that will run every time the parameters change, which will be every time the path changes:
 
-```rust
+```rust name=ui-internal/src/app.rs
 create_effect(move |_| {
     // Figure out what the current locale is, and if it matches the chosen locale from path.
     let current_locale = i18n();
@@ -765,7 +766,7 @@ Again, it may not look like much, but we've implemented a lot of the core functi
 
 As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
 
-```makefile
+```makefile name=justfile
 _setup-ui-internal:
   #!/usr/bin/env bash
   set -euxo pipefail
@@ -805,7 +806,7 @@ Before we can run anything, we will need a couple of other files to set up Playw
 
 Let's create a `tsconfig.json` for all for all three projects (`ui-app`, `ui-internal`, and `deployment`). We'll place it at `<project>/end2end/tsconfig.json`:
 
-```json
+```json name=<project>/end2end/tsconfig.json
 {
   "compilerOptions": {
     "lib": ["esnext"],
@@ -827,7 +828,7 @@ Let's create a `tsconfig.json` for all for all three projects (`ui-app`, `ui-int
 
 Now, let's configure Playwright for all for all three projects (`ui-app`, `ui-internal`, and `deployment`). We'll place it at `<project>/end2end/playwright.config.ts`:
 
-```typescript
+```typescript name=<project>/end2end/playwright.config.ts
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 
@@ -895,7 +896,7 @@ There are some minor adjustments we want to do in the above configuration for ea
 
 And a `package.json` in `<project>/end2end/package.json`:
 
-```json
+```json name=<project>/end2end/package.json
 {
   "name": "end2end",
   "version": "1.0.0",
@@ -921,7 +922,7 @@ We are now ready to add our first test! Since we have just added localization, l
 
 For all three projects `ui-app`, `deployment`, and `ui-internal` we'll create a test in `<project>/end2end/tests/localization.spec.ts`:
 
-```typescript
+```typescript name=<project>/end2end/tests/localization.spec.ts
 import { test, expect } from "@playwright/test";
 
 test("localization translates text when changing language", async ({ page }) => {
@@ -962,14 +963,14 @@ $ DOMAIN="localhost:3000" bun run e2e
 
 NOTE: You might want to add the following to your `.gitignore`:
 
-```
+``` name=.gitignore
 playwright-report
 test-results
 ```
 
 And that's it! We've now got an easy way to run End-to-End tests. Let's do our final step and add this to our `justfile`:
 
-```makefile
+```makefile name=justfile
 # Run End-to-End tests for <project>, e.g. `just e2e ui-internal`.
 e2e project:
   just _e2e-{{project}}
@@ -986,7 +987,7 @@ _e2e-ui-internal:
 
 And we'll also update our `_setup-project` commands to setup the Playwright dependencies:
 
-```makefile
+```makefile name=justfile
 _setup-deployment:
   #!/usr/bin/env bash
   set -euxo pipefail
@@ -1023,7 +1024,7 @@ There are a few Editor improvements [that are recommended](https://leptos-rs.git
 
 Add to your settings:
 
-```json
+```json name=.vscode/settings.json
 {
   "rust-analyzer.procMacro.ignored": {
     "leptos_macro": ["server", "component"]
@@ -1058,7 +1059,7 @@ $ cargo install leptosfmt
 
 And then add this to your settings:
 
-```json
+```json name=.vscode/settings.json
 {
   "rust-analyzer.rustfmt.overrideCommand": ["leptosfmt", "--stdin", "--rustfmt"]
 }
@@ -1088,7 +1089,7 @@ In this part we will be doing the following:
 
 Let's start with our `wf-build-ui-app.yml` workflow:
 
-```yaml
+```yaml name=.github/workflows/wf-build-ui-app.yml
 name: "Build: ui-app"
 
 on:
@@ -1130,7 +1131,7 @@ jobs:
 
 And our `wf-build-ui-internal.yml` workflow:
 
-```yaml
+```yaml name=.github/workflows/wf-build-ui-internal.yml
 name: "Build: ui-internal"
 
 on:
@@ -1203,7 +1204,7 @@ This means we can easily reuse these builds from our CI workflows. Once our jobs
 
 With these in place we can now stitch them together in a `wf-build.yml`:
 
-```yaml
+```yaml name=.github/workflows/wf-build.yml
 name: "Build Artifacts"
 
 on:
@@ -1227,7 +1228,7 @@ Not much going on here, we are simply calling our previously defined reuseable w
 
 We can now update our `cd-deploy.yml` workflow to call our new `wf-build.yml` workflow. To do this, we extend the existing file by adding a `build-artifacts` job as well as mark our `stage-1` job as `needs: [build-artifacts]`:
 
-```yaml
+```yaml name=.github/workflows/cd-deploy.yml
 # ...
 jobs:
   # Build deployment artifacts
@@ -1245,7 +1246,7 @@ jobs:
 
 The final change we need to make is to make our `wf-deploy.yml` workflow download the artifacts we just built:
 
-```yaml
+```yaml name=.github/workflows/wf-deploy.yml
 # ...
 jobs:
   deploy:
@@ -1293,7 +1294,7 @@ The new additions here are the steps:
 
 The `deploy-validate-artifacts` command is defined in our `justfile`:
 
-```makefile
+```makefile name=justfile
 # Validate that all deployment artifacts are present.
 deploy-validate-artifacts:
   @ [ -d "./deployment/artifacts/ui-app" ] && echo "ui-app exists" || exit 1
@@ -1331,7 +1332,7 @@ We will essentially:
 
 Let's set up our new Certificate first. We'll adjust the existing `GlobalStack` slightly in `bin/deployment.ts`:
 
-```typescript
+```typescript name=deployments/bin/deployment.ts
 /**
  * SSM Parameter name for the global certificate ARN used by CloudFront.
  */
@@ -1364,7 +1365,7 @@ We've introduced `GLOBAL_CERTIFICATE_SSM` which will be how we share the name of
 
 Let's set up the certificate before we stitch it into our `GlobalStack`. We'll create a new file `lib/global/certificate.ts`:
 
-```typescript
+```typescript name=deployments/lib/global/certificate.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as route53 from 'aws-cdk-lib/aws-route53';
@@ -1419,7 +1420,7 @@ The last step in the stack stores the `certificateArn` in the SSM Parameter Stor
 
 Finally, we adjust `lib/global/stack.ts` to now look like:
 
-```typescript
+```typescript name=deployments/lib/global/stack.ts
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as domain from './domain';
@@ -1445,7 +1446,7 @@ Instead of passing the Hosted Zone into the certificate stack, we explicitly mar
 
 Normally SSM doesn't take the region as a parameter, so to access the parameter from `us-east-1` we'll set up a new construct in `lib/services/ssm-global.ts`:
 
-```typescript
+```typescript name=deployments/lib/services/ssm-global.ts
 import { Arn, Stack } from 'aws-cdk-lib';
 import * as CustomResource from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
@@ -1545,7 +1546,7 @@ Now we are ready to get our `Services` stack set up!
 
 All files will live in the `deployment/` folder. We'll first adjust our `bin/deployment.ts`, adding our `Services` stack. Append the following at the end:
 
-```typescript
+```typescript name=deployments/bin/deployment.ts
 // ...
 import { Stack as ServicesStack } from "../lib/services/stack";
 // ...
@@ -1577,7 +1578,7 @@ if (matchesStack(app, servicesStackName)) {
 
 And our `ServicesStack` is defined in `lib/services/stack.ts`:
 
-```typescript
+```typescript name=deployments/lib/services/stack.ts
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 
@@ -1639,7 +1640,7 @@ In here we deploy both `ui-app` and `ui-internal` the same way, but do some mino
 
 This brings us to our final part, which is the most lengthy, our `lib/services/s3-website.ts`:
 
-```typescript
+```typescript name=deployments/lib/services/s3-website.ts
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as route53 from "aws-cdk-lib/aws-route53";
@@ -1805,7 +1806,7 @@ export class Stack extends cdk.Stack {
 
 And our Lambda@Edge function to rewrite urls is defined in `edge-functions/rewrite-urls.js`:
 
-```typescript
+```typescript name=deployments/edge-functions/rewrite-urls.js
 exports.handler = (event, _, callback) => {
   let request = event.Records[0].cf.request;
 

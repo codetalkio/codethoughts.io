@@ -1322,6 +1322,7 @@ This means that it will fit into our `Global` stack. Cross-stack references in C
   Some examples of issues/annoyances and workarounds with `Exports`: [Here](https://github.com/aws/aws-cdk/issues/17741), [here](https://chariotsolutions.com/blog/post/limiting-cross-stack-references-in-cdk/), [here](https://github.com/aws/aws-cdk/issues/5304), and [here](https://www.endoflineblog.com/cdk-tips-03-how-to-unblock-cross-stack-references).
 </div>
 
+
 Instead, we will rely on the approach outlined in this nice article from AWS on how to [Read parameters across AWS Regions with AWS CloudFormation custom resources](https://aws.amazon.com/blogs/infrastructure-and-automation/read-parameters-across-aws-regions-with-aws-cloudformation-custom-resources/).
 
 We will essentially:

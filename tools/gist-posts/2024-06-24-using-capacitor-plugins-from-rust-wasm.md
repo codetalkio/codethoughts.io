@@ -10,7 +10,7 @@ Capacitor is normally used in combination with JavaScript projects, so there is 
 
 Since Capacitor is a JS framework there will be a little extra work involved in interacting with any plugins, but it’s honestly not a lot we need to do. Let’s take a quick tour through what I’ve set up in the example repository [https://github.com/Tehnix/template-mobile-wasm](https://github.com/Tehnix/template-mobile-wasm)[.](https://github.com/Tehnix/playground-mobile-wasm?tab=readme-ov-file)
 
-<div></div><!--more-->
+<div></div><!-- more -->
 
 We've set up four crates:
 

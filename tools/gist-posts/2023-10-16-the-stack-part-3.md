@@ -16,7 +16,7 @@ We are essentially hedging our bets by building both a JavaScript-based Frontend
 
 There is quite a lot to cover. My recommendation is to clone down the Part 3 branch in the [GitHub repository](https://github.com/codetalkio/the-stack/tree/part-3-frontend) and use this post as an explanation of what is set up.
 
-<div></div><!--more-->
+<div></div><!-- more -->
 
 - [Prelude: Static Site Generation](#prelude-static-site-generation)
 - [Next.js](#next.js)

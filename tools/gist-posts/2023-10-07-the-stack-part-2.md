@@ -17,7 +17,7 @@ If you want to jump straight to the code, you can find it in the [GitHub reposit
 
 Otherwise, let's jump in!
 
-<div></div><!--more-->
+<div></div><!-- more -->
 
 - [AWS: Seting up Credentials](#aws-seting-up-credentials)
 - [GitHub: Setting up Environments](#github-setting-up-environments)

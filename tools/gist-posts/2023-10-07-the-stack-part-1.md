@@ -29,7 +29,7 @@ As a reminder, here is the structure we are aiming for:
 - **Monitoring**: Centralize monitoring and observability into one account, allowing access to insights without access to sensitive logs or infrastructure from the other accounts
 - **Logs**: Centralized storage of logs, which may require different access considerations than metrics and traces
 
-<div></div><!--more-->
+<div></div><!-- more -->
 
 Or, for the visual learners:
 
