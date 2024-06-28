@@ -1,0 +1,21 @@
+{# ====================================== #}
+{# === Construct the page breadcrumbs === #}
+{# ====================================== #}
+{%- macro breadcrumbs(page, crumbs) %}
+	{# Breadcrumbs #}
+  <div id="breadcrumbs" class="md:mb-16 mb-8 mt-8 text-xs sm:text-sm">
+    <a href="{{ get_url(path='@/_index.md') }}">Home</a>
+    {% for crumb in crumbs %}
+      {% if crumb != "" %}
+        {# Dynamically handle fetching the data as a section or page. #}
+        {% if crumb is containing("_index.md") %}
+          {% set page = get_section(path=crumb, metadata_only=true) %}
+        {% else %}
+          {% set page = get_page(path=crumb) %}
+        {% endif %}
+        › <a href="{{ page.permalink }}">{{ page.title }}</a>
+      {% endif %}
+    {% endfor %}
+    › {{ page.title }}
+  </div>
+{%- endmacro %}

@@ -78,7 +78,7 @@ Voila, we've got a little Hello World Next.js app!
 
 We need to do just one small change to our Next.js setup to make it output static files for us. We'll do this by adding `output: "export"` to our `next.config.js` file at the root of `ui-app/`:
 
-```typescript
+```typescript,linenos
 // @ts-check
 
 /** @type {import('next').NextConfig} */

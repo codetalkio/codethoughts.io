@@ -1,156 +1,14 @@
 {% extends "base.html" %}
 {% import "macros/post.html" as macros %}
+{% import "macros/general.html" as base %}
 
 {% block content %}
 
 {# Breadcrumbs #}
-<div id="breadcrumbs" class="md:mb-16 mb-8 mt-8 text-xs">
-  <a href="{{ get_url(path='@/_index.md') }}">Home</a>
-  › <a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
-  › {{ page.title }}
-</div>
+{{ base::breadcrumbs(page=page, crumbs=['posts/_index.md']) }}
 
 {# Sidebar listing the table of contents #}
-{% if page.toc %}
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      function isInView(elem) {
-        const boundingRect = elem.getBoundingClientRect();
-
-        if (boundingRect.top >= 0 && boundingRect.left >= 0 && boundingRect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && boundingRect.right <= (window.innerWidth || document.documentElement.clientWidth)) {
-          return true
-        } else {
-          return false
-        }
-      }
-
-      let prevScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      let prevScrollDirection = '';
-      window.addEventListener('scroll', function() {
-        const st = window.pageYOffset || document.documentElement.scrollTop;
-        if (st > prevScrollTop && prevScrollDirection !== 'down') {
-          prevScrollDirection = 'down';
-        }
-        else if (st < prevScrollTop && prevScrollDirection !== 'up') {
-          prevScrollDirection = 'up';
-        }
-        prevScrollTop = st <= 0 ? 0 : st; // for Mobile or negative scrolling
-      }, false);
-
-      function isNewestInScrollDirection(elem1, elem2) {
-        const boundingRect1 = elem1.getBoundingClientRect();
-        const boundingRect2 = elem2.getBoundingClientRect();
-
-        if (prevScrollDirection == 'down' && boundingRect1.top > boundingRect2.top) {
-          return true;
-        } else if (prevScrollDirection == 'up' && boundingRect1.top < boundingRect2.top) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-
-      // During long sections the heading may no longer be showing, but we still
-      // want to indicate to the user where they are, so we hang on to it.
-      let lastTargets = [];
-      let lastToBeAdded = null;
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          const id = entry.target.getAttribute('id');
-          const tocItem = document.querySelector(`#table-of-contents-sidebar a[href$="#${id}"]`);
-          if (tocItem) {
-            if (entry.intersectionRatio > 0) {
-              const newTargets = [entry.target];
-              lastTargets.forEach((lastTarget) => {
-                if (!isInView(lastTarget)) {
-                  const lastTargetId = lastTarget.getAttribute('id');
-                  const lastTargetTocItem = document.querySelector(`#table-of-contents-sidebar a[href$="#${lastTargetId}"]`);
-                  lastTargetTocItem.parentElement.classList.remove('active-toc-sidebar-item');
-                } else {
-                  newTargets.push(lastTarget);
-                }
-              });
-
-              lastTargets = newTargets;
-              if (lastToBeAdded == null || !isInView(lastToBeAdded) || (isInView(lastToBeAdded) && isNewestInScrollDirection(entry.target, lastToBeAdded))) {
-                lastToBeAdded = entry.target;
-              }
-
-              tocItem.parentElement.classList.add('active-toc-sidebar-item');
-            } else if (lastTargets.length > 0) {
-              lastTargets.forEach((lastTarget) => {
-                if (lastTarget != lastToBeAdded && !isInView(lastTarget)) {
-                  const lastTargetId = lastTarget.getAttribute('id');
-                  const lastTargetTocItem = document.querySelector(`#table-of-contents-sidebar a[href$="#${lastTargetId}"]`);
-                  lastTargetTocItem.parentElement.classList.remove('active-toc-sidebar-item');
-                }
-              });
-            }
-          }
-        });
-      });
-
-      // Track all h1-4 that have an id on them.
-      document.querySelectorAll('h1[id]').forEach((item) => {
-        observer.observe(item);
-      });
-      document.querySelectorAll('h2[id]').forEach((item) => {
-        observer.observe(item);
-      });
-      document.querySelectorAll('h3[id]').forEach((item) => {
-        observer.observe(item);
-      });
-      document.querySelectorAll('h4[id]').forEach((item) => {
-        observer.observe(item);
-      });
-
-    });
-  </script>
-  <div id="table-of-contents-sidebar" class="fixed z-50 left-0 h-dvh flex flex-col justify-center -mt-20 max-[850px]:hidden">
-    <div class="group w-10 ml-2 leading-7 text-sm hover:w-72 transition-[width] ease-linear duration-100">
-      <div class="group-hover:w-fit group-hover:bg-backgroundCode group-hover:px-4 group-hover:py-2 group-hover:rounded-md group-hover:border group-hover:border-backgroundInlineCode">
-
-        {# Link to the top of the page #}
-        <div class="line-clamp-1">
-          <a class="text-subtle group-hover:text-primary" href="#{{ page.title | slugify }}">
-            <div class="block group-hover:hidden border-b-2 w-3 h-5"> </div>
-            <span class="hidden group-hover:inline hover:text-link-hover">{{ page.title }}</span>
-          </a>
-        </div>
-
-        {# Create a link to the 1st level ToC items #}
-        {% for h in page.toc %}
-          <div class="line-clamp-1">
-            <a class="text-subtle group-hover:text-primary" href="{{ h.permalink }}">
-              <div class="block group-hover:hidden border-b-2 w-3 h-5"> </div>
-              <span class="hidden group-hover:inline hover:text-link-hover">{{ h.title }}</span>
-            </a>
-          </div>
-
-          {% if h.children %}
-            {# Create a link to the 2nd level ToC items #}
-            {% for h in h.children %}
-              <div class="line-clamp-1">
-                <a class="text-subtle group-hover:text-primary" href="{{ h.permalink }}">
-                  <div class="block group-hover:hidden border-b-2 ml-1 w-2 h-5"> </div>
-                  <span class="hidden group-hover:inline hover:text-link-hover pl-4">{{ h.title }}</span>
-                </a>
-              </div>
-            {% endfor %}
-          {% endif %}
-        {% endfor %}
-
-        {# Link to the bottom of the page (we only show this when menu is open) #}
-        <div class="line-clamp-1">
-          <a class="text-subtle group-hover:text-primary" href="#comments">
-            {# <div class="block group-hover:hidden border-b-2 w-3 h-5"> </div> #}
-            <span class="hidden group-hover:inline hover:text-link-hover">Comments</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-{% endif %}
+{{ macros::post_toc_tracker(page=page) }}
 
 {# Heading section #}
 {{ macros::post_heading(page=page, isLink=false) }}
@@ -162,30 +20,17 @@
   {{ macros::preprocess_post(resource=page) }}
 </div>
 
-<div class="flex justify-between mb-4">
-  {# Alternative: Link to the previous post #}
-  {# NOTE: Counter-intuitively, the sorting is ascending, so higher will be "older" #}
-  {% if page.higher %}
-      <a class="text-headline" href="{{ page.higher.permalink }}">‹ {{ page.higher.title }}</a>
-  {% else %}
-      <a class="text-headline" href="{{ get_url(path='@/posts/_index.md') }}">‹ Back to all Posts</a>
-  {% endif %}
-
-  {# Link to the next post #}
-  {# NOTE: Counter-intuitively, the sorting is ascending, so lower will be "newer" #}
-  {% if page.lower %}
-    <a class="text-headline" href="{{ page.lower.permalink }}">{{ page.lower.title }} ›</a>
-    {# <a href="{{ page.lower.permalink }}">Next Post ›</a> #}
-  {% endif %}
-</div>
+{# Next and Previous post section #}
+{{ macros::post_next_prev(page=page) }}
 
 <div id="comments">
   <script
+    id="utterances"
     src="https://utteranc.es/client.js"
     repo="codetalkio/codethoughts.io"
     issue-term="url"
     label="C-comments"
-    theme="github-light"
+    theme="preferred-color-scheme"
     crossorigin="anonymous"
     async
   ></script>

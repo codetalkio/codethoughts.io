@@ -121,10 +121,17 @@ module.exports = {
       white: black["50"],
     },
     extend: {
-      colors: {
+      backgroundColor: {
         background: "var(--background)",
-        backgroundCode: "var(--background-code)",
-        backgroundInlineCode: "var(--background-inline-code)",
+        code: "var(--background-code)",
+        "code-highlight": "var(--background-code-hightlight)",
+        "code-hightlight-border": "var(--background-code-hightlight-border)",
+        "inline-code": "var(--background-inline-code)",
+        aside: "var(--background-aside)",
+        table: "var(--background-table)",
+        menu: "var(--background-menu)",
+      },
+      colors: {
         subtle: "var(--text-subtle)",
         headline: "var(--text-headline)",
         primary: "var(--text-primary)",
@@ -132,11 +139,10 @@ module.exports = {
           DEFAULT: "var(--link-color)",
           hover: "var(--link-color-hover)",
         },
+        border: {
+          subtle: "var(--border-subtle)",
+        },
         dark: {
-          background: "#0E1116",
-          // GitHub style background for code blocks (original #171B22).
-          backgroundCode: "#171B22",
-          backgroundInlineCode: "#6e768166",
           text: black["50"],
           headline: brand["300"],
           subtleText: black["400"],
@@ -145,12 +151,22 @@ module.exports = {
             hover: blue["200"],
             visited: blue["500"],
           },
+          background: {
+            DEFAULT: "#0E1116",
+            // GitHub style background for code blocks (original #171B22).
+            code: "#171B22",
+            "code-highlight": "#bb800926",
+            "code-hightlight-border": "#bb800966",
+            "inline-code": "#6e768166",
+            aside: "#171B22",
+            table: "#171B22",
+            menu: "#6e768166",
+          },
+          border: {
+            subtle: "#6e768166",
+          },
         },
         light: {
-          background: black["50"],
-          // GitHub style background for code blocks (original #F6F8FA).
-          backgroundCode: black["100"],
-          backgroundInlineCode: "#afb8c133",
           text: black["900"],
           headline: brand["400"],
           subtleText: black["400"],
@@ -158,6 +174,20 @@ module.exports = {
             DEFAULT: blue["700"],
             hover: blue["700"],
             visited: blue["700"],
+          },
+          background: {
+            DEFAULT: black["50"],
+            // GitHub style background for code blocks (original #F6F8FA).
+            code: black["100"],
+            "code-highlight": "#bb800926",
+            "code-hightlight-border": "#bb800966",
+            "inline-code": "#afb8c133",
+            aside: black["100"],
+            table: black["100"],
+            menu: "#afb8c133",
+          },
+          border: {
+            subtle: "#afb8c133",
           },
         },
         brand, // Orange is the brand color.

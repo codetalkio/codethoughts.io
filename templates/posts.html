@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 {% import "macros/post.html" as macros %}
+{% import "macros/general.html" as base %}
 
 {% block content %}
 
 {# Breadcrumbs #}
-<div class="md:mb-8 mb-8 mt-8 text-xs">
-  <a href="{{ get_url(path='@/_index.md') }}">Home</a>
-  › {{ section.title }}
-</div>
+{{ base::breadcrumbs(page=section, crumbs=[]) }}
 
 {# Sidebar listing the currently displayed articles #}
 <div class="fixed left-0 h-dvh flex flex-col justify-center -mt-20 max-[850px]:hidden">
