@@ -267,6 +267,13 @@ pre[data-linenos] {
     }
   }
 
+  details {
+    @apply mt-4;
+    summary {
+      @apply cursor-pointer;
+    }
+  }
+
   > table,
   > center > table,
   > left > table,

@@ -583,6 +583,11 @@ video {
   margin-right: 0.25rem;
 }
 
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -591,11 +596,6 @@ video {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
 }
 
 .-mt-20 {
@@ -1385,6 +1385,14 @@ pre[data-linenos] {
   aside {
     p {
       display: inline;
+    }
+  }
+  details {
+    margin-top: 1rem;
+  }
+  details {
+    summary {
+      cursor: pointer;
     }
   }
   > table,

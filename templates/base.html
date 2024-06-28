@@ -89,10 +89,8 @@
     </div>
 
     <!-- Mermaid JS -->
-    <!-- Fetched from https://cdnjs.com/libraries/mermaid. -->
-    {# <script async type="application/javascript" src="{{ get_url(path='js/mermaid.min.js') }}?h={{ get_hash(path="js/mermaid.min.js") }}"></script> #}
     <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      import mermaid from '{{ get_url(path='js/mermaid/mermaid.esm.min.mjs') }}?h={{ get_hash(path="js/mermaid/mermaid.esm.min.mjs") }}';
       const theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default";
       mermaid.initialize({
         startOnLoad: true,

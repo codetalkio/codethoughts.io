@@ -3,7 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "extract-mermaid": "cp node_modules/mermaid/dist/*.js ../static/js/mermaid/"
+    "extract-mermaid": "cp node_modules/mermaid/dist/*.js ../static/js/mermaid/ && cp node_modules/mermaid/dist/mermaid.esm.min.mjs ../static/js/mermaid/mermaid.esm.min.mjs",
+    "bundle-mermaid": "bun build --minify --outfile ../static/js/mermaid.min.js node_modules/mermaid/dist/mermaid.esm.min.mjs"
   },
   "devDependencies": {
     "@types/bun": "latest",
