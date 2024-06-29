@@ -5,7 +5,7 @@
 {% block content %}
 
 {# Breadcrumbs #}
-{{ base::breadcrumbs(page=page, crumbs=['drafts/_index.md']) }}
+{{ base::breadcrumbs(pages=[page], crumbs=['drafts/_index.md']) }}
 
 {# Sidebar listing the table of contents #}
 {{ macros::post_toc_tracker(page=page) }}

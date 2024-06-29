@@ -1,7 +1,7 @@
 {# ====================================== #}
 {# === Construct the page breadcrumbs === #}
 {# ====================================== #}
-{%- macro breadcrumbs(page, crumbs) %}
+{%- macro breadcrumbs(pages, crumbs) %}
 	{# Breadcrumbs #}
   <div id="breadcrumbs" class="md:mb-16 mb-8 mt-8 text-xs sm:text-sm">
     <a href="{{ get_url(path='@/_index.md') }}">Home</a>
@@ -16,6 +16,24 @@
         › <a href="{{ page.permalink }}">{{ page.title }}</a>
       {% endif %}
     {% endfor %}
-    › {{ page.title }}
+
+    {% for page in pages %}
+      {% if loop.last %}
+        {% if page.title %}
+          › {{ page.title }}
+        {% else %}
+          {# If the provided argument is not a page, we assume it's the title itself. #}
+          › {{ page }}
+        {% endif %}
+      {% else %}
+        {# If it's not the last item, we turn it into a breadcrumb. #}
+        {% if page.title %}
+          › <a href="{{ page.permalink }}">{{ page.title }}</a>
+        {% else %}
+          {# If the provided argument is not a page, we assume it's the title itself. #}
+          › <a href="{{ get_url(path=page) }}">{{ page | capitalize }}</a>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
   </div>
 {%- endmacro %}

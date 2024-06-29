@@ -5,7 +5,7 @@
 {% block content %}
 
 {# Breadcrumbs #}
-{{ base::breadcrumbs(page=page, crumbs=[page.extra.parent | default(value="")]) }}
+{{ base::breadcrumbs(pages=[page], crumbs=[page.extra.parent | default(value="")]) }}
 
 <div class="mb-16">
   {{ macros::preprocess_content(resource=page) }}

@@ -5,7 +5,7 @@
 {% block content %}
 
 {# Breadcrumbs #}
-{{ base::breadcrumbs(page=section, crumbs=[]) }}
+{{ base::breadcrumbs(pages=[section], crumbs=[]) }}
 
 {# Sidebar listing the currently displayed articles #}
 <div class="fixed left-0 h-dvh flex flex-col justify-center -mt-20 max-[850px]:hidden">

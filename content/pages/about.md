@@ -1,9 +1,6 @@
 +++
 title = "About"
 template = "content-about-page.html"
-
-[extra]
-parent = "posts/_index.md"
 +++
 
 ## About the blog
