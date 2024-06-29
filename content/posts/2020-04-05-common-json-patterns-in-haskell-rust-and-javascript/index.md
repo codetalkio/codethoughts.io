@@ -581,3 +581,5 @@ Thanks to all the feedback from the [/r/rust](https://www.reddit.com/r/rust/comm
 [^recordDotSyntax]: It will take a bit of time before it is merged and available in GHC, so we will use the [record-dot-preprocessor](https://hackage.haskell.org/package/record-dot-preprocessor) plugin to get a sneak peak.
 
 [^dataMaybe]: `maybe` from Data.Maybe has the type signature `maybe :: b -> (a -> b) -> Maybe a -> b`, taking in as argument (1) a default value (2) a function to run if the value is `Just` and (3) the `Maybe` value we want to operate on.
+
+{{ medium_comments(post="common-json-patterns-in-haskell-rust-and-typescript-bbf9285301a5") }}

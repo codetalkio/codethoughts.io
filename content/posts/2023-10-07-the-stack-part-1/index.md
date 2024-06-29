@@ -280,3 +280,5 @@ You should end up with an overall structure like the following (Preview environm
 ## Next Steps
 
 Next up, we will be looking at how we can set up and automate our deployments to these environments so that once we start building it will update automatically. Follow along in [Part 2 of the series](@/posts/2023-10-08-the-stack-part-2/index.md).
+
+{{ medium_comments(post="the-stack-part-1-setting-up-your-aws-account-structure-892cb199ddfd") }}

@@ -10,8 +10,9 @@
 </div>
 
 <div class="mb-16">
-  <h1 class="title">{{ taxonomy.name | capitalize }}</h1>
-  <ul>
+  <h1 class="text-5xl">Overview of all {{ taxonomy.name }}</h1>
+
+  <ul class="list-disc list-inside mt-4 columns-3">
     <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
     {% for term in terms %}
       <li><a href="{{ term.permalink | safe }}">{{ term.name }}</a></li>

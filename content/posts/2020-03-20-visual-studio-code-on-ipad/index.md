@@ -146,3 +146,5 @@ If they are, disable and stop them using `systemctl`. If this is not possible, t
   - Updated letsencrypt instructions to utilize `code-server`'s new config.yml to contain cert paths and password
 
 [^1]: [https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/](https://www.apple.com/newsroom/2020/03/apple-unveils-new-ipad-pro-with-lidar-scanner-and-trackpad-support-in-ipados/)
+
+{{ medium_comments(post="visual-studio-code-on-ipad-31b2df3725bd") }}

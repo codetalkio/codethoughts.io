@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% import "macros/content.html" as macros %}
+{% import "macros/general.html" as base %}
+
+{% block content %}
+
+{# Breadcrumbs #}
+{{ base::breadcrumbs(page=page, crumbs=[page.extra.parent | default(value="")]) }}
+
+<div class="styling-full">
+  {{ macros::preprocess_content(resource=page) }}
+</div>
+
+<div class="flex flex-col mt-8 mb-16">
+  {# 2024 - Now #}
+  <div class="flex flex-row">
+    <div class="about-timeline-date">2024 -<br />Now</div>
+    <div class="about-timeline-info">
+      <aside>
+        <p>🤝 Started codetalk: <b>Solo Founder</b></p>
+        Started my own company, codetalk, to do the things I've always wanted to do, focused on scaling up Engineering Productivity and Developer Experience
+
+        </aside>
+    </div>
+  </div>
+
+  <div class="separator-subtle mt-4 pb-4"></div>
+  {# 2020 - 2024 #}
+  <div class="flex flex-row">
+    <div class="about-timeline-date">2020 -<br />2024</div>
+    <div class="about-timeline-info">
+      <aside>
+        <p>👨‍💻 <b>IC Contributions</b> and deep <b>Technical Expertise</b></p>
+        Contributed in many things ranging from core architecture and features across the entire stack (Frontend, Backend, DevOps) to DevEx projects
+
+        </aside>
+
+        <aside>
+        <p>🪴 <b>Grew Famly's Engineering department</b></p>
+        Hired +25 Engineers, took the department from 16 to 45 people
+
+        </aside>
+
+        <aside>
+        <p>🌉 <b>Bridged gaps in the Organization</b></p>
+        Established processes for cross-organization commitments, fostered collaboration across departments, and advocated for our Growth department
+
+        </aside>
+
+        <aside>
+        <p>💵 Took over our <b>Finance team and established Payments team</b></p>
+        Got our Finance team to blossom, and established a team focused on scaling up our Stripe integration as a revenue stream
+
+        </aside>
+
+        <aside>
+        <p>💹 <b>Scaled up</b> Engineering Management</p>
+        Onboarded new Engineering Managers, and scaled our structure, practices and definition of the role, while mentoring and coaching existing managers
+
+        </aside>
+
+        <aside>
+        <p>💸 Drove key initiatives in <b>Infrastructure cost and scalability</b></p>
+        Continuous infrastructure focus, led a plethora of initiatives to drive cost down from +15% MRR to below 6% MRR while improving scalability and stability
+
+        </aside>
+
+        <aside>
+        <p>🎯 Created and Rolled out <b>Engineering Framework</b></p>
+        Improved career opportunities, clarity around expectations, and alignment across Management
+
+        </aside>
+
+        <aside>
+        <p>🌱 <b>Mentored</b> Engineers into Management</p>
+        Grew Engineers into management, taking on their own teams
+
+        </aside>
+
+        <aside>
+        <p>🧑‍🎓 Ran internal <b>Engineering training</b> and up-skilling sessions</p>
+        Study club, mentoring, establishing working groups on topics (e.g. CI, Infrastructure, Scala, GraphQL, ..)
+
+        </aside>
+
+        <aside>
+        <p>👩‍💻 <b>Integrated our remote strategy</b> into the organization</p>
+        Established meetups, policies, processes, and ensured our workflows were remote-first, and much more
+
+        </aside>
+
+        <aside>
+        <p>🤝 Joined Famly: <b>Director of Engineering</b></p>
+        Took over responsibility of two out of three teams and half the Engineering department
+
+        </aside>
+    </div>
+  </div>
+
+  <div class="separator-subtle mt-4 pb-4"></div>
+  {# 2018 - 2020 #}
+  <div class="flex flex-row">
+    <div class="about-timeline-date">2018 -<br />2020</div>
+    <div class="about-timeline-info">
+      <aside>
+        <p>🚢 <b>Launched Version 2.0</b> of the IoT platform</p>
+        Rewritten platform that handled 100x scale (literally) of the original version, with much less ops-overhead and maintenance
+
+        </aside>
+
+        <aside>
+        <p>🚀 Stepped up as <b>Director of Development</b> and acting CTO</p>
+        Ensured success of the already initiated rewrite of our Platform, maturation of the company, and scalability efforts
+
+        </aside>
+
+        <aside>
+        <p>📑 Took <b>charge of multi-year projects</b></p>
+        Ensured successful rollout of several big RFPs in multi-national companies
+
+        </aside>
+
+        <aside>
+        <p>🤝 Joined Blackbird: <b>Full-stack Engineer</b></p>
+        Joined platform rewrite while maintaining version 1.0 and juggling client-specific projects
+
+        </aside>
+    </div>
+  </div>
+
+  <div class="separator-subtle mt-4 pb-4"></div>
+  {# 2012 - 2018 #}
+  <div class="flex flex-row">
+    <div class="about-timeline-date">2012 -<br />2018</div>
+    <div class="about-timeline-info">
+      <aside>
+        <p>🧍 Volunteer: <b>Student Council President</b> at <b>DTU</b></p>
+
+        </aside>
+
+        <aside>
+        <p>🧑‍🎓 <b>Teaching Assistant</b> for Programming Course at <b>DTU</b></p>
+
+        </aside>
+
+        <aside>
+        <p>🤝 Joined DTU Compute: <b>IT Support Coordinator</b></p>
+
+        </aside>
+
+        <aside>
+        <p>👨‍💻 <b>Solo-Founder:</b> Consultation and Web Development via <b>codetalk</b></p>
+        Developed bespoke solutions to clients and freelanced web and e-commerce development projects
+
+        </aside>
+
+        <aside>
+        <p>🎓 Studies: <b>MSc in Engineering, Telecommunication</b></p>
+        Finished my masters at DTU, and spent a year abroad at KAIST in South Korea
+        </aside>
+
+        <aside>
+          <p>🎓 Studies: <b>BSc in Engineering, IT & Communications Technology</b></p>
+          Finished my bachelors at DTU
+          </aside>
+    </div>
+  </div>
+
+  <div class="separator-subtle mt-4 pb-4"></div>
+  {# 2012 - 2012 #}
+  <div class="flex flex-row">
+    <div class="about-timeline-date">2012 -<br />2012</div>
+    <div class="about-timeline-info">
+      <aside>
+        <p>🤝 Joined Shopbox: <b>Full-stack Engineer</b></p>
+        Contributed across the Frontend and Backend as the third engineer in the company, helping to build the product from scratch
+
+        </aside>
+    </div>
+  </div>
+
+  <div class="separator-subtle mt-4 pb-4"></div>
+  {# 2011 - 2012 #}
+  <div class="flex flex-row">
+    <div class="about-timeline-date">2011 -<br />2012</div>
+    <div class="about-timeline-info">
+      <aside>
+        <p>🤝 Joined SharksMedia: <b>Full-stack Engineer</b></p>
+        Developed custom e-commerce and web projects and collaborated with clients
+
+        </aside>
+    </div>
+  </div>
+
+  <div class="separator-subtle mt-4 pb-4"></div>
+  {# ?? - 2011 #}
+  <div class="flex flex-row">
+    <div class="about-timeline-date">?? -<br />2011</div>
+    <div class="about-timeline-info">
+      <aside>
+        <p>🧐 <b>Teching myself programming</b></p>
+        Taught myself Web Development (HTML/CSS/JavaScript), PHP, and Python. Created my <a rel="noopener nofollow noreferrer" target="_blank" href="https://github.com/Tehnix/TheCMS">first CMS</a>, various IRC bots, started freelancing, and much more
+
+        </aside>
+    </div>
+  </div>
+
+</div>
+
+{% endblock content %}

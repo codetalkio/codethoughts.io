@@ -1879,3 +1879,5 @@ And that's it! Your `ui-app` will now live at the root of your domain, e.g. `app
 ## Next Steps
 
 Next up is to set up our Federated GraphQL API! Follow along in Part 4 of the series when that arrives!.
+
+{{ medium_comments(post="the-stack-part-3-building-a-frontend-6a4240931d8b") }}

@@ -165,6 +165,17 @@ pre[data-linenos] {
   @apply flex border-t border-black-50 mb-2;
 }
 
+.separator-subtle {
+  /* @apply flex mb-2 border-t-8 border-subtle border-dotted w-10 mx-auto; */
+  @apply flex mb-2 w-10 mx-auto;
+}
+.separator-subtle:after {
+  @apply text-4xl;
+  content: "···";
+  letter-spacing: 1em; /* increase space between dots */
+  color: var(--border-subtle);
+}
+
 .active-toc-sidebar-item {
   color: var(--text-headline);
   div {
@@ -186,6 +197,22 @@ pre[data-linenos] {
   left: anchor(bottom);
   margin-top: 55px;
   margin-right: 20px;
+}
+
+.about-timeline-date {
+  @apply text-xl font-bold mt-3 pr-8 w-28;
+}
+
+.about-timeline-info {
+  @apply text-base grow w-full;
+  aside {
+    @apply bg-code p-4 mb-4 pl-11;
+    color: var(--text-subtle);
+    p {
+      @apply block -ml-7;
+      color: var(--text-primary);
+    }
+  }
 }
 
 .styling-full {

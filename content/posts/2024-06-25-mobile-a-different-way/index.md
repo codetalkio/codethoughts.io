@@ -232,4 +232,4 @@ Why not Dart/Flutter? My main holdback stems from the maturity the language and 
 
 I’m personally pretty happy with the solution. Most people probably won’t need the watchOS and Widgets, so they won’t have to touch Swift code, but it’s at least nice to know that you haven’t closed off that option for yourself down the road, as some options would leave you.
 
-[👉 Let me know what you think over on Medium](https://codethoughts.medium.com/mobile-a-different-way-using-rust-0e7b1dfa8cbf) or down in the comments below.
+{{ medium_comments(post="mobile-a-different-way-using-rust-0e7b1dfa8cbf") }}

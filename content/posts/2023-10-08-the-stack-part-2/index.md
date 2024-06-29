@@ -690,3 +690,5 @@ $ just deploy # or just deploy Global
 ## Next Steps
 
 Next up is to add our first Frontend! Follow along in [Part 3 of the series](@/posts/2023-10-16-the-stack-part-3/index.md).
+
+{{ medium_comments(post="the-stack-part-2-automating-deployments-via-ci-df2cfd10d87f") }}

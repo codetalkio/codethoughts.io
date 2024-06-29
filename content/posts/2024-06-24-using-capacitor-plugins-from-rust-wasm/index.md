@@ -279,3 +279,5 @@ And that’s it!
 Since I can’t exactly screenshot a haptic vibration, here’s an example where we use the [Capacitor](https://capacitorjs.com/docs/basics/utilities) utility function to determine which platform we are on, set up in the same way:
 
 {{ images(paths=["using-capacitor-plugins-from-rust-wasm-iphone.png", "using-capacitor-plugins-from-rust-wasm-web.png"], captions=["Screenshot of Capacitor running on iPhone", "Screenshot of Capacitor running in Web"], widths=[400, 400]) }}
+
+{{ medium_comments(post="using-capacitor-plugins-from-rust-wasm-0df85703f9d8") }}

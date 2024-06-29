@@ -149,4 +149,5 @@ As an alternative to Linear, I’d probably recommend Notion. You will need to s
 
 I always love to get inspiration, so I’d love to hear from you about your own preferred way of organizing yourself.
 
-[👉 Let me know what you think over on Medium](https://codethoughts.medium.com/how-i-structure-work-as-a-solo-founder-4944afcfc2f2) or in the comments below.
+
+{{ medium_comments(post="how-i-structure-work-as-a-solo-founder-4944afcfc2f2") }}
