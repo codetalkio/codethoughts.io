@@ -93,10 +93,12 @@ a.text-headline,
 a:not([target="_blank"], .text-primary, .text-subtle),
 a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
   color: var(--text-primary);
-  text-decoration: color-mix(in srgb, var(--link-color) 50%, transparent) 0.3em
-    solid underline;
+  text-decoration: underline;
+  text-decoration-thickness: 0.3em;
+  text-decoration-color: color-mix(in srgb, var(--link-color) 50%, transparent);
   text-underline-offset: -0.1rem;
   text-decoration-skip-ink: none;
+  text-decoration-skip: none;
 }
 
 a.external-link-subtle {
