@@ -120,3 +120,10 @@ window.addEventListener("DOMContentLoaded", () => {
     observer.observe(item);
   });
 });
+
+function hideTocPopover() {
+  const tocPopover = document.getElementById(
+    "table-of-contents-sidebar-popover"
+  );
+  tocPopover.hidePopover();
+}

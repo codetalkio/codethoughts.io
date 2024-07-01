@@ -150,7 +150,7 @@
           {# Create a link to the 1st level ToC items #}
           {% for h in page.toc %}
             <div class="line-clamp-1">
-              <a class="text-primary" href="{{ h.permalink }}">
+              <a onclick="hideTocPopover();" class="text-primary" href="{{ h.permalink }}">
                 <span class="hover:text-link-hover">{{ h.title }}</span>
               </a>
             </div>
@@ -159,7 +159,7 @@
               {# Create a link to the 2nd level ToC items #}
               {% for h in h.children %}
                 <div class="line-clamp-1">
-                  <a class="text-primary" href="{{ h.permalink }}">
+                  <a onclick="hideTocPopover();" class="text-primary" href="{{ h.permalink }}">
                     <span class="hover:text-link-hover pl-4">{{ h.title }}</span>
                   </a>
                 </div>
@@ -169,7 +169,7 @@
 
           {# Link to the bottom of the page (we only show this when menu is open) #}
           <div class="line-clamp-1">
-            <a class="text-primary" href="#comments">
+            <a onclick="hideTocPopover();" class="text-primary" href="#comments">
               <span class="hover:text-link-hover">Comments</span>
             </a>
           </div>

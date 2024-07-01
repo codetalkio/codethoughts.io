@@ -37,6 +37,11 @@ build:
 generate-gists:
   cd tools && bun run index.ts
 
+build-js:
+  cd static/js && bun build --minify --sourcemap=external --outdir toc toc-sidebar.js
+  mv static/js/toc/toc-sidebar.js static/js/toc-sidebar.min.js
+  mv static/js/toc/toc-sidebar.js.map static/js/toc-sidebar.min.js.map
+
 # TODO: Move deployment to CloudFlare Pages?
 # Deploy the blog to S3 and invalidate CloudFront cache.
 # deploy:
