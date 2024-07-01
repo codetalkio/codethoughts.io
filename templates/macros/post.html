@@ -131,8 +131,9 @@
   {% if page.toc %}
     <script src="{{ get_url(path='js/toc-sidebar.min.js') }}?h={{ get_hash(path="js/toc-sidebar.min.js") }}"></script>
 
-    <button id="table-of-contents-menu" popovertarget="table-of-contents-sidebar-popover" class="min-[850px]:hidden fixed top-5 right-5 rounded-full bg-menu px-2 pt-0 pb-1 cursor-pointer text-2xl">
+    <button id="table-of-contents-menu" popovertarget="table-of-contents-sidebar-popover" class="min-[850px]:hidden fixed top-5 right-5 px-2 pt-0 pb-1 rounded-full bg-menu cursor-pointer text-2xl">
       ☰
+      <span id="table-of-contents-menu-overlay" class="block fixed top-5 right-5 px-2 pt-0 pb-1">☰</span>
     </button>
 
     {# Shown on smaller screens and activated via the #table-of-contents-menu button. #}

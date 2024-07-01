@@ -1296,8 +1296,27 @@ pre[data-linenos] {
   }
 }
 
+@keyframes toc-progress {
+  0% {
+    /* color: var(--text-primary); */
+    height: 0px;
+  }
+
+  100% {
+    color: var(--text-headline);
+    height: 36px;
+  }
+}
+
 #table-of-contents-menu {
   anchor-name: --anchor-toc-menu;
+}
+
+#table-of-contents-menu-overlay {
+  color: var(--text-headline);
+  overflow: hidden;
+  animation: toc-progress linear;
+  animation-timeline: scroll();
 }
 
 #table-of-contents-sidebar-popover {
