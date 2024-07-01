@@ -88,13 +88,60 @@ a.text-primary {
   }
 }
 
-a.text-headline {
-  color: var(--text-headline);
-  &:visited {
-    color: var(--text-headline);
-  }
+a.external-link,
+a.text-headline,
+a:not([target="_blank"], .text-primary, .text-subtle),
+a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
+  color: var(--text-primary);
+  text-decoration: color-mix(in srgb, var(--link-color) 50%, transparent) 0.3em
+    solid underline;
+  text-underline-offset: -0.1rem;
+  text-decoration-skip-ink: none;
+}
+
+a.external-link-subtle {
+  color: var(--text-subtle) !important;
+}
+
+a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
+  text-decoration-color: color-mix(in srgb, var(--link-color) 50%, transparent);
   &:hover {
-    color: var(--link-color-hover);
+    text-decoration-color: color-mix(
+      in srgb,
+      var(--link-color-hover) 70%,
+      transparent
+    );
+  }
+}
+
+a.text-headline,
+a:not([target="_blank"], .text-primary, .text-subtle) {
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--text-headline) 50%,
+    transparent
+  );
+  &:hover {
+    text-decoration-color: color-mix(
+      in srgb,
+      var(--text-headline) 70%,
+      transparent
+    );
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  a,
+  a:not([target="_blank"]),
+  a[target="_blank"] {
+    color: inherit;
+    text-decoration: none;
+    text-decoration-color: none;
   }
 }
 
@@ -223,6 +270,14 @@ pre[data-linenos] {
   h1 {
     @apply text-5xl mt-12;
     color: var(--text-primary);
+    text-decoration: none;
+    a,
+    a:not([target="_blank"]),
+    a[target="_blank"] {
+      color: inherit;
+      text-decoration: none;
+      text-decoration-color: none;
+    }
   }
 
   h2 {
@@ -250,8 +305,12 @@ pre[data-linenos] {
   h6 {
     @apply font-medium;
     color: var(--text-primary);
-    a {
+    a,
+    a:not([target="_blank"]),
+    a[target="_blank"] {
       color: inherit;
+      text-decoration: none;
+      text-decoration-color: none;
     }
   }
 

@@ -17,7 +17,7 @@
         {% for page in section.pages | sort(attribute="date") | reverse %}
             <tr class="border-t border-b border-subtle cursor-pointer hover:text-link-hover" onclick="location.href='{{ page.permalink | safe }}';">
                 <td class="pb-2 pt-2">
-                    <a class="text-headline visited:text-headline hover:text-link-hover" href="{{ page.permalink }}">
+                    <a class="text-headline" href="{{ page.permalink }}">
                         {{ page.title }}
                     </a>
                 </td>

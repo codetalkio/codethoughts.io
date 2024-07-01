@@ -109,15 +109,15 @@
     {# Alternative: Link to the previous post #}
     {# NOTE: Counter-intuitively, the sorting is ascending, so higher will be "older" #}
     {% if page.higher %}
-        <a class="text-primary bg-table p-4 mr-4 basis-1/2" href="{{ page.higher.permalink }}">‹ {{ page.higher.title }}</a>
+        <a class="bg-table p-4 mr-4 basis-1/2" href="{{ page.higher.permalink }}">‹ {{ page.higher.title }}</a>
     {% else %}
-        <a class="text-primary bg-table p-4 mr-4 basis-1/2" href="{{ get_url(path='@/posts/_index.md') }}">‹ Back to all Posts</a>
+        <a class="bg-table p-4 mr-4 basis-1/2" href="{{ get_url(path='@/posts/_index.md') }}">‹ Back to all Posts</a>
     {% endif %}
 
     {# Link to the next post #}
     {# NOTE: Counter-intuitively, the sorting is ascending, so lower will be "newer" #}
     {% if page.lower %}
-      <a class="text-primary bg-table p-4 ml-4 basis-1/2 block text-right" href="{{ page.lower.permalink }}">{{ page.lower.title }} ›</a>
+      <a class="bg-table p-4 ml-4 basis-1/2 block text-right" href="{{ page.lower.permalink }}">{{ page.lower.title }} ›</a>
       {# <a href="{{ page.lower.permalink }}">Next Post ›</a> #}
     {% endif %}
   </div>
