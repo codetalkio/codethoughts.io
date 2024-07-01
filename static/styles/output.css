@@ -1493,6 +1493,18 @@ pre[data-linenos] {
   > center > table,
   > left > table,
   > right > table {
+    display: block;
+  }
+  > table,
+  > center > table,
+  > left > table,
+  > right > table {
+    max-width: 768px;
+  }
+  > table,
+  > center > table,
+  > left > table,
+  > right > table {
     table-layout: auto;
   }
   > table,
@@ -1508,6 +1520,12 @@ pre[data-linenos] {
     --tw-border-spacing-x: 0px;
     --tw-border-spacing-y: 0px;
     border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
+  }
+  > table,
+  > center > table,
+  > left > table,
+  > right > table {
+    overflow-x: scroll;
   }
   > table,
   > center > table,
