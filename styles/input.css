@@ -101,10 +101,6 @@ a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
   text-decoration-skip: none;
 }
 
-a.external-link-subtle {
-  color: var(--text-subtle) !important;
-}
-
 a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
   text-decoration-color: color-mix(in srgb, var(--link-color) 50%, transparent);
   &:hover {
@@ -130,6 +126,20 @@ a:not([target="_blank"], .text-primary, .text-subtle) {
       transparent
     );
   }
+}
+
+a.external-link-subtle {
+  color: var(--text-subtle) !important;
+}
+
+.force-subtle-links,
+.force-subtle-links a {
+  color: var(--text-subtle) !important;
+}
+
+.force-plain-link,
+.force-plain-link a {
+  text-decoration: none !important;
 }
 
 h1,
