@@ -173,7 +173,8 @@ pre[data-linenos] {
   @apply text-4xl;
   content: "···";
   letter-spacing: 1em; /* increase space between dots */
-  color: var(--border-subtle);
+  margin-left: -1em;
+  /* color: var(--border-subtle); */
 }
 
 .active-toc-sidebar-item {

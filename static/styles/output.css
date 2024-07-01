@@ -658,6 +658,10 @@ video {
   margin-top: 2rem;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
 .line-clamp-1 {
   overflow: hidden;
   display: -webkit-box;
@@ -864,6 +868,14 @@ video {
 
 .bg-transparent {
   background-color: transparent;
+}
+
+.bg-subtle {
+  background-color: var(--text-subtle);
+}
+
+.bg-table {
+  background-color: var(--background-table);
 }
 
 .p-4 {
@@ -1224,7 +1236,8 @@ pre[data-linenos] {
   content: "···";
   letter-spacing: 1em;
   /* increase space between dots */
-  color: var(--border-subtle);
+  margin-left: -1em;
+  /* color: var(--border-subtle); */
 }
 
 .active-toc-sidebar-item {
