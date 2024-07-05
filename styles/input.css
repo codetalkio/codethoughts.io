@@ -394,7 +394,7 @@ pre[data-linenos] {
   > center > table,
   > left > table,
   > right > table {
-    @apply mx-auto table-auto text-sm text-wrap leading-6 mt-4 mb-6 border border-separate border-spacing-0 rounded-md overflow-x-scroll block max-w-screen-md;
+    @apply mx-auto table-auto text-sm text-wrap leading-6 mt-4 mb-6 border border-separate border-spacing-0 rounded-md overflow-x-scroll block max-w-screen-md sm:w-fit;
     background-color: var(--background);
     border-color: var(--border-subtle);
 

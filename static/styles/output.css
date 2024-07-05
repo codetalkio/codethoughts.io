@@ -583,6 +583,11 @@ video {
   margin-right: 0.25rem;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -1658,6 +1663,15 @@ pre[data-linenos] {
   > left > table,
   > right > table {
     line-height: 1.5rem;
+  }
+  @media (min-width: 640px) {
+    > table,
+  > center > table,
+  > left > table,
+  > right > table {
+      width: -moz-fit-content;
+      width: fit-content;
+    }
   }
   > table,
   > center > table,
