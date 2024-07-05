@@ -336,7 +336,7 @@ as well as:
 
 Now that we have a clear concrete idea of what our goal is and why we are trying to achieve it, let’s see if we can make a similar setup using Leptos and WASM. We unfortunately can’t test the new 0.7 alpha since static routes are yet to be supported.
 
-We do however need to be at least on version TBD, which includes my fix for generating sub-routes with trailing slashes correctly ([leptos#2667](https://github.com/leptos-rs/leptos/pull/2667)).
+We do however need to be using a branch, which includes my fix for generating sub-routes with trailing slashes correctly ([leptos#2667](https://github.com/leptos-rs/leptos/pull/2667)), until that gets merged. I'd recommend just waiting until it's merged and a new release is cut.
 
 If you don’t already have [cargo-leptos](https://github.com/leptos-rs/cargo-leptos) and [cargo-generate](https://github.com/cargo-generate/cargo-generate), we’ll set that up first so that we can use the [leptos-rs/start-axum](https://github.com/leptos-rs/start-axum) starter template:
 
