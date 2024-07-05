@@ -504,7 +504,22 @@ Now that we have a few pages to render, using some interactivity and browser API
 
 While static generation is a bit underdocumented in Leptos, we can get still manage by following along with [Greg’s comment here](https://github.com/leptos-rs/leptos/issues/1594#issuecomment-1845939151) as well as the [0.5 release notes](https://github.com/leptos-rs/leptos/releases/tag/v0.5.0) on where Static Site Generation was announced.
 
-The first thing we’ll do is to change our `Routes` to be `StaticRoute`s instead. Edit the `leptos-example/src/app.rs` file, changing our `Routes` to look like this instead:
+Before making any changes, until [leptos#2667](https://github.com/leptos-rs/leptos/pull/2667) is merged, we'll have to change our leptos dependency to point to our PR:
+
+```toml ,linenos,hl_lines=6-9
+[package]
+# ...
+
+[dependencies]
+# ...
+leptos = { git = "https://github.com/leptos-rs/leptos", rev = "refs/pull/2667/head", features = ["nightly"] }
+leptos_axum = { git = "https://github.com/leptos-rs/leptos", rev = "refs/pull/2667/head", optional = true }
+leptos_meta = { git = "https://github.com/leptos-rs/leptos", rev = "refs/pull/2667/head", features = ["nightly"] }
+leptos_router = { git = "https://github.com/leptos-rs/leptos", rev = "refs/pull/2667/head", features = ["nightly"] }
+# ...the rest of the file remains the same
+```
+
+Now we're ready for the actual changes. First thing, we’ll do is to change our `Routes` to be `StaticRoute`s instead. Edit the `leptos-example/src/app.rs` file, changing our `Routes` to look like this instead:
 
 ```rust ,linenos,hl_lines=3-22
 				        // ...change the routes in our App component.
@@ -555,6 +570,7 @@ This will generate the static files each time our entry function runs.
 We can now inspect the generated build assets by running `LEPTOS_HASH_FILES=true cargo leptos build --release` following by running the binary via `LEPTOS_HASH_FILES=true ./target/release/leptos-example` in the `leptos-example` directory (you might have to exit it manually with Ctrl-C):
 
 ```bash
+$ LEPTOS_HASH_FILES=true cargo leptos build --release
 $ LEPTOS_HASH_FILES=true ./target/release/leptos-example
 building static route: /sub-page
 listening on http://127.0.0.1:3000
