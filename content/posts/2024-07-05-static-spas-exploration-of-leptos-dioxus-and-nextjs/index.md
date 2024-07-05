@@ -14,7 +14,7 @@ One of my absolute favorite methods of deploying Frontends is to pre-generate al
 
 I particularly care a lot about infrastructure scalability, maintainability, robustness, and cost. SSR typically makes each of these significantly worse compared to simply serving static files. I also don’t believe mixing your API into your Frontend code (i.e. [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)) will do you any favors when you start scaling up your teams, but that’s a topic for another day.
 
-The overall results:
+In this post we'll explore how this can be setup and compare a couple of different frameworks. Let's start with the overall results before we dive into the details:
 
 | Framework | SSG Support | Hydration Support | Assets Chunking |
 | --- | :---: | :---: | :---: |
