@@ -4,7 +4,7 @@ tags: rust, aws, cloud, infrastructure, cdk
 date: 2024-03-10
 ---
 
-In [the last post](/posts/2023-10-07-the-stack-part-2.html) we built up two Frontend Apps, one using Next.js and another using Leptos (Rust/WASM). In this post we will be building an API that our Apps can talk to. See the full overview of posts [here](/posts/2023-01-29-the-stack.html#what-will-we-be-covering).
+In [the last post](@/posts/2023-10-08-the-stack-part-2/index.md) we built up two Frontend Apps, one using Next.js and another using Leptos (Rust/WASM). In this post we will be building an API that our Apps can talk to. See the full overview of posts [here](@/posts/2023-01-29-the-stack/index.md#what-will-we-be-covering).
 
 At the end of this post we will have:
 

@@ -5,7 +5,7 @@ date = 2023-10-16
 tags = ["rust", "typescript", "wasm", "nextjs", "leptos", "aws", "cloud", "infrastructure", "cdk", "ci"]
 +++
 
-In [the last post](/posts/2023-10-07-the-stack-part-2.html) we set up our deployment, fully automated on merge to our `main` branch. In this post we will be building our UI (Frontend) applications. See the full overview of posts [here](/posts/2023-01-29-the-stack.html#what-will-we-be-covering).
+In [the last post](@/posts/2023-10-08-the-stack-part-2/index.md) we set up our deployment, fully automated on merge to our `main` branch. In this post we will be building our UI (Frontend) applications. See the full overview of posts [here](@/posts/2023-01-29-the-stack/index.md#what-will-we-be-covering).
 
 At the end of this post we will have:
 
@@ -24,7 +24,7 @@ There is quite a lot to cover. My recommendation is to clone down the Part 3 bra
 
 ## Prelude: Static Site Generation
 
-While SSR (Server Side Rendering) is seeing a renaissance these days, we are intentionally avoiding this functionality. If you remember the architecture outlined in [our introduction to the series](/posts/2023-01-29-the-stack.html#what-will-we-be-covering), we want to be able to serve our Frontend entirely using static file hosting.
+While SSR (Server Side Rendering) is seeing a renaissance these days, we are intentionally avoiding this functionality. If you remember the architecture outlined in [our introduction to the series](@/posts/2023-01-29-the-stack/index.md#what-will-we-be-covering), we want to be able to serve our Frontend entirely using static file hosting.
 
 There are multiple reasons for this, going back to our core design goals:
 
@@ -321,7 +321,7 @@ $ bun run dev
 
 It may not look like much, but we've implemented a lot of the core functionality we need to get started, such as static builds and localization.
 
-As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
+As the final step we will add our commands to just, [extending our existing justfile](@/posts/2023-10-08-the-stack-part-2/index.md#bonus-justfile-and-just):
 
 <!-- name=justfile -->
 ```makefile ,linenos
@@ -787,7 +787,7 @@ $ trunk serve --open
 
 Again, it may not look like much, but we've implemented a lot of the core functionality we need to get started!
 
-As the final step we will add our commands to just, [extending our existing justfile](/posts/2023-10-07-the-stack-part-2.html#bonus-just):
+As the final step we will add our commands to just, [extending our existing justfile](@/posts/2023-10-08-the-stack-part-2/index.md#bonus-justfile-and-just):
 
 <!-- name=justfile -->
 ```makefile ,linenos

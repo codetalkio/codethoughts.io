@@ -119,7 +119,7 @@ That looks like this in XCode:
 
 The limitation here is that these additional targets only support native code (i.e. Swift or Kotlin/Java).
 
-**Before jumping into the next section where we’ll look at code sharing**, how do we actually communicate with and/or use the native capabilities that Capacitor supports? I’ve written up a guide on how exactly to do that in detail here: [Using Capacitor Plugins from Rust/WASM](/posts/2024-06-24-using-capacitor-plugins-from-rust-wasm.html).
+**Before jumping into the next section where we’ll look at code sharing**, how do we actually communicate with and/or use the native capabilities that Capacitor supports? I’ve written up a guide on how exactly to do that in detail here: [Using Capacitor Plugins from Rust/WASM](@/posts/2024-06-24-using-capacitor-plugins-from-rust-wasm/index.md).
 
 **Choice**: Capacitor
 
@@ -152,7 +152,7 @@ How does the Rust side of things then look like? Very much like Dart/Flutter act
 5. Import the generated Swift and `.xcframework` into XCode
 6. Done!
 
-I’ve written up a guide on how exactly to do that in detail here: [Setting up UniFFI for iOS, Simulators, and watchOS](/posts/2024-06-24-setting-up-uniffi-for-ios-simulators-and-watchos.html).
+I’ve written up a guide on how exactly to do that in detail here: [Setting up UniFFI for iOS, Simulators, and watchOS](@/posts/2024-06-24-setting-up-uniffi-for-ios-simulators-and-watchos/index.md).
 
 Once you’ve done the initial project setup (for building the targets and generating the `.xcframework` file) you don’t really touch that again, and you only need to concern yourself with which things to expose to Swift.
 

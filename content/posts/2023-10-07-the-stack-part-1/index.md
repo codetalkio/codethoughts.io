@@ -5,7 +5,7 @@ date = 2023-10-07
 tags = ["aws", "cloud", "infrastructure"]
 +++
 
-In [the last post](/posts/2023-01-29-the-stack.html) we went over the overall goals of "The Stack" and what we will be building. In this post we'll be setting up our AWS Account structure. See the full overview of posts [here](/posts/2023-01-29-the-stack.html#what-will-we-be-covering).
+In [the last post](@/posts/2023-01-29-the-stack/index.md) we went over the overall goals of "The Stack" and what we will be building. In this post we'll be setting up our AWS Account structure. See the full overview of posts [here](@/posts/2023-01-29-the-stack/index.md#what-will-we-be-covering).
 
 {{ toc() }}
 

@@ -233,7 +233,7 @@ configuration files and install scripts from S3. You can do this in _AWS Console
 -> Identify & Access Management -> Roles -> Create New Role_ and then name the
 role. You then need to attach a policy to it. This can either be full S3
 access, or a more limited policy. For more on the latter see the post about
-generating [S3 bucket specific policies](/posts/2015-11-18-s3-bucket-specific-policy.html).
+generating [S3 bucket specific policies](@/posts/2015-11-18-s3-bucket-specific-policy/index.md).
 
 
 __Now to the fun part!__ This will assume that you are using the install

@@ -40,11 +40,11 @@ All of this will be covered in parts:
 
 - [Part 0: The introduction and goals (this post)](#what-will-we-be-covering)
   - The goals of "The Stack" and architecture overview
-- [Part 1: Setting up your AWS Account Structure](/posts/2023-10-07-the-stack-part-1.html)
+- [Part 1: Setting up your AWS Account Structure](@/posts/2023-10-07-the-stack-part-1/index.md)
   - Setting up Control Tower and all of our AWS Accounts
-- [Part 2: Automating Deployments via CI](/posts/2023-10-07-the-stack-part-2.html)
+- [Part 2: Automating Deployments via CI](@/posts/2023-10-08-the-stack-part-2/index.md)
   - Bootstrapping CDK and deploying to all accounts via CI
-- [Part 3: Creating our Frontend](/posts/2023-10-16-the-stack-part-3.html)
+- [Part 3: Creating our Frontend](@/posts/2023-10-16-the-stack-part-3/index.md)
   - Creating an SPA and deploying it to S3 + CloudFront
 - Part 4: A Federated GraphQL API
   - Federated GraphQL in Lambda with three subgraphs

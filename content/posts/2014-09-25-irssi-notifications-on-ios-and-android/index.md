@@ -8,7 +8,7 @@ tags = ["irssi"]
 Or really anywhere that [https://pushover.net](https://pushover.net) supports.
 
 
-In light of the [earlier article](/posts/2014-09-24-local-notifications-from-irssi-on-a-remote-server.html), I thought I'd might as well supercharge my IRC setup. So, now we're gonna get some notifications for our mobile devices via pushover.
+In light of the [earlier article](@/posts/2014-09-24-local-notifications-from-irssi-on-a-remote-server/index.md), I thought I'd might as well supercharge my IRC setup. So, now we're gonna get some notifications for our mobile devices via pushover.
 
 <div></div><!-- more -->
 
