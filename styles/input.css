@@ -274,6 +274,19 @@ pre[data-linenos] {
   left: anchor(bottom);
   margin-top: 55px;
   margin-right: 20px;
+  z-index: 100;
+}
+
+@supports not selector(:popover-open) {
+  #table-of-contents-menu {
+    display: none;
+  }
+  #table-of-contents-menu-overlay {
+    display: none;
+  }
+  #table-of-contents-sidebar-popover {
+    display: none;
+  }
 }
 
 .about-timeline-date {
