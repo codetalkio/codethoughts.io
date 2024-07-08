@@ -570,10 +570,6 @@ video {
   right: 1.25rem;
 }
 
-.top-0 {
-  top: 0px;
-}
-
 .top-5 {
   top: 1.25rem;
 }
@@ -617,10 +613,6 @@ video {
 
 .mb-16 {
   margin-bottom: 4rem;
-}
-
-.mb-2 {
-  margin-bottom: 0.5rem;
 }
 
 .mb-4 {
@@ -675,18 +667,31 @@ video {
   margin-top: 2rem;
 }
 
+.ml-20 {
+  margin-left: 5rem;
+}
+
+.mr-8 {
+  margin-right: 2rem;
+}
+
+.mr-10 {
+  margin-right: 2.5rem;
+}
+
+.ml-12 {
+  margin-left: 3rem;
+}
+
+.ml-8 {
+  margin-left: 2rem;
+}
+
 .line-clamp-1 {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
-}
-
-.line-clamp-2 {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 }
 
 .line-clamp-3 {
@@ -729,6 +734,10 @@ video {
 
 .hidden {
   display: none;
+}
+
+.h-10 {
+  height: 2.5rem;
 }
 
 .h-5 {
@@ -794,6 +803,14 @@ video {
 
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.grow {
+  flex-grow: 1;
 }
 
 .basis-1\/2 {
@@ -881,6 +898,10 @@ video {
   border-bottom-width: 2px;
 }
 
+.border-l {
+  border-left-width: 1px;
+}
+
 .border-l-2 {
   border-left-width: 2px;
 }
@@ -889,8 +910,16 @@ video {
   border-top-width: 1px;
 }
 
+.border-solid {
+  border-style: solid;
+}
+
 .border-subtle {
-  border-color: var(--text-subtle);
+  border-color: var(--border-subtle);
+}
+
+.border-subtle-extra {
+  border-color: var(--border-subtle-extra);
 }
 
 .bg-aside {
@@ -930,6 +959,11 @@ video {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .pb-1 {
@@ -1052,6 +1086,7 @@ video {
   --background-table: #efeef0;
   --background-menu: #afb8c133;
   --border-subtle: #afb8c133;
+  --border-subtle-extra: #96919f36;
   --link-color: #4833cf;
   --link-color-hover: #4833cf;
   --link-color-visited: #4833cf;
@@ -1071,7 +1106,8 @@ video {
     --background-aside: #171B22;
     --background-table: #171B22;
     --background-menu: #6e768166;
-    --border-subtle: #6e768166;
+    --border-subtle: #635d6c;
+    --border-subtle-extra: #96919f36;
     --link-color: #a2acff;
     --link-color-hover: #c5cdff;
     --link-color-visited: #625bf6;
@@ -1244,7 +1280,7 @@ a.external-link-subtle {
   border-top-width: 1px;
   border-left-width: 1px;
   border-style: solid;
-  border-color: var(--text-subtle);
+  border-color: var(--border-subtle);
 }
 
 .border-snapshot-with-content::after,
@@ -1254,7 +1290,7 @@ a.external-link-subtle {
   border-bottom-width: 1px;
   border-right-width: 1px;
   border-style: solid;
-  border-color: var(--text-subtle);
+  border-color: var(--border-subtle);
 }
 
 h1,
@@ -1931,7 +1967,7 @@ aside {
 }
 
 .hover\:border-subtle:hover {
-  border-color: var(--text-subtle);
+  border-color: var(--border-subtle);
 }
 
 .hover\:bg-code:hover {
@@ -1974,7 +2010,7 @@ aside {
 }
 
 .group:hover .group-hover\:border-subtle {
-  border-color: var(--text-subtle);
+  border-color: var(--border-subtle);
 }
 
 .group:hover .group-hover\:bg-code {
@@ -2002,12 +2038,28 @@ aside {
 }
 
 @media (min-width: 640px) {
+  .sm\:visible {
+    visibility: visible;
+  }
+
   .sm\:mt-0 {
     margin-top: 0px;
   }
 
-  .sm\:flex-row {
-    flex-direction: row;
+  .sm\:ml-20 {
+    margin-left: 5rem;
+  }
+
+  .sm\:mr-10 {
+    margin-right: 2.5rem;
+  }
+
+  .sm\:mr-4 {
+    margin-right: 1rem;
+  }
+
+  .sm\:inline {
+    display: inline;
   }
 
   .sm\:px-8 {
@@ -2015,8 +2067,21 @@ aside {
     padding-right: 2rem;
   }
 
+  .sm\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   .sm\:pl-8 {
     padding-left: 2rem;
+  }
+
+  .sm\:text-left {
+    text-align: left;
+  }
+
+  .sm\:text-right {
+    text-align: right;
   }
 
   .sm\:text-sm {
@@ -2026,16 +2091,8 @@ aside {
 }
 
 @media (min-width: 768px) {
-  .md\:mb-10 {
-    margin-bottom: 2.5rem;
-  }
-
   .md\:mb-16 {
     margin-bottom: 4rem;
-  }
-
-  .md\:mb-20 {
-    margin-bottom: 5rem;
   }
 
   .md\:mb-24 {
@@ -2044,18 +2101,6 @@ aside {
 
   .md\:mt-16 {
     margin-top: 4rem;
-  }
-
-  .md\:mt-20 {
-    margin-top: 5rem;
-  }
-
-  .md\:basis-5\/12 {
-    flex-basis: 41.666667%;
-  }
-
-  .md\:basis-7\/12 {
-    flex-basis: 58.333333%;
   }
 
   .md\:pl-0 {
@@ -2073,6 +2118,11 @@ aside {
   .xl\:px-0 {
     padding-left: 0px;
     padding-right: 0px;
+  }
+
+  .xl\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 

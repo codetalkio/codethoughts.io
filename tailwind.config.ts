@@ -132,6 +132,10 @@ module.exports = {
         table: "var(--background-table)",
         menu: "var(--background-menu)",
       },
+      borderColor: {
+        subtle: "var(--border-subtle)",
+        "subtle-extra": "var(--border-subtle-extra)",
+      },
       colors: {
         subtle: "var(--text-subtle)",
         headline: "var(--text-headline)",
@@ -139,9 +143,6 @@ module.exports = {
         link: {
           DEFAULT: "var(--link-color)",
           hover: "var(--link-color-hover)",
-        },
-        border: {
-          subtle: "var(--border-subtle)",
         },
         dark: {
           text: black["50"],
@@ -164,7 +165,8 @@ module.exports = {
             menu: "#6e768166",
           },
           border: {
-            subtle: "#6e768166",
+            subtle: black["600"],
+            "subtle-extra": "#96919f36",
           },
         },
         light: {
@@ -189,6 +191,7 @@ module.exports = {
           },
           border: {
             subtle: "#afb8c133",
+            "subtle-extra": "#96919f36",
           },
         },
         brand, // Orange is the brand color.

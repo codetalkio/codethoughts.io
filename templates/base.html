@@ -59,16 +59,31 @@
   </head>
 
   <body>
+    {% set tags = get_taxonomy(kind="tags") %}
+
     <div class="flex flex-col min-h-screen mx-auto xl:px-0 px-4 items-center">
-      {# Header/Logo #}
-      <div class="top-0 left-0 w-full">
-        <div class="max-w-screen-xl mx-auto">
-          <div class="flex p-4">
-            {# Light mode #}
-            <img class="dark:hidden" alt="codethoughts logo (light)" src="{{ get_url(path='logo/codethoughts logo (transparent light).svg') }}" width="50px" height="50px" />
-            {# Dark mode #}
-            <img class="hidden dark:block" alt="codethoughts logo (dark)" src="{{ get_url(path='logo/codethoughts logo (transparent dark).svg') }}" width="50px" height="50px" />
+      <div class="flex flex-row align-start max-w-screen-xl mx-auto w-full py-4 items-center">
+        {# Header/Logo #}
+        <div>
+          <div class="xl:px-4">
+            <a href="{{ get_url(path='@/_index.md') }}">
+              {# Light mode #}
+              <img class="dark:hidden" alt="codethoughts logo (light)" src="{{ get_url(path='logo/codethoughts logo (transparent light).svg') }}" width="50px" height="50px" />
+              {# Dark mode #}
+              <img class="hidden dark:block" alt="codethoughts logo (dark)" src="{{ get_url(path='logo/codethoughts logo (transparent dark).svg') }}" width="50px" height="50px" />
+            </a>
           </div>
+        </div>
+        {# Separator #}
+        <div class="h-10 border-l border-solid border-subtle-extra"></div>
+        <div class="sm:ml-20 ml-8 text-sm">
+          <a class="text-subtle sm:mr-10 mr-4" href="{{ get_url(path='@/_index.md') }}">Home</a>
+          <a class="text-subtle sm:mr-10 mr-4" href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
+          <a class="text-subtle sm:mr-10 mr-4 sm:inline hidden" href="{{ tags.permalink }}">Tags</a>
+          <a class="text-subtle sm:mr-10 mr-4" href="{{ get_url(path='@/pages/about.md') }}">About Me</a>
+        </div>
+        <div class="sm:ml-20 text-sm sm:text-right text-left grow">
+          <a class="text-subtle sm:mr-4" href="https://codetalk.io" target="_blank" rel="noopener noreferrer">Codetalk ↗</a>
         </div>
       </div>
 
@@ -87,7 +102,6 @@
               <br />
               <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ get_url(path='@/pages/archive.md') }}">archive</a> of all posts
               <br />
-              {% set tags = get_taxonomy(kind="tags") %}
               overview of <a class="text-primary visited:text-primary hover:text-link-hover" href="{{ tags.permalink }}">tags</a>
             </p>
           </div>

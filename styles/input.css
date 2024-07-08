@@ -17,6 +17,7 @@
   --background-table: theme("colors.light.background.table");
   --background-menu: theme("colors.light.background.menu");
   --border-subtle: theme("colors.light.border.subtle");
+  --border-subtle-extra: theme("colors.light.border.subtle-extra");
   --link-color: theme("colors.light.link.DEFAULT");
   --link-color-hover: theme("colors.light.link.hover");
   --link-color-visited: theme("colors.light.link.visited");
@@ -39,6 +40,7 @@
     --background-table: theme("colors.dark.background.table");
     --background-menu: theme("colors.dark.background.menu");
     --border-subtle: theme("colors.dark.border.subtle");
+    --border-subtle-extra: theme("colors.dark.border.subtle-extra");
 
     --link-color: theme("colors.dark.link.DEFAULT");
     --link-color-hover: theme("colors.dark.link.hover");
