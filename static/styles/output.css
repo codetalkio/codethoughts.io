@@ -2041,6 +2041,11 @@ aside {
   .min-\[520px\]\:inline {
     display: inline;
   }
+
+  .min-\[520px\]\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
 }
 
 @media (min-width: 640px) {
