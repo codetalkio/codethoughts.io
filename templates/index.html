@@ -61,12 +61,12 @@
                   <span class="text-2xl px-2">/</span>
                   {% endif %}
                 {% endfor %}
-                <aside class="text-subtle styling-full border-l-2 pl-4 pb-4 !mb-0 line-clamp-3 text-base">
+                <aside class="text-subtle styling-full border-l-2 pl-4 !mb-0 line-clamp-4 text-base">
                   <p>
-                    {{ project.description}}
+                    {{ project.description | safe }}
                   </p>
                 </aside>
-                <aside class="text-subtle border-l-2 pl-4 mb-4 force-subtle-links text-right">
+                <aside class="text-subtle border-l-2 pl-4 pt-2 mb-4 force-subtle-links text-right">
                   <a href="{{ project.titles[0].url }}" target="_blank" rel="noopener noreferrer" alt="{{ project.description }}"
                   title="{{ project.description }}">Visit Project →</a>
                 </aside>

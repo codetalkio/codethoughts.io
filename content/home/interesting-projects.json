@@ -6,7 +6,7 @@
         "url": "https://github.com/Tehnix/template-mobile-wasm"
       }
     ],
-    "description": "Template project for building a Rust application that can be run on Web, iOS and Android using Leptos, Capacitor and UniFFI"
+    "description": "Template project for building a Rust application that can be run on Web, iOS and Android using Leptos, Capacitor and UniFFI.<br>Compile to WASM via Rust and a framework such as Leptos, package WASM using Capacitor, interface with Capacitor Plugins via wasm-bindgen, support native Widgets using the generated Xcode project and Swift, use Rust code from Swift via UniFFI."
   },
   {
     "titles": [
@@ -15,7 +15,7 @@
         "url": "https://github.com/codetalkio/serverless-federated-graphql"
       }
     ],
-    "description": "Comparison of Federated GraphQL solutions for serverless, featuring a minimal build of Apollo Router built for Lambda via Amazon Linux 2, and comparison to other alternatives (Cosmo, Mesh, Gateway)"
+    "description": "Comparison of Cold/Warm Start times of Federated GraphQL solutions for serverless, featuring a minimal build of Apollo Router built for Lambda via Amazon Linux 2, and comparison to other alternatives such as Cosmo, Mesh, and Apollo Gateway"
   },
   {
     "titles": [
@@ -28,7 +28,7 @@
         "url": "https://github.com/codetalkio/patterns-serverless-rust"
       }
     ],
-    "description": "Setup for starting with serverless Rust + GraphQL + DynamoDB on AWS Lambda using AWS CDK for deployment"
+    "description": "A minimal template for deploying a Rust AWS Lambda function. Quickly get started with Serverless Rust + GraphQL + DynamoDB on AWS Lambda using AWS CDK for deployment"
   },
   {
     "titles": [
@@ -42,7 +42,7 @@
         "description": "the accompanying layers for Spaceneovim"
       }
     ],
-    "description": "Spaceneovim is a Spacemacs inspired distribution for Neovim"
+    "description": "Spaceneovim is a Spacemacs inspired distribution for Neovim, which allows you to quickly get set up with sensible defaults in Neovim, and features an extensive layer system for easy extensibility"
   },
   {
     "titles": [
@@ -51,7 +51,7 @@
         "url": "https://github.com/Tehnix/MobileHaskellFun"
       }
     ],
-    "description": "Toy project for testing out Haskell on iOS"
+    "description": "Example project for testing out Haskell on iOS, using custom work on a toolchain for running GHC on ARM, as well as providing a ready-to-use Xcode setup"
   },
   {
     "titles": [
@@ -60,7 +60,7 @@
         "url": "https://github.com/Tehnix/rfplusone-app"
       }
     ],
-    "description": "Mobile app (React Native) helping people meetup for concerts, developed for Roskilde Festival"
+    "description": "Mobile app helping people meetup for concerts, developed for Roskilde Festival. Written using React Native for iOS and Android, and integrating with Facebook for OAuth"
   },
   {
     "titles": [
@@ -69,7 +69,7 @@
         "url": "https://github.com/Tehnix/HsCMS"
       }
     ],
-    "description": "A CMS implemented in Haskell using the Yesod framework"
+    "description": "HsCMS is a small blogging platform implemented using Haskell/Yesod. It allows you to easily setup and run your own blog, by taking care of the administration details and the back-end.<br><br>It comes with built-in markdown editing, automatic gist creation, disqus integration, and CloudFlare + Disqus analytics."
   },
   {
     "titles": [
@@ -78,7 +78,7 @@
         "url": "https://github.com/Tehnix/TowerOfPower"
       }
     ],
-    "description": "A small fun Unity3D game in Pokémon style 2D graphics"
+    "description": "A small fun Unity3D game in Pokémon style 2D graphics. The player starts in their home, and has to move from here around the map using either the arrow keys, the wasd keys or touch if on iPhone. There are certain areas that are blocked off, requiring either an NPC to be defeated before you can proceed, or, that you have a minimum of x reputation."
   },
   {
     "disabled": true,
