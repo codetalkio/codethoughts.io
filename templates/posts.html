@@ -4,6 +4,9 @@
 
 {% block content %}
 
+{# START of content width wrapping #}
+<div class="max-w-screen-lg mx-auto">
+
 {# Breadcrumbs #}
 {{ base::breadcrumbs(pages=[section], crumbs=[]) }}
 
@@ -23,21 +26,25 @@
   </div>
 </div>
 
-<!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
+{# Main content #}
 {% for page in section.pages %}
-<div>
-  {# Heading section #}
-  {{ macros::post_heading(page=page, isLink=true) }}
+  <div class="border-snapshot-with-content">
+    <div class="max-w-screen-md mx-auto">
+      {# Heading section #}
+      {{ macros::post_heading(page=page, isLink=true) }}
 
-  {# Author and tags section. #}
-  {{ macros::post_metadata(page=page) }}
+      {# Author and tags section. #}
+      {{ macros::post_metadata(page=page) }}
 
-
-  {# Summary section. #}
-  <div class="styling-full">
-    {{ page.summary | safe }}
+      {# Summary section. #}
+      <div class="styling-full">
+        {{ page.summary | safe }}
+      </div>
+    </div>
   </div>
-</div>
 {% endfor %}
+
+{# END of content width wrapping #}
+</div>
 
 {% endblock content %}

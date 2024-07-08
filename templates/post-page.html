@@ -4,11 +4,16 @@
 
 {% block content %}
 
+
 {# Breadcrumbs #}
 {{ base::breadcrumbs(pages=[page], crumbs=['posts/_index.md']) }}
 
 {# Sidebar listing the table of contents #}
 {{ macros::post_toc_tracker(page=page) }}
+
+{# START of content width wrapping #}
+<div class="border-snapshot-with-content">
+<div class="max-w-screen-md mx-auto">
 
 {# Heading section #}
 {{ macros::post_heading(page=page, isLink=false) }}
@@ -20,6 +25,12 @@
   {{ macros::preprocess_post(resource=page) }}
 </div>
 
+{# END of content width wrapping #}
+</div>
+</div>
+
+<div class="border-snapshot-with-content">
+  <div class="max-w-screen-md mx-auto">
 {# Next and Previous post section #}
 {{ macros::post_next_prev(page=page) }}
 
@@ -34,6 +45,9 @@
     crossorigin="anonymous"
     async
   ></script>
+</div>
+
+</div>
 </div>
 
 {# <div class="separator"></div>

@@ -4,6 +4,10 @@
 
 {% block content %}
 
+{# START of content width wrapping #}
+<div class="border-snapshot-with-content">
+<div class="max-w-screen-md mx-auto">
+
 {# Breadcrumbs #}
 {{ base::breadcrumbs(pages=[page], crumbs=['importable-posts/_index.md']) }}
 
@@ -20,7 +24,15 @@
   {{ macros::preprocess_post(resource=page) }}
 </div>
 
-{# Next and Previous post section #}
-{{ macros::post_next_prev(page=page) }}
+{# END of content width wrapping #}
+</div>
+</div>
+
+<div class="border-snapshot-with-content">
+  <div class="max-w-screen-md mx-auto">
+  {# Next and Previous post section #}
+  {{ macros::post_next_prev(page=page) }}
+</div>
+</div>
 
 {% endblock content %}

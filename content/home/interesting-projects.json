@@ -1,0 +1,128 @@
+[
+  {
+    "titles": [
+      {
+        "title": "Rust on Mobile with WASM",
+        "url": "https://github.com/Tehnix/template-mobile-wasm"
+      }
+    ],
+    "description": "Template project for building a Rust application that can be run on Web, iOS and Android using Leptos, Capacitor and UniFFI"
+  },
+  {
+    "titles": [
+      {
+        "title": "Serverless Federated GraphQL",
+        "url": "https://github.com/codetalkio/serverless-federated-graphql"
+      }
+    ],
+    "description": "Comparison of Federated GraphQL solutions for serverless, featuring a minimal build of Apollo Router built for Lambda via Amazon Linux 2, and comparison to other alternatives (Cosmo, Mesh, Gateway)"
+  },
+  {
+    "titles": [
+      {
+        "title": "Serverless Rust",
+        "url": "https://github.com/codetalkio/patterns-serverless-rust-minimal"
+      },
+      {
+        "title": "...+ Graphql",
+        "url": "https://github.com/codetalkio/patterns-serverless-rust"
+      }
+    ],
+    "description": "Setup for starting with serverless Rust + GraphQL + DynamoDB on AWS Lambda using AWS CDK for deployment"
+  },
+  {
+    "titles": [
+      {
+        "title": "SpaceNeovim",
+        "url": "https://github.com/Tehnix/spaceneovim"
+      },
+      {
+        "title": "...+ Layers",
+        "url": "https://github.com/Tehnix/spaceneovim-layers",
+        "description": "the accompanying layers for Spaceneovim"
+      }
+    ],
+    "description": "Spaceneovim is a Spacemacs inspired distribution for Neovim"
+  },
+  {
+    "titles": [
+      {
+        "title": "Mobile Haskell",
+        "url": "https://github.com/Tehnix/MobileHaskellFun"
+      }
+    ],
+    "description": "Toy project for testing out Haskell on iOS"
+  },
+  {
+    "titles": [
+      {
+        "title": "RF+1 App",
+        "url": "https://github.com/Tehnix/rfplusone-app"
+      }
+    ],
+    "description": "Mobile app (React Native) helping people meetup for concerts, developed for Roskilde Festival"
+  },
+  {
+    "titles": [
+      {
+        "title": "HsCMS",
+        "url": "https://github.com/Tehnix/HsCMS"
+      }
+    ],
+    "description": "A CMS implemented in Haskell using the Yesod framework"
+  },
+  {
+    "titles": [
+      {
+        "title": "TowerOfPower",
+        "url": "https://github.com/Tehnix/TowerOfPower"
+      }
+    ],
+    "description": "A small fun Unity3D game in Pokémon style 2D graphics"
+  },
+  {
+    "disabled": true,
+    "titles": [
+      {
+        "title": "Serverless Scala",
+        "url": "https://github.com/codetalkio/patterns-serverless-scala-minimal"
+      }
+    ],
+    "description": "Minimal setup for starting with serverless Scala on AWS Lambda using AWS CDK for deployment"
+  },
+  {
+    "disabled": true,
+    "titles": [
+      {
+        "title": "vscode-tidymarkdown",
+        "url": "https://github.com/Tehnix/vscode-tidymarkdown"
+      }
+    ],
+    "description": "VS Code extension for format Markdown with the tidy-markdown tool"
+  },
+  {
+    "disabled": true,
+    "titles": [
+      {
+        "title": "Haskell Electron App",
+        "url": "https://github.com/codetalkio/Haskell-Electron-app"
+      }
+    ],
+    "description": "Small example app demonstrating the use of Haskell in Electron with a Servant server"
+  },
+  {
+    "disabled": true,
+    "titles": [
+      {
+        "title": "atom-haskell",
+        "url": "https://github.com/Tehnix/atom-haskell"
+      },
+      {
+        "title": "ide-haskell-hie",
+        "url": "https://github.com/Tehnix/ide-haskell-hie",
+        "description": "A language server client for Atom, using the Haskell LSP HIE"
+      }
+    ],
+    "description": "A curated set of packages for Haskell development using Atom"
+  }
+]

@@ -6,8 +6,8 @@
 {# Breadcrumbs #}
 {{ base::breadcrumbs(pages=[taxonomy.name | capitalize], crumbs=['posts/_index.md']) }}
 
-<div class="mb-16">
-  <h1 class="text-5xl">Overview of all {{ taxonomy.name }}</h1>
+<div class="border-snapshot mb-16">
+  <p class="text-subtle">༶ Overview of all {{ taxonomy.name }}</p>
 
   <ul class="list-disc list-inside mt-4 columns-3">
     <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->

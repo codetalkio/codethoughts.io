@@ -142,6 +142,35 @@ a.external-link-subtle {
   text-decoration: none !important;
 }
 
+.border-snapshot {
+  @apply relative xl:p-16 md:p-12 px-4 py-8;
+}
+.border-snapshot-with-content {
+  @apply relative xl:px-16 md:px-12 px-4 py-4 mb-20;
+  .styling-full {
+    @apply mb-4;
+  }
+}
+.border-snapshot-with-content::before,
+.border-snapshot::before,
+.border-snapshot-with-content::after,
+.border-snapshot::after {
+  @apply absolute;
+  /* The size of the borders */
+  width: 20px;
+  height: 20px;
+  /* The empty string is necessary for these to show up */
+  content: "";
+}
+.border-snapshot-with-content::before,
+.border-snapshot::before {
+  @apply top-0 left-0 border-t border-l border-solid border-subtle;
+}
+.border-snapshot-with-content::after,
+.border-snapshot::after {
+  @apply bottom-0 right-0 border-b border-r border-solid border-subtle;
+}
+
 h1,
 h2,
 h3,
@@ -451,5 +480,11 @@ pre[data-linenos] {
     p {
       @apply mt-0 inline-block text-xs;
     }
+  }
+}
+
+aside {
+  blockquote {
+    @apply !shadow-none !border-none;
   }
 }

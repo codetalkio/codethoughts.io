@@ -570,6 +570,10 @@ video {
   right: 1.25rem;
 }
 
+.top-0 {
+  top: 0px;
+}
+
 .top-5 {
   top: 1.25rem;
 }
@@ -601,6 +605,10 @@ video {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.\!mb-0 {
+  margin-bottom: 0px !important;
 }
 
 .-mt-20 {
@@ -681,6 +689,20 @@ video {
   -webkit-line-clamp: 2;
 }
 
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.line-clamp-4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
 .block {
   display: block;
 }
@@ -746,6 +768,10 @@ video {
   width: fit-content;
 }
 
+.w-full {
+  width: 100%;
+}
+
 .min-w-12 {
   min-width: 3rem;
 }
@@ -754,8 +780,16 @@ video {
   min-width: 100%;
 }
 
+.max-w-screen-lg {
+  max-width: 1024px;
+}
+
 .max-w-screen-md {
   max-width: 768px;
+}
+
+.max-w-screen-xl {
+  max-width: 1280px;
 }
 
 .flex-1 {
@@ -1029,7 +1063,7 @@ video {
     --text-primary: #f7f7f8;
     --text-headline: #FFAB40;
     --foreground: var(--text-primary);
-    --background: #0E1116;
+    --background: #000;
     --background-code: #171B22;
     --background-code-highlight: #bb800926;
     --background-code-highlight-border: #bb800966;
@@ -1140,6 +1174,87 @@ a.external-link-subtle {
 .force-plain-link,
 .force-plain-link a {
   text-decoration: none !important;
+}
+
+.border-snapshot {
+  position: relative;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .border-snapshot {
+    padding: 3rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .border-snapshot {
+    padding: 4rem;
+  }
+}
+
+.border-snapshot-with-content {
+  position: relative;
+  margin-bottom: 5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .border-snapshot-with-content {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .border-snapshot-with-content {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+.border-snapshot-with-content {
+  .styling-full {
+    margin-bottom: 1rem;
+  }
+}
+
+.border-snapshot-with-content::before,
+.border-snapshot::before,
+.border-snapshot-with-content::after,
+.border-snapshot::after {
+  position: absolute;
+  /* The size of the borders */
+  width: 20px;
+  height: 20px;
+  /* The empty string is necessary for these to show up */
+  content: "";
+}
+
+.border-snapshot-with-content::before,
+.border-snapshot::before {
+  top: 0px;
+  left: 0px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  border-style: solid;
+  border-color: var(--text-subtle);
+}
+
+.border-snapshot-with-content::after,
+.border-snapshot::after {
+  bottom: 0px;
+  right: 0px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  border-style: solid;
+  border-color: var(--text-subtle);
 }
 
 h1,
@@ -1767,6 +1882,17 @@ pre[data-linenos] {
   }
 }
 
+aside {
+  blockquote {
+    border-style: none !important;
+  }
+  blockquote {
+    --tw-shadow: 0 0 #0000 !important;
+    --tw-shadow-colored: 0 0 #0000 !important;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+  }
+}
+
 .first\:mt-4:first-child {
   margin-top: 1rem;
 }
@@ -1884,6 +2010,11 @@ pre[data-linenos] {
     flex-direction: row;
   }
 
+  .sm\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   .sm\:pl-8 {
     padding-left: 2rem;
   }
@@ -1907,6 +2038,14 @@ pre[data-linenos] {
     margin-bottom: 5rem;
   }
 
+  .md\:mb-24 {
+    margin-bottom: 6rem;
+  }
+
+  .md\:mt-16 {
+    margin-top: 4rem;
+  }
+
   .md\:mt-20 {
     margin-top: 5rem;
   }
@@ -1919,11 +2058,6 @@ pre[data-linenos] {
     flex-basis: 58.333333%;
   }
 
-  .md\:px-0 {
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-
   .md\:pl-0 {
     padding-left: 0px;
   }
@@ -1932,6 +2066,13 @@ pre[data-linenos] {
 @media (min-width: 850px) {
   .min-\[850px\]\:hidden {
     display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:px-0 {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 

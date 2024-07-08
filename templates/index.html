@@ -4,14 +4,7 @@
 
 <div class="min-h-screen flex flex-col justify-between">
   <div>
-    <div class="grid grid-cols-1 md:mt-20 mt-6 md:mb-20 mb-8">
-      <div class="flex justify-center">
-          {# Light mode #}
-          <img class="dark:hidden" alt="codethoughts logo (light)" src="{{ get_url(path='logo/codethoughts logo (transparent light).svg') }}" width="200px" height="200px" />
-          {# Dark mode #}
-          <img class="hidden dark:block" alt="codethoughts logo (dark)" src="{{ get_url(path='logo/codethoughts logo (transparent dark).svg') }}" width="200px" height="200px" />
-      </div>
-
+    <div class="border-snapshot grid grid-cols-1 md:mt-16 mt-6 md:mb-24 mb-16">
       <div class="flex justify-center">
         <p class="text-base">Christian Kjær Laustsen — <a class="text-primary" href="https://github.com/Tehnix" target="_blank" rel="noopener nofollow noreferrer">GitHub</a> — <a class="text-primary" href="https://www.linkedin.com/in/christian-kjaer-laustsen" target="_blank" rel="noopener nofollow noreferrer">LinkedIn</a></p>
       </div>
@@ -21,24 +14,24 @@
       </div>
     </div>
 
-    <div class="separator md:mb-10 mb-4"></div>
-
-    <div class="flex flex-col sm:flex-row">
-
-      {# Recent posts section #}
-      <div class="md:basis-7/12 basis-1/2">
-        <a class="text-primary" href="{{ get_url(path='@/posts/_index.md') }}">Recent posts</a><span class="text-subtle visited:text-subtle"> on the blog</span>
+    {# Recent posts section #}
+    <div class="border-snapshot">
+      <div>
+        <a class="text-subtle" href="{{ get_url(path='@/posts/_index.md') }}">〒 Recent posts on the blog</a>
 
         {% if paginator %}
           <ul class="list-none list-inside">
             {% for page in paginator.pages %}
             <li class="ml-6 pr-8 first:mt-4">
-              <a class="text-headline" href="{{ page.permalink | safe }}">{{ page.title }}</a>
+              <a class="text-primary text-2xl" href="{{ page.permalink | safe }}">{{ page.title }}</a>
 
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs cursor-pointer force-subtle-links force-plain-link" onclick="location.href='{{ page.permalink | safe }}';">
+              {# onclick="location.href='{{ page.permalink | safe }}';" and cursor-pointer #}
+              <aside class="!mb-0 styling-full text-subtle border-l-2 pl-4 mt-4 line-clamp-4 text-base force-subtle-links force-plain-link">
                 {{ page.summary | safe }}
               </aside>
-              {# <a href="{{ page.permalink }}#continue-reading">Continue Reading</a> #}
+              <aside class="text-subtle border-l-2 pl-4 mb-8 force-subtle-links text-right">
+                <a href="{{ page.permalink }}#continue-reading">Continue Reading →</a>
+              </aside>
             </li>
             {% endfor %}
             <li class="ml-6">
@@ -47,111 +40,47 @@
           </ul>
         {% endif %}
       </div>
+    </div>
 
-      {# Interesting projects section #}
-      <div class="md:basis-5/12 basis-1/2 md:pl-0 sm:pl-8 mt-16 sm:mt-0">
+    {# Interesting projects section #}
+    <div class="border-snapshot">
+      <div class="md:pl-0 sm:pl-8 mt-16 sm:mt-0">
         <div class="text-left">
-          <span class="text-subtle visited:text-subtle">Interesting </span><a class="text-primary" href="https://github.com/Tehnix" alt="Check out my GitHub profile for more, if you are interested" title="Check out my GitHub profile for more, if you are interested">projects</a>
+          <a class="text-subtle" href="https://github.com/Tehnix" alt="Check out my GitHub profile for more, if you are interested" title="Check out my GitHub profile for more, if you are interested">⌘ Interesting projects</a>
         </div>
 
         <ul class="list-none list-inside">
-          <li class="ml-6 first:mt-4">
-            <a href="https://github.com/Tehnix/template-mobile-wasm" target="_blank" rel="noopener noreferrer" alt="Template project for building a Rust application that can be run on Web, iOS and Android using Leptos, Capacitor and UniFFI."
-              title="Template project for building a Rust application that can be run on Web, iOS and Android using Leptos, Capacitor and UniFFI.">Rust on Mobile with WASM</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                Template project for building a Rust application that can be run on Web, iOS and Android using Leptos, Capacitor and UniFFI
-              </aside>
-          </li>
-          <li class="ml-6">
-            <a href="https://github.com/codetalkio/serverless-federated-graphql" target="_blank" rel="noopener noreferrer" alt="Comparison of Federated GraphQL solutions for serverless, featuring a minimal build of Apollo Router built for Lambda via Amazon Linux 2, and comparison to other alternatives (Cosmo, Mesh, Gateway)"
-              title="Comparison of Federated GraphQL solutions for serverless, featuring a minimal build of Apollo Router built for Lambda via Amazon Linux 2, and comparison to other alternatives (Cosmo, Mesh, Gateway)">Serverless Federated GraphQL</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                Comparison of Federated GraphQL solutions for serverless, featuring a minimal build of Apollo Router built for Lambda via Amazon Linux 2, and comparison to other alternatives (Cosmo, Mesh, Gateway)
-              </aside>
-          </li>
-          <li class="ml-6">
-            <a href="https://github.com/codetalkio/patterns-serverless-rust-minimal" target="_blank" rel="noopener noreferrer" alt="Minimal setup for starting with serverless Rust on AWS Lambda using AWS CDK for deployment"
-              title="Minimal setup for starting with serverless Rust on AWS Lambda using AWS CDK for deployment">Serverless Rust</a> / <a href="https://github.com/codetalkio/patterns-serverless-rust" target="_blank" rel="noopener noreferrer" alt="Setup for starting with serverless Rust + GraphQL + DynamoDB on AWS Lambda using AWS CDK for deployment"
-              title="Setup for starting with serverless Rust + GraphQL + DynamoDB on AWS Lambda using AWS CDK for deployment">...+ Graphql</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                Setup for starting with serverless Rust + GraphQL + DynamoDB on AWS Lambda using AWS CDK for deployment
-              </aside>
-          </li>
-          {# <li class="ml-6">
-            <a href="https://github.com/codetalkio/patterns-serverless-scala-minimal" target="_blank" rel="noopener noreferrer" alt="Minimal setup for starting with serverless Scala on AWS Lambda using AWS CDK for deployment"
-              title="Minimal setup for starting with serverless Scala on AWS Lambda using AWS CDK for deployment">Serverless Scala</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                Minimal setup for starting with serverless Scala on AWS Lambda using AWS CDK for deployment
-              </aside>
-          </li> #}
-          <li class="ml-6">
-            <a href="https://github.com/Tehnix/spaceneovim" target="_blank" rel="noopener noreferrer" alt="Spaceneovim is a Spacemacs inspired distribution for Neovim"
-              title="Spaceneovim is a Spacemacs inspired distribution for Neovim">SpaceNeovim</a> /
-            <a href="https://github.com/Tehnix/spaceneovim-layers" target="_blank" rel="noopener noreferrer" alt="the accompanying layers for Spaceneovim"
-              title="the accompanying layers for Spaceneovim">...+ Layers</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                Spaceneovim is a Spacemacs inspired distribution for Neovim
-              </aside>
-          </li>
-          <li class="ml-6">
-            <a href="https://github.com/Tehnix/MobileHaskellFun" target="_blank" rel="noopener noreferrer" alt="Toy project for testing out Haskell on iOS"
-              title="Toy project for testing out Haskell on iOS">Mobile Haskell</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                Toy project for testing out Haskell on iOS
-              </aside>
-          </li>
-          {# <li class="ml-6">
-            <a href="https://github.com/Tehnix/vscode-tidymarkdown" target="_blank" rel="noopener noreferrer" alt="VS Code extension for format Markdown with the tidy-markdown tool"
-              title="VS Code extension for format Markdown with the tidy-markdown tool">vscode-tidymarkdown</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                VS Code extension for format Markdown with the tidy-markdown tool
-              </aside>
-          </li> #}
-          <li class="ml-6">
-            <a href="https://github.com/Tehnix/rfplusone-app" target="_blank" rel="noopener noreferrer" alt="Mobile app (React Native) helping people meetup for concerts, developed for Roskilde Festival"
-              title="Mobile app (React Native) helping people meetup for concerts, developed for Roskilde Festival">RF+1 App</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                Mobile app (React Native) helping people meetup for concerts, developed for Roskilde Festival
-              </aside>
-          </li>
-          {# <li class="ml-6">
-            <a href="https://github.com/codetalkio/Haskell-Electron-app" target="_blank" rel="noopener noreferrer" alt="Small example app demonstrating the use of Haskell in Electron with a Servant server"
-              title="Small example app demonstrating the use of Haskell in Electron with a Servant server">Haskell Electron App</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                Small example app demonstrating the use of Haskell in Electron with a Servant server
-              </aside>
-          </li> #}
-          <li class="ml-6">
-            <a href="https://github.com/Tehnix/HsCMS" target="_blank" rel="noopener noreferrer" alt="A CMS implemented in Haskell using the Yesod framework"
-              title="A CMS implemented in Haskell using the Yesod framework">HsCMS</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                A CMS implemented in Haskell using the Yesod framework
-              </aside>
-          </li>
-          <li class="ml-6">
-            <a href="https://github.com/Tehnix/TowerOfPower" target="_blank" rel="noopener noreferrer" alt="A small fun Unity3D game in Pokémon style 2D graphics"
-              title="A small fun Unity3D game in Pokémon style 2D graphics">TowerOfPower</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                A small fun Unity3D game in Pokémon style 2D graphics
-              </aside>
-          </li>
-          {# <li class="ml-6">
-            <a href="https://github.com/Tehnix/atom-haskell" target="_blank" rel="noopener noreferrer" alt="A curated set of packages for Haskell development using Atom"
-              title="A curated set of packages for Haskell development using Atom">atom-haskell</a> /
-            <a href="https://github.com/Tehnix/ide-haskell-hie" target="_blank" rel="noopener noreferrer" alte="A language server client for Atom, using the Haskell LSP HIE"
-              title="A language server client for Atom, using the Haskell LSP HIE">ide-haskell-hie</a>
-              <aside class="text-subtle border-l-2 pl-4 mb-2 line-clamp-2 text-xs">
-                A curated set of packages for Haskell development using Atom
-              </aside>
-          </li> #}
+          {% set projects = load_data(path="content/home/interesting-projects.json", format="json") %}
+          {% for project in projects %}
+            {% if not project.disabled %}
+              <li class="ml-6 first:mt-4">
+                {% for title in project.titles %}
+                  <a class="text-primary text-2xl" href="{{ title.url }}" target="_blank" rel="noopener noreferrer" alt="{{ title.description | default(value=project.description) }}"
+                  title="{{ title.description | default(value=project.description) }}">{{ title.title }}</a>
+                  {% if not loop.last  %}
+                  <span class="text-2xl px-2">/</span>
+                  {% endif %}
+                {% endfor %}
+                <aside class="text-subtle styling-full border-l-2 pl-4 pb-4 !mb-0 line-clamp-3 text-base">
+                  <p>
+                    {{ project.description}}
+                  </p>
+                </aside>
+                <aside class="text-subtle border-l-2 pl-4 mb-4 force-subtle-links text-right">
+                  <a href="{{ project.titles[0].url }}" target="_blank" rel="noopener noreferrer" alt="{{ project.description }}"
+                  title="{{ project.description }}">Visit Project →</a>
+                </aside>
+              </li>
+            {% endif %}
+          {% endfor %}
         </ul>
       </div>
 
     </div>
 
     {# Getting a hold of me section #}
-    <div class="mt-16 md:mb-16 mb-8">
-      <span class="text-subtle">Getting </span>a hold of me
+    <div class="border-snapshot mt-16 md:mb-16 mb-8">
+      <span class="text-subtle">❢ Getting a hold of me</span>
       <p class="mt-4">
         I can be found many places! Hit me up on twitter at
         <a href="https://twitter.com/codetalkio" target="_blank" rel="noopener noreferrer" alt="Amazingly low activity, I use it mostly for following others"

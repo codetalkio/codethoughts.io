@@ -7,8 +7,8 @@
 {# Breadcrumbs #}
 {{ base::breadcrumbs(pages=[page], crumbs=[page.extra.parent | default(value="")]) }}
 
-<div class="mb-16">
-  {{ macros::preprocess_content(resource=page) }}
+<div class="border-snapshot-with-content mb-16">
+    {{ macros::preprocess_content(resource=page) }}
 </div>
 
 {% endblock content %}

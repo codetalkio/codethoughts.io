@@ -15,6 +15,7 @@ const brand = {
 };
 
 const black = {
+  0: "#000000",
   50: "#f7f7f8",
   100: "#efeef0",
   200: "#dbd9de",
@@ -152,7 +153,7 @@ module.exports = {
             visited: blue["500"],
           },
           background: {
-            DEFAULT: "#0E1116",
+            DEFAULT: "#000",
             // GitHub style background for code blocks (original #171B22).
             code: "#171B22",
             "code-highlight": "#bb800926",

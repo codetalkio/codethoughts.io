@@ -7,11 +7,11 @@
 {# Breadcrumbs #}
 {{ base::breadcrumbs(pages=[page], crumbs=[page.extra.parent | default(value="")]) }}
 
-<div class="styling-full">
+<div class="border-snapshot styling-full">
   {{ macros::preprocess_content(resource=page) }}
 </div>
 
-<div class="flex flex-col mt-8 mb-16">
+<div class="border-snapshot flex flex-col mt-8 mb-16">
   {# 2024 - Now #}
   <div class="flex flex-row">
     <div class="about-timeline-date">2024 -<br />Now</div>

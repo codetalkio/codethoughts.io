@@ -59,13 +59,27 @@
   </head>
 
   <body>
-    <div class="flex flex-col min-h-screen max-w-screen-md mx-auto md:px-0 px-4">
-      <div class="flex-1">
+    <div class="flex flex-col min-h-screen mx-auto xl:px-0 px-4 items-center">
+      {# Header/Logo #}
+      <div class="top-0 left-0 w-full">
+        <div class="max-w-screen-xl mx-auto">
+          <div class="flex p-4">
+            {# Light mode #}
+            <img class="dark:hidden" alt="codethoughts logo (light)" src="{{ get_url(path='logo/codethoughts logo (transparent light).svg') }}" width="50px" height="50px" />
+            {# Dark mode #}
+            <img class="hidden dark:block" alt="codethoughts logo (dark)" src="{{ get_url(path='logo/codethoughts logo (transparent dark).svg') }}" width="50px" height="50px" />
+          </div>
+        </div>
+      </div>
+
+      {# Content #}
+      <div class="flex-1 max-w-screen-lg w-full">
         {% block content %} {% endblock %}
       </div>
 
-      <div id="footer" class="mt-2 mb-8 text-sm">
-        <div class="separator"></div>
+      {# Footer #}
+      <div id="footer" class="text-sm w-full max-w-screen-xl mt-16 mb-8 sm:px-8 px-2">
+        {# <div class="separator"></div> #}
         <div class="flex flex-row">
           <div class="basis-1/2">
             <p class="text-subtle">
