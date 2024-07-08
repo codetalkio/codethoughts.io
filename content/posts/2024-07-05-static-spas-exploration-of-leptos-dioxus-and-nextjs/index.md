@@ -373,9 +373,7 @@ hash-files = true
 
 If we run `cd leptos-example` and run `cargo leptos watch` we get a nice little start page:
 
-![The default Leptos start page using the start-axum template.](Static%20SPAs%20Exploration%20of%20Leptos,%20Dioxus,%20and%20Nex%20d982c0fe0f0e4170b2f2a7c81040d755/Screenshot_2024-07-02_at_14.14.10.png)
-
-The default Leptos start page using the start-axum template.
+{{ image(path="Screenshot_2024-07-02_at_14.14.10.png", caption="The default Leptos start page using the start-axum template", width=600) }}
 
 To avoid your eyes bleeding from the default white background, you can update the default `leptos-example/style/main.scss` to:
 

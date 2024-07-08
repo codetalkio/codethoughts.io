@@ -38,13 +38,13 @@
 {%- macro post_heading(page, isLink) %}
 	{# Heading section #}
   {%- if isLink %}
-    <h1 id="{{ page.title | slugify }}" class="text-5xl mt-12 text-headline">
+    <h1 id="{{ page.title | slugify }}" class="sm:text-5xl text-4xl sm:mt-12 mt-6 text-headline">
       <a class="text-headline visited:text-headline" href="{{ page.permalink | safe }}">
         {{ page.title }}
       </a>
     </h1>
     {%- else %}
-    <h1 id="{{ page.title | slugify }}" class="text-5xl mt-12 text-headline">
+    <h1 id="{{ page.title | slugify }}" class="sm:text-5xl text-4xl sm:mt-12 mt-6 text-headline">
       {{ page.title }}
     </h1>
     {%- endif %}
@@ -131,7 +131,7 @@
   {% if page.toc %}
     <script src="{{ get_url(path='js/toc-sidebar.min.js') }}?h={{ get_hash(path="js/toc-sidebar.min.js") }}"></script>
 
-    <button id="table-of-contents-menu" popovertarget="table-of-contents-sidebar-popover" class="min-[850px]:hidden fixed top-5 right-5 px-2 pt-0 pb-1 rounded-full bg-menu cursor-pointer text-2xl">
+    <button id="table-of-contents-menu" popovertarget="table-of-contents-sidebar-popover" class="min-[850px]:hidden fixed top-5 right-5 px-2 pt-0 pb-1 rounded-full bg-menu cursor-pointer text-2xl z-50">
       ☰
       <span id="table-of-contents-menu-overlay" class="block fixed top-5 right-5 px-2 pt-0 pb-1">☰</span>
     </button>

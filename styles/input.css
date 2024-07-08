@@ -194,7 +194,7 @@ code {
   background-color: var(--background-inline-code);
 }
 pre {
-  @apply text-xs text-wrap leading-6 mt-4 mb-6 border rounded-md !important;
+  @apply text-xs text-wrap leading-6 mt-4 mb-6 border rounded-md overflow-x-scroll;
   font-family: theme("fontFamily.code") !important;
   background-color: var(--background) !important;
   border-color: var(--background-inline-code) !important;
@@ -341,7 +341,7 @@ pre[data-linenos] {
   font-family: theme("fontFamily.sans");
 
   h1 {
-    @apply text-5xl mt-12;
+    @apply sm:text-5xl text-3xl mt-12;
     color: var(--text-primary);
     text-decoration: none;
     a,
@@ -388,7 +388,7 @@ pre[data-linenos] {
   }
 
   p {
-    @apply mt-4;
+    @apply mt-4 break-words;
   }
 
   ul,

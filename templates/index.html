@@ -4,12 +4,12 @@
 
 <div class="min-h-screen flex flex-col justify-between">
   <div>
-    <div class="border-snapshot grid grid-cols-1 md:mt-16 mt-6 md:mb-24 mb-8">
+    <div class="grid grid-cols-1 md:mt-16 mt-6 md:mb-24 mb-8">
       <div class="flex justify-center">
         <p class="min-[520px]:text-base text-sm">Christian Kjær Laustsen — <a class="text-primary" href="https://github.com/Tehnix" target="_blank" rel="noopener nofollow noreferrer">GitHub</a> — <a class="text-primary" href="https://www.linkedin.com/in/christian-kjaer-laustsen" target="_blank" rel="noopener nofollow noreferrer">LinkedIn</a></p>
       </div>
 
-      <div class="flex justify-center">
+      <div class="flex justify-center px-4">
         <p class="text-subtle text-xs font-light pt-6">Want to reach me? 👇 <a class="text-subtle" href="#footer">Scroll to the bottom of this page to find out more!</a></p>
       </div>
     </div>
@@ -23,7 +23,7 @@
           <ul class="list-none list-inside">
             {% for page in paginator.pages %}
             <li class="ml-6 pr-8 first:mt-4">
-              <a class="text-primary text-2xl" href="{{ page.permalink | safe }}">{{ page.title }}</a>
+              <a class="text-primary sm:text-2xl text-xl" href="{{ page.permalink | safe }}">{{ page.title }}</a>
 
               {# onclick="location.href='{{ page.permalink | safe }}';" and cursor-pointer #}
               <aside class="!mb-0 styling-full text-subtle border-l-2 pl-4 mt-4 line-clamp-4 text-base force-subtle-links force-plain-link">
@@ -55,13 +55,13 @@
             {% if not project.disabled %}
               <li class="ml-6 first:mt-4">
                 {% for title in project.titles %}
-                  <a class="text-primary text-2xl" href="{{ title.url }}" target="_blank" rel="noopener noreferrer" alt="{{ title.description | default(value=project.description) }}"
+                  <a class="text-primary sm:text-2xl text-xl" href="{{ title.url }}" target="_blank" rel="noopener noreferrer" alt="{{ title.description | default(value=project.description) }}"
                   title="{{ title.description | default(value=project.description) }}">{{ title.title }}</a>
                   {% if not loop.last  %}
-                  <span class="text-2xl px-2">/</span>
+                  <span class="sm:text-2xl text-xl px-2">/</span>
                   {% endif %}
                 {% endfor %}
-                <aside class="text-subtle styling-full border-l-2 pl-4 !mb-0 line-clamp-4 text-base">
+                <aside class="text-subtle styling-full border-l-2 pl-4 mt-4 !mb-0 line-clamp-4 text-base">
                   <p>
                     {{ project.description | safe }}
                   </p>
