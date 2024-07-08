@@ -8,10 +8,26 @@
 {{ base::breadcrumbs(pages=[page], crumbs=[page.extra.parent | default(value="")]) }}
 
 <div class="border-snapshot styling-full">
-  {{ macros::preprocess_content(resource=page) }}
+  <span class="text-subtle">◎ About the blog</span>
+  <p>
+    Codethoughts is a place where I share my thoughts, experiences, and learnings from my journey as a Engineering Leader, Solo Founder, and Software Engineer. I write about engineering leadership, development and architecture (both high and low-level), and personal growth. I hope you find something useful here!
+  </p>
+  <p>
+    For some of my other stuff, check out my GitHub Projects at <a href="https://github.com/Tehnix" target="_blank" rel="noopener nofollow noreferrer">Tehnix</a> and in the
+              <a href="https://github.com/codetalkio" target="_blank" rel="noopener nofollow noreferrer">codetalk organization</a>.
+  </p>
 </div>
 
+
 <div class="border-snapshot flex flex-col mt-8 mb-16">
+  <span class="text-subtle">☼ About Christian</span>
+
+  <div class="styling-full">
+    <p>
+      Every now and then I get asked what my journey has been like, so I made this timeline that include some of the things I view as significant milestones or achievements in my career so far (read from the bottom and up).
+    </p>
+  </div>
+
   {# 2024 - Now #}
   <div class="flex flex-row">
     <div class="about-timeline-date">2024 -<br />Now</div>

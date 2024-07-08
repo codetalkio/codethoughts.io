@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% import "macros/content.html" as macros %}
+{% import "macros/general.html" as base %}
+
+{% block content %}
+
+{# Breadcrumbs #}
+{{ base::breadcrumbs(pages=[page], crumbs=[page.extra.parent | default(value="")]) }}
+
+<div class="border-snapshot styling-full">
+  <span class="text-subtle">〒 Archive of all posts</span>
+
+  {# Fetch the section of the blog to access its pages. #}
+  {% set section = get_section(path="posts/_index.md") %}
+  {# Generate the archive overview. #}
+  <table class="table-fixed min-w-full">
+      <thead>
+          <tr>
+              <th class="w-full text-left">Title</th>
+              <th class="w-1/4 text-left">Published</th>
+          </tr>
+      </thead>
+      <tbody>
+      {% for page in section.pages | sort(attribute="date") | reverse %}
+          <tr class="border-t border-b border-subtle cursor-pointer hover:text-link-hover" onclick="location.href='{{ page.permalink | safe }}';">
+              <td class="pb-2 pt-2">
+                  <a class="text-headline" href="{{ page.permalink }}">
+                      {{ page.title }}
+                  </a>
+              </td>
+              <td>
+                  {{ page.date | date(format="%B %-e, %Y")  }}
+              </td>
+          </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</>
+
+{% endblock content %}
