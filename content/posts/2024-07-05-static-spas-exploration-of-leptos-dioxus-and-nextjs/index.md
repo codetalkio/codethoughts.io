@@ -961,3 +961,5 @@ As mentioned in the beginning of the post, our end results ended up being:
 *: Support for chunking in WASM is generally poor, although recent strides have been made towards it (see [wasm-bindgen#3939](https://github.com/rustwasm/wasm-bindgen/issues/3939))
 
 **: Dioxus support is in a state of flux, changing and improving how Static Generation is supported, leading to the docs and examples currently being broken (tracked in [dioxus#2587](https://github.com/DioxusLabs/dioxus/issues/2587))
+
+{{ medium_comments(post="static-spas-exploration-of-leptos-dioxus-and-next-js-da2f00ae8f61") }}
