@@ -6,7 +6,7 @@ help:
 
 # Open project workspace in VS Code.
 code:
-  @ code codetalk.code-workspace
+  @ code project.code-workspace
 
 # Install tooling for working with the codethoughts blog.
 [linux]
