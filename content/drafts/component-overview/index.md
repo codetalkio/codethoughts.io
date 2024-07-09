@@ -3,15 +3,27 @@ title = "Component overview"
 date = 2023-11-29
 +++
 
-Generated Table of Contents by inserting a `toc()` shortcode wrapped in `{{ <shortcode> }}`:
+Generated Table of Contents by inserting a `{{/* toc() */}}` shortcode with a depth of 3:
 
 {{ toc() }}
 
-Summary cutoff point by placing `<div></div><!-- more -->` at the desired location.
+This shortcode actually just inserts `<!-- toc -->` which gets replaced by running the `preprocess_post(resource=page)` macro on it, which calls `generate_toc(toc, level, depth)` under-the-hood.
+
+## Summary
+
+Mark the summary cutoff point by placing `<div></div><!-- more -->` at the desired location.
 
 <div></div><!-- more -->
 
+## Links
+
+Internal links get underlined with orange: [Such as this link](/).
+
+External links get underlined with blue: [Such as this link](https://www.google.com).
+
 ## Lists
+
+Unordered list:
 
 - First level item no. 1
 - First level item no. 2
@@ -19,9 +31,23 @@ Summary cutoff point by placing `<div></div><!-- more -->` at the desired locati
   - Second level item no. 2
     - Third level item no. 1
     - Third level item no. 2
+      - Fourth level item no. 1
+      - Fourth level item no. 2
   - Second level item no. 3
 - First level item no. 3
 
+Ordered list:
+
+1. First level item no. 1
+2. First level item no. 2
+   1. Second level item no. 1
+   2. Second level item no. 2
+      1. Third level item no. 1
+      2. Third level item no. 2
+         1. Fourth level item no. 1
+         2. Fourth level item no. 2
+  3. Second level item no. 3
+3. First level item no. 3
 
 ## Footnotes
 
@@ -29,7 +55,7 @@ Here's a simple footnote,[^1] and here's a longer one.[^bignote]
 
 [^1]: This is the first footnote.
 
-[^bignote]: Multiline footnotes are supported ([#1282](https://github.com/getzola/zola/issues/1282#issuecomment-753445777)), and will end up wrapping everything in a code block outside the footnote `<div>`.
+[^bignote]: Multiline footnotes are *not* supported ([#1282](https://github.com/getzola/zola/issues/1282#issuecomment-753445777)), and will end up wrapping everything in a code block outside the footnote `<div>`.
 
     Indent paragraphs to include them in the footnote.
 
@@ -236,3 +262,17 @@ A callout:
 {% aside() %}
   This is meant to be a tip or `call` out some [additonal info](#).
 {% end %}
+
+## Headings
+
+# H1 (should not be used in posts)
+
+## H2 headings get an underline
+
+### H3 is slightly smaller
+
+#### H4 smaller still
+
+##### H5 smallest heading size
+
+###### H6 has the same size as H5

@@ -27,7 +27,7 @@
 {%- macro preprocess_post(resource) %}
 	{%- set content = resource.content %}
 	{%- if content is containing("<!-- toc -->") %}
-		{%- set content = content | replace(from="<!-- toc -->", to=self::generate_toc(toc=resource.toc, level=1, depth=resource.extra.toc_depth | default(value=2))) %}
+		{%- set content = content | replace(from="<!-- toc -->", to=self::generate_toc(toc=resource.toc, level=1, depth=resource.extra.toc_depth | default(value=3))) %}
 	{%- endif -%}
 	{{ content | safe }}
 {%- endmacro %}
@@ -38,13 +38,13 @@
 {%- macro post_heading(page, isLink) %}
 	{# Heading section #}
   {%- if isLink %}
-    <h1 id="{{ page.title | slugify }}" class="sm:text-5xl text-4xl sm:mt-12 mt-6 text-headline">
+    <h1 id="{{ page.title | slugify }}" class="sm:text-5xl text-3xl sm:mt-12 mt-3 text-headline">
       <a class="text-headline visited:text-headline" href="{{ page.permalink | safe }}">
         {{ page.title }}
       </a>
     </h1>
     {%- else %}
-    <h1 id="{{ page.title | slugify }}" class="sm:text-5xl text-4xl sm:mt-12 mt-6 text-headline">
+    <h1 id="{{ page.title | slugify }}" class="sm:text-5xl text-3xl sm:mt-12 mt-3 text-headline">
       {{ page.title }}
     </h1>
     {%- endif %}

@@ -647,12 +647,12 @@ video {
   margin-left: 2rem;
 }
 
-.mr-16 {
-  margin-right: 4rem;
+.mr-0 {
+  margin-right: 0px;
 }
 
-.mr-2 {
-  margin-right: 0.5rem;
+.mr-16 {
+  margin-right: 4rem;
 }
 
 .mr-4 {
@@ -665,6 +665,10 @@ video {
 
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
 }
 
 .mt-4 {
@@ -996,9 +1000,9 @@ video {
   line-height: 2rem;
 }
 
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
 }
 
 .text-base {
@@ -1679,6 +1683,18 @@ pre[data-linenos] {
       ul {
         list-style-type: square;
       }
+      ul {
+        ul {
+          margin-top: 0px;
+          margin-bottom: 0px;
+        }
+        ul {
+          margin-left: 1.5rem;
+        }
+        ul {
+          list-style-type: disc;
+        }
+      }
     }
   }
   ol {
@@ -1705,6 +1721,18 @@ pre[data-linenos] {
       }
       ol {
         list-style-type: lower-roman;
+      }
+      ol {
+        ol {
+          margin-top: 0px;
+          margin-bottom: 0px;
+        }
+        ol {
+          margin-left: 1.5rem;
+        }
+        ol {
+          list-style-type: lower-greek;
+        }
       }
     }
   }
@@ -2030,6 +2058,12 @@ aside {
 @media (max-width: 850px) {
   .max-\[850px\]\:hidden {
     display: none;
+  }
+}
+
+@media (min-width: 390px) {
+  .xs\:inline {
+    display: inline;
   }
 }
 

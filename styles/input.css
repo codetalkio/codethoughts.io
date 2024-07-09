@@ -401,6 +401,9 @@ pre[data-linenos] {
       @apply list-[circle] ml-6 my-0;
       ul {
         @apply list-[square] ml-6 my-0;
+        ul {
+          @apply list-[disc] ml-6 my-0;
+        }
       }
     }
   }
@@ -410,6 +413,9 @@ pre[data-linenos] {
       @apply list-[lower-alpha] ml-6 my-0;
       ol {
         @apply list-[lower-roman] ml-6 my-0;
+        ol {
+          @apply list-[lower-greek] ml-6 my-0;
+        }
       }
     }
   }

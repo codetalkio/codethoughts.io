@@ -8,13 +8,13 @@ help:
 code:
   @ code codetalk.code-workspace
 
-# Install tooling for working with the codetalk blog.
+# Install tooling for working with the codethoughts blog.
 [linux]
 install-tooling:
   @ just _install-tooling-all-platforms
   echo "Currently unsupported, see https://www.getzola.org/documentation/getting-started/installation/ for installation instructions."
 
-# Install tooling for working with the codetalk blog.
+# Install tooling for working with the codethoughts blog.
 [macos]
 install-tooling:
   @ just _install-tooling-all-platforms
@@ -37,6 +37,7 @@ build:
 generate-gists:
   cd tools && bun run index.ts
 
+# Bundle and minify standalone JavaScript files.
 build-js:
   cd static/js && bun build --minify --sourcemap=external --outdir toc toc-sidebar.js
   mv static/js/toc/toc-sidebar.js static/js/toc-sidebar.min.js

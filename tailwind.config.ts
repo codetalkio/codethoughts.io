@@ -122,6 +122,10 @@ module.exports = {
       white: black["50"],
     },
     extend: {
+      screens: {
+        // Size of an iPhone 12.
+        xs: "390px",
+      },
       backgroundColor: {
         background: "var(--background)",
         code: "var(--background-code)",
