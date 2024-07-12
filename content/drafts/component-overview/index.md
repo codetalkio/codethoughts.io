@@ -182,6 +182,12 @@ Showing multiple images:
 
 {{ images(paths=["logo.png", "logo.png", "logo.png"], captions=["codethoughts logo 1", "logo 2"], widths=[100, 200, 100], defaultAlt="The default alt", defaultWidth=200) }}
 
+For quick copying, use this one:
+
+```
+{{ images(paths=["logo.png", "logo.png"], captions=["logo1", "logo2"], widths=[400, 400]) }}
+```
+
 ## Tables
 
 A simple table with a header, defaulting to centered alignment:
