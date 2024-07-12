@@ -1046,6 +1046,10 @@ video {
   color: var(--text-headline);
 }
 
+.text-menu {
+  color: var(--text-menu);
+}
+
 .text-primary {
   color: var(--text-primary);
 }
@@ -1071,6 +1075,7 @@ video {
 :root {
   --text-primary: #3a373e;
   --text-headline: #FF9320;
+  --text-menu: #3a373e;
   --foreground: var(--text-primary);
   --background: #f7f7f8;
   --background-code: #efeef0;
@@ -1082,9 +1087,9 @@ video {
   --background-menu: #afb8c133;
   --border-subtle: #afb8c133;
   --border-subtle-extra: #96919f36;
-  --link-color: #4833cf;
-  --link-color-hover: #4833cf;
-  --link-color-visited: #4833cf;
+  --link-color: #a2acff;
+  --link-color-hover: #7d80fc;
+  --link-color-visited: #a2acff;
   --text-subtle: #96919f;
 }
 
@@ -1092,6 +1097,7 @@ video {
   :root {
     --text-primary: #f7f7f8;
     --text-headline: #FFAB40;
+    --text-menu: #96919f;
     --foreground: var(--text-primary);
     --background: #000;
     --background-code: #171B22;
@@ -1151,10 +1157,25 @@ a.text-primary {
   }
 }
 
+a.text-menu {
+  color: var(--text-menu);
+  &:visited {
+    color: var(--text-menu);
+  }
+  &:hover {
+    color: var(--link-color-hover);
+  }
+}
+
 a.external-link,
 a.text-headline,
-a:not([target="_blank"], .text-primary, .text-subtle),
-a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
+a:not([target="_blank"], .text-primary, .text-subtle, .text-menu),
+a[target="_blank"]:not(
+    .text-headline,
+    .text-primary,
+    .text-subtle,
+    .text-menu
+  ) {
   color: var(--text-primary);
   text-decoration: underline;
   text-decoration-thickness: 0.3em;
@@ -1166,7 +1187,12 @@ a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
           text-decoration-skip: none;
 }
 
-a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
+a[target="_blank"]:not(
+    .text-headline,
+    .text-primary,
+    .text-subtle,
+    .text-menu
+  ) {
   text-decoration-color: color-mix(in srgb, var(--link-color) 50%, transparent);
   &:hover {
     text-decoration-color: color-mix(
@@ -1178,7 +1204,7 @@ a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
 }
 
 a.text-headline,
-a:not([target="_blank"], .text-primary, .text-subtle) {
+a:not([target="_blank"], .text-primary, .text-subtle, .text-menu) {
   text-decoration-color: color-mix(
     in srgb,
     var(--text-headline) 50%,

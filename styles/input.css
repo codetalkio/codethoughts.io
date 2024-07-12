@@ -5,6 +5,7 @@
 :root {
   --text-primary: theme("colors.light.text");
   --text-headline: theme("colors.light.headline");
+  --text-menu: theme("colors.light.menu");
   --foreground: var(--text-primary);
   --background: theme("colors.light.background.DEFAULT");
   --background-code: theme("colors.light.background.code");
@@ -28,6 +29,7 @@
   :root {
     --text-primary: theme("colors.dark.text");
     --text-headline: theme("colors.dark.headline");
+    --text-menu: theme("colors.dark.menu");
     --foreground: var(--text-primary);
     --background: theme("colors.dark.background.DEFAULT");
     --background-code: theme("colors.dark.background.code");
@@ -90,10 +92,25 @@ a.text-primary {
   }
 }
 
+a.text-menu {
+  color: var(--text-menu);
+  &:visited {
+    color: var(--text-menu);
+  }
+  &:hover {
+    color: var(--link-color-hover);
+  }
+}
+
 a.external-link,
 a.text-headline,
-a:not([target="_blank"], .text-primary, .text-subtle),
-a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
+a:not([target="_blank"], .text-primary, .text-subtle, .text-menu),
+a[target="_blank"]:not(
+    .text-headline,
+    .text-primary,
+    .text-subtle,
+    .text-menu
+  ) {
   color: var(--text-primary);
   text-decoration: underline;
   text-decoration-thickness: 0.3em;
@@ -103,7 +120,12 @@ a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
   text-decoration-skip: none;
 }
 
-a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
+a[target="_blank"]:not(
+    .text-headline,
+    .text-primary,
+    .text-subtle,
+    .text-menu
+  ) {
   text-decoration-color: color-mix(in srgb, var(--link-color) 50%, transparent);
   &:hover {
     text-decoration-color: color-mix(
@@ -115,7 +137,7 @@ a[target="_blank"]:not(.text-headline, .text-primary, .text-subtle) {
 }
 
 a.text-headline,
-a:not([target="_blank"], .text-primary, .text-subtle) {
+a:not([target="_blank"], .text-primary, .text-subtle, .text-menu) {
   text-decoration-color: color-mix(
     in srgb,
     var(--text-headline) 50%,

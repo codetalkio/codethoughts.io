@@ -144,6 +144,7 @@ module.exports = {
         subtle: "var(--text-subtle)",
         headline: "var(--text-headline)",
         primary: "var(--text-primary)",
+        menu: "var(--text-menu)",
         link: {
           DEFAULT: "var(--link-color)",
           hover: "var(--link-color-hover)",
@@ -152,6 +153,7 @@ module.exports = {
           text: black["50"],
           headline: brand["300"],
           subtleText: black["400"],
+          menu: black["400"],
           link: {
             DEFAULT: blue["300"],
             hover: blue["200"],
@@ -177,10 +179,11 @@ module.exports = {
           text: black["900"],
           headline: brand["400"],
           subtleText: black["400"],
+          menu: black["900"],
           link: {
-            DEFAULT: blue["700"],
-            hover: blue["700"],
-            visited: blue["700"],
+            DEFAULT: blue["300"],
+            hover: blue["400"],
+            visited: blue["300"],
           },
           background: {
             DEFAULT: black["50"],
