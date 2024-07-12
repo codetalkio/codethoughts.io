@@ -1,29 +1,44 @@
 {% set centered = center | default(value=true) %}
+{% set noLink = noLink | default(value=false) %}
+{% set noMargin = noMargin | default(value=false) %}
+
 {% if centered %}
-  <div class="flex place-content-center mt-6">
+  <div class="flex place-content-center {% if noMargin == false %} mt-6 {% endif %}">
 {% else %}
-  <div class="flex flex-col mt-6">
+  <div class="flex flex-col {% if noMargin == false %} mt-6 {% endif %}">
 {% endif %}
 
 {% for path in paths %}
   {% set width = widths[loop.index0] | default(value=defaultWidth) %}
   {% set image = resize_image(path=page.colocated_path ~ path, width=width, height=5000, op="fit") %}
+  {# NOTE: We use the regex to remove the "static/" part in the path, and avoid using .url since that contains an absolute path which includes the domain name. #}
+     {# Alternative path: /{{ image.url | safe }} #}
+  {% set imagePath = image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe %}
+
+  {% set imageWebP = resize_image(path=page.colocated_path ~ path, width=width, height=5000, op="fit", format="webp", quality=config.extra.webp_quality) %}
+  {% set imagePathWebP = imageWebP.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe %}
 
   {% set caption = captions[loop.index0] | default(value=defaultCaption | default(value="")) %}
   {% set alt = alts[loop.index0] | default(value=captions[loop.index0] | default(value=defaultAlt | default(value=defaultCaption))) %}
   {% set title = titles[loop.index0] | default(value=defaultTitle | default(value=alt)) %}
 
   <div class="flex flex-col items-center">
-    {# NOTE: We use the regex to remove the "static/" part in the path, and avoid using .url since that contains an absolute path which includes the domain name. #}
     <div class="mx-4">
-    {%- if path is matching("[.](jpg|png)$") -%}
+    {%- if path is matching("[.](jpg|png)$") and noLink == false -%}
       <a href="/{{ page.colocated_path ~ path }}" target="_blank">
-        <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" loading="lazy" />
-        {# <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.url | safe }}" /> #}
+        <picture>
+          <source width="{{ imageWebP.width }}" height="{{ imageWebP.height }}" srcset="/{{ imagePathWebP }}" type="image/webp">
+          <img width="{{ image.width }}" height="{{ image.height }}" alt="{{ alt }}" title="{{ title }}" src="/{{ imagePath | safe }}" loading="lazy"
+          {%- if path is matching("[.](jpg)$") -%}
+            type="image/jpg"
+          {%- elif path is matching("[.](png)$") -%}
+            type="image/png"
+          {%- endif %}
+          />
+        </picture>
       </a>
     {%- else -%}
-      <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe }}" loading="lazy" />
-      {# <img alt="{{ alt }}" title="{{ title }}" src="/{{ image.url | safe }}" /> #}
+      <img width="{{ image.width }}" height="{{ image.height }}" alt="{{ alt }}" title="{{ title }}" src="/{{ imagePath | safe }}" loading="lazy" />
     {%- endif %}
     </div>
 

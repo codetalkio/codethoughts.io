@@ -76,4 +76,5 @@ bottom_footnotes = true
 paths_keep_dates = true
 
 [extra]
-# Put all your custom variables here
+# Control the quality of all WebP images across the site.
+webp_quality = 75

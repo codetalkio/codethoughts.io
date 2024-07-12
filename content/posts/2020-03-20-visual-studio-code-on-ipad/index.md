@@ -120,7 +120,7 @@ $ systemctl --user restart code-server
 
 Navigate to your domain on port `8080`. A login screen should appear. Use the password that the server printed, and you are in! 🥳
 
-{{ images(paths=["visual-studio-on-ipad-welcome.png", "visual-studio-on-ipad-code-file.png"], captions=["Welcome screen in Visual Studio Code on iPad", "Code file in Visual Studio Code on iPad"], widths=[350, 350]) }}
+{{ images(paths=["visual-studio-on-ipad-welcome.png", "visual-studio-on-ipad-code-file.jpg"], captions=["Welcome screen in Visual Studio Code on iPad", "Code file in Visual Studio Code on iPad"], widths=[350, 350]) }}
 
 Congratulations, you've now got a stable setup for editing code in your iPad browser 🎉
 
