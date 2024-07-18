@@ -4,8 +4,12 @@
 
 :root {
   --text-primary: theme("colors.light.text");
+  --text-inverted: theme("colors.light.inverted");
   --text-headline: theme("colors.light.headline");
+  --text-subheadline: theme("colors.light.subheadline");
+  --text-subtle: theme("colors.light.subtleText");
   --text-menu: theme("colors.light.menu");
+  --color-brand: theme("colors.light.brand");
   --foreground: var(--text-primary);
   --background: theme("colors.light.background.DEFAULT");
   --background-code: theme("colors.light.background.code");
@@ -17,38 +21,47 @@
   --background-aside: theme("colors.light.background.aside");
   --background-table: theme("colors.light.background.table");
   --background-menu: theme("colors.light.background.menu");
+  --background-form: theme("colors.light.background.form");
+  --border-primary: theme("colors.light.border.primary");
   --border-subtle: theme("colors.light.border.subtle");
   --border-subtle-extra: theme("colors.light.border.subtle-extra");
   --link-color: theme("colors.light.link.DEFAULT");
   --link-color-hover: theme("colors.light.link.hover");
   --link-color-visited: theme("colors.light.link.visited");
-  --text-subtle: theme("colors.light.subtleText");
+  --internal-link-color-transparency: 20%;
+  --internal-link-color-transparency-hover: 25%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-primary: theme("colors.dark.text");
-    --text-headline: theme("colors.dark.headline");
-    --text-menu: theme("colors.dark.menu");
-    --foreground: var(--text-primary);
-    --background: theme("colors.dark.background.DEFAULT");
-    --background-code: theme("colors.dark.background.code");
-    --background-code-highlight: theme("colors.dark.background.code-highlight");
-    --background-code-highlight-border: theme(
-      "colors.dark.background.code-hightlight-border"
-    );
-    --background-inline-code: theme("colors.dark.background.inline-code");
-    --background-aside: theme("colors.dark.background.aside");
-    --background-table: theme("colors.dark.background.table");
-    --background-menu: theme("colors.dark.background.menu");
-    --border-subtle: theme("colors.dark.border.subtle");
-    --border-subtle-extra: theme("colors.dark.border.subtle-extra");
+/* @media (prefers-color-scheme: dark) { */
+:root.dark {
+  --text-primary: theme("colors.dark.text");
+  --text-inverted: theme("colors.dark.inverted");
+  --text-headline: theme("colors.dark.headline");
+  --text-subheadline: theme("colors.dark.subheadline");
+  --text-subtle: theme("colors.dark.subtleText");
+  --text-menu: theme("colors.dark.menu");
+  --color-brand: theme("colors.dark.brand");
+  --foreground: var(--text-primary);
+  --background: theme("colors.dark.background.DEFAULT");
+  --background-code: theme("colors.dark.background.code");
+  --background-code-highlight: theme("colors.dark.background.code-highlight");
+  --background-code-highlight-border: theme(
+    "colors.dark.background.code-hightlight-border"
+  );
+  --background-inline-code: theme("colors.dark.background.inline-code");
+  --background-aside: theme("colors.dark.background.aside");
+  --background-table: theme("colors.dark.background.table");
+  --background-menu: theme("colors.dark.background.menu");
+  --background-form: theme("colors.light.background.form");
+  --border-primary: theme("colors.dark.border.primary");
+  --border-subtle: theme("colors.dark.border.subtle");
+  --border-subtle-extra: theme("colors.dark.border.subtle-extra");
 
-    --link-color: theme("colors.dark.link.DEFAULT");
-    --link-color-hover: theme("colors.dark.link.hover");
-    --link-color-visited: theme("colors.dark.link.visited");
-    --text-subtle: theme("colors.dark.subtleText");
-  }
+  --link-color: theme("colors.dark.link.DEFAULT");
+  --link-color-hover: theme("colors.dark.link.hover");
+  --link-color-visited: theme("colors.dark.link.visited");
+  --internal-link-color-transparency: 50%;
+  --internal-link-color-transparency-hover: 70%;
 }
 
 html {
@@ -102,11 +115,28 @@ a.text-menu {
   }
 }
 
+a.text-subheadline {
+  color: var(--text-subheadline);
+  &:visited {
+    color: var(--text-subheadline);
+  }
+  &:hover {
+    color: var(--link-color-hover);
+  }
+}
+
 a.external-link,
 a.text-headline,
-a:not([target="_blank"], .text-primary, .text-subtle, .text-menu),
+a:not(
+    [target="_blank"],
+    .text-primary,
+    .text-subheadline,
+    .text-subtle,
+    .text-menu
+  ),
 a[target="_blank"]:not(
     .text-headline,
+    .text-subheadline,
     .text-primary,
     .text-subtle,
     .text-menu
@@ -122,6 +152,7 @@ a[target="_blank"]:not(
 
 a[target="_blank"]:not(
     .text-headline,
+    .text-subheadline,
     .text-primary,
     .text-subtle,
     .text-menu
@@ -137,7 +168,13 @@ a[target="_blank"]:not(
 }
 
 a.text-headline,
-a:not([target="_blank"], .text-primary, .text-subtle, .text-menu) {
+a:not(
+    [target="_blank"],
+    .text-primary,
+    .text-subheadline,
+    .text-subtle,
+    .text-menu
+  ) {
   text-decoration-color: color-mix(
     in srgb,
     var(--text-headline) 50%,

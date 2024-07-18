@@ -1,0 +1,15 @@
+{% import "macros/icon.html" as icons %}
+
+<div class="basis-1/2">
+  <span class="text-subheadline font-bold dark:font-normal flex items-center gap-1">
+    <span class="inline-block w-4">
+      {% if name %}
+        {{ icons::icon(name=name) }}
+      {% else %}
+        {{ emoji }}
+      {% endif %}
+      </span>
+      {{ title }}
+  </span>
+  {{ body | markdown | safe }}
+</div>

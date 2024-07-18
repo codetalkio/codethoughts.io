@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require("tailwindcss/colors");
 
 const brand = {
   50: "#FFF7EB",
@@ -87,7 +88,13 @@ const purple = {
 
 module.exports = {
   content: {
-    files: ["./templates/**/*.html", "./theme/**/*.html"],
+    // Also scan JSON files for Tailwind CSS classes.
+    files: [
+      "./templates/**/*.html",
+      "./content/**/*.md",
+      "./theme/**/*.html",
+      "./content/**/*.json",
+    ],
   },
   darkMode: "selector",
   theme: {
@@ -137,23 +144,39 @@ module.exports = {
         menu: "var(--background-menu)",
       },
       borderColor: {
+        background: "var(--background)",
+        primary: "var(--border-primary)",
+        subtle: "var(--border-subtle)",
+        "subtle-extra": "var(--border-subtle-extra)",
+      },
+      ringColor: {
+        subtle: "var(--border-subtle)",
+        "subtle-extra": "var(--border-subtle-extra)",
+      },
+      divideColor: {
         subtle: "var(--border-subtle)",
         "subtle-extra": "var(--border-subtle-extra)",
       },
       colors: {
         subtle: "var(--text-subtle)",
         headline: "var(--text-headline)",
+        subheadline: "var(--text-subheadline)",
         primary: "var(--text-primary)",
+        inverted: "var(--text-inverted)",
         menu: "var(--text-menu)",
+        "brand-color": "var(--color-brand)",
         link: {
           DEFAULT: "var(--link-color)",
           hover: "var(--link-color-hover)",
         },
         dark: {
           text: black["50"],
+          inverted: black["900"],
           headline: brand["300"],
+          subheadline: black["400"],
           subtleText: black["400"],
           menu: black["400"],
+          brand: brand["300"],
           link: {
             DEFAULT: blue["300"],
             hover: blue["200"],
@@ -169,17 +192,22 @@ module.exports = {
             aside: "#171B22",
             table: "#171B22",
             menu: "#6e768166",
+            form: "#171B22",
           },
           border: {
+            primary: black["600"],
             subtle: black["600"],
             "subtle-extra": "#96919f36",
           },
         },
         light: {
           text: black["900"],
+          inverted: black["50"],
           headline: brand["400"],
+          subheadline: black["900"],
           subtleText: black["400"],
           menu: black["900"],
+          brand: brand["400"],
           link: {
             DEFAULT: blue["300"],
             hover: blue["400"],
@@ -195,8 +223,10 @@ module.exports = {
             aside: black["100"],
             table: black["100"],
             menu: "#afb8c133",
+            form: black["100"],
           },
           border: {
+            primary: black["300"],
             subtle: "#afb8c133",
             "subtle-extra": "#96919f36",
           },
@@ -207,6 +237,7 @@ module.exports = {
         blue,
         red,
         purple,
+        green: colors.green,
       },
       keyframes: {
         fadeIn: {

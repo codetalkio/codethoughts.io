@@ -1,3 +1,5 @@
+{% import "macros/icon.html" as icons %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,31 +32,90 @@
     <meta name="msapplication-wide310x150logo" content="{{ get_url(path='favicon/mstile-310x150.png') }}?h={{ get_hash(path="favicon/mstile-310x150.png") }}" />
     <meta name="msapplication-square310x310logo" content="{{ get_url(path='favicon/mstile-310x310.png') }}?h={{ get_hash(path="favicon/mstile-310x310.png") }}" />
     <script>
-      function setColorScheme() {
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      /**
+        * Add a "dark" class to <html> if the current selected theme is dark mode.
+        */
+      function detectColorScheme(theme) {
+        const localStorageTheme = localStorage.theme;
+        if (theme === "dark" || localStorageTheme === "dark" || (!localStorageTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          // Dark mode has either specifically been requested, or nothing has yet been configured
+          // and the preferred color scheme is dark mode.
           document.documentElement.classList.add("dark");
-        } else {
+          updateThemeSelector("dark");
+        } else if (theme === "light" || localStorageTheme === "light") {
+          // Light mode has specifically been requested.
           document.documentElement.classList.remove("dark");
+          updateThemeSelector("light");
+        } else if (theme === "system" || localStorageTheme === "system") {
+          // System has specifically been requested, so we adapt to the preferred colorscheme.
+          if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+          updateThemeSelector("system");
+        } else {
+          // Fallback to dark mode if no explicit theme has been chosen.
+          document.documentElement.classList.add("dark");
+          updateThemeSelector("dark");
         }
       }
 
-      // Detect if the theme is changed after we've loaded the page.
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        setColorScheme();
-      });
+      /**
+        * Toggle between the different themes:
+        * - dark (default)
+        * - light
+        * - system
+        */
+      function toggleColorScheme(theme) {
+        localStorage.theme = theme;
+        detectColorScheme(theme);
+        // Whenever the user explicitly chooses light mode
+        // localStorage.theme = "light";
+        // detectColorScheme("light");
+
+        // Whenever the user explicitly chooses dark mode
+        // localStorage.theme = "dark";
+        // detectColorScheme("dark");
+
+        // Whenever the user explicitly chooses to respect the OS preference
+        // localStorage.theme = "system";
+        // detectColorScheme("system");
+      }
+
+      /**
+       * Update the theme selectors to indicate the current state.
+       */
+      function updateThemeSelector(theme) {
+        const darkModeSelection = document.getElementById("theme-dark-mode");
+        const lightModeSelection = document.getElementById("theme-light-mode");
+        const systemModeSelection = document.getElementById("theme-system");
+        // Check that the elements have been initialized.
+        if (!darkModeSelection || !lightModeSelection || !systemModeSelection) {
+          return;
+        }
+        if (theme === "dark") {
+          darkModeSelection.checked = true;
+          lightModeSelection.checked = false;
+          systemModeSelection.checked = false;
+        } else if (theme === "light") {
+          darkModeSelection.checked = false;
+          lightModeSelection.checked = true;
+          systemModeSelection.checked = false;
+        } else if (theme === "system") {
+          darkModeSelection.checked = false;
+          lightModeSelection.checked = false;
+          systemModeSelection.checked = true;
+        }
+      }
 
       // Set the theme on the initial load.
-      setColorScheme();
+      detectColorScheme();
 
-      // Whenever the user explicitly chooses light mode
-      // localStorage.theme = "light";
-
-      // Whenever the user explicitly chooses dark mode
-      // localStorage.theme = "dark";
-
-      // Whenever the user explicitly chooses to respect the OS preference
-      // localStorage.removeItem("theme");
+      // Detect if the theme is changed after we've loaded the page.
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        detectColorScheme();
+      });
     </script>
   </head>
 
@@ -74,15 +135,46 @@
         </div>
         {# Separator #}
         <div class="h-10 border-l border-solid border-subtle-extra"></div>
-        <div class="flex sm:grow-0 grow justify-between md:ml-20 sm:ml-4 ml-8 text-sm sm:mr-4 mr-16">
-          <a class="text-menu md:mr-10 sm:mr-8 mr-4 min-[520px]:inline hidden" href="{{ get_url(path='@/_index.md') }}">Home</a>
-          <a class="text-menu md:mr-10 sm:mr-8 mr-4" href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
-          <a class="text-menu md:mr-10 sm:mr-8 mr-4 sm:inline hidden" href="{{ tags.permalink }}">Tags</a>
-          <a class="text-menu mr-4" href="{{ get_url(path='@/pages/about.md') }}">About<span class="xs:inline hidden"> Me</span></a>
-          <a class="text-menu sm:mr-4 sm:hidden" href="https://codetalk.io" target="_blank" rel="noopener noreferrer">Codetalk ↗</a>
+        <div class="flex sm:grow-0 grow justify-between lg:ml-20 xs:ml-4 ml-2 text-sm sm:mr-4 mr-2">
+          <a class="text-menu text-nowrap md:mr-10 sm:mr-8 mr-4 min-[520px]:inline hidden" href="{{ get_url(path='@/_index.md') }}">Home</a>
+          <a class="text-menu text-nowrap md:mr-10 sm:mr-8 mr-4 min-[420px]:inline hidden" href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
+          <a class="text-menu text-nowrap md:mr-10 sm:mr-8 mr-4 md:inline hidden" href="{{ tags.permalink }}">Tags</a>
+          <a class="text-menu text-nowrap mr-4 sm:inline hidden" href="{{ get_url(path='@/pages/about.md') }}">About<span class="xs:inline hidden"> Me</span></a>
+          <a class="text-menu text-nowrap sm:mr-4 sm:hidden" href="https://codetalk.io" target="_blank" rel="noopener noreferrer">Codetalk ↗</a>
         </div>
-        <div class="sm:ml-20 text-sm text-right sm:inline hidden grow min-[850px]:mr-4 mr-16">
-          <a class="text-menu" href="https://codetalk.io" target="_blank" rel="noopener noreferrer">Codetalk ↗</a>
+        <div class="sm:ml-20 text-sm text-right sm:inline hidden grow min-[850px]:mr-4">
+          <a class="text-menu text-nowrap" href="https://codetalk.io" target="_blank" rel="noopener noreferrer">Codetalk ↗</a>
+        </div>
+        <div class="text-sm text-right min-[850px]:mr-4 mr-12">
+          {# Theme selector #}
+          <div class="inline-flex items-center justify-center ml-4">
+            <div class="inline-flex overflow-hidden rounded-lg">
+              <label for="theme-dark-mode" class="cursor-pointer">
+                <input type="radio" name="theme" id="theme-dark-mode" class="sr-only peer" value="dark" onclick="toggleColorScheme(this.value)">
+                <span class="relative inline-flex items-center h-full py-1 px-3 space-x-2 text-sm peer-checked:bg-black-400/25 peer-checked:text-brand-color">
+                  <span class="size-4">
+                    {{ icons::icon(name="moon") }}
+                  </span>
+                </span>
+              </label>
+              <label for="theme-light-mode" class="cursor-pointer">
+                <input type="radio" name="theme" id="theme-light-mode" class="sr-only peer" value="light" onclick="toggleColorScheme(this.value)">
+                <span class="relative inline-flex items-center h-full py-1 px-3 space-x-2 text-sm peer-checked:bg-black-400/25 peer-checked:text-brand-color">
+                  <span class="size-4">
+                    {{ icons::icon(name="sun") }}
+                  </span>
+                </span>
+              </label>
+              <label for="theme-system" class="cursor-pointer">
+                <input type="radio" name="theme" id="theme-system" class="sr-only peer" value="system" onclick="toggleColorScheme(this.value)">
+                <span class="relative inline-flex items-center h-full py-1 px-3 space-x-2 text-sm peer-checked:bg-black-400/25 peer-checked:text-brand-color">
+                  <span class="size-4">
+                    {{ icons::icon(name="device-phone-mobile") }}
+                  </span>
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -117,6 +209,11 @@
       </div>
     </div>
 
+    <script>
+      // We rerun the theme detection in order to update the theme selectors.
+      detectColorScheme();
+    </script>
+
     <!-- Mermaid JS -->
     <script type="module">
       import mermaid from '{{ get_url(path='js/mermaid/mermaid.esm.min.mjs') }}?h={{ get_hash(path="js/mermaid/mermaid.esm.min.mjs") }}';
@@ -128,8 +225,11 @@
     </script>
     <!-- End Mermaid JS -->
 
-    <!-- Cloudflare Web Analytics -->
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ceda1744281b4253b3cd8fac339235ec"}'></script>
-    <!-- End Cloudflare Web Analytics -->
+    {# Only include CloudFlare analytics when not in dev-mode #}
+    {% if config.base_url == "/" %}
+      <!-- Cloudflare Web Analytics -->
+      <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ceda1744281b4253b3cd8fac339235ec"}'></script>
+      <!-- End Cloudflare Web Analytics -->
+    {% endif %}
   </body>
 </html>

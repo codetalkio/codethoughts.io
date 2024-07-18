@@ -17,7 +17,7 @@
     {# Recent posts section #}
     <div class="border-snapshot md:mb-24 mb-20">
       <div>
-        <a class="text-subtle" href="{{ get_url(path='@/posts/_index.md') }}">〒 Recent posts on the blog</a>
+        <a class="text-subheadline font-bold dark:font-normal" href="{{ get_url(path='@/posts/_index.md') }}">〒 Recent posts on the blog</a>
 
         {% if paginator %}
           <ul class="list-none list-inside">
@@ -46,7 +46,7 @@
     <div class="border-snapshot md:mb-24 mb-20">
       <div class="md:pl-0 sm:pl-8">
         <div class="text-left">
-          <a class="text-subtle" href="https://github.com/Tehnix" alt="Check out my GitHub profile for more, if you are interested" title="Check out my GitHub profile for more, if you are interested">⌘ Interesting projects</a>
+          <a class="text-subheadline font-bold dark:font-normal" href="https://github.com/Tehnix" alt="Check out my GitHub profile for more, if you are interested" title="Check out my GitHub profile for more, if you are interested">⌘ Interesting projects</a>
         </div>
 
         <ul class="list-none list-inside">
@@ -80,7 +80,12 @@
 
     {# Getting a hold of me section #}
     <div class="border-snapshot mt-16 md:mb-16 mb-8">
-      <span class="text-subtle">❢ Getting a hold of me</span>
+      <span class="text-subheadline font-bold dark:font-normal flex items-center gap-1">
+        <span class="inline-block w-4">
+          {{ icons::icon(name="envelope") }}
+          </span>
+          Getting a hold of me
+      </span>
       <p class="mt-4">
         I can be found many places! <br /><br />Hit me up on twitter at
         <a href="https://twitter.com/codetalkio" target="_blank" rel="noopener noreferrer" alt="Amazingly low activity, I use it mostly for following others"

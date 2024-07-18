@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import "macros/content.html" as macros %}
 {% import "macros/general.html" as base %}
+{% import "macros/icon.html" as icons %}
 
 {% block content %}
 
@@ -8,7 +9,12 @@
 {{ base::breadcrumbs(pages=[page], crumbs=[page.extra.parent | default(value="")]) }}
 
 <div class="border-snapshot styling-full">
-  <span class="text-subtle">◎ About the blog</span>
+  <span class="text-subheadline font-bold dark:font-normal flex items-center gap-1">
+    <span class="inline-block w-4">
+      {{ icons::icon(name="pencil-square") }}
+      </span>
+      About the blog
+  </span>
   <p>
     Codethoughts is a place where I share my thoughts, experiences, and learnings from my journey as a Engineering Leader, Solo Founder, and Software Engineer. I write about engineering leadership, development and architecture (both high and low-level), and personal growth. I hope you find something useful here!
   </p>
@@ -20,7 +26,12 @@
 
 
 <div class="border-snapshot flex flex-col mt-8 mb-16">
-  <span class="text-subtle">☼ About Christian</span>
+  <span class="text-subheadline font-bold dark:font-normal flex items-center gap-1">
+    <span class="inline-block w-4">
+      {{ icons::icon(name="user") }}
+      </span>
+      About Christian
+  </span>
 
   <div class="styling-full">
     <p>

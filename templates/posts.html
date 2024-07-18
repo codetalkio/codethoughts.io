@@ -11,7 +11,7 @@
 {{ base::breadcrumbs(pages=[section], crumbs=[]) }}
 
 {# Sidebar listing the currently displayed articles #}
-<div class="fixed left-0 h-dvh flex flex-col justify-center -mt-20 max-[850px]:hidden">
+<div class="fixed z-50 left-0 h-dvh flex flex-col justify-center -mt-20 max-[850px]:hidden">
   <div class="group w-10 ml-2 leading-7 text-sm hover:w-96 transition-[width] ease-linear duration-100">
     <div class="hover:w-fit hover:bg-code hover:px-4 hover:py-2 hover:rounded-md hover:border hover:border-subtle">
       {% for page in section.pages %}

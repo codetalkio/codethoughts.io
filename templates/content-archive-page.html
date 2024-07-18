@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import "macros/content.html" as macros %}
 {% import "macros/general.html" as base %}
+{% import "macros/icon.html" as icons %}
 
 {% block content %}
 
@@ -8,7 +9,12 @@
 {{ base::breadcrumbs(pages=[page], crumbs=[page.extra.parent | default(value="")]) }}
 
 <div class="border-snapshot styling-full">
-  <span class="text-subtle">〒 Archive of all posts</span>
+  <span class="text-subheadline font-bold dark:font-normal flex items-center gap-1">
+    <span class="inline-block w-4">
+        〒
+      </span>
+      Archive of all posts
+  </span>
 
   {# Fetch the section of the blog to access its pages. #}
   {% set section = get_section(path="posts/_index.md") %}
@@ -35,6 +41,6 @@
       {% endfor %}
       </tbody>
   </table>
-</>
+</div>
 
 {% endblock content %}

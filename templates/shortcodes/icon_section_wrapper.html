@@ -1,0 +1,5 @@
+{% if part == "start" %}
+  <div class="flex {% if direction == "row" %} flex-row {% elif part == "col" %} flex-col {% endif %} gap-8 mt-16 md:mb-16 mb-8 leading-7">
+{% elif part == "end" %}
+  </div>
+{% endif %}

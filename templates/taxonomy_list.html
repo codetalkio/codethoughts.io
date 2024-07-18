@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "macros/general.html" as base %}
+{% import "macros/icon.html" as icons %}
 
 {% block content %}
 
@@ -7,7 +8,12 @@
 {{ base::breadcrumbs(pages=[taxonomy.name | capitalize], crumbs=['posts/_index.md']) }}
 
 <div class="border-snapshot mb-16">
-  <p class="text-subtle">༶ Overview of all {{ taxonomy.name }}</p>
+  <span class="text-subheadline font-bold dark:font-normal flex items-center gap-1">
+    <span class="inline-block w-4">
+      {{ icons::icon(name="tag") }}
+      </span>
+      Overview of all {{ taxonomy.name }}
+  </span>
 
   <ul class="list-disc list-inside mt-4 columns-3">
     <!-- If you are using pagination, section.pages will be empty. You need to use the paginator object -->
