@@ -74,3 +74,5 @@ In the Dashboard console it will look something like this:
 The Redirect Rules entry for dynamically redirecting the incoming requests
 
 Hope that helps if you’re ever running into the same!
+
+{{ medium_comments(post="redirecting-urls-with-cloudflare-91a8f85cefdd") }}
