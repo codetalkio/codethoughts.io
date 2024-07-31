@@ -7,10 +7,11 @@
     <title>codethoughts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% if config.markdown.highlight_code and config.markdown.highlight_theme == "css" %}
-      <link rel="stylesheet" type="text/css" href="/syntax-theme-dark.css?h={{ get_hash(path="/syntax-theme-dark.css") }}" media="(prefers-color-scheme: dark)" />
-      <link rel="stylesheet" type="text/css" href="/syntax-theme-light.css?h={{ get_hash(path="/syntax-theme-light.css") }}" media="(prefers-color-scheme: light)" />
+      {# <link rel="stylesheet" type="text/css" href="/syntax-theme-dark.css?h={{ get_hash(path="/syntax-theme-dark.css") }}" media="(prefers-color-scheme: dark)" />
+      <link rel="stylesheet" type="text/css" href="/syntax-theme-light.css?h={{ get_hash(path="/syntax-theme-light.css") }}" media="(prefers-color-scheme: light)" /> #}
+      <link id="syntax-highlighting-styles" rel="stylesheet" type="text/css" href="{{ get_url(path='syntax-theme-dark.css') }}?h={{ get_hash(path="/syntax-theme-dark.css") }}" />
     {% endif %}
-    <link href="/styles/output.css?h={{ get_hash(path="/styles/output.css") }}" rel="stylesheet" />
+    <link href="{{ get_url(path='styles/output.css') }}?h={{ get_hash(path="/styles/output.css") }}" rel="stylesheet" />
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{ get_url(path='favicon/apple-touch-icon-57x57.png') }}?h={{ get_hash(path="favicon/apple-touch-icon-57x57.png") }}" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ get_url(path='favicon/apple-touch-icon-114x114.png') }}?h={{ get_hash(path="favicon/apple-touch-icon-114x114.png") }}" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ get_url(path='favicon/apple-touch-icon-72x72.png') }}?h={{ get_hash(path="favicon/apple-touch-icon-72x72.png") }}" />
@@ -42,22 +43,41 @@
           // and the preferred color scheme is dark mode.
           document.documentElement.classList.add("dark");
           updateThemeSelector("dark");
+          setSyntaxHighlightingTheme("dark");
         } else if (theme === "light" || localStorageTheme === "light") {
           // Light mode has specifically been requested.
           document.documentElement.classList.remove("dark");
           updateThemeSelector("light");
+          setSyntaxHighlightingTheme("light");
         } else if (theme === "system" || localStorageTheme === "system") {
           // System has specifically been requested, so we adapt to the preferred colorscheme.
           if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
             document.documentElement.classList.add("dark");
+            setSyntaxHighlightingTheme("dark");
           } else {
             document.documentElement.classList.remove("dark");
+            setSyntaxHighlightingTheme("light");
           }
           updateThemeSelector("system");
         } else {
           // Fallback to dark mode if no explicit theme has been chosen.
           document.documentElement.classList.add("dark");
           updateThemeSelector("dark");
+          setSyntaxHighlightingTheme("dark");
+        }
+      }
+
+      /**
+        * Update the stylesheet for syntax highlighting to point to the relevant theme.
+        */
+      function setSyntaxHighlightingTheme(theme) {
+        const darkSyntaxTheme = "{{ get_url(path='syntax-theme-dark.css') }}?h={{ get_hash(path="/syntax-theme-dark.css") }}";
+        const lightSyntaxTheme = "{{ get_url(path='syntax-theme-light.css') }}?h={{ get_hash(path="/syntax-theme-light.css") }}";
+        const stylesheet = document.getElementById("syntax-highlighting-styles");
+        if (theme === "light") {
+          stylesheet.setAttribute("href", lightSyntaxTheme);
+        } else {
+          stylesheet.setAttribute("href", darkSyntaxTheme);
         }
       }
 
