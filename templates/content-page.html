@@ -7,7 +7,7 @@
 {# Breadcrumbs #}
 {{ base::breadcrumbs(pages=[page], crumbs=[page.extra.parent | default(value="")]) }}
 
-<div class="border-snapshot-with-content mb-16">
+<div class="{% if not page.extra.noSnapshot %} border-snapshot-with-content {% endif %} mb-16 mt-16 min-h-20 styling-full">
     {{ macros::preprocess_content(resource=page) }}
 </div>
 

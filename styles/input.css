@@ -203,6 +203,7 @@ a.external-link-subtle {
   text-decoration: none !important;
 }
 
+.snapshot-padding,
 .border-snapshot {
   @apply relative xl:p-16 md:p-12 px-4 py-8;
 }
@@ -225,11 +226,11 @@ a.external-link-subtle {
 }
 .border-snapshot-with-content::before,
 .border-snapshot::before {
-  @apply top-0 left-0 border-t border-l border-solid border-subtle;
+  @apply top-0 left-0 border-t border-l border-solid border-primary;
 }
 .border-snapshot-with-content::after,
 .border-snapshot::after {
-  @apply bottom-0 right-0 border-b border-r border-solid border-subtle;
+  @apply bottom-0 right-0 border-b border-r border-solid border-primary;
 }
 
 h1,
