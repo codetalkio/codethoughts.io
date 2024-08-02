@@ -205,9 +205,10 @@
         const darkSyntaxTheme = "{{ get_url(path='syntax-theme-dark.css') }}?h={{ get_hash(path="/syntax-theme-dark.css") }}";
         const lightSyntaxTheme = "{{ get_url(path='syntax-theme-light.css') }}?h={{ get_hash(path="/syntax-theme-light.css") }}";
         const stylesheet = document.getElementById("syntax-highlighting-styles");
-        if (theme === "light") {
+        const currentHref = stylesheet.getAttribute("href");
+        if (theme === "light" && currentHref !== lightSyntaxTheme) {
           stylesheet.setAttribute("href", lightSyntaxTheme);
-        } else {
+        } else if (theme === "dark" && currentHref !== darkSyntaxTheme) {
           stylesheet.setAttribute("href", darkSyntaxTheme);
         }
       }
