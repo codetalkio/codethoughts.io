@@ -134,7 +134,7 @@
     <link href="{{ get_url(path='styles/output.css') }}?h={{ get_hash(path="/styles/output.css") }}" rel="stylesheet" />
 
    {# Custom Fonts #}
-      {% if page.extra.custom_font %}
+    {% if page.extra.custom_font %}
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="{{ page.extra.custom_font }}" rel="stylesheet">
@@ -366,16 +366,18 @@
       detectColorScheme();
     </script>
 
-    <!-- Mermaid JS -->
-    <script type="module">
-      import mermaid from '{{ get_url(path='js/mermaid/mermaid.esm.min.mjs') }}?h={{ get_hash(path="js/mermaid/mermaid.esm.min.mjs") }}';
-      const theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default";
-      mermaid.initialize({
-        startOnLoad: true,
-        theme: theme,
-      })
-    </script>
-    <!-- End Mermaid JS -->
+    {% if page.extra.mermaidjs %}
+      <!-- Mermaid JS -->
+      <script type="module">
+        import mermaid from '{{ get_url(path='js/mermaid/mermaid.esm.min.mjs') }}?h={{ get_hash(path="js/mermaid/mermaid.esm.min.mjs") }}';
+        const theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default";
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: theme,
+        })
+      </script>
+      <!-- End Mermaid JS -->
+    {% endif %}
 
     {# Only include CloudFlare analytics when not in dev-mode #}
     {% if config.base_url == "/" %}

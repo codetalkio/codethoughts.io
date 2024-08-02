@@ -2,6 +2,9 @@
   "name": "codethoughts.io",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "build:css": "bunx tailwindcss --input styles/input.css --output static/styles/output.css --minify"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "concurrently": "^8.2.2",

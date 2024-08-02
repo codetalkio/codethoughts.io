@@ -4,6 +4,9 @@ date = 2023-01-29
 
 [taxonomies]
 tags = ["aws", "cloud", "infrastructure", "cdk", "rust"]
+
+[extra]
+mermaidjs = "true"
 +++
 
 This will be a series of blog posts where we will build up the perfect infrastructure setup for the majority of usecase, aka "The Stack". We'll be building everything on top of AWS.
