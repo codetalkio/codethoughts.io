@@ -302,7 +302,7 @@
           <div class="inline-flex items-center justify-center ml-4">
             <div class="inline-flex overflow-hidden rounded-lg">
               <label for="theme-dark-mode" class="cursor-pointer">
-                <input type="radio" name="theme" id="theme-dark-mode" class="sr-only peer" value="dark" onclick="toggleColorScheme(this.value)">
+                <input type="radio" name="theme" id="theme-dark-mode" aria-label="Theme toggle for dark mode" class="sr-only peer" value="dark" onclick="toggleColorScheme(this.value)">
                 <span class="relative inline-flex items-center h-full py-1 px-3 space-x-2 text-sm peer-checked:bg-black-400/25 peer-checked:text-brand-color">
                   <span class="size-4">
                     {{ icons::icon(name="moon") }}
@@ -310,7 +310,7 @@
                 </span>
               </label>
               <label for="theme-light-mode" class="cursor-pointer">
-                <input type="radio" name="theme" id="theme-light-mode" class="sr-only peer" value="light" onclick="toggleColorScheme(this.value)">
+                <input type="radio" name="theme" id="theme-light-mode" aria-label="Theme toggle for light mode" class="sr-only peer" value="light" onclick="toggleColorScheme(this.value)">
                 <span class="relative inline-flex items-center h-full py-1 px-3 space-x-2 text-sm peer-checked:bg-black-400/25 peer-checked:text-brand-color">
                   <span class="size-4">
                     {{ icons::icon(name="sun") }}
@@ -318,7 +318,7 @@
                 </span>
               </label>
               <label for="theme-system" class="cursor-pointer">
-                <input type="radio" name="theme" id="theme-system" class="sr-only peer" value="system" onclick="toggleColorScheme(this.value)">
+                <input type="radio" name="theme" id="theme-system" aria-label="Theme toggle for system mode" class="sr-only peer" value="system" onclick="toggleColorScheme(this.value)">
                 <span class="relative inline-flex items-center h-full py-1 px-3 space-x-2 text-sm peer-checked:bg-black-400/25 peer-checked:text-brand-color">
                   <span class="size-4">
                     {{ icons::icon(name="device-phone-mobile") }}
