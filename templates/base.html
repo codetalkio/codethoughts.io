@@ -128,6 +128,13 @@
     {# Styles #}
     <link href="{{ get_url(path='styles/output.css') }}?h={{ get_hash(path="/styles/output.css") }}" rel="stylesheet" />
 
+   {# Custom Fonts #}
+      {% if page.extra.custom_font %}
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="{{ page.extra.custom_font }}" rel="stylesheet">
+    {% endif %}
+
     {# Favicon #}
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{ get_url(path='favicon/apple-touch-icon-57x57.png') }}?h={{ get_hash(path="favicon/apple-touch-icon-57x57.png") }}" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ get_url(path='favicon/apple-touch-icon-114x114.png') }}?h={{ get_hash(path="favicon/apple-touch-icon-114x114.png") }}" />
