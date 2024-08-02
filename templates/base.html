@@ -84,10 +84,15 @@
       {% endif %}
 
       {% if page.description %}
+        <meta property="description" content="{{ page.description }}" />
         <meta property="og:description" content="{{ page.description }}" />
-      {%- elif page.summary %}
+      {% elif page.summary %}
+        <meta property="description" content="{{ page.summary | striptags | truncate(length=300) }}" />
         <meta property="og:description" content="{{ page.summary | striptags | truncate(length=300) }}" />
-      {%- endif %}
+      {% elif config.description %}
+        <meta property="description" content="{{ config.description }}" />
+        <meta property="og:description" content="{{ config.description }}" />
+      {% endif %}
 
       {% if page.extra.og_image %}
         {% set ogImageMeta = get_image_metadata(path=page.colocated_path ~ page.extra.og_image) %}
