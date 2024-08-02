@@ -1,9 +1,12 @@
 +++
 title = "Visual Studio Code on iPad"
 date = 2020-03-20
+
 [taxonomies]
 tags = ["vscode", "ipad", "digital nomad"]
+
 [extra]
+og_image = "visual-studio-on-ipad-code-file.png"
 versions = ["`code-server` version 3.4.1", "Ubuntu 18.04 (should fit with most distros)", "Your own server", "Your own domain"]
 +++
 

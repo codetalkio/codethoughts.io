@@ -1,6 +1,7 @@
 +++
 title = "Briefly on the purpose of Functors, Applicatives and Monads"
 date = 2015-11-28
+
 [taxonomies]
 tags = ["haskell"]
 +++

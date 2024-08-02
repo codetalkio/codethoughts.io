@@ -1,8 +1,12 @@
 +++
 title = "Irssi notifications on iOS and Android"
 date = 2014-09-25
+
 [taxonomies]
 tags = ["irssi"]
+
+[extra]
+og_image = "pushover-config.png"
 +++
 
 Or really anywhere that [https://pushover.net](https://pushover.net) supports.

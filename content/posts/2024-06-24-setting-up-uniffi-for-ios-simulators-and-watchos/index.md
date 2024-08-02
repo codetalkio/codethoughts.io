@@ -1,6 +1,7 @@
 +++
 title = "Setting up UniFFI for iOS, Simulators, and watchOS"
 date = 2024-06-24
+
 [taxonomies]
 tags = ["rust", "wasm", "leptos", "mobile"]
 +++

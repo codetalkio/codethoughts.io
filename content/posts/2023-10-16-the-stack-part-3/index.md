@@ -1,8 +1,12 @@
 +++
 title = "The Stack Part 3: Building a Frontend"
 date = 2023-10-16
+
 [taxonomies]
 tags = ["rust", "typescript", "wasm", "nextjs", "leptos", "aws", "cloud", "infrastructure", "cdk", "ci"]
+
+[extra]
+og_image = "the-stack-part-3-ui-app-skeleton.png"
 +++
 
 In [the last post](@/posts/2023-10-08-the-stack-part-2/index.md) we set up our deployment, fully automated on merge to our `main` branch. In this post we will be building our UI (Frontend) applications. See the full overview of posts [here](@/posts/2023-01-29-the-stack/index.md#what-will-we-be-covering).

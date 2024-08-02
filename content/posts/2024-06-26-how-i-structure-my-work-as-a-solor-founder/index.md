@@ -1,8 +1,12 @@
 +++
 title = "How I structure work as a Solo Founder"
 date = 2024-06-26
+
 [taxonomies]
 tags = ["project management", "solo founder", "codetalk"]
+
+[extra]
+og_image = "how-i-structure-my-work-as-a-solor-founder-initiatives.png"
 +++
 
 This is for sure something that will keep evolving over time, but I got inspired by [this Hacker News post](https://news.ycombinator.com/item?id=40742831) to share in more detail how I organize myself and my work (you can see my short answer [here](https://news.ycombinator.com/item?id=40743669)).

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {%- set base_url = config.extra.url | default(value="https://codethoughts.io") %}
+    {%- for sitemap_entry in entries %}
+    {# Skip various pages such as 404, drafts, weird incorrect pages, and unused root pages. #}
+    {%- if sitemap_entry.permalink is containing("/404/") or sitemap_entry.permalink is containing("/403/") or sitemap_entry.permalink is containing("/drafts/") or sitemap_entry.permalink is containing("/importable-posts/") or sitemap_entry.permalink is containing("/page/") or sitemap_entry.permalink is ending_with("/pages/") %}
+      {%- continue %}
+    {%- endif %}
+    <url>
+        <loc>
+          {# If the link is a relative URL, then prepend the base URL to it. #}
+          {%- if base_url and sitemap_entry.permalink is starting_with("/") %}
+            {% set link = sitemap_entry.permalink | escape_xml | safe %}
+            {{ base_url ~ link }}
+          {%- else %}
+            {{ sitemap_entry.permalink | escape_xml | safe }}
+          {%- endif %}
+        </loc>
+        {%- if sitemap_entry.updated %}
+          <lastmod>{{ sitemap_entry.updated }}</lastmod>
+        {%- endif %}
+    </url>
+    {%- endfor %}
+</urlset>

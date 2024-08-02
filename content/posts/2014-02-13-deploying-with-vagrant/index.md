@@ -1,8 +1,10 @@
 +++
 title = "Deploying with Vagrant"
 date = 2014-02-13
+
 [taxonomies]
 tags = ["vagrant"]
+
 [extra]
 versions = ["Vagrant 1.4.3"]
 +++

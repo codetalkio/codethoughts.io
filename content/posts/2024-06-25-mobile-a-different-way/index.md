@@ -1,8 +1,12 @@
 +++
 title = "Mobile: A different way using Rust?"
 date = 2024-06-25
+
 [taxonomies]
 tags = ["rust", "wasm", "leptos", "mobile", "capacitor", "swift", "xcode"]
+
+[extra]
+og_image = "mobile-a-different-way-widget-preview.png"
 +++
 
 After having spent the better part of two months deep in the trenches of iOS development with Swift, I can comfortably say: Web Development simply is more mature.

@@ -1,8 +1,10 @@
----
-title: "Your AWS Bill Tells a Story"
-tags: aws, cloud, infrastructure
-date: 2022-01-01
----
++++
+title = "Your AWS Bill Tells a Story"
+date = 2022-01-01
+
+[taxonomies]
+tags = ["aws", "cloud", "infrastructure"]
++++
 
 What are we looking for?
 - Scalability

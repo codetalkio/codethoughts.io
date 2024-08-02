@@ -1,8 +1,10 @@
 +++
 title = "Compiling SCSS and JavaScript in Hakyll"
 date = 2016-05-10
+
 [taxonomies]
 tags = ["haskell", "hakyll"]
+
 [extra]
 versions = ["Hakyll 4.8.3.0", "hjsmin 0.2.0.1", "Sass 3.4.18", "Stackage LTS 5.15"]
 +++

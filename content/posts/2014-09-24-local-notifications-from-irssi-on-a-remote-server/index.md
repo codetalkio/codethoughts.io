@@ -1,8 +1,10 @@
 +++
 title = "Local notifications from irssi on a remote server"
 date = 2014-09-24
+
 [taxonomies]
 tags = ["irssi"]
+
 [extra]
 versions = ["OS X 10.9 Mavericks (should work on all, unless they change launchtl plists)", "irssi v0.8.15", "autossh v1.4c", "terminal-notifier v1.6.1"]
 +++

@@ -24,6 +24,9 @@
     "[html]": {
       "editor.formatOnSave": false
     },
+    "[xml]": {
+      "editor.formatOnSave": false
+    },
     "files.exclude": {
       "**/.git": true,
       "**/.svn": true,
@@ -42,6 +45,10 @@
       "**/.ruby-lsp": true,
       "static/styles/output.css": true,
       "static/js/**": true
+    },
+    "window.title": "${activeEditorShort}${separator}codethoughts.io",
+    "workbench.colorCustomizations": {
+      "sideBar.background": "#23170bcc"
     }
   },
   "tasks": {

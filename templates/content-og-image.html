@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% import "macros/content.html" as macros %}
+{% import "macros/general.html" as base %}
+{% import "macros/icon.html" as icons %}
+
+{% block content %}
+
+{# Recommended size is 1200x627 px. #}
+
+<div class="min-h-screen flex flex-col justify-between">
+  <div>
+    <div class="grid grid-cols-1 md:mt-16 mt-6 md:mb-24 mb-8">
+      <div class="flex justify-center">
+        <p class="text-6xl">Code<span class="text-headline">Thoughts</span></p>
+      </div>
+
+      <div class="flex justify-center mt-8">
+        <p class="text-base">By {{ config.author }}</p>
+      </div>
+
+      {# <div class="flex justify-center px-4">
+        <p class="text-subtle text-xs font-light pt-6">{{ config.description }}</p>
+      </div> #}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

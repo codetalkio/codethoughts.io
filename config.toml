@@ -1,6 +1,10 @@
 # The URL the site will be built for
 base_url = "/"
 
+# The site title and description; used in feeds by default.
+title = "codethoughts.io"
+description = "Codethoughts is a place where I share my thoughts, experiences, and learnings from my journey as a Engineering Leader, Solo Founder, and Software Engineer. I write about engineering leadership, development and architecture (both high and low-level), and personal growth. I hope you find something useful here!"
+
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = false # We use TailwindCSS instead.
 
@@ -76,5 +80,7 @@ bottom_footnotes = true
 paths_keep_dates = true
 
 [extra]
+# Configure the production URL for things that need an absolute URL and cannot use the relative base url (e.g. sitemap.xml).
+url = "https://codethoughts.io"
 # Control the quality of all WebP images across the site.
 webp_quality = 75

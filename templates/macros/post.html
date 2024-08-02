@@ -85,16 +85,16 @@
         {{ page.date | date(format="%-e. %B %Y")  }}
         {% if page.taxonomies.tags %}
           <p class="mx-1">·</p>
-            <p>
-              {% for tag in page.taxonomies.tags %}
-                <a class="text-subtle visited:text-subtle hover:text-link-hover" href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}" itemprop="url">{{ tag }}</a>
-                {# Add comma in between tags. #}
-                {% if page.taxonomies.tags | length > 1 %}
-                  {% if loop.index != page.taxonomies.tags | length %},{% endif %}
-                {% endif %}
-              {% endfor %}
-            </p>
-          {% endif %}
+          <p>
+            {% for tag in page.taxonomies.tags %}
+              <a class="text-subtle visited:text-subtle hover:text-link-hover" href="{{ get_taxonomy_url(kind="tags", name=tag) | safe }}" itemprop="url">{{ tag }}</a>
+              {# Add comma in between tags. #}
+              {% if page.taxonomies.tags | length > 1 %}
+                {% if loop.index != page.taxonomies.tags | length %},{% endif %}
+              {% endif %}
+            {% endfor %}
+          </p>
+        {% endif %}
       </div>
     </div>
   </div>

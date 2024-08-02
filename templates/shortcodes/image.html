@@ -1,6 +1,6 @@
 {% set image = resize_image(path=page.colocated_path ~ path, width=width, height=5000, op="fit") %}
 {# NOTE: We use the regex to remove the "static/" part in the path, and avoid using .url since that contains an absolute path which includes the domain name. #}
-    {# Alternative path: /{{ image.url | safe }} #}
+{# Alternative path: /{{ image.url | safe }} #}
 {% set imagePath = image.static_path | regex_replace(pattern=`static/(?P<path>\.*)`, rep=`$path`) | safe %}
 
 {% set imageWebP = resize_image(path=page.colocated_path ~ path, width=width, height=5000, op="fit", format="webp", quality=config.extra.webp_quality) %}

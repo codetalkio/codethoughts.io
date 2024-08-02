@@ -1,8 +1,10 @@
 +++
 title =" Using Electron with Haskell"
 date = 2016-05-11
+
 [taxonomies]
 tags = ["haskell", "electron"]
+
 [extra]
 versions = ["Electron 1.0.1", "Stackage LTS 5.15", "servant 0.4.4.7"]
 +++

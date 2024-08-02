@@ -1,9 +1,10 @@
----
-title: "API Migration & Modernization: Getting Creative"
-tags: migration, api, graphql, rest
-date: 2022-01-01
----
++++
+title = "API Migration & Modernization: Getting Creative"
+date = 2022-01-01
 
+[taxonomies]
+tags = ["migration", "api", "graphql", "rest"]
++++
 
 What are the motivations?
 - Modernizing Frontend, getting rid of legacy complexity (redux, reducers, epics, selectors, etc)

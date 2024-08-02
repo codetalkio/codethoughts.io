@@ -1,8 +1,12 @@
 +++
 title = "The Stack Part 1: Setting up your AWS Account Structure"
 date = 2023-10-07
+
 [taxonomies]
 tags = ["aws", "cloud", "infrastructure"]
+
+[extra]
+og_image = "the-stack-part-1-user-portal-url.png"
 +++
 
 In [the last post](@/posts/2023-01-29-the-stack/index.md) we went over the overall goals of "The Stack" and what we will be building. In this post we'll be setting up our AWS Account structure. See the full overview of posts [here](@/posts/2023-01-29-the-stack/index.md#what-will-we-be-covering).

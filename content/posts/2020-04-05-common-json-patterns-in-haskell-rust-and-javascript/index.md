@@ -1,6 +1,7 @@
 +++
 title = "Common JSON patterns in Haskell, Rust, and TypeScript"
 date = 2020-04-05
+
 [taxonomies]
 tags = ["haskell", "lens", "javascript", "typescript", "rust", "records", "serde", "aeson"]
 +++

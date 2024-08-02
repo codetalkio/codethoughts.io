@@ -755,6 +755,10 @@ video {
   margin-top: 2rem;
 }
 
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
 .line-clamp-1 {
   overflow: hidden;
   display: -webkit-box;
@@ -832,6 +836,10 @@ video {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-full {
+  min-height: 100%;
 }
 
 .w-1\/4 {
@@ -960,6 +968,10 @@ video {
   place-content: center;
 }
 
+.place-items-center {
+  place-items: center;
+}
+
 .content-center {
   align-content: center;
 }
@@ -996,6 +1008,11 @@ video {
   gap: 2rem;
 }
 
+.gap-x-6 {
+  -moz-column-gap: 1.5rem;
+       column-gap: 1.5rem;
+}
+
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -1008,6 +1025,12 @@ video {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .text-nowrap {
@@ -1082,6 +1105,11 @@ video {
   background-color: transparent;
 }
 
+.bg-brand-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 109 7 / var(--tw-bg-opacity));
+}
+
 .p-2 {
   padding: 0.5rem;
 }
@@ -1127,6 +1155,26 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.px-3\.5 {
+  padding-left: 0.875rem;
+  padding-right: 0.875rem;
+}
+
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.py-2\.5 {
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+}
+
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 
 .pb-1 {
@@ -1216,12 +1264,21 @@ video {
   line-height: 1rem;
 }
 
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
 
 .font-light {
   font-weight: 300;
+}
+
+.font-semibold {
+  font-weight: 600;
 }
 
 .lowercase {
@@ -1234,6 +1291,14 @@ video {
 
 .leading-7 {
   line-height: 1.75rem;
+}
+
+.leading-6 {
+  line-height: 1.5rem;
+}
+
+.tracking-tight {
+  letter-spacing: -0.025em;
 }
 
 .text-headline {
@@ -1261,8 +1326,24 @@ video {
   color: rgb(247 247 248 / var(--tw-text-opacity));
 }
 
+.\!text-black-200 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(219 217 222 / var(--tw-text-opacity)) !important;
+}
+
+.text-black-50 {
+  --tw-text-opacity: 1;
+  color: rgb(247 247 248 / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
+}
+
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .outline {
@@ -1279,12 +1360,22 @@ video {
   transition-duration: 150ms;
 }
 
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .duration-100 {
   transition-duration: 100ms;
 }
 
 .ease-linear {
   transition-timing-function: linear;
+}
+
+.ease-in {
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 
 :root {
@@ -2256,6 +2347,10 @@ aside {
   color: var(--text-subtle);
 }
 
+.visited\:text-black-50:visited {
+  color: rgb(247 247 248 );
+}
+
 .hover\:w-72:hover {
   width: 18rem;
 }
@@ -2285,6 +2380,11 @@ aside {
   background-color: var(--background-code);
 }
 
+.hover\:bg-brand-400:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 147 32 / var(--tw-bg-opacity));
+}
+
 .hover\:px-4:hover {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -2297,6 +2397,27 @@ aside {
 
 .hover\:text-link-hover:hover {
   color: var(--link-color-hover);
+}
+
+.hover\:\!text-black-50:hover {
+  --tw-text-opacity: 1 !important;
+  color: rgb(247 247 248 / var(--tw-text-opacity)) !important;
+}
+
+.focus-visible\:outline:focus-visible {
+  outline-style: solid;
+}
+
+.focus-visible\:outline-2:focus-visible {
+  outline-width: 2px;
+}
+
+.focus-visible\:outline-offset-2:focus-visible {
+  outline-offset: 2px;
+}
+
+.focus-visible\:outline-white:focus-visible {
+  outline-color: #f7f7f8;
 }
 
 .group:hover .group-hover\:inline {
@@ -2425,6 +2546,11 @@ aside {
     padding-right: 2rem;
   }
 
+  .sm\:py-32 {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+
   .sm\:pl-8 {
     padding-left: 2rem;
   }
@@ -2484,6 +2610,11 @@ aside {
 @media (min-width: 1024px) {
   .lg\:ml-20 {
     margin-left: 5rem;
+  }
+
+  .lg\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 

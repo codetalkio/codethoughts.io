@@ -1,9 +1,12 @@
 +++
 title = "Mobile Haskell (iOS)"
 date = 2018-02-07
+
 [taxonomies]
 tags = ["haskell", "mobile", "iOS"]
+
 [extra]
+og_image = "mobile-haskell-9. Run Simulator.png"
 versions = ["Xcode Version 9.2 (9C40b)", "Cabal HEAD (commit [94a7374](https://github.com/haskell/cabal/commit/94a7374d7b1a9b55454209e92d5057ba81be7d6a){target=\"_blank\" rel=\"noopener noreferrer\"})", "Stack Version 1.6.3", "LLVM Version 5.0.1"]
 +++
 

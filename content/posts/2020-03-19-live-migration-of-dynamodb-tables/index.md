@@ -1,8 +1,12 @@
 +++
 title = "Live Migration of DynamoDB Tables"
 date = 2020-03-19
+
 [taxonomies]
 tags = ["aws", "dynamodb", "sqs", "migration"]
+
+[extra]
+og_image = "dynamodb-migration-phase-2-background.png"
 +++
 
 Recently I was faced with the challenge of having to migrate a set of AWS DynamoDB tables to completely new tables. We wanted to achieve this without affecting any of our users, and without having a maintenance window while migrating data from the old table to the new ones.

@@ -1,13 +1,17 @@
 +++
 title = "Redirecting URLs with CloudFlare"
 date = 2024-07-31
+
 [taxonomies]
 tags = ["cloudflare"]
+
+[extra]
+og_image = "Screenshot_2024-07-08_at_16.18.43.png"
 +++
 
 I recently moved my blog from [https://codetalk.io](https://codetalk.io) (now my commercial site) to [https://codethoughts.io](https://codethoughts.io). This of course also meant, that everything linking to my old blog was now broken, which is not the best experience for any readers that I might have 😅
 
-I initially considered setting up rewrite rules somewhere for each individual post, but then thought of a much smarter way, using CloudFlare’s *Redirect Rules*, to instead redirect all direct links to posts and throw them to the new location on codethoughts.io.
+Initially I considered setting up rewrite rules somewhere for each individual post, but then thought of a much smarter way, using CloudFlare’s *Redirect Rules*, to instead redirect all direct links to posts and throw them to the new location on codethoughts.io.
 
 The documentation for these rules are a bit sparse, so I thought I’d share how I did. First though, let’s set some context:
 

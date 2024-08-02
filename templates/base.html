@@ -6,12 +6,115 @@
     <meta charset="utf-8" />
     <title>codethoughts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {# Open Graph Metadata #}
+    {# Static Open Graph Metadata #}
+    {% if config.title %}
+      <meta property="og:site_name" content="{{ config.title }}" />
+    {% endif %}
+    <meta property="og:locale" content="en_US" />
+
+    {% set ogDefaultImage = get_url(path='images/og-image.png') ~ "?h=" ~ get_hash(path='/images/og-image.png') %}
+    {% set ogDefaultImageMeta = get_image_metadata(path='images/og-image.png') %}
+    {%- if ogDefaultImage is starting_with("/") %}
+      {% set ogDefaultImagePath = config.extra.url ~ ogDefaultImage %}
+    {%- else %}
+      {% set ogDefaultImagePath = ogDefaultImage %}
+    {%- endif %}
+
+    {% if not current_path %}
+      {# The 404 page will not have a path set. #}
+      <meta property="og:title" content="404" />
+      {% if config.extra.url %}
+        <meta property="og:url" content="{{ config.extra.url }}" />
+      {% endif %}
+      {% if config.description %}
+        <meta property="og:description" content="404: Page not found" />
+      {% endif %}
+      <meta property="og:type" content="website" />
+      <meta property="og:image" content="{{ ogDefaultImagePath }}" />
+      <meta property="og:image:width" content="{{ ogDefaultImageMeta.width }}" />
+      <meta property="og:image:height" content="{{ ogDefaultImageMeta.height }}" />
+      <meta property="og:image:type" content="image/{{ ogDefaultImageMeta.format }}" />
+      <meta property="og:image:alt" content="codethoughts.io" />
+
+    {% else %}
+      {# Post Specific Open Graph Metadata #}
+       {% if current_path and current_path is starting_with("/posts/") and not current_path is ending_with("/posts/") %}
+        <meta property="og:type" content="article" />
+      {% else %}
+        <meta property="og:type" content="website" />
+      {%- endif %}
+
+      <meta property="og:title" content="{{ page.title | default(value=section.title | default(value=config.title)) }}" />
+
+      {% set permalink = page.permalink | default(value=section.permalink | default(value=current_path)) %}
+      {%- if permalink is starting_with("/") %}
+        <meta property="og:url" content="{{ config.extra.url ~ permalink }}" />
+      {%- else %}
+        <meta property="og:url" content="{{ permalink }}" />
+      {%- endif %}
+
+      {# The post times are only dates, so we hardcode them to be in the middle of the day UTC time. #}
+      {% if page.updated %}
+        <meta property="article:published_time" content="{{ page.date }}T12:00:00+00:00" />
+      {%- endif %}
+      {% if page.updated %}
+        <meta property="article:modified_time" content="{{ page.updated }}T12:00:00+00:00" />
+      {%- endif %}
+
+      {% if page.authors %}
+        <meta property="article:author" content="{{ page.authors[0] }}" />
+      {%- elif config.author -%}
+        <meta property="article:author" content="{{ config.author }}" />
+      {% endif %}
+
+      {% if page.taxonomies.tags %}
+        {% for tag in page.taxonomies.tags %}
+          <meta property="article:tag" content="{{ tag }}">
+        {% endfor %}
+      {% endif %}
+
+      {% if page.description %}
+        <meta property="og:description" content="{{ page.description }}" />
+      {%- elif page.summary %}
+        <meta property="og:description" content="{{ page.summary | striptags | truncate(length=300) }}" />
+      {%- endif %}
+
+      {% if page.extra.og_image %}
+        {% set ogImageMeta = get_image_metadata(path=page.colocated_path ~ page.extra.og_image) %}
+        {% set ogImageResized = resize_image(path=page.colocated_path ~ page.extra.og_image, width=1200, height=1000, op="fit") %}
+        {% set ogImage = ogImageResized.url %}
+        {%- if ogImage is starting_with("/") %}
+          {% set ogImagePath = config.extra.url ~ ogImage %}
+        {%- else %}
+          {% set ogImagePath = ogImage %}
+        {%- endif %}
+        <meta property="og:image" content="{{ ogImagePath }}" />
+        <meta property="og:image:width" content="{{ ogImageResized.width }}" />
+        <meta property="og:image:height" content="{{ ogImageResized.height }}" />
+        <meta property="og:image:type" content="image/{{ ogImageMeta.format }}" />
+        <meta property="og:image:alt" content="{{ page.title | default(value=section.title | default(value=config.title)) }}" />
+      {% else %}
+        <meta property="og:image" content="{{ ogDefaultImagePath }}" />
+        <meta property="og:image:width" content="{{ ogDefaultImageMeta.width }}" />
+        <meta property="og:image:height" content="{{ ogDefaultImageMeta.height }}" />
+        <meta property="og:image:type" content="image/{{ ogDefaultImageMeta.format }}" />
+        <meta property="og:image:alt" content="{{ page.title | default(value=section.title | default(value=config.title)) }}" />
+      {%- endif %}
+    {% endif %}
+
+    {# Syntax Highlighting Styles (theme adjusted dynamically) #}
     {% if config.markdown.highlight_code and config.markdown.highlight_theme == "css" %}
       {# <link rel="stylesheet" type="text/css" href="/syntax-theme-dark.css?h={{ get_hash(path="/syntax-theme-dark.css") }}" media="(prefers-color-scheme: dark)" />
       <link rel="stylesheet" type="text/css" href="/syntax-theme-light.css?h={{ get_hash(path="/syntax-theme-light.css") }}" media="(prefers-color-scheme: light)" /> #}
       <link id="syntax-highlighting-styles" rel="stylesheet" type="text/css" href="{{ get_url(path='syntax-theme-dark.css') }}?h={{ get_hash(path="/syntax-theme-dark.css") }}" />
     {% endif %}
+
+    {# Styles #}
     <link href="{{ get_url(path='styles/output.css') }}?h={{ get_hash(path="/styles/output.css") }}" rel="stylesheet" />
+
+    {# Favicon #}
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{{ get_url(path='favicon/apple-touch-icon-57x57.png') }}?h={{ get_hash(path="favicon/apple-touch-icon-57x57.png") }}" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ get_url(path='favicon/apple-touch-icon-114x114.png') }}?h={{ get_hash(path="favicon/apple-touch-icon-114x114.png") }}" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ get_url(path='favicon/apple-touch-icon-72x72.png') }}?h={{ get_hash(path="favicon/apple-touch-icon-72x72.png") }}" />
@@ -32,6 +135,8 @@
     <meta name="msapplication-square150x150logo" content="{{ get_url(path='favicon/mstile-150x150.png') }}?h={{ get_hash(path="favicon/mstile-150x150.png") }}" />
     <meta name="msapplication-wide310x150logo" content="{{ get_url(path='favicon/mstile-310x150.png') }}?h={{ get_hash(path="favicon/mstile-310x150.png") }}" />
     <meta name="msapplication-square310x310logo" content="{{ get_url(path='favicon/mstile-310x310.png') }}?h={{ get_hash(path="favicon/mstile-310x310.png") }}" />
+
+    {# Theme selection functionality #}
     <script>
       /**
         * Add a "dark" class to <html> if the current selected theme is dark mode.

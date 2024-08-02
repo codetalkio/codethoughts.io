@@ -1,8 +1,12 @@
 +++
 title = "S3 bucket specific policy"
 date = 2015-11-18
+
 [taxonomies]
 tags = ["aws"]
+
+[extra]
+og_image = "S3-review-policy.png"
 +++
 
 I have recently started caring a bit more about security on my AWS

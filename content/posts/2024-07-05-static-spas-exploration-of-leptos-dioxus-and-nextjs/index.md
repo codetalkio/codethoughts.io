@@ -1,8 +1,12 @@
 +++
 title = "Static SPAs: Exploration of Leptos, Dioxus, and Next.js"
 date = 2024-07-05
+
 [taxonomies]
 tags = ["rust", "wasm", "leptos", "dioxus", "nextjs", "spa"]
+
+[extra]
+og_image = "Screenshot_2024-07-02_at_12.06.50.png"
 +++
 
 One of my absolute favorite methods of deploying Frontends is to pre-generate all routes statically, and then let each route load the dependencies they need for interactivity.

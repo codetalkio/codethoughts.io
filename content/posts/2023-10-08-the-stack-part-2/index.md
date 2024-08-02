@@ -1,8 +1,12 @@
 +++
 title = "The Stack Part 2: Automating Deployments via CI"
 date = 2023-10-08
+
 [taxonomies]
 tags = ["aws", "cloud", "infrastructure", "cdk", "ci"]
+
+[extra]
+og_image = "the-stack-part-2-deployment-flow.png"
 +++
 
 In [the last post](@/posts/2023-10-07-the-stack-part-1/index.md) we created our Control Tower structure with all of our AWS Accounts in it. In this post we will be automating our deployment process for each of these environments. See the full overview of posts [here](@/posts/2023-01-29-the-stack/index.md#what-will-we-be-covering).

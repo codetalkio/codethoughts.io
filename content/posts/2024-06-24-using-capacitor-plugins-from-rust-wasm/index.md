@@ -1,8 +1,12 @@
 +++
 title = "Using Capacitor Plugins from Rust/WASM"
 date = 2024-06-24
+
 [taxonomies]
 tags = ["rust", "wasm", "leptos", "mobile"]
+
+[extra]
+og_image = "using-capacitor-plugins-from-rust-wasm-iphone.png"
 +++
 
 This is a part of the post [Mobile: A different way using Rust?](@/posts/2024-06-25-mobile-a-different-way/index.md).

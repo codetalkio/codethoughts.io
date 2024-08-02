@@ -17,6 +17,10 @@
     </thead>
     <tbody>
     {% for page in term.pages | sort(attribute="date") | reverse %}
+        {# Skip various pages such as 404, drafts, weird incorrect pages, and unused root pages. #}
+        {%- if page.permalink is containing("/drafts/") or page.permalink is containing("/importable-posts/") or page.permalink is containing("/pages/") %}
+            {%- continue %}
+        {%- endif %}
         <tr class="border-t border-b border-subtle cursor-pointer hover:text-link-hover" onclick="location.href='{{ page.permalink | safe }}';">
             <td class="pb-2 pt-2">
                 <a class="text-headline" href="{{ page.permalink }}">
