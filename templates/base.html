@@ -22,6 +22,14 @@
       {% set ogDefaultImagePath = ogDefaultImage %}
     {%- endif %}
 
+    {% set ogFallbackImage = get_url(path='images/og-image-fallback.png') ~ "?h=" ~ get_hash(path='/images/og-image-fallback.png') %}
+    {% set ogFallbackImageMeta = get_image_metadata(path='images/og-image-fallback.png') %}
+    {%- if ogFallbackImage is starting_with("/") %}
+      {% set ogFallbackImagePath = config.extra.url ~ ogFallbackImage %}
+    {%- else %}
+      {% set ogFallbackImagePath = ogFallbackImage %}
+    {%- endif %}
+
     {% if not current_path %}
       {# The 404 page will not have a path set. #}
       <meta property="og:title" content="404" />
@@ -95,11 +103,17 @@
         <meta property="og:image:height" content="{{ ogImageResized.height }}" />
         <meta property="og:image:type" content="image/{{ ogImageMeta.format }}" />
         <meta property="og:image:alt" content="{{ page.title | default(value=section.title | default(value=config.title)) }}" />
-      {% else %}
+      {% elif current_path == "/" %}
         <meta property="og:image" content="{{ ogDefaultImagePath }}" />
         <meta property="og:image:width" content="{{ ogDefaultImageMeta.width }}" />
         <meta property="og:image:height" content="{{ ogDefaultImageMeta.height }}" />
         <meta property="og:image:type" content="image/{{ ogDefaultImageMeta.format }}" />
+        <meta property="og:image:alt" content="{{ page.title | default(value=section.title | default(value=config.title)) }}" />
+      {% else %}
+        <meta property="og:image" content="{{ ogFallbackImagePath }}" />
+        <meta property="og:image:width" content="{{ ogFallbackImageMeta.width }}" />
+        <meta property="og:image:height" content="{{ ogFallbackImageMeta.height }}" />
+        <meta property="og:image:type" content="image/{{ ogFallbackImageMeta.format }}" />
         <meta property="og:image:alt" content="{{ page.title | default(value=section.title | default(value=config.title)) }}" />
       {%- endif %}
     {% endif %}
