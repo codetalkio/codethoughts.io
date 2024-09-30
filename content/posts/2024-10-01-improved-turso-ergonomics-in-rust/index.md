@@ -6,9 +6,9 @@ date = 2024-10-01
 tags = ["rust", "turso", "macros", "sql"]
 
 +++
-I recently started using [Turso](https://turso.tech), which is a great database option for serverless as well as to keep costs low. It’s pricing is more than competitive with something like [AWS DynamoDB](https://aws.amazon.com/dynamodb/pricing/on-demand/), which is quite interesting as a alternative to it.
+I recently started using [Turso](https://turso.tech), which is a great database option for serverless as well as to keep costs low. Its pricing is more than competitive with something like [AWS DynamoDB](https://aws.amazon.com/dynamodb/pricing/on-demand/), which is quite interesting as a alternative to it.
 
-One problem though, there’s no support by any good ORMs or similar in the Rust ecosystem for [Turso](https://turso.tech).
+One problem though, there's no support by any good ORMs or similar in the Rust ecosystem for [Turso](https://turso.tech).
 
 Instead, I was currently writing something like this, just to get a `User` out from the database via their session:
 
@@ -50,7 +50,7 @@ The above does the following:
 - Tries to get the first row (a `Result<Option<Row>>`)
 - And finally, if that row was not `None`, tries to deserialize the row first into the `lib_database::User` type which was manually created, and finally into the `User` GraphQL type, which has a `From` implementation to convert from the database type to the GraphQL type
 
-…quite verbose if I were to be honest, and not something that I’d like to bloat my codebase with.
+…quite verbose if I were to be honest, and not something that I'd like to bloat my codebase with.
 
 There are also some obvious issues here:
 
@@ -58,10 +58,10 @@ There are also some obvious issues here:
 - Nothing verifies that my SQL is getting the necessary data to be able to deserialize into the `lib_database::User` type
 
 {% aside() %}
-Sadly, we cannot use [sqlx](https://github.com/launchbadge/sqlx) for Turso. There’s an open issue tracking the progress in https://github.com/launchbadge/sqlx/issues/2674.
+Sadly, we cannot use [sqlx](https://github.com/launchbadge/sqlx) for Turso. There's an open issue tracking the progress in https://github.com/launchbadge/sqlx/issues/2674.
 {% end %}
 
-Instead I’d like something closer to the following, checked at compile time:
+Instead I'd like something closer to the following, checked at compile time:
 
 - Verifies that the query only refers to tables and columns that exist, by checking against the database schema file (not needing a running database)
 - Verify that all named parameters in the query is also populated
@@ -84,7 +84,7 @@ let user =
   User::new(row.user_id, row.first_name, row.last_name, row.onboarding_step);
 ```
 
-So let’s build it!
+So let's build it!
 
 {{ toc() }}
 
@@ -95,13 +95,13 @@ We want as much as possible to be checked at compile-time, and that means that w
 - [Declarative macros](https://doc.rust-lang.org/rust-by-example/macros.html): Defined using `macro_rules!` (e.g. `println!`)
 - [Procedural macros](https://doc.rust-lang.org/reference/procedural-macros.html): Defined in their own create via `#[proc_macro]` and similar, depending on what type you want (e.g. `custom!(...)`, `#[derive(CustomDerive)]` or `#[CustomAttribute]`)
 
-Proc macros cannot be used in the same crate as they are defined, so we’ll first need to create a new crate that we can use with our project:
+Proc macros cannot be used in the same crate as they are defined, so we'll first need to create a new crate that we can use with our project:
 
 ```bash
 $ cargo new lib-macros --lib
 ```
 
-We’ll then need to edit our `lib-macros/Cargo.toml` to add a few crates, both for our proc macro but also for our SQL parsing logic:
+We'll then need to edit our `lib-macros/Cargo.toml` to add a few crates, both for our proc macro but also for our SQL parsing logic:
 
 ```toml ,linenos
 [package]
@@ -135,9 +135,9 @@ serde = { version = "1.0.209", features = ["serde_derive"] }
 serde_json = "1.0.127"
 ```
 
-Note that when using this proc-macro in your project, you’ll basically need all the dependencies that are listed in `[dev-dependencies]`, since the generated code will rely on these.
+Note that when using this proc-macro in your project, you'll basically need all the dependencies that are listed in `[dev-dependencies]`, since the generated code will rely on these.
 
-We’ll then tackle the functionality in two steps:
+We'll then tackle the functionality in two steps:
 
 1. Handle parsing SQL from strings and files
 2. Stitch things together in a proc-macro that will generate our code
@@ -146,7 +146,7 @@ We’ll then tackle the functionality in two steps:
 
 We will be reaching for the [sqlparser](https://crates.io/crates/sqlparser) crate to be able to parse the SQLite table definitions as well as our queries.
 
-Here’s a rough overview of what the code does:
+Here's a rough overview of what the code does:
 
 - `select_names`: Extract the selected field names from a `SELECT` statement.
 - `create_table_columns`: Extract the column names and types from a `CREATE TABLE` statement.
@@ -396,7 +396,7 @@ pub fn select_names(sql: &str) -> Result<Vec<FieldInfo>, Box<dyn std::error::Err
 }
 ```
 
-We can add a few tests in the same file, that’ll demonstrate and validate our functionality:
+We can add a few tests in the same file, that'll demonstrate and validate our functionality:
 
 ```rust ,linenos
 #[test]
@@ -537,7 +537,7 @@ fn test_validate_fields() {
 
 With our helper functions in place for working with the SQL, we can finally piece together our proc-macro.
 
-Here’s a rough overview of what the code does:
+Here's a rough overview of what the code does:
 
 - Reads the input query as a string literal
 - Uses our SQL helpers to
@@ -545,7 +545,7 @@ Here’s a rough overview of what the code does:
     - Get all table information from a file located at `../database/users.sql` (that is, outside of the `lib-macros` directory, and inside another directory called `database`)
     - Validate that the selected fields actually exist in the correct tables
 - Extract all the params under the assumption that they are the only things starting with `:`
-- Prepare some of the code generation we’ll need later
+- Prepare some of the code generation we'll need later
     - Prepare the struct field names for our `QueryParams` typesafe builder, with a type of `libsql::Value`
     - Prepare the parameter name and struct field value pairs for `libsql::named_params!` which is used to pass the parameters to a prepared statement
     - Prepare our struct of our return data based on our selected fields and the types that they have, which is found by looking them up in the table information
@@ -714,7 +714,7 @@ This will let you validate that the proc-macro actually works as expected. Adjus
 
 # Errors
 
-Let’s explore a case where we query the wrong field. We will build our example on the schema below:
+Let's explore a case where we query the wrong field. We will build our example on the schema below:
 
 ```sql ,linenos
 CREATE TABLE IF NOT EXISTS
