@@ -133,6 +133,8 @@ typed-builder = "0.20.0"
 libsql = "0.6.0"
 serde = { version = "1.0.209", features = ["serde_derive"] }
 serde_json = "1.0.127"
+# Only for testing.
+tokio = { version = "1", features = ["macros"] }
 ```
 
 Note that when using this proc-macro in your project, you'll basically need all the dependencies that are listed in `[dev-dependencies]`, since the generated code will rely on these.
@@ -690,14 +692,74 @@ To test the proc-macro, we cannot set up unit tests but instead need to add an i
 ```rust ,linenos
 use lib_macros::query;
 
-#[test]
-fn test_query_macro() {
+const TABLE_SCHEMA: &str = r#"
+CREATE TABLE users (
+    user_id varchar(36) NOT NULL,
+    first_name varchar(255),
+    last_name varchar(255),
+    country varchar(3),
+    onboarding_step varchar(255) NOT NULL DEFAULT 'first',
+    demo_user boolean NOT NULL DEFAULT false,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id)
+);
+
+CREATE TABLE auth_sessions (
+    session_id varchar(36) NOT NULL,
+    user_id varchar(36) NOT NULL,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at timestamp NOT NULL,
+    PRIMARY KEY (session_id)
+);
+"#;
+
+async fn populate_db(conn: &libsql::Connection) {
+    // Create the table schema.
+    let stmts = TABLE_SCHEMA.split(";").filter(|s| !s.trim().is_empty()).collect::<Vec<_>>();
+    for stmt in stmts {
+        conn.execute(stmt, libsql::params![])
+            .await
+            .expect(format!("Failed to execute statement: {}", stmt).as_str());
+    }
+
+    // Populate some data into the table.
+    conn.execute("INSERT INTO users (user_id, first_name, last_name, country, onboarding_step, demo_user) VALUES ('1234', 'John', 'Doe', 'USA', 'first', false)", libsql::params![]).await.expect("Failed to insert row into users table");
+    conn.execute(
+        "INSERT INTO auth_sessions (session_id, user_id, expires_at) VALUES ('some-session-id', '1234', '2030-09-07 22:56:52')",
+        libsql::params![],
+    )
+    .await
+    .expect("Failed to insert row into auth_sessions table");
+}
+
+#[tokio::test]
+async fn test_query_macro() {
+    // Set up the local database.
+    let conn = libsql::Builder::new_local(":memory:")
+        .build()
+        .await
+        .expect("Failed to create in-memory database")
+        .connect()
+        .expect("Failed to connect to in-memory database");
+    populate_db(&conn).await;
+
+    // Test our macro.
     let query = query!(
         "SELECT users.user_id, users.first_name, users.last_name, users.country, users.onboarding_step, users.demo_user
-        FROM auth_sessions AS sessions
-        LEFT JOIN users AS users ON users.user_id = sessions.user_id
-        WHERE sessions.session_id = :session"
+        FROM auth_sessions
+        LEFT JOIN users ON users.user_id = auth_sessions.user_id
+        WHERE auth_sessions.session_id = :session"
     ).session("some-session-id".into()).build();
+    let row = query.first(&conn).await;
+
+    // Check that we got a single row back.
+    assert!(row.is_some());
+
+    // Check that the row has the expected length.
+    let rows = query.execute(&conn).await;
+    assert_eq!(rows.len(), 1);
 }
 ```
 
