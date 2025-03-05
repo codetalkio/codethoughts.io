@@ -116,7 +116,7 @@ It should be clear that I firmly believe it’s the former, specialized role, an
 
 Another example: What happens if you have a CCO and CMO? As the CEO you now have two business units reporting to your, and each will have goals that are only a slice of what you care about. You don’t care about just getting more leads, you care about those leads ending up generating revenue for the company.
 
-Similarly with splitting out Customer Success from the CTO role (typically instead put under the CCO). The Customer Success team optimizes for solving incoming cases. Great! But why are they getting those cases? The true goal is to minimize the amount of incoming cases in the first place, and now you need to have another business unit, the CTO/CTPO, work towards another units’ goals. Instead, the focus should be on quality of the Product, and the goal should be to optimize Customer Success  by minimizing the required investment into by improving the Product and Engineering quality—effectively closing the loop for the goal.
+Similarly with splitting out Customer Success from the CTO role (typically instead put under the CCO). The Customer Success team optimizes for solving incoming cases. Great! But why are they getting those cases? The true goal is to minimize the amount of incoming cases in the first place, and now you need to have another business unit, the CTO/CTPO, work towards another units’ goals. Instead, the focus should be on quality of the Product, and the goal should be to optimize Customer Success by minimizing the required investment into it, done by improving the Product and Engineering quality—effectively closing the loop for the goal.
 
 ## Keeping a growing hierarchy flat
 
