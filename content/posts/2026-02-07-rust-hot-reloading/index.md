@@ -46,15 +46,13 @@ The restructure of our application's entry point was one of the less obvious thi
 
 This could look something like this, with your main entry point being:
 
-```rust
+```rust ,linenos,hl_lines=4 5 6 7
 #[tokio::main]
 async fn main() {
     let app_env = setup_app_env().await.unwrap();
     dioxus_devtools::serve_subsecond_with_args(
         app_env,
-        |s| async {
-            server(s).await
-        }
+        |s| async { server(s).await }
     ).await;
 }
 ```
@@ -67,7 +65,7 @@ async fn main() {
 
 And your `setup_app_env` looking like this:
 
-```rust
+```rust ,linenos
 #[derive(Clone)]
 struct ApplicationEnv {
     port: i32,
@@ -85,7 +83,7 @@ async fn setup_app_env() -> Result<ApplicationEnv, Error> {
 
 and `server` could look something like:
 
-```rust
+```rust ,linenos
 async fn server(config: ApplicationEnv) -> Result<(), Error> {
   use axum::{Router, routing::get};
 
@@ -126,7 +124,7 @@ As mentioned earlier, you probably don't want this out in production, so I'd rec
 
 You'll need a small change to your entry point:
 
-```rust
+```rust ,linenos,hl_lines=1 8
 #[cfg(not(feature = "local"))]
 #[tokio::main]
 async fn main() {
@@ -149,7 +147,7 @@ async fn main() {
 
 and you can also adjust your dependencies to only include the `dioxus-devtools` crate when the `local` feature is enabled:
 
-```toml
+```toml ,linenos,hl_lines=2 3 4 5 6 9
 # ...rest of your Cargo.toml
 [features]
 # Add optional dependencies when the `local` feature is enabled
