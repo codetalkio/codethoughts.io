@@ -30,7 +30,7 @@ I'll add a few more details to each of the steps below.
 
 ## Dependencies
 
-The only dependency we need is the [dioxus-devtools](https://crates.io/crates/dioxus-devtools) crate.
+The only dependency we need is the [dioxus-devtools](https://crates.io/crates/dioxus-devtools) crate (version `0.7.3` as of writing this).
 
 Importantly we need to add the `serve` feature to it (`cargo add dioxus_devtools --features serve`). This is what gives us `dioxus_devtools::serve_subsecond_with_args`.
 
@@ -58,6 +58,13 @@ async fn main() {
     ).await;
 }
 ```
+
+
+<div class="callout">
+  <div class="callout-bulb">💡</div>
+  You probably don't want this out in production, so I'd recommend putting it behind a feature flag such as <code>local</code> or similar. See <a href="#putting-behind-a-feature-flag">further down</a> for more details.
+</div>
+
 
 And your `setup_app_env` looking like this:
 
@@ -113,6 +120,48 @@ I've been using this for a few days now for our main GraphQL API serving the bac
 
 A big thanks to the amazing team at Dioxus for making subsecond possible to use outside of the Dioxus framework, and for pushing the frontier of Web dev-like DX in Rust!
 
+
+## Putting behind a feature flag
+
+As mentioned earlier, you probably don't want this out in production, so I'd recommend putting it behind a feature flag. I've personally gone with `local`.
+
+You'll need a small change to your entry point:
+
+```rust
+#[cfg(not(feature = "local"))]
+#[tokio::main]
+async fn main() {
+    let app_env = setup_app_env().await.unwrap();
+    server(app_env).await;
+}
+
+#[cfg(feature = "local")]
+#[tokio::main]
+async fn main() {
+    let app_env = setup_app_env().await.unwrap();
+    dioxus_devtools::serve_subsecond_with_args(
+        app_env,
+        |s| async {
+            server(s).await
+        }
+    ).await;
+}
+```
+
+and you can also adjust your dependencies to only include the `dioxus-devtools` crate when the `local` feature is enabled:
+
+```toml
+# ...rest of your Cargo.toml
+[features]
+# Add optional dependencies when the `local` feature is enabled
+local = [
+  "dep:dioxus-devtools",
+]
+
+[dependencies]
+dioxus-devtools = { version = "0.7.3", optional = true, features = ["serve"] }
+# ..rest of your dependencies
+```
 
 ## Resources
 
