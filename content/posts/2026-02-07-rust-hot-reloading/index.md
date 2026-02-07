@@ -60,10 +60,9 @@ async fn main() {
 ```
 
 
-<div class="callout">
-  <div class="callout-bulb">💡</div>
-  You probably don't want this out in production, so I'd recommend putting it behind a feature flag such as <code>local</code> or similar. See <a href="#putting-behind-a-feature-flag">further down</a> for more details.
-</div>
+{% aside() %}
+  I'd recommend putting it behind a feature flag such as `local` or similar. See [further down](#putting-behind-a-feature-flag) for more details.
+{% end %}
 
 
 And your `setup_app_env` looking like this:

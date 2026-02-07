@@ -9,6 +9,10 @@ tags = ["rust", "wasm", "leptos", "mobile", "capacitor", "swift", "xcode"]
 og_image = "mobile-a-different-way-widget-preview.png"
 +++
 
+{% aside() %}
+  **2026 update:** These days I would highly recommend using [Expo + React Native](https://docs.expo.dev/workflow/overview/) for Mobile + Web development, if Mobile is a core platform for you. There have been some amazing developments in the ecosystem, especiallt from [Expo v55](https://expo.dev/changelog/sdk-55-beta) and onwards.
+{% end %}
+
 After having spent the better part of two months deep in the trenches of iOS development with Swift, I can comfortably say: Web Development simply is more mature.
 
 Let’s just run over a few things I ran into that’s bad, broken, or made for a poor experience:
