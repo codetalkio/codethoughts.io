@@ -541,13 +541,14 @@ pre[data-linenos] {
   }
 
   .footnote-definition {
-    @apply mt-4;
     sup {
       @apply mr-2;
     }
     p {
       @apply mt-0 inline-block text-xs;
     }
+
+    @apply mt-4;
   }
 }
 

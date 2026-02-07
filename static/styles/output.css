@@ -2282,9 +2282,6 @@ pre[data-linenos] {
     margin-left: auto;
   }
   .footnote-definition {
-    margin-top: 1rem;
-  }
-  .footnote-definition {
     sup {
       margin-right: 0.5rem;
     }
@@ -2298,6 +2295,9 @@ pre[data-linenos] {
       font-size: 0.75rem;
       line-height: 1rem;
     }
+  }
+  .footnote-definition {
+    margin-top: 1rem;
   }
 }
 

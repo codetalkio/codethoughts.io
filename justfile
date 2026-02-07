@@ -43,14 +43,14 @@ build-js:
   mv static/js/toc/toc-sidebar.js static/js/toc-sidebar.min.js
   mv static/js/toc/toc-sidebar.js.map static/js/toc-sidebar.min.js.map
 
-# TODO: Move deployment to CloudFlare Pages?
+# NOTE: The blog is now deployed to CloudFlare Pages, so this is no longer needed.
 # Deploy the blog to S3 and invalidate CloudFront cache.
 # deploy:
 #   #!/usr/bin/env bash
 #   set -euxo pipefail
 #   just build
 #   # Sync files to S3.
-#   aws s3 sync _site s3://codetalk.io --delete
+#   aws s3 sync _site s3://codethoughts.io --delete
 #   # Invalidate Cloudflare cache.
 #   curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/purge_cache" \
 #       -H "Authorization: Bearer ${CLOUDFLARE_TOKEN}" \
