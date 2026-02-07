@@ -6,6 +6,7 @@ date = 2024-10-01
 tags = ["rust", "turso", "macros", "sql"]
 
 +++
+
 I recently started using [Turso](https://turso.tech), which is a great database option for serverless as well as to keep costs low. Its pricing is more than competitive with something like [AWS DynamoDB](https://aws.amazon.com/dynamodb/pricing/on-demand/), which is quite interesting as a alternative to it.
 
 One problem though, there's no support by any good ORMs or similar in the Rust ecosystem for [Turso](https://turso.tech).
@@ -543,17 +544,17 @@ Here's a rough overview of what the code does:
 
 - Reads the input query as a string literal
 - Uses our SQL helpers to
-    - Extract the selected fields from the query
-    - Get all table information from a file located at `../database/users.sql` (that is, outside of the `lib-macros` directory, and inside another directory called `database`)
-    - Validate that the selected fields actually exist in the correct tables
+  - Extract the selected fields from the query
+  - Get all table information from a file located at `../database/users.sql` (that is, outside of the `lib-macros` directory, and inside another directory called `database`)
+  - Validate that the selected fields actually exist in the correct tables
 - Extract all the params under the assumption that they are the only things starting with `:`
 - Prepare some of the code generation we'll need later
-    - Prepare the struct field names for our `QueryParams` typesafe builder, with a type of `libsql::Value`
-    - Prepare the parameter name and struct field value pairs for `libsql::named_params!` which is used to pass the parameters to a prepared statement
-    - Prepare our struct of our return data based on our selected fields and the types that they have, which is found by looking them up in the table information
+  - Prepare the struct field names for our `QueryParams` typesafe builder, with a type of `libsql::Value`
+  - Prepare the parameter name and struct field value pairs for `libsql::named_params!` which is used to pass the parameters to a prepared statement
+  - Prepare our struct of our return data based on our selected fields and the types that they have, which is found by looking them up in the table information
 - Finally, we put it all together and set up the various structs with their fields, as well as an `impl` of our struct that provides some convenience functions
-    - `execute`: Runs the query and deserializes each `libsql::row` into our custom return data struct
-    - `first`: Simply returns the first row if there is any, or `None`
+  - `execute`: Runs the query and deserializes each `libsql::row` into our custom return data struct
+  - `first`: Simply returns the first row if there is any, or `None`
 
 Adjust the path to your database schema and save the contents below into `lib-macros/src/lib.rs`.
 
