@@ -168,3 +168,6 @@ Some links that were helpful in piecing all of this together:
 - [dioxus/notes/architecture/07-HOTRELOAD.md](https://github.com/DioxusLabs/dioxus/blob/9b0d380765301ae7fe337fba8438fcbb814f8748/notes/architecture/07-HOTRELOAD.md)
 - [dioxus/packages/devtools/src/lib.rs#L113-L220](https://github.com/DioxusLabs/dioxus/blob/9b0d380765301ae7fe337fba8438fcbb814f8748/packages/devtools/src/lib.rs#L113-L220)
 - [Phosphorus-M/spring-rs/blob/hot-reloading/examples/hot-reloading/src/main.rs](https://github.com/Phosphorus-M/spring-rs/blob/hot-reloading/examples/hot-reloading/src/main.rs)
+
+
+{{ medium_comments(post="hot-reloading-in-rust-subsecond-and-dioxus-to-the-rescue-fdc3d74f7ec9") }}
