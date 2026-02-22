@@ -60,7 +60,7 @@ For me personally, there are some big deficiencies when it comes to Software Eng
   - The solution is almost always more code, which is almost the antithesis of what makes a codebase maintainable.
 - It doesn't learn from prior mistakes, reviews, etc.
   - It's like having a junior engineer that has memorized the documentation, but doesn't know how to apply it. You normally grow these engineers over time with code reviews, mentoring, etc. AI doesn't benefit from any of that currently.
-- Coding is inherently trying to take something unspecific and create some thing specific a machine can execute.
+- Coding is inherently trying to take something unspecific and create something specific a machine can execute.
   - AI isn't magically reading your mind, just like Engineers never could magically read the mind of a Product Manager. Exploration happens during development, but this fact is lost in the current process we have when using AI.
 
 I think most of these are fixable on the long-term, but not if we aren't honest about them existing.
@@ -80,4 +80,4 @@ I live happily somewhere between step 2 and 3, occasionally dabbling in full han
 
 Otherwise I find that I am generally much more precise, fast, and correct in reaching a good solution compared to the AI. Who would have thought that +15 years of Engineering experience still pays off 🤷‍♂️
 
-<!-- {{ medium_comments(post="hot-reloading-in-rust-subsecond-and-dioxus-to-the-rescue-fdc3d74f7ec9") }} -->
+{{ medium_comments(post="the-perversion-of-ai-discourse-70edeb150178") }}
